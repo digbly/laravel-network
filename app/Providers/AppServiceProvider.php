@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Modules\FileRepository;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use Modules\Auth\Models\OAuthClient;
+use Nwidart\Modules\Contracts\RepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,7 +21,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(RepositoryInterface::class, function ($app) {
+            $path = $app['config']->get('modules.paths.modules');
+
+            return new FileRepository($app, $path);
+        });
+        $this->app->alias(RepositoryInterface::class, 'modules');
     }
 
     /**
