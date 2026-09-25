@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\Setting as SettingContract;
 use App\Modules\FileRepository;
+use App\Support\SettingRepository;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -27,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
             return new FileRepository($app, $path);
         });
         $this->app->alias(RepositoryInterface::class, 'modules');
+
+        $this->app->singleton(SettingContract::class, SettingRepository::class);
     }
 
     /**

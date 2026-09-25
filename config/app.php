@@ -86,6 +86,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Website / Tenant Identifier
+    |--------------------------------------------------------------------------
+    |
+    | Identifies the current website (tenant) used to scope stored settings.
+    | Leave null for a single-tenant installation.
+    |
+    */
+
+    'website_id' => env('WEBSITE_ID'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |
