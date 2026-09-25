@@ -1,23 +1,22 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace Modules\Auth\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     schema: __CLASS__,
-    required: ['email'],
+    required: ['refresh_token'],
     properties: [
         new OA\Property(
-            property: 'email',
+            property: 'refresh_token',
             type: 'string',
-            format: 'email',
-            example: 'admin@example.com'
+            example: 'def50200...'
         ),
     ]
 )]
-class ResendVerificationEmailRequest extends FormRequest
+class RefreshTokenRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -30,7 +29,7 @@ class ResendVerificationEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email:rfc', 'max:255'],
+            'refresh_token' => ['required', 'string'],
         ];
     }
 }

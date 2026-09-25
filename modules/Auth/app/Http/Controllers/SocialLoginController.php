@@ -1,12 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\AuthResource;
-use App\Http\Resources\SocialRedirectResource;
-use App\Models\User;
-use App\Models\UserSocialConnection;
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Auth\Events\Login;
@@ -20,6 +16,10 @@ use InvalidArgumentException;
 use Laravel\Socialite\Contracts\User as SocialUser;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\AbstractProvider;
+use Modules\Auth\Http\Resources\AuthResource;
+use Modules\Auth\Http\Resources\SocialRedirectResource;
+use Modules\Auth\Models\User;
+use Modules\Auth\Models\UserSocialConnection;
 use OpenApi\Attributes as OA;
 
 class SocialLoginController extends Controller

@@ -1,40 +1,40 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace Modules\Auth\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     schema: __CLASS__,
-    required: ['token', 'email', 'password', 'password_confirmation'],
+    required: ['name', 'email', 'password', 'password_confirmation'],
     properties: [
         new OA\Property(
-            property: 'token',
+            property: 'name',
             type: 'string',
-            example: 'abc123token'
+            example: 'John Doe'
         ),
         new OA\Property(
             property: 'email',
             type: 'string',
             format: 'email',
-            example: 'admin@example.com'
+            example: 'john@example.com'
         ),
         new OA\Property(
             property: 'password',
             type: 'string',
             format: 'password',
-            example: 'NewPassword123!'
+            example: 'Secret123!'
         ),
         new OA\Property(
             property: 'password_confirmation',
             type: 'string',
             format: 'password',
-            example: 'NewPassword123!'
+            example: 'Secret123!'
         ),
     ]
 )]
-class ResetPasswordRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -47,8 +47,8 @@ class ResetPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'token' => ['required', 'string'],
-            'email' => ['required', 'email:rfc', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email:rfc', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }

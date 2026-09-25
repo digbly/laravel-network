@@ -1,20 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\ChangePasswordRequest;
-use App\Http\Requests\Auth\ForgotPasswordRequest;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RefreshTokenRequest;
-use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Requests\Auth\ResendVerificationEmailRequest;
-use App\Http\Requests\Auth\ResetPasswordRequest;
-use App\Http\Resources\AuthResource;
-use App\Http\Resources\MessageResource;
-use App\Http\Resources\TokenResource;
-use App\Http\Resources\UserResource;
-use App\Models\User;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\PasswordReset;
@@ -28,6 +16,18 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Passport\Http\Controllers\ConvertsPsrResponses;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\OAuthServerException;
+use Modules\Auth\Http\Requests\ChangePasswordRequest;
+use Modules\Auth\Http\Requests\ForgotPasswordRequest;
+use Modules\Auth\Http\Requests\LoginRequest;
+use Modules\Auth\Http\Requests\RefreshTokenRequest;
+use Modules\Auth\Http\Requests\RegisterRequest;
+use Modules\Auth\Http\Requests\ResendVerificationEmailRequest;
+use Modules\Auth\Http\Requests\ResetPasswordRequest;
+use Modules\Auth\Http\Resources\AuthResource;
+use Modules\Auth\Http\Resources\MessageResource;
+use Modules\Auth\Http\Resources\TokenResource;
+use Modules\Auth\Http\Resources\UserResource;
+use Modules\Auth\Models\User;
 use OpenApi\Attributes as OA;
 use Psr\Http\Message\ServerRequestInterface;
 

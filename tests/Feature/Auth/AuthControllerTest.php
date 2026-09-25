@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Password;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
+use Modules\Auth\Models\User;
 use Tests\TestCase;
 
 class AuthControllerTest extends TestCase

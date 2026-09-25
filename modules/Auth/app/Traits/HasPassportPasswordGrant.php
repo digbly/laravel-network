@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Traits;
+namespace Modules\Auth\Traits;
 
-use App\Models\User;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use JsonException;
 use Laravel\Passport\Http\Controllers\ConvertsPsrResponses;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\OAuthServerException;
+use Modules\Auth\Models\User;
 use Psr\Http\Message\ServerRequestInterface;
 use stdClass;
 

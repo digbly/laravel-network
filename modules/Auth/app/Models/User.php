@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace Modules\Auth\Models;
 
-use App\Traits\HasPassportPasswordGrant;
-use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,12 +12,14 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\Contracts\OAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Passport\Passport;
-use Modules\Membership\Traits\HasMembership;
+use Modules\Auth\Database\Factories\UserFactory;
+use Modules\Auth\Traits\HasPassportPasswordGrant;
 
+#[UseFactory(UserFactory::class)]
 class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, HasMembership, HasPassportPasswordGrant, HasUuids, Notifiable;
+    use HasApiTokens, HasFactory, HasPassportPasswordGrant, HasUuids, Notifiable;
 
     /**
      * The attributes that are mass assignable.
