@@ -111,6 +111,14 @@
       "errors": {
         "emailRequired": "Vui lòng nhập địa chỉ email."
       }
+    },
+    "oauth": {
+      "redirecting": "Đang chuyển bạn đến trang đăng nhập...",
+      "processing": "Đang hoàn tất đăng nhập...",
+      "missingCode": "Thiếu mã ủy quyền. Vui lòng đăng nhập lại.",
+      "failed": "Đăng nhập thất bại. Vui lòng thử lại.",
+      "notConfigured": "OAuth client chưa được cấu hình.",
+      "backToLogin": "Quay lại đăng nhập"
     }
   },
   "social": {

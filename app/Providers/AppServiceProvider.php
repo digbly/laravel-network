@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+use Modules\Auth\Models\OAuthClient;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,10 +27,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Passport::enablePasswordGrant();
+        Passport::tokensCan([
+            'profile' => 'Read the authenticated user profile',
+        ]);
+        Passport::useClientModel(OAuthClient::class);
+        Passport::authorizationView('auth.authorize');
         Passport::tokensExpireIn(now()->addDays(15));
         Passport::refreshTokensExpireIn(now()->addDays(30));
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
+        Passport::enablePasswordGrant();
 
         // Customize email verification URL to point to web frontend
         VerifyEmail::toMailUsing(static function (object $notifiable, string $url): MailMessage {

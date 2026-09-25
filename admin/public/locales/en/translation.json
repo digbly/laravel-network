@@ -111,6 +111,14 @@
       "errors": {
         "emailRequired": "Please specify an email address."
       }
+    },
+    "oauth": {
+      "redirecting": "Redirecting you to sign in...",
+      "processing": "Completing sign in...",
+      "missingCode": "Missing authorization code. Please sign in again.",
+      "failed": "Sign in failed. Please try again.",
+      "notConfigured": "OAuth client is not configured.",
+      "backToLogin": "Back to sign in"
     }
   },
   "social": {

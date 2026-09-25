@@ -6,6 +6,7 @@ import { RegisterView } from './views/auth/RegisterView';
 import { ForgotPasswordView } from './views/auth/ForgotPasswordView';
 import { ResetPasswordView } from './views/auth/ResetPasswordView';
 import { VerifyEmailView } from './views/auth/VerifyEmailView';
+import { OAuthCallbackView } from './views/auth/OAuthCallbackView';
 import { PublicRoute } from './components/auth/PublicRoute';
 
 export function App() {
@@ -13,6 +14,9 @@ export function App() {
     <ThemeProvider>
       <BrowserRouter>
         <Routes>
+          {/* OAuth redirect callback (must stay outside PublicRoute) */}
+          <Route path="/auth/callback" element={<OAuthCallbackView />} />
+
           {/* Auth Routes */}
           <Route
             path="/auth"

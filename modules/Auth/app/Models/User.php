@@ -11,15 +11,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\Contracts\OAuthenticatable;
 use Laravel\Passport\HasApiTokens;
-use Laravel\Passport\Passport;
 use Modules\Auth\Database\Factories\UserFactory;
-use Modules\Auth\Traits\HasPassportPasswordGrant;
 
 #[UseFactory(UserFactory::class)]
 class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, HasPassportPasswordGrant, HasUuids, Notifiable;
+    use HasApiTokens, HasFactory, HasUuids, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -68,35 +66,5 @@ class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
     public function isAdmin(): bool
     {
         return $this->role === self::ROLE_ADMIN;
-    }
-
-    /**
-     * Resolve the password grant client (config or DB fallback).
-     *
-     * @return array{client_id: string|null, client_secret: string|null}
-     */
-    public static function resolvePasswordClient(): array
-    {
-        $config = config('auth.providers.users.passport', []);
-        $clientId = $config['client_id'] ?? null;
-        $clientSecret = $config['client_secret'] ?? null;
-
-        if (!$clientId || !$clientSecret) {
-            $client = Passport::client()
-                ->newQuery()
-                ->where('revoked', false)
-                ->where('password_client', true)
-                ->first();
-
-            if ($client) {
-                $clientId = $client->id;
-                $clientSecret = $client->secret;
-            }
-        }
-
-        return [
-            'client_id' => $clientId,
-            'client_secret' => $clientSecret,
-        ];
     }
 }

@@ -7,7 +7,7 @@ import {
 } from '@reduxjs/toolkit/query/react';
 import type { RootState } from '../index';
 import { updateToken, setLogout } from '../slices/authSlice';
-import type { ApiResponse, TokenData } from '../../types/auth';
+import { refreshAccessToken } from '../../utils/oauth';
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: (import.meta.env.VITE_API_BASE_URL as string | undefined) || '/api/v1',
@@ -81,42 +81,24 @@ export const baseQueryWithReauth: BaseQueryFn<
     const refreshToken =
       state.auth.refreshToken || localStorage.getItem('sitestore_refresh_token');
 
-    // Skip refreshing if this was already a login or refresh-token call
+    // Skip refreshing if this call is the OAuth token endpoint itself
     const currentUrl = typeof args === 'string' ? args : args.url;
-    const isAuthRoute =
-      currentUrl.includes('auth/user/login') ||
-      currentUrl.includes('auth/user/refresh-token');
+    const isAuthRoute = currentUrl.includes('oauth/token');
 
     if (refreshToken && !isAuthRoute) {
       if (!mutex.isLocked()) {
         await mutex.acquire();
         try {
-          // Attempt to refresh the access token
-          const refreshResult = await rawBaseQuery(
-            {
-              url: '/auth/user/refresh-token',
-              method: 'POST',
-              body: { refresh_token: refreshToken },
-            },
-            api,
-            extraOptions
-          );
+          // Exchange the refresh token for a new access token
+          const newTokenData = await refreshAccessToken(refreshToken);
 
-          if (refreshResult.data) {
-            const dataResponse = refreshResult.data as ApiResponse<TokenData>;
-            const newTokenData = dataResponse.data;
+          if (newTokenData && newTokenData.access_token) {
+            // Store new tokens in Redux & localStorage
+            api.dispatch(updateToken({ token: newTokenData }));
 
-            if (newTokenData && newTokenData.access_token) {
-              // Store new tokens in Redux & localStorage
-              api.dispatch(updateToken({ token: newTokenData }));
-
-              // Retry the original query with the refreshed token
-              result = await rawBaseQuery(args, api, extraOptions);
-            } else {
-              api.dispatch(setLogout());
-            }
+            // Retry the original query with the refreshed token
+            result = await rawBaseQuery(args, api, extraOptions);
           } else {
-            // Refresh token has expired or is invalid
             api.dispatch(setLogout());
           }
         } catch {

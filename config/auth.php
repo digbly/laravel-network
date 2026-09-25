@@ -70,10 +70,6 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
-            'passport' => [
-                'client_id' => env('PASSPORT_PASSWORD_CLIENT_ID'),
-                'client_secret' => env('PASSPORT_PASSWORD_CLIENT_SECRET'),
-            ],
         ],
 
         // 'users' => [

@@ -8,7 +8,6 @@ import { Button } from '../../components/ui/Button';
 import { useRegisterMutation } from '../../store/services/authApi';
 import { getErrorMessage } from '../../utils/apiError';
 import { ErrorAlert } from '../../components/ui/ErrorAlert';
-import { SocialLoginButtons } from '../../components/ui/SocialLoginButtons';
 import { EMAIL_REGEX, MIN_PASSWORD_LENGTH } from '../../utils/constants';
 
 interface RegisterFormInputs {
@@ -94,8 +93,6 @@ export const RegisterView = () => {
           {t('auth.register.subtitle')}
         </p>
       </div>
-
-      <SocialLoginButtons dividerLabel={t('social.orRegisterWith')} />
 
       {/* Backend Error Alert */}
       {serverErrorMessage && <ErrorAlert message={serverErrorMessage} />}

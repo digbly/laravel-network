@@ -1,4 +1,4 @@
-import { type FC, type ButtonHTMLAttributes, type ReactNode, forwardRef } from 'react';
+import { type FC, type ButtonHTMLAttributes, type ReactNode } from 'react';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success' | 'glass';

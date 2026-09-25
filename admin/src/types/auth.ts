@@ -18,19 +18,9 @@ export interface TokenData {
   refresh_token: string;
 }
 
-export interface AuthSuccessData {
-  token: TokenData;
-  user: AuthUser;
-}
-
 export interface ApiResponse<T> {
   data: T;
   message?: string;
-}
-
-export interface LoginPayload {
-  email: string;
-  password: string;
 }
 
 export interface RegisterPayload {
@@ -38,10 +28,6 @@ export interface RegisterPayload {
   email: string;
   password: string;
   password_confirmation: string;
-}
-
-export interface RefreshTokenPayload {
-  refresh_token: string;
 }
 
 export interface ForgotPasswordPayload {
@@ -63,10 +49,4 @@ export interface ChangePasswordPayload {
   current_password: string;
   password: string;
   password_confirmation: string;
-}
-
-export interface SocialProvider {
-  driver: string;
-  label: string;
-  icon: string;
 }

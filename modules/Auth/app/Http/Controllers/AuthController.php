@@ -3,8 +3,6 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Psr7\Response as Psr7Response;
-use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
@@ -13,145 +11,20 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
-use Laravel\Passport\Http\Controllers\ConvertsPsrResponses;
-use League\OAuth2\Server\AuthorizationServer;
-use League\OAuth2\Server\Exception\OAuthServerException;
+use Laravel\Passport\AccessToken;
+use Laravel\Passport\RefreshToken;
 use Modules\Auth\Http\Requests\ChangePasswordRequest;
 use Modules\Auth\Http\Requests\ForgotPasswordRequest;
-use Modules\Auth\Http\Requests\LoginRequest;
-use Modules\Auth\Http\Requests\RefreshTokenRequest;
 use Modules\Auth\Http\Requests\RegisterRequest;
 use Modules\Auth\Http\Requests\ResendVerificationEmailRequest;
 use Modules\Auth\Http\Requests\ResetPasswordRequest;
-use Modules\Auth\Http\Resources\AuthResource;
 use Modules\Auth\Http\Resources\MessageResource;
-use Modules\Auth\Http\Resources\TokenResource;
 use Modules\Auth\Http\Resources\UserResource;
 use Modules\Auth\Models\User;
 use OpenApi\Attributes as OA;
-use Psr\Http\Message\ServerRequestInterface;
 
 class AuthController extends Controller
 {
-    use ConvertsPsrResponses;
-
-    #[OA\Post(
-        path: '/api/v1/auth/user/login',
-        summary: 'Login User',
-        operationId: 'user.login',
-        tags: ['Auth'],
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: [
-                new OA\MediaType(
-                    mediaType: 'application/json',
-                    schema: new OA\Schema(
-                        type: LoginRequest::class
-                    )
-                ),
-            ]
-        ),
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Login Success',
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(property: 'data', type: AuthResource::class),
-                    ]
-                )
-            ),
-            new OA\Response(response: 422, description: 'Validation or Authentication Error'),
-        ]
-    )]
-    public function login(LoginRequest $request): AuthResource
-    {
-        $user = User::query()->where('email', $request->post('email'))->first();
-
-        abort_if($user === null, 404, 'User not found');
-
-        try {
-            $response = User::generatePasswordGrantToken(
-                $request->post('email'),
-                $request->post('password')
-            );
-        } catch (OAuthServerException $e) {
-            throw ValidationException::withMessages([
-                'email' => [$e->getMessage()],
-            ]);
-        }
-
-        event(new Login('api', $user, true));
-
-        return AuthResource::make([
-            'token' => $response,
-            'user' => $user,
-        ]);
-    }
-
-    #[OA\Post(
-        path: '/api/v1/auth/user/refresh-token',
-        summary: 'Refresh Token',
-        operationId: 'user.refresh',
-        tags: ['Auth'],
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: [
-                new OA\MediaType(
-                    mediaType: 'application/json',
-                    schema: new OA\Schema(
-                        type: RefreshTokenRequest::class
-                    )
-                ),
-            ]
-        ),
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Token Refreshed',
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(property: 'data', type: TokenResource::class),
-                    ]
-                )
-            ),
-            new OA\Response(response: 422, description: 'Invalid Refresh Token'),
-        ]
-    )]
-    public function refreshToken(RefreshTokenRequest $request): TokenResource
-    {
-        ['client_id' => $clientId, 'client_secret' => $clientSecret] = User::resolvePasswordClient();
-
-        if (!$clientId || !$clientSecret) {
-            throw ValidationException::withMessages([
-                'refresh_token' => ['OAuth password client is not configured.'],
-            ]);
-        }
-
-        $requestData = [
-            'grant_type' => 'refresh_token',
-            'client_id' => $clientId,
-            'client_secret' => $clientSecret,
-            'refresh_token' => $request->post('refresh_token'),
-            'scope' => '',
-        ];
-
-        $serverRequest = app(ServerRequestInterface::class)->withParsedBody($requestData);
-
-        try {
-            $response = $this->convertResponse(
-                app(AuthorizationServer::class)->respondToAccessTokenRequest($serverRequest, new Psr7Response)
-            );
-            $tokenData = json_decode($response->getContent(), false, 512, JSON_THROW_ON_ERROR);
-        } catch (OAuthServerException $e) {
-            throw ValidationException::withMessages([
-                'refresh_token' => [$e->getMessage()],
-            ]);
-        }
-
-        return TokenResource::make($tokenData);
-    }
-
     #[OA\Post(
         path: '/api/v1/auth/user/register',
         summary: 'Register New User',
@@ -197,6 +70,30 @@ class AuthController extends Controller
         event(new Registered($user));
 
         return UserResource::make($user);
+    }
+
+    #[OA\Get(
+        path: '/api/v1/auth/user/profile',
+        summary: 'Get Authenticated User Profile',
+        operationId: 'user.profile',
+        tags: ['Auth'],
+        security: [['bearerAuth' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Authenticated user',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: UserResource::class),
+                    ]
+                )
+            ),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+        ]
+    )]
+    public function profile(Request $request): UserResource
+    {
+        return UserResource::make($request->user('api'));
     }
 
     #[OA\Post(
@@ -440,7 +337,19 @@ class AuthController extends Controller
     )]
     public function logout(Request $request): MessageResource
     {
-        $request->user('api')?->token()?->revoke();
+        $token = $request->user('api')?->token();
+
+        if ($token instanceof AccessToken) {
+            $accessTokenId = $token->oauth_access_token_id ?? null;
+
+            if ($accessTokenId !== null) {
+                RefreshToken::query()
+                    ->where('access_token_id', $accessTokenId)
+                    ->update(['revoked' => true]);
+            }
+
+            $token->revoke();
+        }
 
         return MessageResource::make('Successfully logged out');
     }

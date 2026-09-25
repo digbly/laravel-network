@@ -6,7 +6,6 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Password;
-use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
 use Modules\Auth\Models\User;
 use Tests\TestCase;
@@ -19,16 +18,6 @@ class AuthControllerTest extends TestCase
     {
         parent::setUp();
         $this->artisan('passport:keys');
-
-        $clientRepository = app(ClientRepository::class);
-        $client = $clientRepository->createPasswordGrantClient('Testing Client', 'users', true);
-
-        config([
-            'auth.providers.users.passport' => [
-                'client_id' => $client->id,
-                'client_secret' => $client->plainSecret,
-            ],
-        ]);
     }
 
     public function test_user_can_register(): void
@@ -62,27 +51,27 @@ class AuthControllerTest extends TestCase
             ->assertJsonValidationErrors(['name', 'email', 'password']);
     }
 
-    public function test_user_can_login(): void
+    public function test_authenticated_user_can_fetch_profile(): void
     {
-        $email = 'test_login_' . uniqid() . '@example.com';
-        User::query()->create([
-            'name' => 'Login User',
-            'email' => $email,
-            'password' => 'Password123!',
-        ]);
+        $user = User::factory()->create();
 
-        $response = $this->postJson('/api/v1/auth/user/login', [
-            'email' => $email,
-            'password' => 'Password123!',
-        ]);
+        Passport::actingAs($user, ['*'], 'api');
+
+        $response = $this->getJson('/api/v1/auth/user/profile');
 
         $response->assertStatus(200)
-            ->assertJsonStructure([
+            ->assertJson([
                 'data' => [
-                    'token' => ['token_type', 'expires_in', 'access_token', 'refresh_token'],
-                    'user' => ['id', 'name', 'email'],
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
                 ],
             ]);
+    }
+
+    public function test_guest_cannot_fetch_profile(): void
+    {
+        $this->getJson('/api/v1/auth/user/profile')->assertStatus(401);
     }
 
     public function test_authenticated_user_can_change_password(): void

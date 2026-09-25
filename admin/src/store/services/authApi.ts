@@ -1,44 +1,17 @@
 import { apiSlice } from './apiSlice';
-import { setCredentials, setLogout } from '../slices/authSlice';
+import { setLogout } from '../slices/authSlice';
 import type {
   ApiResponse,
-  AuthSuccessData,
   AuthUser,
-  LoginPayload,
   RegisterPayload,
   ForgotPasswordPayload,
   ResetPasswordPayload,
   ResendVerificationEmailPayload,
   ChangePasswordPayload,
-  SocialProvider,
 } from '../../types/auth';
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<ApiResponse<AuthSuccessData>, LoginPayload>({
-      query: (credentials) => ({
-        url: '/auth/user/login',
-        method: 'POST',
-        body: credentials,
-      }),
-      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          if (data.data && data.data.token && data.data.user) {
-            dispatch(
-              setCredentials({
-                user: data.data.user,
-                token: data.data.token,
-              })
-            );
-          }
-        } catch {
-          // Handled in component
-        }
-      },
-      invalidatesTags: ['Auth', 'User'],
-    }),
-
     register: builder.mutation<ApiResponse<AuthUser>, RegisterPayload>({
       query: (payload) => ({
         url: '/auth/user/register',
@@ -107,18 +80,10 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
-
-    getSocialProviders: builder.query<ApiResponse<SocialProvider[]>, void>({
-      query: () => ({
-        url: '/auth/social-providers',
-        method: 'GET',
-      }),
-    }),
   }),
 });
 
 export const {
-  useLoginMutation,
   useRegisterMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
@@ -126,5 +91,4 @@ export const {
   useVerifyEmailMutation,
   useChangePasswordMutation,
   useLogoutMutation,
-  useGetSocialProvidersQuery,
 } = authApi;
