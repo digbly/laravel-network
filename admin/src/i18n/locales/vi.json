@@ -1,0 +1,150 @@
+{
+  "auth": {
+    "login": {
+      "title": "Chào mừng trở lại",
+      "subtitle": "Nhập thông tin đăng nhập để truy cập workspace SiteStore AI",
+      "emailLabel": "Địa chỉ email",
+      "emailPlaceholder": "ban@example.com",
+      "passwordLabel": "Mật khẩu",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Ghi nhớ đăng nhập",
+      "forgotPassword": "Quên mật khẩu?",
+      "submit": "Đăng nhập",
+      "noAccount": "Chưa có tài khoản?",
+      "createAccount": "Tạo tài khoản",
+      "errors": {
+        "emailRequired": "Địa chỉ email là bắt buộc",
+        "emailInvalid": "Vui lòng nhập địa chỉ email hợp lệ",
+        "passwordRequired": "Mật khẩu là bắt buộc",
+        "passwordMinLength": "Mật khẩu phải có ít nhất {{min}} ký tự"
+      }
+    },
+    "register": {
+      "title": "Tạo tài khoản",
+      "subtitle": "Bắt đầu tạo trang web AI với SiteStore AI",
+      "nameLabel": "Họ và tên",
+      "namePlaceholder": "Nguyễn Văn A",
+      "emailLabel": "Địa chỉ email",
+      "emailPlaceholder": "ban@example.com",
+      "passwordLabel": "Mật khẩu",
+      "passwordPlaceholder": "Tối thiểu 8 ký tự",
+      "confirmPasswordLabel": "Xác nhận mật khẩu",
+      "confirmPasswordPlaceholder": "Nhập lại mật khẩu",
+      "agreeTerms": "Tôi đồng ý với {{terms}} và {{privacy}}.",
+      "terms": "Điều khoản dịch vụ",
+      "privacy": "Chính sách bảo mật",
+      "submit": "Tạo tài khoản miễn phí",
+      "hasAccount": "Đã có tài khoản?",
+      "signIn": "Đăng nhập",
+      "strength": {
+        "weak": "Yếu",
+        "fair": "Trung bình",
+        "good": "Tốt",
+        "strong": "Mạnh",
+        "tooWeak": "Quá yếu",
+        "hint": "Khuyến nghị 8+ ký tự, có chữ hoa & số"
+      },
+      "errors": {
+        "nameRequired": "Họ và tên là bắt buộc",
+        "nameMinLength": "Tên phải có ít nhất 2 ký tự",
+        "emailRequired": "Địa chỉ email là bắt buộc",
+        "emailInvalid": "Vui lòng nhập địa chỉ email hợp lệ",
+        "passwordRequired": "Mật khẩu là bắt buộc",
+        "passwordMinLength": "Mật khẩu phải có ít nhất {{min}} ký tự",
+        "confirmRequired": "Vui lòng xác nhận mật khẩu",
+        "passwordMismatch": "Mật khẩu không khớp",
+        "termsRequired": "Bạn phải chấp nhận điều khoản và chính sách bảo mật để tiếp tục"
+      }
+    },
+    "forgotPassword": {
+      "title": "Đặt lại mật khẩu",
+      "subtitle": "Nhập email liên kết với tài khoản của bạn và chúng tôi sẽ gửi liên kết khôi phục.",
+      "emailLabel": "Địa chỉ email",
+      "emailPlaceholder": "ban@example.com",
+      "submit": "Gửi hướng dẫn đặt lại",
+      "backToLogin": "Quay lại đăng nhập",
+      "success": {
+        "title": "Kiểm tra email của bạn",
+        "message": "Chúng tôi đã gửi liên kết đặt lại mật khẩu đến <strong>{{email}}</strong>. Vui lòng làm theo hướng dẫn để đặt lại mật khẩu.",
+        "sendAnother": "Gửi liên kết khác"
+      },
+      "errors": {
+        "emailRequired": "Địa chỉ email là bắt buộc",
+        "emailInvalid": "Vui lòng nhập địa chỉ email hợp lệ"
+      }
+    },
+    "resetPassword": {
+      "invalidLink": "Liên kết đặt lại không hợp lệ",
+      "invalidLinkDesc": "Liên kết đặt lại mật khẩu này không hợp lệ hoặc đã hết hạn. Vui lòng yêu cầu liên kết mới.",
+      "requestNew": "Yêu cầu liên kết mới",
+      "successTitle": "Đã cập nhật mật khẩu!",
+      "successMessage": "Mật khẩu của bạn đã được đặt lại thành công. Bạn có thể sử dụng mật khẩu mới để đăng nhập.",
+      "proceedToSignIn": "Tiến hành đăng nhập",
+      "title": "Tạo mật khẩu mới",
+      "subtitle": "Mật khẩu mới phải có ít nhất 8 ký tự",
+      "emailLabel": "Địa chỉ email",
+      "emailPlaceholder": "ban@example.com",
+      "newPasswordLabel": "Mật khẩu mới",
+      "newPasswordPlaceholder": "Tối thiểu 8 ký tự",
+      "confirmPasswordLabel": "Xác nhận mật khẩu mới",
+      "confirmPasswordPlaceholder": "Nhập lại mật khẩu mới",
+      "submit": "Đặt lại mật khẩu",
+      "cancelAndReturn": "Hủy và quay lại đăng nhập",
+      "errors": {
+        "emailRequired": "Địa chỉ email là bắt buộc",
+        "emailInvalid": "Vui lòng nhập địa chỉ email hợp lệ",
+        "passwordRequired": "Mật khẩu là bắt buộc",
+        "passwordMinLength": "Mật khẩu phải có ít nhất {{min}} ký tự",
+        "confirmRequired": "Vui lòng xác nhận mật khẩu",
+        "passwordMismatch": "Mật khẩu không khớp"
+      }
+    },
+    "verifyEmail": {
+      "title": "Xác minh email",
+      "message": "Chúng tôi đã gửi liên kết xác minh đến email của bạn{{emailSuffix}}. Vui lòng kiểm tra hộp thư và thư rác để kích hoạt tài khoản.",
+      "emailLabel": "Địa chỉ email",
+      "emailPlaceholder": "ban@example.com",
+      "continue": "Tiếp tục",
+      "resend": "Gửi lại email xác minh",
+      "signInAnother": "Đăng nhập bằng tài khoản khác",
+      "resentSuccess": "Liên kết xác minh mới đã được gửi!",
+      "errors": {
+        "emailRequired": "Vui lòng nhập địa chỉ email."
+      }
+    }
+  },
+  "social": {
+    "orContinueWith": "Hoặc tiếp tục với email",
+    "orRegisterWith": "Hoặc đăng ký với email"
+  },
+  "layout": {
+    "brand": "SiteStore",
+    "brandTag": "AI",
+    "brandDesc": "Trí tuệ nhân tạo tạo Website",
+    "hero": {
+      "tag": "Trình tạo Website AI thế hệ mới",
+      "title": "Xây dựng & mở rộng website hiệu suất cao bằng AI trong vài giây.",
+      "description": "Tạo layout sẵn sàng sản xuất, quản lý nhiều thương hiệu khách hàng, và tự động hóa tối ưu SEO với trí tuệ nhân tạo tiên tiến.",
+      "features": {
+        "templates": "100+ Mẫu thiết kế & Kiểu dáng",
+        "deploy": "Triển khai tức thì với Domain tùy chỉnh & Edge CDN",
+        "security": "Bảo mật doanh nghiệp & Phân quyền JWT"
+      }
+    },
+    "testimonial": {
+      "quote": "SiteStore AI đã giảm thời gian giao landing page từ 3 tuần xuống dưới 15 phút.",
+      "author": "Alex Tran",
+      "role": "Trưởng phòng Phát triển tại TechWave"
+    },
+    "footer": {
+      "copyright": "© 2026 SiteStore AI. Bảo lưu mọi quyền.",
+      "privacy": "Chính sách bảo mật",
+      "terms": "Điều khoản dịch vụ",
+      "support": "Trợ giúp & Hỗ trợ"
+    },
+    "themeToggle": {
+      "switchToLight": "Chuyển sang chế độ Sáng",
+      "switchToDark": "Chuyển sang chế độ Tối"
+    }
+  }
+}

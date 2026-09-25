@@ -1,0 +1,150 @@
+{
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Enter your credentials to access your SiteStore AI workspace",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create an account",
+      "errors": {
+        "emailRequired": "Email address is required",
+        "emailInvalid": "Please enter a valid email address",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least {{min}} characters"
+      }
+    },
+    "register": {
+      "title": "Create an account",
+      "subtitle": "Start generating AI-powered websites with SiteStore AI",
+      "nameLabel": "Full Name",
+      "namePlaceholder": "Alex Tran",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Min. 8 characters",
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "Repeat your password",
+      "agreeTerms": "I agree to the {{terms}} and {{privacy}}.",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "submit": "Create Free Account",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "strength": {
+        "weak": "Weak",
+        "fair": "Fair",
+        "good": "Good",
+        "strong": "Strong",
+        "tooWeak": "Too weak",
+        "hint": "8+ chars, uppercase & number recommended"
+      },
+      "errors": {
+        "nameRequired": "Full name is required",
+        "nameMinLength": "Name must be at least 2 characters",
+        "emailRequired": "Email address is required",
+        "emailInvalid": "Please enter a valid email address",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least {{min}} characters",
+        "confirmRequired": "Please confirm your password",
+        "passwordMismatch": "Passwords do not match",
+        "termsRequired": "You must accept the terms and privacy policy to continue"
+      }
+    },
+    "forgotPassword": {
+      "title": "Reset your password",
+      "subtitle": "Enter the email associated with your account and we'll send you a recovery link.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "submit": "Send Reset Instructions",
+      "backToLogin": "Back to sign in",
+      "success": {
+        "title": "Check your email",
+        "message": "We sent a password reset link to <strong>{{email}}</strong>. Please follow the instructions to reset your password.",
+        "sendAnother": "Send Another Link"
+      },
+      "errors": {
+        "emailRequired": "Email address is required",
+        "emailInvalid": "Please enter a valid email address"
+      }
+    },
+    "resetPassword": {
+      "invalidLink": "Invalid reset link",
+      "invalidLinkDesc": "This password reset link is invalid or has expired. Please request a new one.",
+      "requestNew": "Request new reset link",
+      "successTitle": "Password updated!",
+      "successMessage": "Your password has been successfully reset. You can now use your new password to sign in.",
+      "proceedToSignIn": "Proceed to Sign In",
+      "title": "Create new password",
+      "subtitle": "Your new password must be at least 8 characters",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "newPasswordLabel": "New Password",
+      "newPasswordPlaceholder": "Min. 8 characters",
+      "confirmPasswordLabel": "Confirm New Password",
+      "confirmPasswordPlaceholder": "Repeat new password",
+      "submit": "Reset Password",
+      "cancelAndReturn": "Cancel and return to sign in",
+      "errors": {
+        "emailRequired": "Email address is required",
+        "emailInvalid": "Please enter a valid email address",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least {{min}} characters long",
+        "confirmRequired": "Please confirm your password",
+        "passwordMismatch": "Passwords do not match"
+      }
+    },
+    "verifyEmail": {
+      "title": "Verify your email",
+      "message": "We sent a verification link to your email address{{emailSuffix}}. Please check your inbox and spam folder to activate your account.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "continue": "Continue",
+      "resend": "Resend Verification Email",
+      "signInAnother": "Sign in with another account",
+      "resentSuccess": "A fresh verification link has been sent!",
+      "errors": {
+        "emailRequired": "Please specify an email address."
+      }
+    }
+  },
+  "social": {
+    "orContinueWith": "Or continue with email",
+    "orRegisterWith": "Or register with email"
+  },
+  "layout": {
+    "brand": "SiteStore",
+    "brandTag": "AI",
+    "brandDesc": "Intelligent Website Engine",
+    "hero": {
+      "tag": "Next-Gen AI Website Builder",
+      "title": "Build & scale high-performing websites with AI in seconds.",
+      "description": "Generate production-ready layouts, manage multiple client brands, and automate SEO optimization with cutting-edge artificial intelligence.",
+      "features": {
+        "templates": "100+ Designer Templates & Archetypes",
+        "deploy": "Instant Custom Domain & Edge CDN Deployments",
+        "security": "Enterprise Security & JWT Role Access"
+      }
+    },
+    "testimonial": {
+      "quote": "SiteStore AI reduced our landing page delivery time from 3 weeks to under 15 minutes.",
+      "author": "Alex Tran",
+      "role": "Head of Growth at TechWave"
+    },
+    "footer": {
+      "copyright": "© 2026 SiteStore AI. All rights reserved.",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "support": "Help & Support"
+    },
+    "themeToggle": {
+      "switchToLight": "Switch to Light mode",
+      "switchToDark": "Switch to Dark mode"
+    }
+  }
+}
