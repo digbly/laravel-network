@@ -154,5 +154,69 @@
       "switchToLight": "Chuyển sang chế độ Sáng",
       "switchToDark": "Chuyển sang chế độ Tối"
     }
+  },
+  "admin": {
+    "brandDesc": "Bảng điều khiển",
+    "version": "v0.1.0 · Bảng điều khiển",
+    "comingSoon": "Sắp ra mắt",
+    "nav": {
+      "menuLabel": "Điều hướng quản trị",
+      "dashboard": "Tổng quan",
+      "users": "Người dùng",
+      "settings": "Cài đặt"
+    },
+    "topbar": {
+      "openMenu": "Mở menu điều hướng",
+      "closeMenu": "Đóng menu điều hướng"
+    },
+    "userMenu": {
+      "fallbackName": "Tài khoản",
+      "noEmail": "Chưa có email",
+      "logout": "Đăng xuất"
+    },
+    "role": {
+      "admin": "Quản trị",
+      "user": "Người dùng"
+    },
+    "dashboard": {
+      "welcome": "Chào mừng trở lại, {{name}}",
+      "guest": "bạn",
+      "subtitle": "Đây là tổng quan về tài khoản của bạn.",
+      "refresh": "Làm mới",
+      "loading": "Đang tải hồ sơ của bạn...",
+      "account": {
+        "title": "Thông tin tài khoản",
+        "subtitle": "Hồ sơ đã xác thực của bạn từ API.",
+        "name": "Họ và tên",
+        "email": "Địa chỉ email",
+        "role": "Vai trò",
+        "joined": "Ngày tham gia",
+        "verified": "Đã xác minh",
+        "unverified": "Chưa xác minh"
+      },
+      "stats": {
+        "title": "Số liệu workspace",
+        "comingSoon": "Số liệu sẽ xuất hiện khi API thống kê sẵn sàng.",
+        "noData": "Chưa có dữ liệu",
+        "cards": {
+          "members": "Thành viên",
+          "devices": "Thiết bị",
+          "sessions": "Phiên hoạt động",
+          "events": "Sự kiện"
+        }
+      },
+      "errors": {
+        "loadFailed": "Không thể tải hồ sơ của bạn. Vui lòng thử lại.",
+        "retry": "Thử lại"
+      }
+    },
+    "users": {
+      "title": "Người dùng",
+      "placeholder": "Tính năng quản lý người dùng đang được xây dựng. Nơi đây sẽ hiển thị, tìm kiếm và quản lý tài khoản."
+    },
+    "settings": {
+      "title": "Cài đặt",
+      "placeholder": "Cài đặt workspace đang được xây dựng. Các tùy chọn cấu hình sẽ nằm ở đây."
+    }
   }
 }

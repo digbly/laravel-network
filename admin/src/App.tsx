@@ -8,6 +8,11 @@ import { ResetPasswordView } from './views/auth/ResetPasswordView';
 import { VerifyEmailView } from './views/auth/VerifyEmailView';
 import { OAuthCallbackView } from './views/auth/OAuthCallbackView';
 import { PublicRoute } from './components/auth/PublicRoute';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { AdminLayout } from './components/layout/AdminLayout';
+import { DashboardView } from './views/admin/DashboardView';
+import { UsersView } from './views/admin/UsersView';
+import { SettingsView } from './views/admin/SettingsView';
 
 export function App() {
   return (
@@ -33,6 +38,19 @@ export function App() {
             <Route path="reset-password" element={<ResetPasswordView />} />
             <Route path="verify-email" element={<VerifyEmailView />} />
             <Route path="*" element={<Navigate to="/auth/login" replace />} />
+          </Route>
+
+          {/* Admin Routes */}
+          <Route
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="/dashboard" element={<DashboardView />} />
+            <Route path="/users" element={<UsersView />} />
+            <Route path="/settings" element={<SettingsView />} />
           </Route>
 
           {/* Redirect root to dashboard (uses ProtectedRoute — unauthenticated users go to login) */}
