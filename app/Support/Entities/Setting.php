@@ -77,7 +77,10 @@ class Setting implements Arrayable
     {
         $this->added = true;
 
-        config(["settings.{$this->key}" => $this->toArray()]);
+        $settings = config('settings', []);
+        $settings[$this->key] = $this->toArray();
+
+        config(['settings' => $settings]);
     }
 
     public function withAdded(bool $added): static
@@ -85,11 +88,6 @@ class Setting implements Arrayable
         $this->added = $added;
 
         return $this;
-    }
-
-    public function getRules(): array
-    {
-        return $this->rules;
     }
 
     public function toArray(): array

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static float|null float(string $key, mixed $default = null)
  * @method static \Illuminate\Support\Collection all()
  * @method static \Illuminate\Support\Collection keys(?array $keys = null)
- * @method static \Illuminate\Support\Collection settings(?string $key = null)
+ * @method static \Illuminate\Support\Collection settings()
  * @method static \Illuminate\Support\Collection configs()
  *
  * @see SettingRepository

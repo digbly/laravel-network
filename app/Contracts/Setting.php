@@ -32,7 +32,7 @@ interface Setting
 
     public function keys(?array $keys = null): Collection;
 
-    public function settings(?string $key = null): Collection;
+    public function settings(): Collection;
 
     public function configs(): Collection;
 }

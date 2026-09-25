@@ -11,8 +11,6 @@ class Setting extends Model implements TranslatableContract
 {
     use Translatable;
 
-    public const BOOLEAN_VALUES = ['1', 'true', 'false', '0', 0, 1, true, false];
-
     public $timestamps = false;
 
     protected $table = 'settings';

@@ -133,7 +133,7 @@ class SettingRepository implements SettingContract
         return $this->settings()->only($keys)->keys();
     }
 
-    public function settings(?string $key = null): Collection
+    public function settings(): Collection
     {
         return new Collection(config('settings', []));
     }

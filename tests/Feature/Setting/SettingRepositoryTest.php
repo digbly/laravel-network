@@ -185,4 +185,14 @@ class SettingRepositoryTest extends TestCase
         $this->assertSame('123', $repository->get('code'));
         $this->assertSame('true', $repository->get('flag'));
     }
+
+    public function test_dotted_keys_are_resolved(): void
+    {
+        $repository = $this->repository();
+        $repository->make('mail.host')->default('smtp')->add();
+
+        $this->assertSame('smtp', $repository->get('mail.host'));
+        $this->assertSame(['mail.host'], $repository->keys()->values()->all());
+        $this->assertSame('smtp', $repository->all()->get('mail.host'));
+    }
 }
