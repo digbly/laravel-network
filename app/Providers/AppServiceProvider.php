@@ -32,10 +32,10 @@ class AppServiceProvider extends ServiceProvider
         ]);
         Passport::useClientModel(OAuthClient::class);
         Passport::authorizationView('auth.authorize');
-        Passport::tokensExpireIn(now()->addDays(15));
+        Passport::tokensExpireIn(now()->addDays(2));
         Passport::refreshTokensExpireIn(now()->addDays(30));
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
-        Passport::enablePasswordGrant();
+        // Passport::enablePasswordGrant();
 
         // Customize email verification URL to point to web frontend
         VerifyEmail::toMailUsing(static function (object $notifiable, string $url): MailMessage {
