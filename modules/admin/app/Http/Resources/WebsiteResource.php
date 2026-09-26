@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace Modules\Admin\Http\Resources;
 
 use App\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Auth\Http\Resources\UserResource;
 use OpenApi\Attributes as OA;
 
 /**

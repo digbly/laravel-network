@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Modules\Admin\Http\Requests\Admin;
 
 use App\Enums\WebsiteStatus;
 use App\Models\Database;

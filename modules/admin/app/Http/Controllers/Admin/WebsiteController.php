@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\WebsiteRequest;
-use App\Http\Resources\WebsiteResource;
 use App\Models\Database;
 use App\Models\Website;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,6 +10,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
+use Modules\Admin\Http\Requests\Admin\WebsiteRequest;
+use Modules\Admin\Http\Resources\WebsiteResource;
 use OpenApi\Attributes as OA;
 
 class WebsiteController extends Controller

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Auth\Http\Controllers\Admin;
+namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Modules\Admin\Http\Requests\Admin\IndexUserRequest;
+use Modules\Admin\Http\Requests\Admin\ResetUserPasswordRequest;
+use Modules\Admin\Http\Requests\Admin\StoreUserRequest;
+use Modules\Admin\Http\Requests\Admin\UpdateUserRequest;
+use Modules\Admin\Http\Resources\MessageResource;
+use Modules\Admin\Http\Resources\UserResource;
 use Modules\Auth\Enums\Permission;
-use Modules\Auth\Http\Requests\Admin\IndexUserRequest;
-use Modules\Auth\Http\Requests\Admin\ResetUserPasswordRequest;
-use Modules\Auth\Http\Requests\Admin\StoreUserRequest;
-use Modules\Auth\Http\Requests\Admin\UpdateUserRequest;
-use Modules\Auth\Http\Resources\MessageResource;
-use Modules\Auth\Http\Resources\UserResource;
 use Modules\Auth\Models\User;
 use OpenApi\Attributes as OA;
 

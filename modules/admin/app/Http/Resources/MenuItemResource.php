@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace Modules\Admin\Http\Resources;
 
 use App\Models\Menus\MenuItem;
 use Illuminate\Http\Request;

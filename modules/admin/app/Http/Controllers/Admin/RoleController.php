@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Auth\Http\Controllers\Admin;
+namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Modules\Auth\Http\Resources\RoleResource;
+use Modules\Admin\Http\Resources\RoleResource;
 use OpenApi\Attributes as OA;
 
 class RoleController extends Controller
