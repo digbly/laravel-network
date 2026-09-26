@@ -141,8 +141,16 @@ interface AdminNavItem {
   permission?: string;                               // hide entry if missing
 }
 
+interface AdminNavGroup {
+  labelKey: string;                                  // group header i18n key
+  Icon: ComponentType<{ className?: string }>;
+  children: AdminNavItem[];                          // collapsible sub-entries
+}
+
+type AdminNavEntry = AdminNavItem | AdminNavGroup;
+
 interface AdminModule {
-  nav?: AdminNavItem[];          // sidebar entries
+  nav?: AdminNavEntry[];         // sidebar links and collapsible groups
   routes?: RouteObject[];        // inside ProtectedRoute + AdminLayout
   publicRoutes?: RouteObject[];  // outside the admin shell (e.g. auth pages)
   i18n?: { [language: string]: Record<string, unknown> };

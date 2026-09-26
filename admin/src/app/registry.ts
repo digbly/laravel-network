@@ -1,6 +1,7 @@
 import i18n, { i18nReady } from '../i18n';
 import type { RouteObject } from 'react-router-dom';
-import type { AdminModule, AdminNavItem } from './types';
+import type { AdminModule, AdminNavEntry, AdminNavItem } from './types';
+import { isNavGroup } from './types';
 import { hasPermission } from '../utils/permission';
 
 const modules: AdminModule[] = [];
@@ -36,11 +37,32 @@ export const getAdminRoutes = (): RouteObject[] =>
 export const getPublicRoutes = (): RouteObject[] =>
   modules.flatMap((module) => module.publicRoutes ?? []);
 
-const getAllNavigation = (): AdminNavItem[] =>
+const getAllNavigation = (): AdminNavEntry[] =>
   modules.flatMap((module) => module.nav ?? []);
 
-export const getNavigation = (permissions?: string[]): AdminNavItem[] =>
-  getAllNavigation().filter((item) => hasPermission(permissions, item.permission));
+/** Flatten groups into their child links. */
+const flattenNavigation = (entries: AdminNavEntry[]): AdminNavItem[] =>
+  entries.flatMap((entry) => (isNavGroup(entry) ? entry.children : entry));
+
+export const getNavigation = (permissions?: string[]): AdminNavEntry[] =>
+  getAllNavigation()
+    .map((entry) =>
+      isNavGroup(entry)
+        ? {
+            ...entry,
+            children: entry.children.filter((child) =>
+              hasPermission(permissions, child.permission),
+            ),
+          }
+        : entry,
+    )
+    .filter((entry) =>
+      isNavGroup(entry)
+        ? entry.children.length > 0
+        : hasPermission(permissions, entry.permission),
+    );
 
 export const getRouteTitles = (): Record<string, string> =>
-  Object.fromEntries(getAllNavigation().map((item) => [item.to, item.labelKey]));
+  Object.fromEntries(
+    flattenNavigation(getAllNavigation()).map((item) => [item.to, item.labelKey]),
+  );

@@ -1,6 +1,7 @@
 {
   "admin": {
     "nav": {
+      "blog": "Blog",
       "blogPosts": "Bài viết",
       "blogCategories": "Danh mục Blog",
       "blogComments": "Bình luận Blog"

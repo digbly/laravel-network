@@ -2,9 +2,10 @@ import type { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getNavigation } from '../../app/registry';
+import { isNavGroup } from '../../app/types';
 import { useAppSelector } from '../../store/hooks';
 import { websitePath } from '../../utils/website';
-import { SidebarShell } from './SidebarShell';
+import { SidebarShell, type SidebarNavEntry } from './SidebarShell';
 
 interface AdminSidebarProps {
   open: boolean;
@@ -15,12 +16,25 @@ export const AdminSidebar: FC<AdminSidebarProps> = ({ open, onClose }) => {
   const { t } = useTranslation();
   const { websiteId } = useParams<{ websiteId: string }>();
   const permissions = useAppSelector((state) => state.auth.user?.permissions);
-
-  const items = getNavigation(permissions).map(({ to, labelKey, Icon }) => ({
-    to: websitePath(to, websiteId),
-    labelKey,
-    Icon,
-  }));
+  const items: SidebarNavEntry[] = getNavigation(permissions).map((entry) =>
+    isNavGroup(entry)
+      ? {
+          labelKey: entry.labelKey,
+          Icon: entry.Icon,
+          children: entry.children.map(({ to, labelKey, Icon, end }) => ({
+            to: websitePath(to, websiteId),
+            labelKey,
+            Icon,
+            end,
+          })),
+        }
+      : {
+          to: websitePath(entry.to, websiteId),
+          labelKey: entry.labelKey,
+          Icon: entry.Icon,
+          end: entry.end,
+        },
+  );
 
   return (
     <SidebarShell

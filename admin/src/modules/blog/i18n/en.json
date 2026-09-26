@@ -1,6 +1,7 @@
 {
   "admin": {
     "nav": {
+      "blog": "Blog",
       "blogPosts": "Blog Posts",
       "blogCategories": "Blog Categories",
       "blogComments": "Blog Comments"
