@@ -18,6 +18,15 @@ export interface CreateWebsitePayload {
   theme?: string | null;
 }
 
+export type UpdateWebsitePayload = CreateWebsitePayload;
+
+export interface WebsiteListParams {
+  page?: number;
+  per_page?: number;
+  q?: string;
+  status?: WebsiteStatus | '';
+}
+
 export interface Website {
   id: string;
   title: string;
