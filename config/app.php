@@ -86,6 +86,29 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Website / Tenant Identifier
+    |--------------------------------------------------------------------------
+    |
+    | Identifies the current website (tenant) used to scope stored settings.
+    | Leave null for a single-tenant installation.
+    |
+    */
+
+    'website_id' => env('WEBSITE_ID'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Admin URL Prefix
+    |--------------------------------------------------------------------------
+    |
+    | The URL segment used as the prefix for generated admin URLs.
+    |
+    */
+
+    'admin_prefix' => env('ADMIN_PREFIX', 'admin'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |

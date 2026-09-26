@@ -13,12 +13,13 @@ use Laravel\Passport\Contracts\OAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 use Modules\Auth\Database\Factories\UserFactory;
 use Modules\Auth\Enums\Permission;
+use Spatie\Permission\Traits\HasRoles;
 
 #[UseFactory(UserFactory::class)]
 class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, HasUuids, Notifiable;
+    use HasApiTokens, HasFactory, HasRoles, HasUuids, Notifiable;
 
     /**
      * The attributes that are mass assignable.
