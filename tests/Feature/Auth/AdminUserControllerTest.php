@@ -19,7 +19,7 @@ class AdminUserControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->artisan('permission:sync');
+        $this->artisan('permission:generate');
     }
 
     protected function admin(): User
