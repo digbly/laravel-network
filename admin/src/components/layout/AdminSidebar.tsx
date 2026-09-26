@@ -1,9 +1,10 @@
 import type { FC } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useParams } from 'react-router-dom';
 import { Sparkles, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { getNavigation } from '../../app/registry';
 import { useAppSelector } from '../../store/hooks';
+import { websitePath } from '../../utils/website';
 
 interface AdminSidebarProps {
   open: boolean;
@@ -12,6 +13,7 @@ interface AdminSidebarProps {
 
 export const AdminSidebar: FC<AdminSidebarProps> = ({ open, onClose }) => {
   const { t } = useTranslation();
+  const { websiteId } = useParams<{ websiteId: string }>();
   const permissions = useAppSelector((state) => state.auth.user?.permissions);
   const navItems = getNavigation(permissions);
 
@@ -35,7 +37,7 @@ export const AdminSidebar: FC<AdminSidebarProps> = ({ open, onClose }) => {
       >
         <div className="h-16 flex items-center justify-between gap-2 px-5 border-b border-slate-200/80 dark:border-white/[0.07]">
           <Link
-            to="/dashboard"
+            to={websitePath('/dashboard', websiteId)}
             onClick={onClose}
             className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-xl"
           >
@@ -69,7 +71,7 @@ export const AdminSidebar: FC<AdminSidebarProps> = ({ open, onClose }) => {
           {navItems.map(({ to, labelKey, Icon }) => (
             <NavLink
               key={to}
-              to={to}
+              to={websitePath(to, websiteId)}
               onClick={onClose}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${

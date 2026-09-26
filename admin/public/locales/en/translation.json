@@ -169,6 +169,7 @@
     "userMenu": {
       "fallbackName": "Account",
       "noEmail": "No email",
+      "switchWebsite": "Switch website",
       "logout": "Sign out"
     },
     "role": {

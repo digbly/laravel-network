@@ -1,0 +1,19 @@
+{
+  "admin": {
+    "websites": {
+      "title": "Chọn website",
+      "subtitle": "Chọn một website để quản lý bảng điều khiển, người dùng và cài đặt.",
+      "loading": "Đang tải danh sách website...",
+      "open": "Quản lý",
+      "usersCount": "{{total}} thành viên",
+      "errors": {
+        "loadFailed": "Không tải được danh sách website. Vui lòng thử lại.",
+        "retry": "Thử lại"
+      },
+      "empty": {
+        "title": "Chưa có website",
+        "message": "Bạn chưa là thành viên của website nào. Liên hệ quản trị viên để được cấp quyền."
+      }
+    }
+  }
+}

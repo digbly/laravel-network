@@ -2,10 +2,12 @@
 
 namespace Modules\Auth\Models;
 
+use App\Models\Website;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -66,6 +68,11 @@ class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
     public function socialConnections(): HasMany
     {
         return $this->hasMany(UserSocialConnection::class);
+    }
+
+    public function websites(): BelongsToMany
+    {
+        return $this->belongsToMany(Website::class, 'website_user', 'user_id', 'website_id');
     }
 
     public function isSuperAdmin(): bool

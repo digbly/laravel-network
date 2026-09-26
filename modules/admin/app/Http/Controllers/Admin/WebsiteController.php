@@ -18,20 +18,18 @@ class WebsiteController extends Controller
 {
     #[OA\Get(
         path: '/api/v1/admin/websites',
-        summary: 'List Websites',
+        summary: 'List Websites of the authenticated user',
         operationId: 'websites.index',
         tags: ['Websites'],
         security: [['bearerAuth' => []]],
         parameters: [
             new OA\Parameter(name: 'q', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'status', in: 'query', required: false, schema: new OA\Schema(type: 'string', enum: ['active', 'inactive', 'suspended'])),
-            new OA\Parameter(name: 'per_page', in: 'query', required: false, schema: new OA\Schema(type: 'integer', default: 15)),
-            new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer', default: 1)),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Websites list',
+                description: 'Websites the authenticated user is a member of',
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
@@ -46,7 +44,8 @@ class WebsiteController extends Controller
     )]
     public function index(Request $request): AnonymousResourceCollection
     {
-        $websites = Website::query()
+        $websites = $request->user('api')
+            ->websites()
             ->with('owner')
             ->withCount('users')
             ->when($request->filled('q'), function (Builder $query) use ($request) {
@@ -62,8 +61,8 @@ class WebsiteController extends Controller
                 $request->filled('status'),
                 fn (Builder $query) => $query->where('status', $request->string('status'))
             )
-            ->latest()
-            ->paginate($request->integer('per_page', 15));
+            ->orderByDesc('websites.created_at')
+            ->get();
 
         return WebsiteResource::collection($websites);
     }

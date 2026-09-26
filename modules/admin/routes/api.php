@@ -17,8 +17,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 });
 
 Route::middleware('auth:api')->prefix('v1/admin/websites')->group(function () {
-    Route::get('/', [WebsiteController::class, 'index'])
-        ->middleware('permission:'.WebsitePermission::View->value);
+    Route::get('/', [WebsiteController::class, 'index']);
     Route::post('/', [WebsiteController::class, 'store'])
         ->middleware('permission:'.WebsitePermission::Create->value);
     Route::get('{website}', [WebsiteController::class, 'show'])
