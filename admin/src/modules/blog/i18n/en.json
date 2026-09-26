@@ -1,0 +1,174 @@
+{
+  "admin": {
+    "nav": {
+      "blogPosts": "Blog Posts",
+      "blogCategories": "Blog Categories",
+      "blogComments": "Blog Comments"
+    },
+    "blog": {
+      "pagination": {
+        "summary": "Showing {{from}}-{{to}} of {{total}} items",
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page {{current}} / {{total}}"
+      },
+      "posts": {
+        "title": "Blog Posts",
+        "subtitle": "Write, publish and organise your articles.",
+        "add": "Add post",
+        "searchPlaceholder": "Search posts",
+        "loading": "Loading posts...",
+        "empty": "No posts match your filters.",
+        "filters": {
+          "allStatuses": "All statuses",
+          "draft": "Draft",
+          "published": "Published"
+        },
+        "table": {
+          "post": "Post",
+          "status": "Status",
+          "categories": "Categories",
+          "created": "Created",
+          "actions": "Actions"
+        },
+        "actions": {
+          "edit": "Edit post",
+          "delete": "Delete post"
+        },
+        "notices": {
+          "created": "Post created successfully.",
+          "updated": "Post updated successfully.",
+          "deleted": "Post deleted successfully."
+        },
+        "errors": {
+          "loadFailed": "Failed to load posts.",
+          "saveFailed": "Failed to save the post.",
+          "deleteFailed": "Failed to delete the post.",
+          "retry": "Retry"
+        },
+        "form": {
+          "createTitle": "Add post",
+          "editTitle": "Edit post",
+          "status": "Status",
+          "categories": "Categories",
+          "noCategories": "No categories yet.",
+          "locale": "Language",
+          "title": "Title",
+          "titlePlaceholder": "Post title",
+          "slug": "Slug",
+          "slugPlaceholder": "post-slug",
+          "description": "Description",
+          "content": "Content",
+          "cancel": "Cancel",
+          "save": "Save changes",
+          "create": "Create post",
+          "titleRequired": "A title is required for {{locale}}."
+        },
+        "deleteDialog": {
+          "title": "Delete post",
+          "description": "Are you sure you want to delete \"{{title}}\"? This cannot be undone.",
+          "confirm": "Delete",
+          "cancel": "Cancel"
+        }
+      },
+      "categories": {
+        "title": "Blog Categories",
+        "subtitle": "Group your posts into navigable categories.",
+        "add": "Add category",
+        "searchPlaceholder": "Search categories",
+        "loading": "Loading categories...",
+        "empty": "No categories yet.",
+        "table": {
+          "name": "Name",
+          "slug": "Slug",
+          "posts": "Posts",
+          "home": "Home",
+          "actions": "Actions"
+        },
+        "homeYes": "Yes",
+        "homeNo": "No",
+        "actions": {
+          "edit": "Edit category",
+          "delete": "Delete category"
+        },
+        "notices": {
+          "created": "Category created successfully.",
+          "updated": "Category updated successfully.",
+          "deleted": "Category deleted successfully."
+        },
+        "errors": {
+          "loadFailed": "Failed to load categories.",
+          "saveFailed": "Failed to save the category.",
+          "deleteFailed": "Failed to delete the category.",
+          "retry": "Retry"
+        },
+        "form": {
+          "createTitle": "Add category",
+          "editTitle": "Edit category",
+          "parent": "Parent category",
+          "noParent": "No parent",
+          "isHome": "Show on homepage",
+          "locale": "Language",
+          "name": "Name",
+          "namePlaceholder": "Category name",
+          "slug": "Slug",
+          "slugPlaceholder": "category-slug",
+          "description": "Description",
+          "cancel": "Cancel",
+          "save": "Save changes",
+          "create": "Create category",
+          "nameRequired": "A name is required for {{locale}}."
+        },
+        "deleteDialog": {
+          "title": "Delete category",
+          "description": "Are you sure you want to delete \"{{name}}\"? Posts will not be deleted.",
+          "confirm": "Delete",
+          "cancel": "Cancel"
+        }
+      },
+      "comments": {
+        "title": "Blog Comments",
+        "subtitle": "Moderate the conversation on your posts.",
+        "searchPlaceholder": "Search comments",
+        "loading": "Loading comments...",
+        "empty": "No comments match your filters.",
+        "filters": {
+          "allStatuses": "All statuses",
+          "pending": "Pending",
+          "approved": "Approved",
+          "spam": "Spam",
+          "rejected": "Rejected"
+        },
+        "table": {
+          "author": "Author",
+          "comment": "Comment",
+          "status": "Status",
+          "created": "Created",
+          "actions": "Actions"
+        },
+        "actions": {
+          "approve": "Approve",
+          "reject": "Reject",
+          "spam": "Mark as spam",
+          "delete": "Delete comment"
+        },
+        "notices": {
+          "updated": "Comment updated successfully.",
+          "deleted": "Comment deleted successfully."
+        },
+        "errors": {
+          "loadFailed": "Failed to load comments.",
+          "updateFailed": "Failed to update the comment.",
+          "deleteFailed": "Failed to delete the comment.",
+          "retry": "Retry"
+        },
+        "deleteDialog": {
+          "title": "Delete comment",
+          "description": "Are you sure you want to delete this comment? This cannot be undone.",
+          "confirm": "Delete",
+          "cancel": "Cancel"
+        }
+      }
+    }
+  }
+}

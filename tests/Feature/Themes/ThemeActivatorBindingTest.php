@@ -3,20 +3,21 @@
 namespace Tests\Feature\Themes;
 
 use App\Contracts\ThemeActivator;
+use App\Themes\DatabaseActivator;
 use App\Themes\Exceptions\InvalidThemeActivator;
 use App\Themes\FileActivator;
 use Tests\TestCase;
 
 class ThemeActivatorBindingTest extends TestCase
 {
-    public function test_default_activator_is_the_file_activator(): void
+    public function test_default_activator_is_the_database_activator(): void
     {
-        $this->assertInstanceOf(FileActivator::class, $this->app->make(ThemeActivator::class));
+        $this->assertInstanceOf(DatabaseActivator::class, $this->app->make(ThemeActivator::class));
     }
 
     public function test_activator_class_is_resolved_from_config(): void
     {
-        config(['themes.activators.file.class' => CustomThemeActivator::class]);
+        config(['themes.activators.database.class' => CustomThemeActivator::class]);
         $this->app->forgetInstance(ThemeActivator::class);
 
         $this->assertInstanceOf(CustomThemeActivator::class, $this->app->make(ThemeActivator::class));
