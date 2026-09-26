@@ -49,11 +49,36 @@
       "entry": "Quản trị mạng lưới",
       "brandDesc": "Quản trị mạng lưới",
       "backToWebsites": "Về danh sách website",
-      "title": "Quản trị mạng lưới",
-      "subtitle": "Quản lý toàn bộ website và người dùng trong hệ thống.",
-      "tabs": {
+      "nav": {
+        "menuLabel": "Điều hướng quản trị mạng",
+        "dashboard": "Bảng điều khiển",
         "websites": "Website",
         "users": "Người dùng"
+      },
+      "dashboard": {
+        "title": "Bảng điều khiển mạng lưới",
+        "subtitle": "Tổng quan toàn bộ website và người dùng trong hệ thống.",
+        "refresh": "Làm mới",
+        "viewAll": "Xem tất cả",
+        "stats": {
+          "websites": "Tổng website",
+          "active": "Website đang hoạt động",
+          "suspended": "Website bị treo",
+          "users": "Tổng người dùng"
+        },
+        "recentWebsites": {
+          "title": "Website gần đây",
+          "subtitle": "Các website mới tạo gần đây trên hệ thống.",
+          "empty": "Chưa có website nào."
+        },
+        "recentUsers": {
+          "title": "Người dùng gần đây",
+          "subtitle": "Các tài khoản mới tạo gần đây trên hệ thống.",
+          "empty": "Chưa có người dùng nào."
+        },
+        "errors": {
+          "loadFailed": "Không tải được tổng quan hệ thống."
+        }
       },
       "pagination": {
         "summary": "Hiển thị {{from}}-{{to}} trên {{total}}",
@@ -83,6 +108,8 @@
         "usersLoadFailed": "Không tải được danh sách người dùng."
       },
       "websites": {
+        "title": "Website",
+        "subtitle": "Quản lý toàn bộ website trong hệ thống.",
         "add": "Tạo website",
         "searchPlaceholder": "Tìm theo tiêu đề, tên miền hoặc tên miền phụ",
         "allStatuses": "Tất cả trạng thái",
@@ -138,6 +165,8 @@
         "cancel": "Hủy"
       },
       "users": {
+        "title": "Người dùng",
+        "subtitle": "Quản lý toàn bộ tài khoản trong hệ thống.",
         "add": "Thêm người dùng",
         "searchPlaceholder": "Tìm theo tên hoặc email",
         "allRoles": "Tất cả vai trò",

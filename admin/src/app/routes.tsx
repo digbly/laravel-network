@@ -5,7 +5,13 @@ import { RequireSuperAdmin } from '../components/admin/RequireSuperAdmin';
 import { AdminLayout } from '../components/layout/AdminLayout';
 import { WebsiteRedirect } from '../components/admin/WebsiteRedirect';
 import { PageLoader } from '../components/ui/PageLoader';
-import { NetworkView, WebsitePickerView } from '../modules/network/lazy';
+import { NetworkLayout } from '../modules/network/layout/NetworkLayout';
+import {
+  NetworkDashboardView,
+  NetworkUsersView,
+  NetworkWebsitesView,
+  WebsitePickerView,
+} from '../modules/network/lazy';
 import { getAdminBasename } from '../utils/website';
 import { getAdminRoutes, getPublicRoutes } from './registry';
 
@@ -49,12 +55,15 @@ const routes: RouteObject[] = [
     element: (
       <ProtectedRoute>
         <RequireSuperAdmin>
-          <Suspense fallback={<PageLoader />}>
-            <NetworkView />
-          </Suspense>
+          <NetworkLayout />
         </RequireSuperAdmin>
       </ProtectedRoute>
     ),
+    children: [
+      { index: true, element: <NetworkDashboardView /> },
+      { path: 'websites', element: <NetworkWebsitesView /> },
+      { path: 'users', element: <NetworkUsersView /> },
+    ],
   },
   {
     path: '/',

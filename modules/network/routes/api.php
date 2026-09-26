@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Network\Http\Controllers\DashboardController;
 use Modules\Network\Http\Controllers\RoleController;
 use Modules\Network\Http\Controllers\UserController;
 use Modules\Network\Http\Controllers\WebsiteController;
@@ -20,6 +21,8 @@ Route::middleware(['auth:api', EnsureSuperAdmin::class])
     ->prefix('v1/network')
     ->name('network.')
     ->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
         Route::apiResource('websites', WebsiteController::class);
 
         Route::prefix('users')->name('users.')->group(function () {

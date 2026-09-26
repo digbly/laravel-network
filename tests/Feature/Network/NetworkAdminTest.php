@@ -40,6 +40,7 @@ class NetworkAdminTest extends TestCase
 
         $this->getJson('/api/v1/network/websites')->assertUnauthorized();
         $this->getJson('/api/v1/network/users')->assertUnauthorized();
+        $this->getJson('/api/v1/network/dashboard')->assertUnauthorized();
     }
 
     public function test_non_super_admin_is_forbidden(): void
@@ -49,6 +50,28 @@ class NetworkAdminTest extends TestCase
         $this->getJson('/api/v1/network/websites')->assertForbidden();
         $this->getJson('/api/v1/network/users')->assertForbidden();
         $this->getJson('/api/v1/network/roles')->assertForbidden();
+        $this->getJson('/api/v1/network/dashboard')->assertForbidden();
+    }
+
+    public function test_dashboard_returns_network_overview(): void
+    {
+        $this->makeWebsite(['status' => WebsiteStatus::ACTIVE]);
+        $this->makeWebsite(['status' => WebsiteStatus::ACTIVE]);
+        $this->makeWebsite(['status' => WebsiteStatus::SUSPENDED]);
+
+        $this->getJson('/api/v1/network/dashboard')
+            ->assertOk()
+            ->assertJsonPath('data.stats.websites.total', 3)
+            ->assertJsonPath('data.stats.websites.active', 2)
+            ->assertJsonPath('data.stats.websites.inactive', 0)
+            ->assertJsonPath('data.stats.websites.suspended', 1)
+            ->assertJsonStructure([
+                'data' => [
+                    'stats' => ['websites', 'users'],
+                    'recent_websites' => [['id', 'title', 'status']],
+                    'recent_users' => [['id', 'name', 'email']],
+                ],
+            ]);
     }
 
     public function test_index_lists_every_website(): void

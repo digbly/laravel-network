@@ -49,11 +49,36 @@
       "entry": "Network administration",
       "brandDesc": "Network administration",
       "backToWebsites": "Back to websites",
-      "title": "Network administration",
-      "subtitle": "Manage every website and user across the network.",
-      "tabs": {
+      "nav": {
+        "menuLabel": "Network navigation",
+        "dashboard": "Dashboard",
         "websites": "Websites",
         "users": "Users"
+      },
+      "dashboard": {
+        "title": "Network dashboard",
+        "subtitle": "Overview of every website and user across the network.",
+        "refresh": "Refresh",
+        "viewAll": "View all",
+        "stats": {
+          "websites": "Total websites",
+          "active": "Active websites",
+          "suspended": "Suspended websites",
+          "users": "Total users"
+        },
+        "recentWebsites": {
+          "title": "Recent websites",
+          "subtitle": "Latest websites created on the network.",
+          "empty": "No websites yet."
+        },
+        "recentUsers": {
+          "title": "Recent users",
+          "subtitle": "Latest accounts created on the network.",
+          "empty": "No users yet."
+        },
+        "errors": {
+          "loadFailed": "Failed to load the network overview."
+        }
       },
       "pagination": {
         "summary": "Showing {{from}}-{{to}} of {{total}}",
@@ -83,6 +108,8 @@
         "usersLoadFailed": "Failed to load users."
       },
       "websites": {
+        "title": "Websites",
+        "subtitle": "Manage every website on the network.",
         "add": "New website",
         "searchPlaceholder": "Search by title, domain or subdomain",
         "allStatuses": "All statuses",
@@ -138,6 +165,8 @@
         "cancel": "Cancel"
       },
       "users": {
+        "title": "Users",
+        "subtitle": "Manage every account on the network.",
         "add": "Add user",
         "searchPlaceholder": "Search by name or email",
         "allRoles": "All roles",

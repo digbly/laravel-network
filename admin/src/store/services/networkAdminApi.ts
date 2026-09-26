@@ -1,5 +1,6 @@
 import { apiSlice } from './apiSlice';
 import type { ApiResponse } from '../../types/auth';
+import type { NetworkDashboard } from '../../types/network';
 import type {
   AdminUser,
   CreateUserPayload,
@@ -35,6 +36,11 @@ const buildQueryString = (params: Record<string, unknown>): string => {
 
 export const networkAdminApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getNetworkDashboard: builder.query<ApiResponse<NetworkDashboard>, void>({
+      query: () => `${NETWORK_PREFIX}/dashboard`,
+      providesTags: ['NetworkDashboard'],
+    }),
+
     getNetworkWebsites: builder.query<PaginatedResponse<Website>, WebsiteListParams>({
       query: (params) =>
         `${NETWORK_PREFIX}/websites${buildQueryString({ ...params })}`,
@@ -53,7 +59,10 @@ export const networkAdminApi = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: [{ type: 'NetworkWebsite', id: 'LIST' }],
+      invalidatesTags: [
+        { type: 'NetworkWebsite', id: 'LIST' },
+        { type: 'NetworkDashboard' },
+      ],
     }),
 
     updateNetworkWebsite: builder.mutation<
@@ -68,6 +77,7 @@ export const networkAdminApi = apiSlice.injectEndpoints({
       invalidatesTags: (_result, _error, { id }) => [
         { type: 'NetworkWebsite', id },
         { type: 'NetworkWebsite', id: 'LIST' },
+        { type: 'NetworkDashboard' },
       ],
     }),
 
@@ -79,6 +89,7 @@ export const networkAdminApi = apiSlice.injectEndpoints({
       invalidatesTags: (_result, _error, id) => [
         { type: 'NetworkWebsite', id },
         { type: 'NetworkWebsite', id: 'LIST' },
+        { type: 'NetworkDashboard' },
       ],
     }),
 
@@ -104,7 +115,10 @@ export const networkAdminApi = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: [{ type: 'NetworkUser', id: 'LIST' }],
+      invalidatesTags: [
+        { type: 'NetworkUser', id: 'LIST' },
+        { type: 'NetworkDashboard' },
+      ],
     }),
 
     updateNetworkUser: builder.mutation<
@@ -119,6 +133,7 @@ export const networkAdminApi = apiSlice.injectEndpoints({
       invalidatesTags: (_result, _error, { id }) => [
         { type: 'NetworkUser', id },
         { type: 'NetworkUser', id: 'LIST' },
+        { type: 'NetworkDashboard' },
       ],
     }),
 
@@ -130,6 +145,7 @@ export const networkAdminApi = apiSlice.injectEndpoints({
       invalidatesTags: (_result, _error, id) => [
         { type: 'NetworkUser', id },
         { type: 'NetworkUser', id: 'LIST' },
+        { type: 'NetworkDashboard' },
       ],
     }),
 
@@ -141,6 +157,7 @@ export const networkAdminApi = apiSlice.injectEndpoints({
       invalidatesTags: (_result, _error, id) => [
         { type: 'NetworkUser', id },
         { type: 'NetworkUser', id: 'LIST' },
+        { type: 'NetworkDashboard' },
       ],
     }),
 
@@ -165,6 +182,7 @@ export const networkAdminApi = apiSlice.injectEndpoints({
 });
 
 export const {
+  useGetNetworkDashboardQuery,
   useGetNetworkWebsitesQuery,
   useCreateNetworkWebsiteMutation,
   useUpdateNetworkWebsiteMutation,

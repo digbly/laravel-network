@@ -1,10 +1,14 @@
 import type { ComponentType } from 'react';
 import type { RouteObject } from 'react-router-dom';
 
-export interface AdminNavItem {
+export interface NavItem {
   to: string;
   labelKey: string;
   Icon: ComponentType<{ className?: string }>;
+  end?: boolean;
+}
+
+export interface AdminNavItem extends NavItem {
   permission?: string;
 }
 
