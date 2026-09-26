@@ -164,6 +164,13 @@ class Theme
         }
 
         Route::middleware('web')->group($path);
+
+        // Routes defined by a theme are registered dynamically (during boot or
+        // when previewing a theme at runtime), after the router may have
+        // already built its name/action lookups. Refresh them so `route()`
+        // resolves naming for the newly added routes.
+        Route::getRoutes()->refreshNameLookups();
+        Route::getRoutes()->refreshActionLookups();
     }
 
     public function registerViews(): void
