@@ -23,6 +23,8 @@ use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
 use Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer;
 use Spatie\MediaLibrary\Support\FileRemover\DefaultFileRemover;
+use Modules\Media\Models\MediaItem;
+use Modules\Media\Support\DatePathGenerator;
 use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
@@ -152,9 +154,7 @@ return [
      * Here you can specify which path generator should be used for the given class.
      */
     'custom_path_generators' => [
-        // Model::class => PathGenerator::class
-        // or
-        // 'model_morph_alias' => PathGenerator::class
+        MediaItem::class => DatePathGenerator::class,
     ],
 
     /*

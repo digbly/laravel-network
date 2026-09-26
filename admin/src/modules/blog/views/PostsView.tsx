@@ -1,24 +1,19 @@
 import { useEffect, useState } from 'react';
 import { AlertCircle, CheckCircle2, Loader2, Newspaper, Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Badge } from '../../../components/ui/Badge';
 import { Button } from '../../../components/ui/Button';
 import { Card, CardBody } from '../../../components/ui/Card';
 import { ErrorAlert } from '../../../components/ui/ErrorAlert';
 import { Input } from '../../../components/ui/Input';
-import {
-  useCreatePostMutation,
-  useDeletePostMutation,
-  useGetCategoriesQuery,
-  useGetPostsQuery,
-  useUpdatePostMutation,
-} from '../../../store/services/blogApi';
+import { useDeletePostMutation, useGetPostsQuery } from '../../../store/services/blogApi';
 import { getErrorMessage } from '../../../utils/apiError';
-import type { AdminPost, PostListParams, PostPayload, PostStatus } from '../../../types/blog';
+import { websitePath } from '../../../utils/website';
+import type { AdminPost, PostListParams, PostStatus } from '../../../types/blog';
 import { BlogTabs } from '../components/BlogTabs';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { Pagination } from '../components/Pagination';
-import { PostFormModal } from '../components/PostFormModal';
 
 const PER_PAGE = 10;
 
@@ -26,6 +21,8 @@ const statusVariant = (status: PostStatus) => (status === 'published' ? 'emerald
 
 export const PostsView = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const { websiteId } = useParams<{ websiteId: string }>();
 
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState('');
@@ -33,13 +30,8 @@ export const PostsView = () => {
   const [status, setStatus] = useState<PostStatus | ''>('');
   const [notice, setNotice] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [formPost, setFormPost] = useState<AdminPost | null>(null);
-  const [formError, setFormError] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<AdminPost | null>(null);
 
-  const [createPost, createState] = useCreatePostMutation();
-  const [updatePost, updateState] = useUpdatePostMutation();
   const [deletePost, deleteState] = useDeletePostMutation();
 
   useEffect(() => {
@@ -69,11 +61,9 @@ export const PostsView = () => {
   };
 
   const { data, isFetching, isError, refetch } = useGetPostsQuery(params);
-  const { data: categoriesData } = useGetCategoriesQuery({ per_page: 100 });
 
   const posts = data?.data ?? [];
   const meta = data?.meta;
-  const categories = categoriesData?.data ?? [];
 
   const formatDate = (value?: string | null): string =>
     value
@@ -83,25 +73,6 @@ export const PostsView = () => {
           day: 'numeric',
         })
       : '—';
-
-  const handleSubmit = async (payload: PostPayload) => {
-    setFormError(null);
-
-    try {
-      if (formPost) {
-        await updatePost({ id: formPost.id, body: payload }).unwrap();
-        setNotice({ type: 'success', message: t('admin.blog.posts.notices.updated') });
-      } else {
-        await createPost(payload).unwrap();
-        setNotice({ type: 'success', message: t('admin.blog.posts.notices.created') });
-      }
-
-      setIsFormOpen(false);
-      setFormPost(null);
-    } catch (error) {
-      setFormError(getErrorMessage(error, t('admin.blog.posts.errors.saveFailed')));
-    }
-  };
 
   const handleDelete = async () => {
     if (!deleteTarget) return;
@@ -129,11 +100,7 @@ export const PostsView = () => {
         </div>
 
         <Button
-          onClick={() => {
-            setFormPost(null);
-            setFormError(null);
-            setIsFormOpen(true);
-          }}
+          onClick={() => navigate(websitePath('/blog/posts/new', websiteId))}
           leftIcon={<Plus className="w-4 h-4" />}
         >
           {t('admin.blog.posts.add')}
@@ -263,11 +230,7 @@ export const PostsView = () => {
                         type="button"
                         title={t('admin.blog.posts.actions.edit')}
                         aria-label={t('admin.blog.posts.actions.edit')}
-                        onClick={() => {
-                          setFormPost(post);
-                          setFormError(null);
-                          setIsFormOpen(true);
-                        }}
+                        onClick={() => navigate(websitePath(`/blog/posts/${post.id}/edit`, websiteId))}
                         className="p-2 rounded-lg text-indigo-500 hover:text-indigo-600 hover:bg-indigo-500/10 dark:text-indigo-400 transition-colors"
                       >
                         <Pencil className="w-4 h-4" />
@@ -299,21 +262,6 @@ export const PostsView = () => {
             {t('admin.blog.posts.errors.retry')}
           </Button>
         </div>
-      )}
-
-      {isFormOpen && (
-        <PostFormModal
-          key={formPost?.id ?? 'new'}
-          post={formPost}
-          categories={categories}
-          isSubmitting={createState.isLoading || updateState.isLoading}
-          error={formError}
-          onSubmit={(payload) => void handleSubmit(payload)}
-          onClose={() => {
-            setIsFormOpen(false);
-            setFormPost(null);
-          }}
-        />
       )}
 
       <ConfirmDialog

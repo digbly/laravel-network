@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Blog;
 
+use App\Enums\WebsiteStatus;
+use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Modules\Auth\Models\User;
@@ -12,11 +14,27 @@ class AdminCategoryControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected Website $website;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->artisan('permission:generate');
+
+        $this->website = Website::create([
+            'title' => 'Test Site',
+            'subdomain' => 'test-site',
+            'status' => WebsiteStatus::ACTIVE,
+            'user_id' => User::factory()->create()->id,
+        ]);
+
+        config(['app.website_id' => $this->website->id]);
+    }
+
+    protected function base(): string
+    {
+        return "/api/v1/admin/websites/{$this->website->id}/blog";
     }
 
     protected function admin(): User
@@ -44,14 +62,14 @@ class AdminCategoryControllerTest extends TestCase
     {
         $this->app['auth']->forgetGuards();
 
-        $this->getJson('/api/v1/admin/blog/categories')->assertUnauthorized();
+        $this->getJson($this->base().'/categories')->assertUnauthorized();
     }
 
     public function test_index_forbids_user_without_permission(): void
     {
         Passport::actingAs(User::factory()->create());
 
-        $this->getJson('/api/v1/admin/blog/categories')->assertForbidden();
+        $this->getJson($this->base().'/categories')->assertForbidden();
     }
 
     public function test_index_returns_categories_with_post_counts(): void
@@ -59,7 +77,7 @@ class AdminCategoryControllerTest extends TestCase
         Passport::actingAs($this->admin());
         Category::factory()->count(2)->create();
 
-        $this->getJson('/api/v1/admin/blog/categories')
+        $this->getJson($this->base().'/categories')
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -72,7 +90,7 @@ class AdminCategoryControllerTest extends TestCase
     {
         Passport::actingAs($this->admin());
 
-        $this->postJson('/api/v1/admin/blog/categories', [
+        $this->postJson($this->base().'/categories', [
             'is_home' => true,
             'translations' => [
                 ['locale' => 'en', 'name' => 'News', 'slug' => 'news'],
@@ -94,7 +112,7 @@ class AdminCategoryControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $this->makeCategory(['slug' => 'duplicate-slug']);
 
-        $this->postJson('/api/v1/admin/blog/categories', [
+        $this->postJson($this->base().'/categories', [
             'translations' => [
                 ['locale' => 'en', 'name' => 'Another', 'slug' => 'duplicate-slug'],
             ],
@@ -106,7 +124,7 @@ class AdminCategoryControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $category = Category::factory()->create();
 
-        $this->putJson("/api/v1/admin/blog/categories/{$category->getKey()}", [
+        $this->putJson($this->base()."/categories/{$category->getKey()}", [
             'translations' => [
                 ['locale' => 'en', 'name' => 'Updated name', 'slug' => 'updated-name'],
             ],
@@ -125,7 +143,7 @@ class AdminCategoryControllerTest extends TestCase
         $parent = Category::factory()->create();
         $child = Category::factory()->create(['parent_id' => $parent->getKey()]);
 
-        $this->putJson("/api/v1/admin/blog/categories/{$parent->getKey()}", [
+        $this->putJson($this->base()."/categories/{$parent->getKey()}", [
             'parent_id' => $child->getKey(),
         ])->assertJsonValidationErrors('parent_id');
 
@@ -137,7 +155,7 @@ class AdminCategoryControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $category = Category::factory()->create();
 
-        $this->deleteJson("/api/v1/admin/blog/categories/{$category->getKey()}")
+        $this->deleteJson($this->base()."/categories/{$category->getKey()}")
             ->assertOk();
 
         $this->assertDatabaseMissing('post_categories', ['id' => $category->getKey()]);

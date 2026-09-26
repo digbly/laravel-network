@@ -1,8 +1,28 @@
-import type { FC, ReactNode } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { Sparkles, X } from 'lucide-react';
+import { useState, type FC, type ReactNode } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { ChevronDown, Sparkles, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { NavItem } from '../../app/types';
+
+/** A collapsible sidebar group whose links are revealed on demand. */
+export interface SidebarNavGroup {
+  labelKey: string;
+  Icon: NavItem['Icon'];
+  children: NavItem[];
+}
+
+/** A sidebar entry is either a single link or a collapsible group of links. */
+export type SidebarNavEntry = NavItem | SidebarNavGroup;
+
+const isNavGroupEntry = (entry: SidebarNavEntry): entry is SidebarNavGroup =>
+  'children' in entry;
+
+const linkClassName = ({ isActive }: { isActive: boolean }): string =>
+  `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+    isActive
+      ? 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20'
+      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-white/[0.04] border border-transparent'
+  }`;
 
 interface SidebarShellProps {
   id: string;
@@ -11,7 +31,7 @@ interface SidebarShellProps {
   onClose: () => void;
   brandTo: string;
   brandDescriptionKey: string;
-  items: NavItem[];
+  items: SidebarNavEntry[];
   footer?: ReactNode;
 }
 
@@ -30,6 +50,19 @@ export const SidebarShell: FC<SidebarShellProps> = ({
   footer,
 }) => {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
+
+  // Groups expand automatically when one of their links is active; clicking a
+  // toggle stores an explicit override for the current session.
+  const [groupOverrides, setGroupOverrides] = useState<Record<string, boolean>>({});
+
+  const isGroupActive = (group: SidebarNavGroup): boolean =>
+    group.children.some(
+      (child) => pathname === child.to || pathname.startsWith(`${child.to}/`),
+    );
+
+  const isGroupOpen = (group: SidebarNavGroup): boolean =>
+    groupOverrides[group.labelKey] ?? isGroupActive(group);
 
   return (
     <>
@@ -82,24 +115,67 @@ export const SidebarShell: FC<SidebarShellProps> = ({
         </div>
 
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-          {items.map(({ to, labelKey, Icon, end }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={end}
-              onClick={onClose}
-              className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
-                  isActive
-                    ? 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-white/[0.04] border border-transparent'
-                }`
-              }
-            >
-              <Icon className="w-5 h-5 shrink-0" />
-              <span>{t(labelKey)}</span>
-            </NavLink>
-          ))}
+          {items.map((entry) => {
+            if (!isNavGroupEntry(entry)) {
+              const { to, labelKey, Icon, end } = entry;
+
+              return (
+                <NavLink
+                  key={to}
+                  to={to}
+                  end={end}
+                  onClick={onClose}
+                  className={linkClassName}
+                >
+                  <Icon className="w-5 h-5 shrink-0" />
+                  <span>{t(labelKey)}</span>
+                </NavLink>
+              );
+            }
+
+            const groupId = `sidebar-nav-group-${id}-${entry.labelKey.replace(/\./g, '-')}`;
+            const expanded = isGroupOpen(entry);
+
+            return (
+              <div key={entry.labelKey} className="space-y-1">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setGroupOverrides((previous) => ({
+                      ...previous,
+                      [entry.labelKey]: !expanded,
+                    }))
+                  }
+                  aria-expanded={expanded}
+                  aria-controls={groupId}
+                  className={`w-full ${linkClassName({ isActive: isGroupActive(entry) })}`}
+                >
+                  <entry.Icon className="w-5 h-5 shrink-0" />
+                  <span className="flex-1 text-left">{t(entry.labelKey)}</span>
+                  <ChevronDown
+                    className={`w-4 h-4 shrink-0 transition-transform ${expanded ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                {expanded && (
+                  <div id={groupId} className="space-y-1 pl-4">
+                    {entry.children.map((child) => (
+                      <NavLink
+                        key={child.to}
+                        to={child.to}
+                        end={child.end}
+                        onClick={onClose}
+                        className={linkClassName}
+                      >
+                        <child.Icon className="w-4 h-4 shrink-0" />
+                        <span>{t(child.labelKey)}</span>
+                      </NavLink>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </nav>
 
         <div className="p-3 border-t border-slate-200/80 dark:border-white/[0.07] space-y-1">

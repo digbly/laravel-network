@@ -55,7 +55,7 @@ class NetworkRepository implements NetworkContract
             return;
         }
 
-        if ($this->request->getHost() === config('network.domain')) {
+        if ($this->isMainDomain()) {
             $this->website = Website::query()->find(config('network.main_website_id'));
             $this->setup();
 
@@ -68,6 +68,33 @@ class NetworkRepository implements NetworkContract
             ->first();
 
         $this->setup();
+    }
+
+    /**
+     * Determine whether the current request targets the main website.
+     *
+     * Beside an exact match with the configured domain, loopback aliases are
+     * accepted while the main domain itself is a loopback address. The admin
+     * SPA usually reaches the API through a local proxy (e.g. Vite targeting
+     * 127.0.0.1) even though the main domain is configured as "localhost"; the
+     * two must resolve to the same website or dynamic modules would not be
+     * activated.
+     */
+    protected function isMainDomain(): bool
+    {
+        $host = $this->request->getHost();
+        $domain = config('network.domain');
+
+        if ($host === $domain) {
+            return true;
+        }
+
+        return $this->isLoopback($domain) && $this->isLoopback($host);
+    }
+
+    protected function isLoopback(?string $host): bool
+    {
+        return in_array($host, ['localhost', '127.0.0.1', '::1'], true);
     }
 
     public function setup(): void
