@@ -154,5 +154,30 @@
       "switchToLight": "Chuyển sang chế độ Sáng",
       "switchToDark": "Chuyển sang chế độ Tối"
     }
+  },
+  "admin": {
+    "brandDesc": "Bảng điều khiển",
+    "version": "v0.1.0 · Bảng điều khiển",
+    "comingSoon": "Sắp ra mắt",
+    "nav": {
+      "menuLabel": "Điều hướng quản trị"
+    },
+    "topbar": {
+      "openMenu": "Mở menu điều hướng",
+      "closeMenu": "Đóng menu điều hướng"
+    },
+    "userMenu": {
+      "fallbackName": "Tài khoản",
+      "noEmail": "Chưa có email",
+      "logout": "Đăng xuất"
+    },
+    "role": {
+      "admin": "Quản trị",
+      "user": "Người dùng"
+    },
+    "forbidden": {
+      "title": "Không có quyền truy cập",
+      "message": "Bạn không có quyền xem trang này."
+    }
   }
 }

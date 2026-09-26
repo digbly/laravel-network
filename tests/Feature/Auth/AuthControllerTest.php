@@ -69,6 +69,22 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
+    public function test_profile_includes_super_admin_permissions(): void
+    {
+        $user = User::factory()->create(['is_super_admin' => true]);
+
+        Passport::actingAs($user, ['*'], 'api');
+
+        $this->getJson('/api/v1/auth/user/profile')
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'is_super_admin' => true,
+                    'permissions' => ['*'],
+                ],
+            ]);
+    }
+
     public function test_guest_cannot_fetch_profile(): void
     {
         $this->getJson('/api/v1/auth/user/profile')->assertStatus(401);

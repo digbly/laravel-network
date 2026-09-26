@@ -1,0 +1,112 @@
+{
+  "admin": {
+    "nav": {
+      "users": "Users"
+    },
+    "users": {
+      "title": "Users",
+      "subtitle": "Create, update and manage workspace accounts and their roles.",
+      "addUser": "Add user",
+      "searchPlaceholder": "Search by name or email",
+      "loading": "Loading users...",
+      "empty": "No users match your filters.",
+      "you": "You",
+      "filters": {
+        "allRoles": "All roles",
+        "active": "Active users",
+        "deleted": "Deleted only",
+        "all": "All users"
+      },
+      "stats": {
+        "total": "Total users",
+        "page": "Page"
+      },
+      "pagination": {
+        "summary": "Showing {{from}}-{{to}} of {{total}} users",
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page {{current}} / {{total}}"
+      },
+      "table": {
+        "user": "User",
+        "role": "Role",
+        "status": "Status",
+        "joined": "Joined",
+        "actions": "Actions"
+      },
+      "status": {
+        "verified": "Verified",
+        "unverified": "Unverified",
+        "deleted": "Deleted",
+        "superAdmin": "Super admin"
+      },
+      "actions": {
+        "edit": "Edit user",
+        "resetPassword": "Reset password",
+        "resendVerification": "Resend verification email",
+        "delete": "Delete user",
+        "restore": "Restore user"
+      },
+      "notices": {
+        "created": "User created successfully.",
+        "updated": "User updated successfully.",
+        "deleted": "User deleted successfully.",
+        "restored": "User restored successfully.",
+        "verificationSent": "Verification email sent.",
+        "passwordReset": "Password reset successfully."
+      },
+      "errors": {
+        "loadFailed": "Failed to load users.",
+        "retry": "Retry",
+        "saveFailed": "Failed to save the user.",
+        "deleteFailed": "Failed to delete the user.",
+        "restoreFailed": "Failed to restore the user.",
+        "resendFailed": "Failed to send the verification email.",
+        "resetFailed": "Failed to reset the password."
+      },
+      "form": {
+        "createTitle": "Add user",
+        "editTitle": "Edit user",
+        "createSubtitle": "Create a new workspace account.",
+        "editSubtitle": "Update account details and role.",
+        "name": "Full name",
+        "namePlaceholder": "Alex Tran",
+        "email": "Email address",
+        "emailPlaceholder": "you@example.com",
+        "roles": "Roles",
+        "loadingRoles": "Loading roles...",
+        "noRoles": "No roles available yet.",
+        "selfRolesHint": "You cannot change your own roles.",
+        "superAdmin": "Super admin",
+        "superAdminHint": "Grants every permission, ignoring assigned roles.",
+        "password": "Password",
+        "passwordPlaceholder": "Min. 8 characters",
+        "confirmPassword": "Confirm password",
+        "confirmPasswordPlaceholder": "Repeat password",
+        "cancel": "Cancel",
+        "save": "Save changes",
+        "create": "Create user",
+        "errors": {
+          "nameRequired": "Full name is required.",
+          "emailRequired": "Email address is required.",
+          "emailInvalid": "Please enter a valid email address.",
+          "passwordRequired": "Password is required.",
+          "passwordMin": "Password must be at least {{min}} characters.",
+          "confirmRequired": "Please confirm the password.",
+          "passwordMismatch": "Passwords do not match."
+        }
+      },
+      "resetPassword": {
+        "title": "Reset password",
+        "subtitle": "Set a new password for {{name}}.",
+        "submit": "Reset password"
+      },
+      "deleteDialog": {
+        "title": "Delete user",
+        "description": "Are you sure you want to delete {{name}}? The account will be moved to the deleted list and can be restored later.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      }
+    }
+  }
+}

@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Menu;
 
+use App\Enums\MenuPermission;
 use App\Models\Menus\Menu;
 use App\Models\Menus\MenuItem;
+use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Modules\Auth\Models\User;
@@ -24,8 +26,11 @@ class MenuBuilderApiTest extends TestCase
 
     protected function adminUser(): User
     {
+        $role = Role::findOrCreate('admin', 'api');
+        $role->syncPermissions(MenuPermission::values());
+
         $user = User::factory()->create();
-        $user->assignRole('admin');
+        $user->assignRole($role);
 
         return $user;
     }

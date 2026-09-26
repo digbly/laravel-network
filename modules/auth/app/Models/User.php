@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\Contracts\OAuthenticatable;
@@ -18,7 +19,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, HasRoles, HasUuids, Notifiable;
+    use HasApiTokens, HasFactory, HasRoles, HasUuids, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -29,7 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
         'name',
         'email',
         'password',
-        'role',
+        'is_super_admin',
     ];
 
     /**
@@ -47,15 +48,12 @@ class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
      *
      * @return array<string, string>
      */
-    public const ROLE_USER = 'user';
-
-    public const ROLE_ADMIN = 'admin';
-
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_super_admin' => 'boolean',
         ];
     }
 
@@ -64,8 +62,28 @@ class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
         return $this->hasMany(UserSocialConnection::class);
     }
 
-    public function isAdmin(): bool
+    public function isSuperAdmin(): bool
     {
-        return $this->role === self::ROLE_ADMIN;
+        return (bool) $this->is_super_admin;
+    }
+
+    /**
+     * Permission names granted to the user.
+     *
+     * Super admins are represented by a wildcard so the frontend can treat
+     * every permission as granted without loading the whole permission table.
+     *
+     * @return list<string>
+     */
+    public function permissionNames(): array
+    {
+        if ($this->isSuperAdmin()) {
+            return ['*'];
+        }
+
+        return $this->getAllPermissions()
+            ->pluck('name')
+            ->values()
+            ->all();
     }
 }

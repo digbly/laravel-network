@@ -1,0 +1,112 @@
+{
+  "admin": {
+    "nav": {
+      "users": "Người dùng"
+    },
+    "users": {
+      "title": "Người dùng",
+      "subtitle": "Tạo, cập nhật và quản lý tài khoản cùng vai trò trong hệ thống.",
+      "addUser": "Thêm người dùng",
+      "searchPlaceholder": "Tìm theo tên hoặc email",
+      "loading": "Đang tải người dùng...",
+      "empty": "Không có người dùng nào khớp với bộ lọc.",
+      "you": "Bạn",
+      "filters": {
+        "allRoles": "Tất cả vai trò",
+        "active": "Đang hoạt động",
+        "deleted": "Chỉ đã xóa",
+        "all": "Tất cả người dùng"
+      },
+      "stats": {
+        "total": "Tổng người dùng",
+        "page": "Trang"
+      },
+      "pagination": {
+        "summary": "Hiển thị {{from}}-{{to}} trên {{total}} người dùng",
+        "previous": "Trước",
+        "next": "Sau",
+        "page": "Trang {{current}} / {{total}}"
+      },
+      "table": {
+        "user": "Người dùng",
+        "role": "Vai trò",
+        "status": "Trạng thái",
+        "joined": "Ngày tham gia",
+        "actions": "Thao tác"
+      },
+      "status": {
+        "verified": "Đã xác thực",
+        "unverified": "Chưa xác thực",
+        "deleted": "Đã xóa",
+        "superAdmin": "Quản trị tối cao"
+      },
+      "actions": {
+        "edit": "Sửa người dùng",
+        "resetPassword": "Đặt lại mật khẩu",
+        "resendVerification": "Gửi lại email xác thực",
+        "delete": "Xóa người dùng",
+        "restore": "Khôi phục người dùng"
+      },
+      "notices": {
+        "created": "Tạo người dùng thành công.",
+        "updated": "Cập nhật người dùng thành công.",
+        "deleted": "Xóa người dùng thành công.",
+        "restored": "Khôi phục người dùng thành công.",
+        "verificationSent": "Đã gửi email xác thực.",
+        "passwordReset": "Đặt lại mật khẩu thành công."
+      },
+      "errors": {
+        "loadFailed": "Không tải được danh sách người dùng.",
+        "retry": "Thử lại",
+        "saveFailed": "Lưu người dùng thất bại.",
+        "deleteFailed": "Xóa người dùng thất bại.",
+        "restoreFailed": "Khôi phục người dùng thất bại.",
+        "resendFailed": "Gửi email xác thực thất bại.",
+        "resetFailed": "Đặt lại mật khẩu thất bại."
+      },
+      "form": {
+        "createTitle": "Thêm người dùng",
+        "editTitle": "Sửa người dùng",
+        "createSubtitle": "Tạo tài khoản mới trong hệ thống.",
+        "editSubtitle": "Cập nhật thông tin tài khoản và vai trò.",
+        "name": "Họ và tên",
+        "namePlaceholder": "Nguyễn Văn A",
+        "email": "Địa chỉ email",
+        "emailPlaceholder": "you@example.com",
+        "roles": "Vai trò",
+        "loadingRoles": "Đang tải vai trò...",
+        "noRoles": "Chưa có vai trò nào.",
+        "selfRolesHint": "Bạn không thể thay đổi vai trò của chính mình.",
+        "superAdmin": "Quản trị tối cao",
+        "superAdminHint": "Cấp toàn bộ quyền, bỏ qua các vai trò được gán.",
+        "password": "Mật khẩu",
+        "passwordPlaceholder": "Tối thiểu 8 ký tự",
+        "confirmPassword": "Xác nhận mật khẩu",
+        "confirmPasswordPlaceholder": "Nhập lại mật khẩu",
+        "cancel": "Hủy",
+        "save": "Lưu thay đổi",
+        "create": "Tạo người dùng",
+        "errors": {
+          "nameRequired": "Vui lòng nhập họ và tên.",
+          "emailRequired": "Vui lòng nhập email.",
+          "emailInvalid": "Email không hợp lệ.",
+          "passwordRequired": "Vui lòng nhập mật khẩu.",
+          "passwordMin": "Mật khẩu phải có ít nhất {{min}} ký tự.",
+          "confirmRequired": "Vui lòng xác nhận mật khẩu.",
+          "passwordMismatch": "Mật khẩu xác nhận không khớp."
+        }
+      },
+      "resetPassword": {
+        "title": "Đặt lại mật khẩu",
+        "subtitle": "Đặt mật khẩu mới cho {{name}}.",
+        "submit": "Đặt lại mật khẩu"
+      },
+      "deleteDialog": {
+        "title": "Xóa người dùng",
+        "description": "Bạn có chắc muốn xóa {{name}}? Tài khoản sẽ được chuyển vào danh sách đã xóa và có thể khôi phục sau.",
+        "confirm": "Xóa",
+        "cancel": "Hủy"
+      }
+    }
+  }
+}

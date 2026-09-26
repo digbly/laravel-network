@@ -1,8 +1,9 @@
-import type { FC } from 'react';
+import { Suspense, type FC } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { Sparkles, Sun, Moon, Zap, CheckCircle2, ShieldCheck, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '../../context/useTheme';
+import { useTheme } from '../../../context/useTheme';
+import { PageLoader } from '../../../components/ui/PageLoader';
 
 export const AuthLayout: FC = () => {
   const { t } = useTranslation();
@@ -122,7 +123,9 @@ export const AuthLayout: FC = () => {
           {/* Right Auth Forms Card */}
           <div className="lg:col-span-7 flex justify-center">
             <div className="w-full max-w-md glass-dropdown rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200/80 dark:border-white/[0.08]">
-              <Outlet />
+              <Suspense fallback={<PageLoader />}>
+                <Outlet />
+              </Suspense>
             </div>
           </div>
         </div>

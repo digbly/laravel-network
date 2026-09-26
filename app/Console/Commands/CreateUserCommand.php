@@ -26,9 +26,8 @@ class CreateUserCommand extends Command
             'name' => $name,
             'email' => $email,
             'password' => Hash::make($password),
-            'is_super_admin' => $this->option('super-admin'),
+            'is_super_admin' => (bool) $this->option('super-admin'),
             'email_verified_at' => now(),
-            'role' => $this->option('super-admin') ? User::ROLE_ADMIN : User::ROLE_USER,
         ]);
 
         $this->info("User [{$user->email}] created successfully (id: {$user->id})");

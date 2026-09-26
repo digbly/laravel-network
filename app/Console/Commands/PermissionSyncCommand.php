@@ -5,16 +5,16 @@ namespace App\Console\Commands;
 use App\Enums\MenuPermission;
 use App\Enums\WebsitePermission;
 use App\Models\Permission;
-use App\Models\Role;
 use Illuminate\Console\Command;
+use Modules\Auth\Enums\Permission as AuthPermission;
 use Spatie\Permission\PermissionRegistrar;
 
 class PermissionSyncCommand extends Command
 {
     protected $signature = 'permission:sync
-        {--website= : Website id to scope the permissions and role to}';
+        {--website= : Website id to scope the permissions to}';
 
-    protected $description = 'Sync application permissions and the admin role';
+    protected $description = 'Sync application permissions';
 
     public function handle(): int
     {
@@ -25,6 +25,7 @@ class PermissionSyncCommand extends Command
 
         $permissions = array_merge(
             MenuPermission::values(),
+            AuthPermission::values(),
             WebsitePermission::values(),
         );
 
@@ -35,14 +36,6 @@ class PermissionSyncCommand extends Command
                 'website_id' => $websiteId,
             ]);
         }
-
-        Role::query()
-            ->firstOrCreate([
-                'name' => 'admin',
-                'guard_name' => $guard,
-                'website_id' => $websiteId,
-            ])
-            ->syncPermissions($permissions);
 
         $this->info('Permissions synced successfully.');
 

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { Loader2, LogIn } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '../../components/ui/Button';
-import { ErrorAlert } from '../../components/ui/ErrorAlert';
-import { beginOAuthLogin, isOAuthConfigured } from '../../utils/oauth';
-import { getErrorMessage } from '../../utils/apiError';
+import { Button } from '../../../components/ui/Button';
+import { ErrorAlert } from '../../../components/ui/ErrorAlert';
+import { beginOAuthLogin, isOAuthConfigured } from '../../../utils/oauth';
+import { getErrorMessage } from '../../../utils/apiError';
 
 export const LoginView = () => {
   const { t } = useTranslation();

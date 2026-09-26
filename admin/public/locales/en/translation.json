@@ -154,5 +154,30 @@
       "switchToLight": "Switch to Light mode",
       "switchToDark": "Switch to Dark mode"
     }
+  },
+  "admin": {
+    "brandDesc": "Admin Console",
+    "version": "v0.1.0 · Admin Console",
+    "comingSoon": "Coming soon",
+    "nav": {
+      "menuLabel": "Admin navigation"
+    },
+    "topbar": {
+      "openMenu": "Open navigation menu",
+      "closeMenu": "Close navigation menu"
+    },
+    "userMenu": {
+      "fallbackName": "Account",
+      "noEmail": "No email",
+      "logout": "Sign out"
+    },
+    "role": {
+      "admin": "Admin",
+      "user": "User"
+    },
+    "forbidden": {
+      "title": "Access denied",
+      "message": "You do not have permission to view this page."
+    }
   }
 }
