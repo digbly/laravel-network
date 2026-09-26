@@ -5,18 +5,26 @@ const CKEDITOR_SCRIPT_ID = 'ckeditor-cdn-script';
 const CKEDITOR_VERSION = '41.3.1';
 const CKEDITOR_SCRIPT_SRC = `https://cdn.ckeditor.com/ckeditor5/${CKEDITOR_VERSION}/classic/ckeditor.js`;
 
+interface ModelNode {
+  name: string | null;
+}
+
 interface ModelWriter {
-  createElement: (name: string, attributes?: Record<string, unknown>) => unknown;
+  setAttribute: (key: string, value: unknown, node: ModelNode) => void;
 }
 
 interface ClassicEditorInstance {
   getData: () => string;
   setData: (data: string) => void;
   destroy: () => Promise<void>;
+  execute: (command: string, options?: Record<string, unknown>) => void;
+  editing: { view: { focus: () => void } };
   model: {
-    document: { on: (event: string, callback: () => void) => void };
+    document: {
+      on: (event: string, callback: () => void) => void;
+      selection: { getSelectedElement: () => ModelNode | null };
+    };
     change: (callback: (writer: ModelWriter) => void) => void;
-    insertContent: (content: unknown) => void;
   };
 }
 
@@ -173,10 +181,19 @@ export const RichTextEditor = ({
 
     if (!editor) return;
 
-    editor.model.change((writer) => {
-      const image = writer.createElement('image', { src: url, alt: alt ?? '' });
-      editor.model.insertContent(image);
-    });
+    // CKEditor 5 owns the insertion through its image command; the model
+    // element is `imageBlock`/`imageInline` (not `image`), so building the
+    // node manually would be silently rejected by the schema.
+    editor.editing.view.focus();
+    editor.execute('insertImage', { source: url });
+
+    if (!alt) return;
+
+    const selected = editor.model.document.selection.getSelectedElement();
+
+    if (selected && (selected.name === 'imageBlock' || selected.name === 'imageInline')) {
+      editor.model.change((writer) => writer.setAttribute('alt', alt, selected));
+    }
   };
 
   return (
