@@ -44,6 +44,174 @@
         "title": "Chưa có website",
         "message": "Bạn chưa là thành viên của website nào. Hãy tạo website đầu tiên để bắt đầu."
       }
+    },
+    "networkAdmin": {
+      "entry": "Quản trị mạng lưới",
+      "brandDesc": "Quản trị mạng lưới",
+      "backToWebsites": "Về danh sách website",
+      "title": "Quản trị mạng lưới",
+      "subtitle": "Quản lý toàn bộ website và người dùng trong hệ thống.",
+      "tabs": {
+        "websites": "Website",
+        "users": "Người dùng"
+      },
+      "pagination": {
+        "summary": "Hiển thị {{from}}-{{to}} trên {{total}}",
+        "previous": "Trước",
+        "next": "Sau",
+        "page": "Trang {{current}} / {{total}}"
+      },
+      "notices": {
+        "websiteCreated": "Tạo website thành công.",
+        "websiteUpdated": "Cập nhật website thành công.",
+        "websiteDeleted": "Xóa website thành công.",
+        "userCreated": "Tạo người dùng thành công.",
+        "userUpdated": "Cập nhật người dùng thành công.",
+        "userDeleted": "Xóa người dùng thành công.",
+        "userRestored": "Khôi phục người dùng thành công.",
+        "verificationSent": "Đã gửi email xác thực.",
+        "passwordReset": "Đặt lại mật khẩu thành công."
+      },
+      "errors": {
+        "retry": "Thử lại",
+        "saveFailed": "Lưu thất bại. Vui lòng thử lại.",
+        "deleteFailed": "Xóa thất bại. Vui lòng thử lại.",
+        "restoreFailed": "Khôi phục người dùng thất bại.",
+        "resendFailed": "Gửi email xác thực thất bại.",
+        "resetFailed": "Đặt lại mật khẩu thất bại.",
+        "websitesLoadFailed": "Không tải được danh sách website.",
+        "usersLoadFailed": "Không tải được danh sách người dùng."
+      },
+      "websites": {
+        "add": "Tạo website",
+        "searchPlaceholder": "Tìm theo tiêu đề, tên miền hoặc tên miền phụ",
+        "allStatuses": "Tất cả trạng thái",
+        "total": "{{total}} website",
+        "loading": "Đang tải website...",
+        "empty": "Không có website nào khớp với bộ lọc.",
+        "table": {
+          "website": "Website",
+          "owner": "Chủ sở hữu",
+          "status": "Trạng thái",
+          "members": "Thành viên",
+          "created": "Ngày tạo",
+          "actions": "Thao tác"
+        },
+        "actions": {
+          "edit": "Sửa website",
+          "delete": "Xóa website"
+        }
+      },
+      "websiteForm": {
+        "createTitle": "Tạo website",
+        "editTitle": "Sửa website",
+        "createSubtitle": "Thiết lập website mới cho một người dùng trong hệ thống.",
+        "editSubtitle": "Cập nhật thông tin và chủ sở hữu website.",
+        "title": "Tiêu đề",
+        "titlePlaceholder": "Website của tôi",
+        "subdomain": "Tên miền phụ",
+        "subdomainPlaceholder": "my-site",
+        "subdomainHint": "Chỉ gồm chữ, số, gạch ngang và gạch dưới.",
+        "domain": "Tên miền riêng",
+        "domainPlaceholder": "my-site.com",
+        "status": "Trạng thái",
+        "owner": "Chủ sở hữu",
+        "ownerPlaceholder": "Chọn chủ sở hữu",
+        "description": "Mô tả",
+        "descriptionPlaceholder": "Mô tả ngắn (không bắt buộc)",
+        "cancel": "Hủy",
+        "save": "Lưu thay đổi",
+        "create": "Tạo",
+        "errors": {
+          "titleRequired": "Vui lòng nhập tiêu đề.",
+          "subdomainRequired": "Vui lòng nhập tên miền phụ.",
+          "subdomainMax": "Tên miền phụ tối đa {{max}} ký tự.",
+          "subdomainInvalid": "Tên miền phụ chỉ gồm chữ, số, gạch ngang và gạch dưới.",
+          "domainMax": "Tên miền tối đa {{max}} ký tự.",
+          "ownerRequired": "Vui lòng chọn chủ sở hữu."
+        }
+      },
+      "websiteDelete": {
+        "title": "Xóa website",
+        "description": "Bạn có chắc muốn xóa {{name}}? Hành động này không thể hoàn tác.",
+        "confirm": "Xóa",
+        "cancel": "Hủy"
+      },
+      "users": {
+        "add": "Thêm người dùng",
+        "searchPlaceholder": "Tìm theo tên hoặc email",
+        "allRoles": "Tất cả vai trò",
+        "activeUsers": "Đang hoạt động",
+        "deletedOnly": "Chỉ đã xóa",
+        "allUsers": "Tất cả người dùng",
+        "total": "{{total}} người dùng",
+        "loading": "Đang tải người dùng...",
+        "empty": "Không có người dùng nào khớp với bộ lọc.",
+        "you": "Bạn",
+        "table": {
+          "user": "Người dùng",
+          "role": "Vai trò",
+          "status": "Trạng thái",
+          "joined": "Ngày tham gia",
+          "actions": "Thao tác"
+        },
+        "status": {
+          "verified": "Đã xác thực",
+          "unverified": "Chưa xác thực",
+          "deleted": "Đã xóa",
+          "superAdmin": "Quản trị tối cao"
+        },
+        "actions": {
+          "edit": "Sửa người dùng",
+          "resetPassword": "Đặt lại mật khẩu",
+          "resendVerification": "Gửi lại email xác thực",
+          "delete": "Xóa người dùng",
+          "restore": "Khôi phục người dùng"
+        }
+      },
+      "userForm": {
+        "createTitle": "Thêm người dùng",
+        "editTitle": "Sửa người dùng",
+        "createSubtitle": "Tạo tài khoản mới trong hệ thống.",
+        "editSubtitle": "Cập nhật thông tin tài khoản và vai trò.",
+        "name": "Họ và tên",
+        "namePlaceholder": "Nguyễn Văn A",
+        "email": "Địa chỉ email",
+        "emailPlaceholder": "you@example.com",
+        "roles": "Vai trò",
+        "loadingRoles": "Đang tải vai trò...",
+        "noRoles": "Chưa có vai trò nào.",
+        "selfRolesHint": "Bạn không thể thay đổi vai trò của chính mình.",
+        "superAdmin": "Quản trị tối cao",
+        "superAdminHint": "Cấp toàn bộ quyền, bỏ qua các vai trò được gán.",
+        "password": "Mật khẩu",
+        "passwordPlaceholder": "Tối thiểu 8 ký tự",
+        "confirmPassword": "Xác nhận mật khẩu",
+        "confirmPasswordPlaceholder": "Nhập lại mật khẩu",
+        "cancel": "Hủy",
+        "save": "Lưu thay đổi",
+        "create": "Tạo người dùng",
+        "errors": {
+          "nameRequired": "Vui lòng nhập họ và tên.",
+          "emailRequired": "Vui lòng nhập email.",
+          "emailInvalid": "Email không hợp lệ.",
+          "passwordRequired": "Vui lòng nhập mật khẩu.",
+          "passwordMin": "Mật khẩu phải có ít nhất {{min}} ký tự.",
+          "confirmRequired": "Vui lòng xác nhận mật khẩu.",
+          "passwordMismatch": "Mật khẩu xác nhận không khớp."
+        }
+      },
+      "userDelete": {
+        "title": "Xóa người dùng",
+        "description": "Bạn có chắc muốn xóa {{name}}? Tài khoản sẽ được chuyển vào danh sách đã xóa và có thể khôi phục sau.",
+        "confirm": "Xóa",
+        "cancel": "Hủy"
+      },
+      "resetPassword": {
+        "title": "Đặt lại mật khẩu",
+        "subtitle": "Đặt mật khẩu mới cho {{name}}.",
+        "submit": "Đặt lại mật khẩu"
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
   CheckCircle2,
@@ -7,6 +7,7 @@ import {
   Loader2,
   Plus,
   RefreshCw,
+  ShieldCheck,
   Sparkles,
   Users,
 } from 'lucide-react';
@@ -46,6 +47,7 @@ export const WebsitePickerView = () => {
 
   const websites = data?.data ?? [];
   const canCreate = hasPermission(user?.permissions, 'websites.create') && Boolean(user);
+  const isSuperAdmin = Boolean(user?.is_super_admin);
 
   useEffect(() => {
     if (!notice) return;
@@ -132,11 +134,23 @@ export const WebsitePickerView = () => {
             </p>
           </div>
 
-          {canCreate && (
-            <Button onClick={openCreate} leftIcon={<Plus className="w-4 h-4" />}>
-              {t('admin.network.create')}
-            </Button>
-          )}
+          <div className="flex flex-wrap items-center gap-3">
+            {isSuperAdmin && (
+              <Link
+                to="/network"
+                className="inline-flex items-center justify-center gap-2 text-sm px-4 py-2.5 rounded-xl font-medium transition-all duration-200 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60"
+              >
+                <ShieldCheck className="w-4 h-4" />
+                {t('admin.networkAdmin.entry')}
+              </Link>
+            )}
+
+            {canCreate && (
+              <Button onClick={openCreate} leftIcon={<Plus className="w-4 h-4" />}>
+                {t('admin.network.create')}
+              </Button>
+            )}
+          </div>
         </div>
 
         {notice && (

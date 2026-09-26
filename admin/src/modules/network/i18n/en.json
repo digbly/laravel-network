@@ -44,6 +44,174 @@
         "title": "No websites yet",
         "message": "You are not a member of any website yet. Create your first website to get started."
       }
+    },
+    "networkAdmin": {
+      "entry": "Network administration",
+      "brandDesc": "Network administration",
+      "backToWebsites": "Back to websites",
+      "title": "Network administration",
+      "subtitle": "Manage every website and user across the network.",
+      "tabs": {
+        "websites": "Websites",
+        "users": "Users"
+      },
+      "pagination": {
+        "summary": "Showing {{from}}-{{to}} of {{total}}",
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page {{current}} / {{total}}"
+      },
+      "notices": {
+        "websiteCreated": "Website created successfully.",
+        "websiteUpdated": "Website updated successfully.",
+        "websiteDeleted": "Website deleted successfully.",
+        "userCreated": "User created successfully.",
+        "userUpdated": "User updated successfully.",
+        "userDeleted": "User deleted successfully.",
+        "userRestored": "User restored successfully.",
+        "verificationSent": "Verification email sent.",
+        "passwordReset": "Password reset successfully."
+      },
+      "errors": {
+        "retry": "Retry",
+        "saveFailed": "Failed to save. Please try again.",
+        "deleteFailed": "Failed to delete. Please try again.",
+        "restoreFailed": "Failed to restore the user.",
+        "resendFailed": "Failed to send the verification email.",
+        "resetFailed": "Failed to reset the password.",
+        "websitesLoadFailed": "Failed to load websites.",
+        "usersLoadFailed": "Failed to load users."
+      },
+      "websites": {
+        "add": "New website",
+        "searchPlaceholder": "Search by title, domain or subdomain",
+        "allStatuses": "All statuses",
+        "total": "{{total}} websites",
+        "loading": "Loading websites...",
+        "empty": "No websites match your filters.",
+        "table": {
+          "website": "Website",
+          "owner": "Owner",
+          "status": "Status",
+          "members": "Members",
+          "created": "Created",
+          "actions": "Actions"
+        },
+        "actions": {
+          "edit": "Edit website",
+          "delete": "Delete website"
+        }
+      },
+      "websiteForm": {
+        "createTitle": "Create website",
+        "editTitle": "Edit website",
+        "createSubtitle": "Set up a new website for a user on the network.",
+        "editSubtitle": "Update the website details and owner.",
+        "title": "Title",
+        "titlePlaceholder": "My Website",
+        "subdomain": "Subdomain",
+        "subdomainPlaceholder": "my-site",
+        "subdomainHint": "Letters, numbers, dashes and underscores only.",
+        "domain": "Custom domain",
+        "domainPlaceholder": "my-site.com",
+        "status": "Status",
+        "owner": "Owner",
+        "ownerPlaceholder": "Select an owner",
+        "description": "Description",
+        "descriptionPlaceholder": "Short description (optional)",
+        "cancel": "Cancel",
+        "save": "Save changes",
+        "create": "Create",
+        "errors": {
+          "titleRequired": "Title is required.",
+          "subdomainRequired": "Subdomain is required.",
+          "subdomainMax": "Subdomain must be at most {{max}} characters.",
+          "subdomainInvalid": "Subdomain may only contain letters, numbers, dashes and underscores.",
+          "domainMax": "Domain must be at most {{max}} characters.",
+          "ownerRequired": "Please select an owner."
+        }
+      },
+      "websiteDelete": {
+        "title": "Delete website",
+        "description": "Are you sure you want to delete {{name}}? This action cannot be undone.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "users": {
+        "add": "Add user",
+        "searchPlaceholder": "Search by name or email",
+        "allRoles": "All roles",
+        "activeUsers": "Active users",
+        "deletedOnly": "Deleted only",
+        "allUsers": "All users",
+        "total": "{{total}} users",
+        "loading": "Loading users...",
+        "empty": "No users match your filters.",
+        "you": "You",
+        "table": {
+          "user": "User",
+          "role": "Role",
+          "status": "Status",
+          "joined": "Joined",
+          "actions": "Actions"
+        },
+        "status": {
+          "verified": "Verified",
+          "unverified": "Unverified",
+          "deleted": "Deleted",
+          "superAdmin": "Super admin"
+        },
+        "actions": {
+          "edit": "Edit user",
+          "resetPassword": "Reset password",
+          "resendVerification": "Resend verification email",
+          "delete": "Delete user",
+          "restore": "Restore user"
+        }
+      },
+      "userForm": {
+        "createTitle": "Add user",
+        "editTitle": "Edit user",
+        "createSubtitle": "Create a new account on the network.",
+        "editSubtitle": "Update account details and role.",
+        "name": "Full name",
+        "namePlaceholder": "Alex Tran",
+        "email": "Email address",
+        "emailPlaceholder": "you@example.com",
+        "roles": "Roles",
+        "loadingRoles": "Loading roles...",
+        "noRoles": "No roles available yet.",
+        "selfRolesHint": "You cannot change your own roles.",
+        "superAdmin": "Super admin",
+        "superAdminHint": "Grants every permission, ignoring assigned roles.",
+        "password": "Password",
+        "passwordPlaceholder": "Min. 8 characters",
+        "confirmPassword": "Confirm password",
+        "confirmPasswordPlaceholder": "Repeat password",
+        "cancel": "Cancel",
+        "save": "Save changes",
+        "create": "Create user",
+        "errors": {
+          "nameRequired": "Full name is required.",
+          "emailRequired": "Email address is required.",
+          "emailInvalid": "Please enter a valid email address.",
+          "passwordRequired": "Password is required.",
+          "passwordMin": "Password must be at least {{min}} characters.",
+          "confirmRequired": "Please confirm the password.",
+          "passwordMismatch": "Passwords do not match."
+        }
+      },
+      "userDelete": {
+        "title": "Delete user",
+        "description": "Are you sure you want to delete {{name}}? The account will be moved to the deleted list and can be restored later.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "resetPassword": {
+        "title": "Reset password",
+        "subtitle": "Set a new password for {{name}}.",
+        "submit": "Reset password"
+      }
     }
   }
 }

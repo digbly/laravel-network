@@ -1,10 +1,11 @@
 import { Suspense } from 'react';
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
+import { RequireSuperAdmin } from '../components/admin/RequireSuperAdmin';
 import { AdminLayout } from '../components/layout/AdminLayout';
 import { WebsiteRedirect } from '../components/admin/WebsiteRedirect';
 import { PageLoader } from '../components/ui/PageLoader';
-import { WebsitePickerView } from '../modules/network/lazy';
+import { NetworkView, WebsitePickerView } from '../modules/network/lazy';
 import { getAdminBasename } from '../utils/website';
 import { getAdminRoutes, getPublicRoutes } from './registry';
 
@@ -42,6 +43,18 @@ const routes: RouteObject[] = [
         children: getAdminRoutes().map(toWebsiteChild),
       },
     ],
+  },
+  {
+    path: 'network',
+    element: (
+      <ProtectedRoute>
+        <RequireSuperAdmin>
+          <Suspense fallback={<PageLoader />}>
+            <NetworkView />
+          </Suspense>
+        </RequireSuperAdmin>
+      </ProtectedRoute>
+    ),
   },
   {
     path: '/',

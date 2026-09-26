@@ -5,3 +5,9 @@ export const WebsitePickerView = lazy(() =>
     default: module.WebsitePickerView,
   }))
 );
+
+export const NetworkView = lazy(() =>
+  import('./views/NetworkView').then((module) => ({
+    default: module.NetworkView,
+  }))
+);
