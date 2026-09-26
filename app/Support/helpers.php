@@ -1,5 +1,8 @@
 <?php
 
+use App\Contracts\Network as NetworkContract;
+use App\Models\Website;
+
 if (! function_exists('is_json')) {
     function is_json(mixed $value): bool
     {
@@ -17,10 +20,21 @@ if (! function_exists('is_json')) {
     }
 }
 
+if (! function_exists('website')) {
+    function website(): ?Website
+    {
+        if (! app()->bound(NetworkContract::class)) {
+            return null;
+        }
+
+        return app(NetworkContract::class)->website();
+    }
+}
+
 if (! function_exists('website_id')) {
     function website_id(): int|string|null
     {
-        return config('app.website_id');
+        return website()?->id ?? config('app.website_id');
     }
 }
 
