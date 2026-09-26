@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { AdminLayout } from '../components/layout/AdminLayout';
+import { getAdminBasename } from '../utils/website';
 import { getAdminRoutes, getPublicRoutes } from './registry';
 
 const routes: RouteObject[] = [
@@ -17,4 +18,6 @@ const routes: RouteObject[] = [
   { path: '*', element: <Navigate to="/auth/login" replace /> },
 ];
 
-export const router = createBrowserRouter(routes);
+export const router = createBrowserRouter(routes, {
+  basename: getAdminBasename(),
+});

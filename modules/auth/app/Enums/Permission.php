@@ -6,6 +6,7 @@ enum Permission: string
 {
     case DashboardView = 'dashboard.view';
     case UsersManage = 'users.manage';
+    case RolesManage = 'roles.manage';
     case SettingsManage = 'settings.manage';
 
     /**

@@ -5,6 +5,7 @@ use App\Enums\WebsitePermission;
 use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
 use Modules\Admin\Http\Controllers\Admin\MenuController;
+use Modules\Admin\Http\Controllers\Admin\PermissionController;
 use Modules\Admin\Http\Controllers\Admin\RoleController;
 use Modules\Admin\Http\Controllers\Admin\UserController;
 use Modules\Admin\Http\Controllers\Admin\WebsiteController;
@@ -43,10 +44,9 @@ Route::middleware(['auth:api', InitWebsite::class])
             ->middleware('permission:'.MenuPermission::Delete->value);
     });
 
-Route::middleware(['auth:api', 'permission:'.Permission::UsersManage->value])->group(function () {
-    Route::get('v1/admin/roles', [RoleController::class, 'index']);
-
-    Route::prefix('v1/admin/users')->group(function () {
+Route::middleware(['auth:api', InitWebsite::class, 'permission:'.Permission::UsersManage->value])
+    ->prefix('v1/admin/websites/{website}/users')
+    ->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::post('/', [UserController::class, 'store']);
         Route::post('{user}/restore', [UserController::class, 'restore'])->withTrashed();
@@ -56,4 +56,19 @@ Route::middleware(['auth:api', 'permission:'.Permission::UsersManage->value])->g
         Route::match(['put', 'patch'], '{user}', [UserController::class, 'update']);
         Route::delete('{user}', [UserController::class, 'destroy']);
     });
-});
+
+Route::middleware(['auth:api', InitWebsite::class, 'permission:'.Permission::RolesManage->value])
+    ->prefix('v1/admin/websites/{website}/roles')
+    ->group(function () {
+        Route::get('/', [RoleController::class, 'index']);
+        Route::post('/', [RoleController::class, 'store']);
+        Route::get('{role}', [RoleController::class, 'show']);
+        Route::match(['put', 'patch'], '{role}', [RoleController::class, 'update']);
+        Route::delete('{role}', [RoleController::class, 'destroy']);
+    });
+
+Route::middleware(['auth:api', InitWebsite::class, 'permission:'.Permission::RolesManage->value])
+    ->prefix('v1/admin/websites/{website}/permissions')
+    ->group(function () {
+        Route::get('/', [PermissionController::class, 'index']);
+    });

@@ -2,13 +2,13 @@
 
 namespace Modules\Admin\Http\Resources;
 
-use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
 /**
- * @property-read Role $resource
+ * @property-read Permission $resource
  */
 #[OA\Schema(
     schema: __CLASS__,
@@ -22,24 +22,16 @@ use OpenApi\Attributes as OA;
         new OA\Property(
             property: 'name',
             type: 'string',
-            example: 'editor'
+            example: 'users.manage'
         ),
         new OA\Property(
             property: 'guard_name',
             type: 'string',
             example: 'api'
         ),
-        new OA\Property(
-            property: 'permissions',
-            type: 'array',
-            items: new OA\Items(type: 'string'),
-            example: ['users.manage', 'roles.manage']
-        ),
-        new OA\Property(property: 'created_at', type: 'string', format: 'date-time', nullable: true),
-        new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', nullable: true),
     ]
 )]
-class RoleResource extends JsonResource
+class PermissionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -52,9 +44,6 @@ class RoleResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'guard_name' => $this->resource->guard_name,
-            'permissions' => $this->resource->permissions->pluck('name')->values(),
-            'created_at' => $this->resource->created_at,
-            'updated_at' => $this->resource->updated_at,
         ];
     }
 }

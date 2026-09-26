@@ -1,4 +1,5 @@
 import { apiSlice } from './apiSlice';
+import { adminApiPath } from '../../utils/website';
 import type { ApiResponse } from '../../types/auth';
 import type {
   AdminUser,
@@ -28,12 +29,12 @@ const buildQueryString = (params: UserListParams): string => {
 export const adminUserApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getRoles: builder.query<ApiResponse<Role[]>, void>({
-      query: () => '/admin/roles',
+      query: () => adminApiPath('/roles'),
       providesTags: ['AdminRole'],
     }),
 
     getUsers: builder.query<PaginatedResponse<AdminUser>, UserListParams>({
-      query: (params) => `/admin/users${buildQueryString(params)}`,
+      query: (params) => `${adminApiPath('/users')}${buildQueryString(params)}`,
       providesTags: (result) =>
         result
           ? [
@@ -44,13 +45,13 @@ export const adminUserApi = apiSlice.injectEndpoints({
     }),
 
     getUser: builder.query<ApiResponse<AdminUser>, string>({
-      query: (id) => `/admin/users/${id}`,
+      query: (id) => adminApiPath(`/users/${id}`),
       providesTags: (_result, _error, id) => [{ type: 'AdminUser', id }],
     }),
 
     createUser: builder.mutation<ApiResponse<AdminUser>, CreateUserPayload>({
       query: (body) => ({
-        url: '/admin/users',
+        url: adminApiPath('/users'),
         method: 'POST',
         body,
       }),
@@ -62,7 +63,7 @@ export const adminUserApi = apiSlice.injectEndpoints({
       { id: string; body: UpdateUserPayload }
     >({
       query: ({ id, body }) => ({
-        url: `/admin/users/${id}`,
+        url: adminApiPath(`/users/${id}`),
         method: 'PUT',
         body,
       }),
@@ -74,7 +75,7 @@ export const adminUserApi = apiSlice.injectEndpoints({
 
     deleteUser: builder.mutation<MessageResponse, string>({
       query: (id) => ({
-        url: `/admin/users/${id}`,
+        url: adminApiPath(`/users/${id}`),
         method: 'DELETE',
       }),
       invalidatesTags: (_result, _error, id) => [
@@ -85,7 +86,7 @@ export const adminUserApi = apiSlice.injectEndpoints({
 
     restoreUser: builder.mutation<ApiResponse<AdminUser>, string>({
       query: (id) => ({
-        url: `/admin/users/${id}/restore`,
+        url: adminApiPath(`/users/${id}/restore`),
         method: 'POST',
       }),
       invalidatesTags: (_result, _error, id) => [
@@ -99,7 +100,7 @@ export const adminUserApi = apiSlice.injectEndpoints({
       { id: string; body: ResetUserPasswordPayload }
     >({
       query: ({ id, body }) => ({
-        url: `/admin/users/${id}/password`,
+        url: adminApiPath(`/users/${id}/password`),
         method: 'PUT',
         body,
       }),
@@ -107,7 +108,7 @@ export const adminUserApi = apiSlice.injectEndpoints({
 
     resendUserVerification: builder.mutation<ApiResponse<MessageResponse>, string>({
       query: (id) => ({
-        url: `/admin/users/${id}/resend-verification`,
+        url: adminApiPath(`/users/${id}/resend-verification`),
         method: 'POST',
       }),
     }),
