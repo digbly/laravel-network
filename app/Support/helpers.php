@@ -2,6 +2,9 @@
 
 use App\Contracts\Network as NetworkContract;
 use App\Models\Website;
+use App\Themes\FileRepository;
+use App\Themes\Theme;
+use App\Themes\ThemeManager;
 
 if (! function_exists('is_json')) {
     function is_json(mixed $value): bool
@@ -49,5 +52,51 @@ if (! function_exists('admin_url')) {
         );
 
         return url(implode('/', $segments));
+    }
+}
+
+if (! function_exists('theme')) {
+    function theme(): ?Theme
+    {
+        if (! app()->bound(ThemeManager::class)) {
+            return null;
+        }
+
+        return app(ThemeManager::class)->current();
+    }
+}
+
+if (! function_exists('theme_name')) {
+    function theme_name(): ?string
+    {
+        if (app()->bound(ThemeManager::class)) {
+            $name = app(ThemeManager::class)->name();
+
+            if ($name !== null) {
+                return $name;
+            }
+        }
+
+        return config('themes.default');
+    }
+}
+
+if (! function_exists('theme_path')) {
+    function theme_path(string $theme, string $path = ''): string
+    {
+        $base = app()->bound(FileRepository::class)
+            ? app(FileRepository::class)->getThemePath($theme)
+            : config('themes.paths.themes').'/'.$theme;
+
+        return $path !== '' ? $base.'/'.ltrim($path, '/') : $base;
+    }
+}
+
+if (! function_exists('theme_asset')) {
+    function theme_asset(string $asset, ?string $theme = null): string
+    {
+        $theme ??= theme_name();
+
+        return asset(trim(config('themes.paths.assets_url', 'themes'), '/').'/'.$theme.'/'.ltrim($asset, '/'));
     }
 }

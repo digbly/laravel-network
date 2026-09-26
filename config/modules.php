@@ -35,8 +35,8 @@ return [
     |
     */
     'stubs' => [
-        'enabled' => false,
-        'path' => base_path('vendor/nwidart/laravel-modules/src/Commands/stubs'),
+        'enabled' => true,
+        'path' => base_path('resources/stubs/modules'),
         'files' => [
             'routes/web' => 'routes/web.php',
             'routes/api' => 'routes/api.php',
