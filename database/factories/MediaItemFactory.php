@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Media\Database\Factories;
+namespace Database\Factories;
 
+use App\Models\MediaItem;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Media\Models\MediaItem;
 
 class MediaItemFactory extends Factory
 {

@@ -3,13 +3,13 @@
 namespace Tests\Feature\Media;
 
 use App\Enums\WebsiteStatus;
+use App\Models\MediaItem;
 use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 use Modules\Auth\Models\User;
-use Modules\Media\Models\MediaItem;
 use Tests\TestCase;
 
 class AdminMediaControllerTest extends TestCase

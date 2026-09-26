@@ -1,18 +1,18 @@
 <?php
 
-namespace Modules\Media\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\IndexMediaRequest;
+use App\Http\Requests\Admin\StoreMediaRequest;
+use App\Http\Requests\Admin\UpdateMediaRequest;
+use App\Http\Resources\MediaResource;
+use App\Models\MediaItem;
 use App\Models\Website;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
-use Modules\Media\Http\Requests\Admin\IndexMediaRequest;
-use Modules\Media\Http\Requests\Admin\StoreMediaRequest;
-use Modules\Media\Http\Requests\Admin\UpdateMediaRequest;
-use Modules\Media\Http\Resources\MediaResource;
-use Modules\Media\Models\MediaItem;
 use OpenApi\Attributes as OA;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Media\Enums;
+namespace App\Enums;
 
-enum Permission: string
+enum MediaPermission: string
 {
     case MediaView = 'media.view';
     case MediaCreate = 'media.create';

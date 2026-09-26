@@ -12,6 +12,7 @@ import {
   NetworkWebsitesView,
   WebsitePickerView,
 } from '../modules/network/lazy';
+import { MediaLibraryView } from './media/lazy';
 import { getAdminBasename } from '../utils/website';
 import { getAdminRoutes, getPublicRoutes } from './registry';
 
@@ -46,7 +47,14 @@ const routes: RouteObject[] = [
             <AdminLayout />
           </ProtectedRoute>
         ),
-        children: getAdminRoutes().map(toWebsiteChild),
+        children: [
+          ...getAdminRoutes().map(toWebsiteChild),
+          {
+            path: 'media',
+            element: <MediaLibraryView />,
+            handle: { permission: 'media.view' },
+          },
+        ],
       },
     ],
   },

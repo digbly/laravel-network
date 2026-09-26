@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Media\Http\Resources;
+namespace App\Http\Resources;
 
+use App\Models\MediaItem;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Media\Models\MediaItem;
 use OpenApi\Attributes as OA;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 

@@ -4,7 +4,7 @@ import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { RichTextEditor } from '../../../components/ui/RichTextEditor';
 import { ErrorAlert } from '../../../components/ui/ErrorAlert';
-import { MediaPickerModal } from '../../media/components/MediaPickerModal';
+import { MediaPickerModal } from '../../../app/media/components/MediaPickerModal';
 import type { AdminCategory, AdminPost, PostPayload, PostStatus, PostTranslation } from '../../../types/blog';
 
 const LOCALES = ['en', 'vi'] as const;

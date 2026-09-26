@@ -1,14 +1,14 @@
 <?php
 
-namespace Modules\Media\Models;
+namespace App\Models;
 
 use App\Traits\Networkable;
+use Database\Factories\MediaItemFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Auth\Models\User;
-use Modules\Media\Database\Factories\MediaItemFactory;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;

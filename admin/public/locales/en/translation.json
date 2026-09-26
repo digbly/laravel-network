@@ -160,7 +160,8 @@
     "version": "v0.1.0 · Admin Console",
     "comingSoon": "Coming soon",
     "nav": {
-      "menuLabel": "Admin navigation"
+      "menuLabel": "Admin navigation",
+      "media": "Media"
     },
     "topbar": {
       "openMenu": "Open navigation menu",
@@ -179,6 +180,86 @@
     "forbidden": {
       "title": "Access denied",
       "message": "You do not have permission to view this page."
+    },
+    "media": {
+      "title": "Media Library",
+      "subtitle": "Upload, organise and reuse images and documents.",
+      "add": "Add media",
+      "insertImage": "Insert image",
+      "loading": "Loading media...",
+      "empty": "No media items match your filters.",
+      "dropzone": {
+        "title": "Drop files here or click to upload",
+        "hint": "Images, PDF and documents up to 10MB each.",
+        "uploading": "Uploading {{count}} file(s)..."
+      },
+      "filters": {
+        "all": "All media",
+        "image": "Images",
+        "document": "Documents",
+        "searchPlaceholder": "Search media",
+        "allMonths": "All dates"
+      },
+      "item": {
+        "copyUrl": "Copy URL",
+        "delete": "Delete",
+        "open": "View details"
+      },
+      "details": {
+        "title": "Media details",
+        "previewUnavailable": "No preview available.",
+        "openInNewTab": "Open in new tab",
+        "fields": {
+          "title": "Title",
+          "alt": "Alternative text",
+          "caption": "Caption",
+          "description": "Description"
+        },
+        "meta": {
+          "file": "File",
+          "type": "Type",
+          "size": "Size",
+          "dimensions": "Dimensions",
+          "uploaded": "Uploaded",
+          "url": "File URL"
+        },
+        "copyUrl": "Copy URL",
+        "copied": "Copied",
+        "save": "Save changes",
+        "delete": "Delete permanently"
+      },
+      "picker": {
+        "title": "Insert media",
+        "subtitle": "Pick an image to insert into your content.",
+        "use": "Insert selected",
+        "empty": "No images available yet."
+      },
+      "notices": {
+        "uploaded": "Media uploaded successfully.",
+        "updated": "Media updated successfully.",
+        "deleted": "Media deleted successfully.",
+        "copied": "URL copied to clipboard."
+      },
+      "errors": {
+        "loadFailed": "Failed to load media.",
+        "uploadFailed": "Failed to upload media.",
+        "saveFailed": "Failed to save media.",
+        "deleteFailed": "Failed to delete media.",
+        "copyFailed": "Failed to copy the URL.",
+        "retry": "Retry"
+      },
+      "deleteDialog": {
+        "title": "Delete media",
+        "description": "Are you sure you want to delete \"{{name}}\"? This cannot be undone.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "pagination": {
+        "summary": "Showing {{from}}-{{to}} of {{total}} items",
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page {{current}} / {{total}}"
+      }
     }
   }
 }

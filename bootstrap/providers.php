@@ -2,6 +2,7 @@
 
 use App\Modules\ModulesServiceProvider;
 use App\Providers\AppServiceProvider;
+use App\Providers\MediaServiceProvider;
 use App\Providers\PermissionServiceProvider;
 use App\Themes\ThemesServiceProvider;
 use Modules\Admin\Providers\AdminServiceProvider;
@@ -18,4 +19,5 @@ return [
 
     PermissionServiceProvider::class,
     ThemesServiceProvider::class,
+    MediaServiceProvider::class,
 ];
