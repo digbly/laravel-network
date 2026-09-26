@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use App\Contracts\Menu as MenuContract;
+use App\Contracts\MenuBox as MenuBoxContract;
+use App\Contracts\NavMenu as NavMenuContract;
 use App\Contracts\Setting as SettingContract;
 use App\Modules\FileRepository;
+use App\Support\MenuBoxRepository;
+use App\Support\MenuRepository;
+use App\Support\NavMenuRepository;
 use App\Support\SettingRepository;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -31,6 +37,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->alias(RepositoryInterface::class, 'modules');
 
         $this->app->singleton(SettingContract::class, SettingRepository::class);
+        $this->app->singleton(MenuContract::class, MenuRepository::class);
+        $this->app->singleton(MenuBoxContract::class, MenuBoxRepository::class);
+        $this->app->singleton(NavMenuContract::class, NavMenuRepository::class);
     }
 
     /**

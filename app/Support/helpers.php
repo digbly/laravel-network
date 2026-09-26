@@ -23,3 +23,17 @@ if (! function_exists('website_id')) {
         return config('app.website_id');
     }
 }
+
+if (! function_exists('admin_url')) {
+    function admin_url(?string $uri = null, int|string|null $websiteId = null): string
+    {
+        $websiteId ??= website_id();
+
+        $segments = array_filter(
+            [config('app.admin_prefix', 'admin'), $websiteId, ltrim((string) $uri, '/')],
+            fn ($segment) => $segment !== null && $segment !== ''
+        );
+
+        return url(implode('/', $segments));
+    }
+}
