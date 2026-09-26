@@ -63,6 +63,7 @@
           "slugPlaceholder": "duong-dan-bai-viet",
           "description": "Mô tả",
           "content": "Nội dung",
+          "contentPlaceholder": "Viết nội dung bài viết...",
           "cancel": "Hủy",
           "save": "Lưu thay đổi",
           "create": "Tạo bài viết",

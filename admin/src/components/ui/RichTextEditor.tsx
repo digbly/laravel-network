@@ -1,0 +1,177 @@
+import { useEffect, useRef, useState } from 'react';
+
+const CKEDITOR_SCRIPT_ID = 'ckeditor-cdn-script';
+const CKEDITOR_VERSION = '41.3.1';
+const CKEDITOR_SCRIPT_SRC = `https://cdn.ckeditor.com/ckeditor5/${CKEDITOR_VERSION}/classic/ckeditor.js`;
+
+interface ClassicEditorInstance {
+  getData: () => string;
+  setData: (data: string) => void;
+  destroy: () => Promise<void>;
+  model: { document: { on: (event: string, callback: () => void) => void } };
+}
+
+interface ClassicEditorStatic {
+  create: (
+    element: HTMLElement,
+    config: Record<string, unknown>,
+  ) => Promise<ClassicEditorInstance>;
+}
+
+interface RichTextEditorProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  minHeight?: number;
+  maxHeight?: number;
+}
+
+export const RichTextEditor = ({
+  value,
+  onChange,
+  placeholder = '',
+  minHeight = 280,
+  maxHeight = 600,
+}: RichTextEditorProps) => {
+  const editorRef = useRef<HTMLDivElement>(null);
+  const instanceRef = useRef<ClassicEditorInstance | null>(null);
+  const onChangeRef = useRef(onChange);
+  const valueRef = useRef(value);
+  const [isLoaded, setIsLoaded] = useState(
+    () => typeof window !== 'undefined' && Boolean((window as unknown as { ClassicEditor?: ClassicEditorStatic }).ClassicEditor),
+  );
+
+  useEffect(() => {
+    onChangeRef.current = onChange;
+    valueRef.current = value;
+  }, [onChange, value]);
+
+  useEffect(() => {
+    const globalWindow = window as unknown as { ClassicEditor?: ClassicEditorStatic };
+
+    if (globalWindow.ClassicEditor) {
+      return;
+    }
+
+    const existingScript = document.getElementById(CKEDITOR_SCRIPT_ID);
+
+    if (existingScript) {
+      const handleLoad = () => setIsLoaded(true);
+      existingScript.addEventListener('load', handleLoad);
+      return () => existingScript.removeEventListener('load', handleLoad);
+    }
+
+    const script = document.createElement('script');
+    script.id = CKEDITOR_SCRIPT_ID;
+    script.src = CKEDITOR_SCRIPT_SRC;
+    script.async = true;
+    script.onload = () => setIsLoaded(true);
+    script.onerror = () => console.error('Failed to load CKEditor from CDN.');
+    document.body.appendChild(script);
+  }, []);
+
+  useEffect(() => {
+    if (!isLoaded || !editorRef.current || instanceRef.current) {
+      return;
+    }
+
+    const ClassicEditor = (window as unknown as { ClassicEditor?: ClassicEditorStatic }).ClassicEditor;
+
+    if (!ClassicEditor) {
+      return;
+    }
+
+    let isDisposed = false;
+
+    ClassicEditor.create(editorRef.current, {
+      placeholder,
+      heading: {
+        options: [
+          { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+          { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+          { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+          { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+        ],
+      },
+      toolbar: [
+        'heading',
+        '|',
+        'bold',
+        'italic',
+        'underline',
+        'strikethrough',
+        '|',
+        'link',
+        '|',
+        'bulletedList',
+        'numberedList',
+        '|',
+        'blockQuote',
+        'codeBlock',
+        '|',
+        'alignment',
+        'horizontalLine',
+        'removeFormat',
+        '|',
+        'undo',
+        'redo',
+      ],
+    })
+      .then((editor) => {
+        if (isDisposed) {
+          void editor.destroy();
+          return;
+        }
+
+        instanceRef.current = editor;
+        editor.setData(valueRef.current || '');
+        editor.model.document.on('change:data', () => {
+          onChangeRef.current(editor.getData());
+        });
+      })
+      .catch((error: unknown) => {
+        console.error('CKEditor initialization error:', error);
+      });
+
+    return () => {
+      isDisposed = true;
+      const editor = instanceRef.current;
+      instanceRef.current = null;
+
+      if (editor) {
+        void editor.destroy().catch((error: unknown) => {
+          console.error('CKEditor destroy error:', error);
+        });
+      }
+    };
+  }, [isLoaded, placeholder]);
+
+  useEffect(() => {
+    const editor = instanceRef.current;
+
+    if (editor && value !== undefined && editor.getData() !== value) {
+      editor.setData(value);
+    }
+  }, [value]);
+
+  return (
+    <div className="ckeditor-wrapper rounded-xl overflow-hidden border border-slate-200 dark:border-white/[0.08] bg-white">
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            .ckeditor-wrapper .ck-editor__editable {
+              color: #0f172a !important;
+              background-color: #ffffff !important;
+            }
+            .ckeditor-wrapper .ck-editor__editable_inline {
+              min-height: ${minHeight}px !important;
+              max-height: ${maxHeight}px !important;
+              overflow-y: auto !important;
+            }
+          `,
+        }}
+      />
+      <div ref={editorRef} />
+    </div>
+  );
+};

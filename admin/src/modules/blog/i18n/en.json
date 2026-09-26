@@ -63,6 +63,7 @@
           "slugPlaceholder": "post-slug",
           "description": "Description",
           "content": "Content",
+          "contentPlaceholder": "Write your post content...",
           "cancel": "Cancel",
           "save": "Save changes",
           "create": "Create post",

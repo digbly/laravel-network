@@ -2,6 +2,7 @@ import { type FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
+import { RichTextEditor } from '../../../components/ui/RichTextEditor';
 import { ErrorAlert } from '../../../components/ui/ErrorAlert';
 import type { AdminCategory, AdminPost, PostPayload, PostStatus, PostTranslation } from '../../../types/blog';
 
@@ -189,11 +190,11 @@ export const PostForm = ({
         <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
           {t('admin.blog.posts.form.content')}
         </label>
-        <textarea
+        <RichTextEditor
+          key={activeLocale}
           value={active.content}
-          rows={12}
-          onChange={(event) => updateTranslation(activeLocale, 'content', event.target.value)}
-          className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white text-sm rounded-xl px-3.5 py-2.5 font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+          placeholder={t('admin.blog.posts.form.contentPlaceholder')}
+          onChange={(content) => updateTranslation(activeLocale, 'content', content)}
         />
       </div>
 
