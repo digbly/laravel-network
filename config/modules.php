@@ -1,5 +1,7 @@
 <?php
 
+use App\Modules\DatabaseActivator;
+use App\Modules\TestingActivator;
 use Nwidart\Modules\Activators\FileActivator;
 use Nwidart\Modules\Providers\ConsoleServiceProvider;
 
@@ -311,9 +313,18 @@ return [
             'class' => FileActivator::class,
             'statuses-file' => base_path('modules/statuses.json'),
         ],
+
+        'database' => [
+            'class' => DatabaseActivator::class,
+            'key' => 'plugin_statuses',
+        ],
+
+        'testing' => [
+            'class' => TestingActivator::class,
+        ],
     ],
 
-    'activator' => 'file',
+    'activator' => env('MODULES_ACTIVATOR', 'database'),
 
     /*
     |--------------------------------------------------------------------------

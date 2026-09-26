@@ -2,11 +2,13 @@
 
 namespace App\Contracts;
 
+use App\Themes\DatabaseActivator;
 use App\Themes\FileActivator;
 use App\Themes\Theme;
 
 /**
  * @see FileActivator
+ * @see DatabaseActivator
  */
 interface ThemeActivator
 {

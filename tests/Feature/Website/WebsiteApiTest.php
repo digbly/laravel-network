@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Website;
 
+use App\Enums\WebsitePermission;
 use App\Enums\WebsiteStatus;
 use App\Models\Database;
+use App\Models\Role;
 use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
@@ -25,8 +27,11 @@ class WebsiteApiTest extends TestCase
 
     protected function adminUser(): User
     {
+        $role = Role::findOrCreate('admin', 'api');
+        $role->syncPermissions(WebsitePermission::values());
+
         $user = User::factory()->create();
-        $user->assignRole('admin');
+        $user->assignRole($role);
 
         return $user;
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Themes\DatabaseActivator;
 use App\Themes\FileActivator;
 
 return [
@@ -93,7 +94,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | The file activator stores activation statuses in a JSON file, the same
-    | way nwidart/laravel-modules stores module statuses.
+    | way nwidart/laravel-modules stores module statuses. The database activator
+    | stores the active theme name in the current website settings, so each
+    | website can only have one active theme at a time.
     |
     */
 
@@ -102,8 +105,13 @@ return [
             'class' => FileActivator::class,
             'statuses-file' => base_path('themes/statuses.json'),
         ],
+
+        'database' => [
+            'class' => DatabaseActivator::class,
+            'key' => 'theme',
+        ],
     ],
 
-    'activator' => 'file',
+    'activator' => env('THEMES_ACTIVATOR', 'database'),
 
 ];

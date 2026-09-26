@@ -22,7 +22,7 @@ themes/
       assets/           # css/js/img, published to public/themes/<theme>
       lang/             # namespaced translations
     routes/web.php
-  statuses.json         # activation statuses (like modules/statuses.json)
+  statuses.json         # activation statuses (file activator only)
 ```
 
 Core classes:
@@ -33,6 +33,7 @@ app/
     Theme.php                    # package object (≈ Nwidart\Modules\Module)
     FileRepository.php           # scans themes (≈ Nwidart\Modules\FileRepository)
     FileActivator.php            # statuses.json (≈ Nwidart\Modules\FileActivator)
+    DatabaseActivator.php        # active theme name stored in website settings
     ThemeManager.php             # resolves + activates the active theme
     ThemesServiceProvider.php    # container bindings + boot
     Exceptions/ThemeNotFoundException.php
@@ -49,6 +50,7 @@ config/themes.php
 | `Nwidart\Modules\Module` | `App\Themes\Theme` |
 | `Nwidart\Modules\FileRepository` | `App\Themes\FileRepository` |
 | `Nwidart\Modules\Activators\FileActivator` | `App\Themes\FileActivator` |
+| settings-backed module activator (`plugin_statuses`) | `App\Themes\DatabaseActivator` (`theme`) |
 | `modules/statuses.json` | `themes/statuses.json` |
 | `RepositoryInterface` (bound as `modules`) | `FileRepository` (bound as `themes`) |
 | `module_path()` | `theme_path()` |
@@ -100,7 +102,8 @@ Stubs live in `resources/stubs/themes`.
 }
 ```
 
-- `name` is the identity used by the activator (`themes/statuses.json`).
+- `name` is the identity used by the activator (the active theme name stored
+  in website settings, or `themes/statuses.json` with the file activator).
 - `alias` is the lowercase key used for namespaces, config and helpers. Falls
   back to `name` when omitted.
 - `priority` orders registration (`FileRepository::getOrdered()`).
@@ -148,20 +151,26 @@ In console (no request/website) resolution falls back to the default theme.
 
 ## Activation
 
-Activation mirrors modules: statuses are stored in `themes/statuses.json` and
-read by `FileActivator`. A theme not listed is **disabled**.
+The default **database** activator stores the active theme name in the current
+website's settings (`theme` key), so **each website can only have one active
+theme at a time**. A theme is enabled only when it is the stored active theme;
+every other theme is disabled.
+
+```php
+app('themes')->findOrFail('Default')->enable();   // sets the active theme
+app('themes')->findOrFail('Another')->disable();  // clears it when it matches
+app('themes')->allEnabled();                      // at most one theme
+```
+
+The **file** activator (`FileActivator`) keeps the legacy behaviour: statuses
+are stored in `themes/statuses.json` and a theme not listed is disabled. Select
+it with `THEMES_ACTIVATOR=file` or `themes.activator => 'file'`.
 
 ```json
 {
     "Default": true,
     "Another": false
 }
-```
-
-```php
-app('themes')->findOrFail('Default')->enable();
-app('themes')->findOrFail('Another')->disable();
-app('themes')->allEnabled();
 ```
 
 ## View resolution and precedence
@@ -213,9 +222,11 @@ via `themes.paths.assets_url`). The source of truth is
 - `paths.generator.*` — default resource subfolders.
 - `scan` — additional theme roots (e.g. `vendor/*/*`).
 - `register.translations` / `register.files`.
-- `activator` — selects which activator to use (default `file`).
-- `activators.<name>.class` / `activators.file.statuses-file` — activator
-  definitions.
+- `activator` — selects which activator to use (default `database`,
+  `THEMES_ACTIVATOR`).
+- `activators.<name>.class` — activator definitions. `activators.file.statuses-file`
+  points to `themes/statuses.json`; `activators.database.key` (default `theme`)
+  is the settings key that holds the active theme name per website.
 
 ## Create a theme
 
@@ -231,8 +242,9 @@ Or manually:
    `providers`.
 3. Put Blade templates in `resources/views`, assets in `resources/assets`,
    translations in `resources/lang`, config in `config`, routes in `routes`.
-4. Enable it: add `"<Name>": true` to `themes/statuses.json` (or run
-   `theme:enable <Name>`).
+4. Enable it: run `theme:enable <Name>` (the default database activator stores
+   it as the website's active theme; with the file activator, add
+   `"<Name>": true` to `themes/statuses.json`).
 5. Run `composer dump-autoload` and select it per website via
    `websites.theme`, or set `THEME_DEFAULT`.
 

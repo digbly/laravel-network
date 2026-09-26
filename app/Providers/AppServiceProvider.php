@@ -7,7 +7,6 @@ use App\Contracts\MenuBox as MenuBoxContract;
 use App\Contracts\NavMenu as NavMenuContract;
 use App\Contracts\Network as NetworkContract;
 use App\Contracts\Setting as SettingContract;
-use App\Modules\FileRepository;
 use App\Support\MenuBoxRepository;
 use App\Support\MenuRepository;
 use App\Support\NavMenuRepository;
@@ -22,7 +21,6 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use Modules\Auth\Models\OAuthClient;
-use Nwidart\Modules\Contracts\RepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,13 +36,6 @@ class AppServiceProvider extends ServiceProvider
         config([
             'permission.cache.key' => config('permission.cache.key').'.'.(website_id() ?? 'global'),
         ]);
-
-        $this->app->singleton(RepositoryInterface::class, function ($app) {
-            $path = $app['config']->get('modules.paths.modules');
-
-            return new FileRepository($app, $path);
-        });
-        $this->app->alias(RepositoryInterface::class, 'modules');
 
         $this->app->singleton(SettingContract::class, SettingRepository::class);
         $this->app->singleton(MenuContract::class, MenuRepository::class);
