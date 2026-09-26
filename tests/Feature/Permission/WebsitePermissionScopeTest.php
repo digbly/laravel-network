@@ -18,9 +18,9 @@ class WebsitePermissionScopeTest extends TestCase
         config(['app.website_id' => null]);
     }
 
-    public function test_command_creates_global_permissions(): void
+    public function test_generate_creates_global_permissions(): void
     {
-        $this->artisan('permission:sync')->assertSuccessful();
+        $this->artisan('permission:generate')->assertSuccessful();
 
         $this->assertDatabaseHas('permissions', [
             'name' => 'menus.view',
@@ -37,7 +37,7 @@ class WebsitePermissionScopeTest extends TestCase
 
     public function test_global_permissions_are_visible_to_every_website(): void
     {
-        $this->artisan('permission:sync');
+        $this->artisan('permission:generate');
 
         config(['app.website_id' => 'site-1']);
         $this->assertTrue(Permission::query()->where('name', 'menus.view')->exists());

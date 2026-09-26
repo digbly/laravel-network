@@ -15,7 +15,7 @@ class UserPermissionsTest extends TestCase
     {
         parent::setUp();
 
-        $this->artisan('permission:sync');
+        $this->artisan('permission:generate');
     }
 
     public function test_super_admin_receives_wildcard_permission(): void
@@ -39,6 +39,35 @@ class UserPermissionsTest extends TestCase
 
         $user = User::factory()->create();
         $user->assignRole($role);
+
+        $this->assertSame(['users.manage'], $user->permissionNames());
+    }
+
+    public function test_assigning_unknown_permission_is_skipped(): void
+    {
+        $role = Role::findOrCreate('editor', 'api');
+
+        $role->syncPermissions(['unknown.permission']);
+
+        $this->assertSame([], $role->permissions()->pluck('name')->all());
+    }
+
+    public function test_revoking_unknown_permission_keeps_existing_role_permissions(): void
+    {
+        $role = Role::findOrCreate('editor', 'api');
+        $role->syncPermissions(['users.manage']);
+
+        $role->revokePermissionTo('unknown.permission');
+
+        $this->assertSame(['users.manage'], $role->permissions()->pluck('name')->all());
+    }
+
+    public function test_revoking_unknown_permission_keeps_existing_user_permissions(): void
+    {
+        $user = User::factory()->create();
+        $user->givePermissionTo('users.manage');
+
+        $user->revokePermissionTo('unknown.permission');
 
         $this->assertSame(['users.manage'], $user->permissionNames());
     }

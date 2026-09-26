@@ -204,9 +204,14 @@ Frontend:
 
 Backend contract (`modules/auth`):
 
-- `Modules\Auth\Enums\Permission` lists the permission strings (capability
-  catalog). Run `php artisan permission:sync` to persist them as Spatie
-  permissions.
+- The permission catalog is declared in code via `Modules\Auth\Enums\Permission`,
+  `App\Enums\MenuPermission` and `App\Enums\WebsitePermission`, then registered
+  in `App\Providers\PermissionServiceProvider` through `App\Support\PermissionRegistry`.
+  Run `php artisan permission:generate` to persist the catalog as Spatie
+  permissions (the provider itself never writes to the database).
+- Permission resolution is lenient: assigning a permission that has not been
+  generated yet is skipped instead of throwing, so a missing
+  `permission:generate` run never breaks the app.
 - Spatie is the single source of truth for authorization: roles are dynamic
   (admin-defined) and users get permissions through their roles.
 - `User::isSuperAdmin()` (column `users.is_super_admin`) bypasses every check
@@ -216,10 +221,12 @@ Backend contract (`modules/auth`):
 - `UserResource` returns `permissions`, `roles` and `is_super_admin` in every
   user payload.
 
-If a module introduces a new permission, add it to `Permission`, run
-`permission:sync`, and use the same string on `nav.permission` and
-`handle.permission`. When the module adds admin-only API endpoints, enforce the
-permission server-side as well (e.g. `permission:users.manage`) — the UI guard
+If a module introduces a new permission, add it to the relevant enum
+(`Permission`, `MenuPermission`, `WebsitePermission`) and use the same string on
+`nav.permission` and `handle.permission`; register it in
+`PermissionServiceProvider` and run `permission:generate`.
+When the module adds admin-only API endpoints, enforce the permission
+server-side as well (e.g. `permission:users.manage`) — the UI guard
 is not authorization.
 
 ## i18n
@@ -269,6 +276,6 @@ php artisan test tests/Unit/Auth tests/Feature/Auth
 - [ ] `modules/<name>/i18n/{en,vi}.json` hold `admin.nav.<name>` and `admin.<name>.*`
 - [ ] `modules/<name>/module.tsx` exports the `AdminModule`
 - [ ] `src/app/modules.ts` registers the module
-- [ ] New permission (if any) added to backend `Permission` + synced via `permission:sync`
+- [ ] New permission (if any) added to a backend permission enum, registered in `PermissionServiceProvider` + run `php artisan permission:generate`
 - [ ] `handle.permission` on the route and `permission` on the nav item match the backend string
 - [ ] `npm run lint` and `npm run build` pass

@@ -13,13 +13,19 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\Contracts\OAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 use Modules\Auth\Database\Factories\UserFactory;
+use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Traits\HasRoles;
 
 #[UseFactory(UserFactory::class)]
 class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, HasRoles, HasUuids, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, HasUuids, Notifiable, SoftDeletes;
+
+    use HasRoles {
+        getStoredPermission as protected spatieGetStoredPermission;
+        revokePermissionTo as protected spatieRevokePermissionTo;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -85,5 +91,36 @@ class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
             ->pluck('name')
             ->values()
             ->all();
+    }
+
+    /**
+     * Resolve a stored permission, returning null instead of throwing when the
+     * permission has not been generated yet (Juzaweb-compatible leniency).
+     *
+     * @param  mixed  $permissions
+     * @return mixed
+     */
+    protected function getStoredPermission($permissions)
+    {
+        try {
+            return $this->spatieGetStoredPermission($permissions);
+        } catch (PermissionDoesNotExist) {
+            return null;
+        }
+    }
+
+    /**
+     * Revoke a permission, ignoring permissions that do not exist.
+     *
+     * @param  mixed  $permission
+     * @return $this
+     */
+    public function revokePermissionTo($permission)
+    {
+        if ($this->getStoredPermission($permission) === null) {
+            return $this;
+        }
+
+        return $this->spatieRevokePermissionTo($permission);
     }
 }

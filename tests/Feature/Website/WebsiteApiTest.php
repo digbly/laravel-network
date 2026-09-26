@@ -18,7 +18,7 @@ class WebsiteApiTest extends TestCase
     {
         parent::setUp();
 
-        $this->artisan('permission:sync');
+        $this->artisan('permission:generate');
 
         Passport::actingAs($this->adminUser());
     }

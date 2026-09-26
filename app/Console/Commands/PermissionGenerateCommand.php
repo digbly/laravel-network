@@ -2,34 +2,26 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\MenuPermission;
-use App\Enums\WebsitePermission;
 use App\Models\Permission;
+use App\Support\PermissionRegistry;
 use Illuminate\Console\Command;
-use Modules\Auth\Enums\Permission as AuthPermission;
 use Spatie\Permission\PermissionRegistrar;
 
-class PermissionSyncCommand extends Command
+class PermissionGenerateCommand extends Command
 {
-    protected $signature = 'permission:sync
+    protected $signature = 'permission:generate
         {--website= : Website id to scope the permissions to}';
 
-    protected $description = 'Sync application permissions';
+    protected $description = 'Generate application permissions from the registry';
 
-    public function handle(): int
+    public function handle(PermissionRegistry $registry): int
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         $guard = config('auth.defaults.guard', 'api');
         $websiteId = $this->option('website') ?? website_id();
 
-        $permissions = array_merge(
-            MenuPermission::values(),
-            AuthPermission::values(),
-            WebsitePermission::values(),
-        );
-
-        foreach ($permissions as $permission) {
+        foreach ($registry->all() as $permission) {
             Permission::query()->firstOrCreate([
                 'name' => $permission,
                 'guard_name' => $guard,
@@ -37,7 +29,7 @@ class PermissionSyncCommand extends Command
             ]);
         }
 
-        $this->info('Permissions synced successfully.');
+        $this->info('Permissions generated successfully.');
 
         return self::SUCCESS;
     }
