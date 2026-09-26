@@ -2,6 +2,22 @@ import type { AuthUser } from './auth';
 
 export type WebsiteStatus = 'active' | 'inactive' | 'suspended';
 
+export interface NetworkConfig {
+  domain: string | null;
+  subsite_domain?: string | null;
+}
+
+export interface CreateWebsitePayload {
+  title: string;
+  subdomain: string;
+  status: WebsiteStatus;
+  user_id: string;
+  description?: string | null;
+  domain?: string | null;
+  language?: string | null;
+  theme?: string | null;
+}
+
 export interface Website {
   id: string;
   title: string;

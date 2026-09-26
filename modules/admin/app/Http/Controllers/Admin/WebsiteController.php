@@ -129,6 +129,8 @@ class WebsiteController extends Controller
         $website = DB::transaction(function () use ($request) {
             $website = Website::create($request->validated());
 
+            $website->users()->syncWithoutDetaching([$website->user_id]);
+
             if ($website->database) {
                 Database::query()->where('name', $website->database)->increment('total_websites');
             }
@@ -177,6 +179,8 @@ class WebsiteController extends Controller
 
         DB::transaction(function () use ($request, $website, $oldDatabase) {
             $website->update($request->validated());
+
+            $website->users()->syncWithoutDetaching([$website->user_id]);
 
             if ($oldDatabase !== $website->database) {
                 if ($oldDatabase) {

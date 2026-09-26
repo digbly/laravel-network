@@ -120,6 +120,10 @@ class WebsiteApiTest extends TestCase
             ->assertJsonPath('data.owner.id', $owner->id);
 
         $this->assertDatabaseHas('websites', ['subdomain' => 'new-site', 'domain' => 'new-site.com']);
+        $this->assertDatabaseHas('website_user', [
+            'website_id' => $response->json('data.id'),
+            'user_id' => $owner->id,
+        ]);
     }
 
     public function test_store_validates_input(): void
@@ -179,6 +183,10 @@ class WebsiteApiTest extends TestCase
             'id' => $website->id,
             'title' => 'Updated',
             'status' => 'suspended',
+        ]);
+        $this->assertDatabaseHas('website_user', [
+            'website_id' => $website->id,
+            'user_id' => $website->user_id,
         ]);
     }
 

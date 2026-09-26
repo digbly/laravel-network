@@ -24,8 +24,11 @@ const base64UrlEncode = (bytes: Uint8Array): string => {
   return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 };
 
-export const oauthRedirectUri = (): string =>
-  `${window.location.origin}${getAdminBasename()}/auth/callback`;
+export const oauthRedirectUri = (): string => {
+  const base = getAdminBasename().replace(/\/+$/, '');
+
+  return `${window.location.origin}${base}/auth/callback`;
+};
 
 export const isOAuthConfigured = (): boolean => OAUTH_CLIENT_ID !== '';
 

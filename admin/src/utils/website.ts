@@ -1,49 +1,58 @@
 /**
- * The admin SPA is served under `/admin/...`. Two kinds of routes exist:
- *
- * - `/admin/websites`        website picker (no website selected yet)
- * - `/admin/{websiteId}/...` website-scoped admin pages
+ * The website picker lives at `/websites` (no website selected yet) while the
+ * website-scoped admin pages live at `/websites/{websiteId}/...`.
  *
  * The website id is part of the router path and used both as the API prefix
- * and to remember the last visited website.
+ * and to remember the last visited website. Note that the JSON API is still
+ * namespaced under `/admin`, e.g. `/admin/websites/{websiteId}/users`.
  */
-const ADMIN_PREFIX = '/admin';
 
-const WEBSITE_ID_PATTERN = /^\/admin\/([^/]+)/;
+/** Backend API namespace (unchanged by the frontend URL prefix). */
+const API_PREFIX = '/admin';
 
-/** Admin segments that are not website ids (e.g. the picker, auth pages). */
-const RESERVED_SEGMENTS = new Set(['websites', 'auth']);
+/** Frontend segment that groups the picker and the website-scoped pages. */
+const WEBSITES_SEGMENT = 'websites';
 
 const LAST_WEBSITE_KEY = 'sitestore_last_website';
 
-export const getWebsiteId = (): string | null => {
-  const segment = window.location.pathname.match(WEBSITE_ID_PATTERN)?.[1] ?? null;
+export const getAdminBasename = (): string =>
+  (import.meta.env.BASE_URL as string | undefined) || '/';
 
-  if (!segment || RESERVED_SEGMENTS.has(segment)) {
-    return null;
+/** Current pathname with the deployment basename stripped. */
+const getCurrentPath = (): string => {
+  const basename = getAdminBasename();
+  const { pathname } = window.location;
+
+  if (basename && basename !== '/' && pathname.startsWith(basename)) {
+    return pathname.slice(basename.length - 1);
   }
 
-  return segment;
+  return pathname;
 };
 
-export const getAdminBasename = (): string => ADMIN_PREFIX;
+export const getWebsiteId = (): string | null => {
+  const [segment, websiteId] = getCurrentPath().split('/').filter(Boolean);
+
+  return segment === WEBSITES_SEGMENT ? websiteId ?? null : null;
+};
 
 /**
  * Build a router path scoped to a website, e.g. `/dashboard` becomes
- * `/{websiteId}/dashboard`. Returns the path unchanged when no website is given.
+ * `/websites/{websiteId}/dashboard`. Returns the path unchanged when no website
+ * is given.
  */
 export const websitePath = (path: string, websiteId?: string | null): string => {
   const normalized = path.startsWith('/') ? path : `/${path}`;
 
-  return websiteId ? `/${websiteId}${normalized}` : normalized;
+  return websiteId ? `/${WEBSITES_SEGMENT}/${websiteId}${normalized}` : normalized;
 };
 
-/** Remove the leading `/{websiteId}` segment from a router pathname. */
+/** Remove the leading `/websites/{websiteId}` segment from a router pathname. */
 export const stripWebsitePrefix = (
   pathname: string,
   websiteId?: string | null,
 ): string => {
-  const prefix = websiteId ? `/${websiteId}` : null;
+  const prefix = websiteId ? `/${WEBSITES_SEGMENT}/${websiteId}` : null;
 
   if (prefix && (pathname === prefix || pathname.startsWith(`${prefix}/`))) {
     return pathname.slice(prefix.length) || '/';
@@ -51,6 +60,9 @@ export const stripWebsitePrefix = (
 
   return pathname;
 };
+
+/** API path of the website collection, e.g. `/admin/websites`. */
+export const websitesApiPath = (): string => `${API_PREFIX}/websites`;
 
 /**
  * Prefix an admin API path with the current website id.
@@ -63,11 +75,11 @@ export const adminApiPath = (path: string): string => {
 
   if (!websiteId) {
     throw new Error(
-      'Admin website id is missing. Access the admin under /admin/{websiteId}.',
+      'Admin website id is missing. Access the admin under /websites/{websiteId}.',
     );
   }
 
-  return `${ADMIN_PREFIX}/websites/${websiteId}${normalized}`;
+  return `${websitesApiPath()}/${websiteId}${normalized}`;
 };
 
 export const getLastWebsiteId = (): string | null => {
