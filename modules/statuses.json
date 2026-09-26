@@ -1,4 +1,5 @@
 {
     "Auth": true,
-    "Admin": true
+    "Admin": true,
+    "Blog": true
 }

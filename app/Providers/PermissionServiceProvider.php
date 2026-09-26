@@ -7,6 +7,7 @@ use App\Enums\WebsitePermission;
 use App\Support\PermissionRegistry;
 use Illuminate\Support\ServiceProvider;
 use Modules\Auth\Enums\Permission as AuthPermission;
+use Modules\Blog\Enums\Permission as BlogPermission;
 
 class PermissionServiceProvider extends ServiceProvider
 {
@@ -20,6 +21,7 @@ class PermissionServiceProvider extends ServiceProvider
         $this->app->make(PermissionRegistry::class)->register([
             ...MenuPermission::values(),
             ...AuthPermission::values(),
+            ...BlogPermission::values(),
             ...WebsitePermission::values(),
         ]);
     }

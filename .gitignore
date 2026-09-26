@@ -13,9 +13,11 @@
 /.zed
 /auth.json
 /node_modules
+/themes/*/node_modules
 /public/build
 /public/hot
 /public/storage
+/public/themes
 /storage/*.key
 /storage/pail
 /storage/api-docs

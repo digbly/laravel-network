@@ -1,0 +1,174 @@
+{
+  "admin": {
+    "nav": {
+      "blogPosts": "Bài viết",
+      "blogCategories": "Danh mục Blog",
+      "blogComments": "Bình luận Blog"
+    },
+    "blog": {
+      "pagination": {
+        "summary": "Hiển thị {{from}}-{{to}} trên {{total}} mục",
+        "previous": "Trước",
+        "next": "Sau",
+        "page": "Trang {{current}} / {{total}}"
+      },
+      "posts": {
+        "title": "Bài viết",
+        "subtitle": "Viết, xuất bản và quản lý bài viết của bạn.",
+        "add": "Thêm bài viết",
+        "searchPlaceholder": "Tìm bài viết",
+        "loading": "Đang tải bài viết...",
+        "empty": "Không có bài viết nào phù hợp.",
+        "filters": {
+          "allStatuses": "Tất cả trạng thái",
+          "draft": "Bản nháp",
+          "published": "Đã xuất bản"
+        },
+        "table": {
+          "post": "Bài viết",
+          "status": "Trạng thái",
+          "categories": "Danh mục",
+          "created": "Ngày tạo",
+          "actions": "Thao tác"
+        },
+        "actions": {
+          "edit": "Sửa bài viết",
+          "delete": "Xóa bài viết"
+        },
+        "notices": {
+          "created": "Đã tạo bài viết thành công.",
+          "updated": "Đã cập nhật bài viết thành công.",
+          "deleted": "Đã xóa bài viết thành công."
+        },
+        "errors": {
+          "loadFailed": "Không tải được bài viết.",
+          "saveFailed": "Không lưu được bài viết.",
+          "deleteFailed": "Không xóa được bài viết.",
+          "retry": "Thử lại"
+        },
+        "form": {
+          "createTitle": "Thêm bài viết",
+          "editTitle": "Sửa bài viết",
+          "status": "Trạng thái",
+          "categories": "Danh mục",
+          "noCategories": "Chưa có danh mục nào.",
+          "locale": "Ngôn ngữ",
+          "title": "Tiêu đề",
+          "titlePlaceholder": "Tiêu đề bài viết",
+          "slug": "Slug",
+          "slugPlaceholder": "duong-dan-bai-viet",
+          "description": "Mô tả",
+          "content": "Nội dung",
+          "cancel": "Hủy",
+          "save": "Lưu thay đổi",
+          "create": "Tạo bài viết",
+          "titleRequired": "Cần có tiêu đề cho {{locale}}."
+        },
+        "deleteDialog": {
+          "title": "Xóa bài viết",
+          "description": "Bạn có chắc muốn xóa \"{{title}}\"? Thao tác này không thể hoàn tác.",
+          "confirm": "Xóa",
+          "cancel": "Hủy"
+        }
+      },
+      "categories": {
+        "title": "Danh mục Blog",
+        "subtitle": "Nhóm bài viết thành các danh mục dễ điều hướng.",
+        "add": "Thêm danh mục",
+        "searchPlaceholder": "Tìm danh mục",
+        "loading": "Đang tải danh mục...",
+        "empty": "Chưa có danh mục nào.",
+        "table": {
+          "name": "Tên",
+          "slug": "Slug",
+          "posts": "Bài viết",
+          "home": "Trang chủ",
+          "actions": "Thao tác"
+        },
+        "homeYes": "Có",
+        "homeNo": "Không",
+        "actions": {
+          "edit": "Sửa danh mục",
+          "delete": "Xóa danh mục"
+        },
+        "notices": {
+          "created": "Đã tạo danh mục thành công.",
+          "updated": "Đã cập nhật danh mục thành công.",
+          "deleted": "Đã xóa danh mục thành công."
+        },
+        "errors": {
+          "loadFailed": "Không tải được danh mục.",
+          "saveFailed": "Không lưu được danh mục.",
+          "deleteFailed": "Không xóa được danh mục.",
+          "retry": "Thử lại"
+        },
+        "form": {
+          "createTitle": "Thêm danh mục",
+          "editTitle": "Sửa danh mục",
+          "parent": "Danh mục cha",
+          "noParent": "Không có danh mục cha",
+          "isHome": "Hiển thị trên trang chủ",
+          "locale": "Ngôn ngữ",
+          "name": "Tên",
+          "namePlaceholder": "Tên danh mục",
+          "slug": "Slug",
+          "slugPlaceholder": "duong-dan-danh-muc",
+          "description": "Mô tả",
+          "cancel": "Hủy",
+          "save": "Lưu thay đổi",
+          "create": "Tạo danh mục",
+          "nameRequired": "Cần có tên cho {{locale}}."
+        },
+        "deleteDialog": {
+          "title": "Xóa danh mục",
+          "description": "Bạn có chắc muốn xóa \"{{name}}\"? Bài viết sẽ không bị xóa.",
+          "confirm": "Xóa",
+          "cancel": "Hủy"
+        }
+      },
+      "comments": {
+        "title": "Bình luận Blog",
+        "subtitle": "Kiểm duyệt bình luận trên bài viết của bạn.",
+        "searchPlaceholder": "Tìm bình luận",
+        "loading": "Đang tải bình luận...",
+        "empty": "Không có bình luận nào phù hợp.",
+        "filters": {
+          "allStatuses": "Tất cả trạng thái",
+          "pending": "Chờ duyệt",
+          "approved": "Đã duyệt",
+          "spam": "Spam",
+          "rejected": "Từ chối"
+        },
+        "table": {
+          "author": "Tác giả",
+          "comment": "Bình luận",
+          "status": "Trạng thái",
+          "created": "Ngày tạo",
+          "actions": "Thao tác"
+        },
+        "actions": {
+          "approve": "Duyệt",
+          "reject": "Từ chối",
+          "spam": "Đánh dấu spam",
+          "delete": "Xóa bình luận"
+        },
+        "notices": {
+          "updated": "Đã cập nhật bình luận thành công.",
+          "deleted": "Đã xóa bình luận thành công."
+        },
+        "errors": {
+          "loadFailed": "Không tải được bình luận.",
+          "updateFailed": "Không cập nhật được bình luận.",
+          "deleteFailed": "Không xóa được bình luận.",
+          "retry": "Thử lại"
+        },
+        "deleteDialog": {
+          "title": "Xóa bình luận",
+          "description": "Bạn có chắc muốn xóa bình luận này? Thao tác này không thể hoàn tác.",
+          "confirm": "Xóa",
+          "cancel": "Hủy"
+        }
+      }
+    }
+  }
+}
