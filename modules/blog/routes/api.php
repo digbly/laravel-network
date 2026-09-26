@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
 use Modules\Blog\Enums\Permission;
 use Modules\Blog\Http\Controllers\Admin\CategoryController;
@@ -15,7 +16,7 @@ use Modules\Blog\Http\Controllers\Api\PostController as ApiPostController;
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth:api')->prefix('admin/blog')->group(function () {
+Route::middleware(['auth:api', InitWebsite::class])->prefix('admin/websites/{website}/blog')->group(function () {
     Route::prefix('posts')->group(function () {
         Route::get('/', [PostController::class, 'index'])->middleware('permission:'.Permission::PostsView->value);
         Route::post('/', [PostController::class, 'store'])->middleware('permission:'.Permission::PostsCreate->value);

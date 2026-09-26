@@ -1,4 +1,5 @@
 import { apiSlice } from './apiSlice';
+import { adminApiPath } from '../../utils/website';
 import type { ApiResponse } from '../../types/auth';
 import type {
   AdminCategory,
@@ -33,7 +34,7 @@ const buildQueryString = (params: object): string => {
 export const blogApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPosts: builder.query<PostPaginatedResponse, PostListParams>({
-      query: (params) => `/admin/blog/posts${buildQueryString(params)}`,
+      query: (params) => `${adminApiPath('/blog/posts')}${buildQueryString(params)}`,
       providesTags: (result) =>
         result
           ? [
@@ -44,17 +45,17 @@ export const blogApi = apiSlice.injectEndpoints({
     }),
 
     getPost: builder.query<ApiResponse<AdminPost>, string>({
-      query: (id) => `/admin/blog/posts/${id}`,
+      query: (id) => adminApiPath(`/blog/posts/${id}`),
       providesTags: (_result, _error, id) => [{ type: 'AdminPost', id }],
     }),
 
     createPost: builder.mutation<ApiResponse<AdminPost>, PostPayload>({
-      query: (body) => ({ url: '/admin/blog/posts', method: 'POST', body }),
+      query: (body) => ({ url: adminApiPath('/blog/posts'), method: 'POST', body }),
       invalidatesTags: [{ type: 'AdminPost', id: 'LIST' }],
     }),
 
     updatePost: builder.mutation<ApiResponse<AdminPost>, { id: string; body: PostPayload }>({
-      query: ({ id, body }) => ({ url: `/admin/blog/posts/${id}`, method: 'PUT', body }),
+      query: ({ id, body }) => ({ url: adminApiPath(`/blog/posts/${id}`), method: 'PUT', body }),
       invalidatesTags: (_result, _error, { id }) => [
         { type: 'AdminPost', id },
         { type: 'AdminPost', id: 'LIST' },
@@ -62,7 +63,7 @@ export const blogApi = apiSlice.injectEndpoints({
     }),
 
     deletePost: builder.mutation<MessageResponse, string>({
-      query: (id) => ({ url: `/admin/blog/posts/${id}`, method: 'DELETE' }),
+      query: (id) => ({ url: adminApiPath(`/blog/posts/${id}`), method: 'DELETE' }),
       invalidatesTags: (_result, _error, id) => [
         { type: 'AdminPost', id },
         { type: 'AdminPost', id: 'LIST' },
@@ -70,7 +71,7 @@ export const blogApi = apiSlice.injectEndpoints({
     }),
 
     getCategories: builder.query<CategoryPaginatedResponse, CategoryListParams>({
-      query: (params) => `/admin/blog/categories${buildQueryString(params)}`,
+      query: (params) => `${adminApiPath('/blog/categories')}${buildQueryString(params)}`,
       providesTags: (result) =>
         result
           ? [
@@ -81,7 +82,7 @@ export const blogApi = apiSlice.injectEndpoints({
     }),
 
     createCategory: builder.mutation<ApiResponse<AdminCategory>, CategoryPayload>({
-      query: (body) => ({ url: '/admin/blog/categories', method: 'POST', body }),
+      query: (body) => ({ url: adminApiPath('/blog/categories'), method: 'POST', body }),
       invalidatesTags: [{ type: 'AdminCategory', id: 'LIST' }],
     }),
 
@@ -89,7 +90,7 @@ export const blogApi = apiSlice.injectEndpoints({
       ApiResponse<AdminCategory>,
       { id: string; body: CategoryPayload }
     >({
-      query: ({ id, body }) => ({ url: `/admin/blog/categories/${id}`, method: 'PUT', body }),
+      query: ({ id, body }) => ({ url: adminApiPath(`/blog/categories/${id}`), method: 'PUT', body }),
       invalidatesTags: (_result, _error, { id }) => [
         { type: 'AdminCategory', id },
         { type: 'AdminCategory', id: 'LIST' },
@@ -97,7 +98,7 @@ export const blogApi = apiSlice.injectEndpoints({
     }),
 
     deleteCategory: builder.mutation<MessageResponse, string>({
-      query: (id) => ({ url: `/admin/blog/categories/${id}`, method: 'DELETE' }),
+      query: (id) => ({ url: adminApiPath(`/blog/categories/${id}`), method: 'DELETE' }),
       invalidatesTags: (_result, _error, id) => [
         { type: 'AdminCategory', id },
         { type: 'AdminCategory', id: 'LIST' },
@@ -105,7 +106,7 @@ export const blogApi = apiSlice.injectEndpoints({
     }),
 
     getComments: builder.query<CommentPaginatedResponse, CommentListParams>({
-      query: (params) => `/admin/blog/comments${buildQueryString(params)}`,
+      query: (params) => `${adminApiPath('/blog/comments')}${buildQueryString(params)}`,
       providesTags: (result) =>
         result
           ? [
@@ -120,7 +121,7 @@ export const blogApi = apiSlice.injectEndpoints({
       { id: string; status: CommentStatus }
     >({
       query: ({ id, status }) => ({
-        url: `/admin/blog/comments/${id}`,
+        url: adminApiPath(`/blog/comments/${id}`),
         method: 'PUT',
         body: { status },
       }),
@@ -131,7 +132,7 @@ export const blogApi = apiSlice.injectEndpoints({
     }),
 
     deleteComment: builder.mutation<MessageResponse, string>({
-      query: (id) => ({ url: `/admin/blog/comments/${id}`, method: 'DELETE' }),
+      query: (id) => ({ url: adminApiPath(`/blog/comments/${id}`), method: 'DELETE' }),
       invalidatesTags: (_result, _error, id) => [
         { type: 'AdminComment', id },
         { type: 'AdminComment', id: 'LIST' },

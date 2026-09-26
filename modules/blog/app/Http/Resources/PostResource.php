@@ -4,7 +4,6 @@ namespace Modules\Blog\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Auth\Http\Resources\UserResource;
 use Modules\Blog\Models\Post;
 use OpenApi\Attributes as OA;
 
@@ -24,7 +23,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'status_label', type: 'string', example: 'Published'),
         new OA\Property(property: 'views', type: 'integer', example: 0),
         new OA\Property(property: 'user_id', type: 'string', format: 'uuid', nullable: true),
-        new OA\Property(property: 'author', type: UserResource::class, nullable: true),
+        new OA\Property(property: 'author', type: AuthorResource::class, nullable: true),
         new OA\Property(
             property: 'categories',
             type: 'array',
@@ -60,7 +59,7 @@ class PostResource extends JsonResource
             'user_id' => $this->resource->user_id,
             'author' => $this->whenLoaded(
                 'author',
-                fn () => $this->resource->author ? UserResource::make($this->resource->author) : null
+                fn () => $this->resource->author ? AuthorResource::make($this->resource->author) : null
             ),
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
             'translations' => PostTranslationResource::collection($this->whenLoaded('translations')),

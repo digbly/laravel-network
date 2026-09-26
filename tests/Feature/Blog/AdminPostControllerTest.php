@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Blog;
 
+use App\Enums\WebsiteStatus;
 use App\Models\Role;
+use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Modules\Auth\Models\User;
@@ -15,11 +17,37 @@ class AdminPostControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected Website $website;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->artisan('permission:generate');
+
+        $this->website = Website::create([
+            'title' => 'Test Site',
+            'subdomain' => 'test-site',
+            'status' => WebsiteStatus::ACTIVE,
+            'user_id' => User::factory()->create()->id,
+        ]);
+
+        config(['app.website_id' => $this->website->id]);
+    }
+
+    protected function base(): string
+    {
+        return "/api/v1/admin/websites/{$this->website->id}/blog";
+    }
+
+    protected function otherWebsite(): Website
+    {
+        return Website::create([
+            'title' => 'Other Site',
+            'subdomain' => 'other-site',
+            'status' => WebsiteStatus::ACTIVE,
+            'user_id' => User::factory()->create()->id,
+        ]);
     }
 
     protected function admin(): User
@@ -75,14 +103,14 @@ class AdminPostControllerTest extends TestCase
     {
         $this->app['auth']->forgetGuards();
 
-        $this->getJson('/api/v1/admin/blog/posts')->assertUnauthorized();
+        $this->getJson($this->base().'/posts')->assertUnauthorized();
     }
 
     public function test_index_forbids_user_without_permission(): void
     {
         Passport::actingAs(User::factory()->create());
 
-        $this->getJson('/api/v1/admin/blog/posts')->assertForbidden();
+        $this->getJson($this->base().'/posts')->assertForbidden();
     }
 
     public function test_index_returns_paginated_posts(): void
@@ -90,7 +118,7 @@ class AdminPostControllerTest extends TestCase
         Passport::actingAs($this->admin());
         Post::factory()->count(3)->create();
 
-        $this->getJson('/api/v1/admin/blog/posts')
+        $this->getJson($this->base().'/posts')
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -108,14 +136,46 @@ class AdminPostControllerTest extends TestCase
         $this->makePost(['title' => 'Laravel tips', 'slug' => 'laravel-tips']);
         Post::factory()->draft()->create();
 
-        $this->getJson('/api/v1/admin/blog/posts?status=published')
+        $this->getJson($this->base().'/posts?status=published')
             ->assertOk()
             ->assertJsonCount(1, 'data');
 
-        $this->getJson('/api/v1/admin/blog/posts?search=Laravel')
+        $this->getJson($this->base().'/posts?search=Laravel')
             ->assertOk()
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.title', 'Laravel tips');
+    }
+
+    public function test_index_only_returns_posts_of_current_website(): void
+    {
+        Passport::actingAs($this->admin());
+
+        $this->makePost(['title' => 'Mine', 'slug' => 'mine']);
+
+        config(['app.website_id' => $this->otherWebsite()->id]);
+        $this->makePost(['title' => 'Theirs', 'slug' => 'theirs']);
+
+        // The website context must be resolved from the route, not from config.
+        config(['app.website_id' => null]);
+
+        $this->getJson($this->base().'/posts')
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.title', 'Mine');
+    }
+
+    public function test_show_returns_not_found_for_post_of_another_website(): void
+    {
+        Passport::actingAs($this->admin());
+
+        config(['app.website_id' => $this->otherWebsite()->id]);
+        $post = $this->makePost(['title' => 'Theirs', 'slug' => 'theirs']);
+
+        // The website context must be resolved from the route, not from config.
+        config(['app.website_id' => null]);
+
+        $this->getJson($this->base()."/posts/{$post->getKey()}")
+            ->assertNotFound();
     }
 
     public function test_store_creates_post_with_translations_and_categories(): void
@@ -123,7 +183,7 @@ class AdminPostControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $category = Category::factory()->create();
 
-        $response = $this->postJson('/api/v1/admin/blog/posts', $this->payload([
+        $response = $this->postJson($this->base().'/posts', $this->payload([
             'categories' => [$category->getKey()],
         ]));
 
@@ -145,7 +205,7 @@ class AdminPostControllerTest extends TestCase
     {
         Passport::actingAs($this->admin());
 
-        $this->postJson('/api/v1/admin/blog/posts', [
+        $this->postJson($this->base().'/posts', [
             'status' => 'invalid',
             'translations' => [],
         ])->assertJsonValidationErrors(['status', 'translations']);
@@ -156,7 +216,7 @@ class AdminPostControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $this->makePost(['title' => 'Taken', 'slug' => 'taken-slug']);
 
-        $this->postJson('/api/v1/admin/blog/posts', $this->payload([
+        $this->postJson($this->base().'/posts', $this->payload([
             'translations' => [
                 ['locale' => 'en', 'title' => 'Another', 'slug' => 'taken-slug'],
             ],
@@ -167,7 +227,7 @@ class AdminPostControllerTest extends TestCase
     {
         Passport::actingAs($this->admin());
 
-        $this->postJson('/api/v1/admin/blog/posts', $this->payload([
+        $this->postJson($this->base().'/posts', $this->payload([
             'translations' => [
                 ['locale' => 'en', 'title' => 'English', 'slug' => 'shared-slug'],
                 ['locale' => 'vi', 'title' => 'Vietnamese', 'slug' => 'shared-slug'],
@@ -182,7 +242,7 @@ class AdminPostControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $post = Post::factory()->create();
 
-        $this->putJson("/api/v1/admin/blog/posts/{$post->getKey()}", [
+        $this->putJson($this->base()."/posts/{$post->getKey()}", [
             'status' => PostStatus::Draft->value,
             'translations' => [
                 ['locale' => 'en', 'title' => 'Updated title', 'slug' => 'updated-title'],
@@ -204,7 +264,7 @@ class AdminPostControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $post = Post::factory()->create();
 
-        $this->deleteJson("/api/v1/admin/blog/posts/{$post->getKey()}")
+        $this->deleteJson($this->base()."/posts/{$post->getKey()}")
             ->assertOk();
 
         $this->assertDatabaseMissing('posts', ['id' => $post->getKey()]);
@@ -215,7 +275,7 @@ class AdminPostControllerTest extends TestCase
     {
         Passport::actingAs($this->editor());
 
-        $this->postJson('/api/v1/admin/blog/posts', $this->payload())
+        $this->postJson($this->base().'/posts', $this->payload())
             ->assertCreated();
     }
 }

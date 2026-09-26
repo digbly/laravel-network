@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Blog;
 
+use App\Enums\WebsiteStatus;
+use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Modules\Auth\Models\User;
@@ -14,11 +16,27 @@ class AdminCommentControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected Website $website;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->artisan('permission:generate');
+
+        $this->website = Website::create([
+            'title' => 'Test Site',
+            'subdomain' => 'test-site',
+            'status' => WebsiteStatus::ACTIVE,
+            'user_id' => User::factory()->create()->id,
+        ]);
+
+        config(['app.website_id' => $this->website->id]);
+    }
+
+    protected function base(): string
+    {
+        return "/api/v1/admin/websites/{$this->website->id}/blog";
     }
 
     protected function admin(): User
@@ -30,14 +48,14 @@ class AdminCommentControllerTest extends TestCase
     {
         $this->app['auth']->forgetGuards();
 
-        $this->getJson('/api/v1/admin/blog/comments')->assertUnauthorized();
+        $this->getJson($this->base().'/comments')->assertUnauthorized();
     }
 
     public function test_index_forbids_user_without_permission(): void
     {
         Passport::actingAs(User::factory()->create());
 
-        $this->getJson('/api/v1/admin/blog/comments')->assertForbidden();
+        $this->getJson($this->base().'/comments')->assertForbidden();
     }
 
     public function test_index_filters_by_status(): void
@@ -48,11 +66,11 @@ class AdminCommentControllerTest extends TestCase
         Comment::factory()->count(2)->create(['post_id' => $post->getKey()]);
         Comment::factory()->pending()->create(['post_id' => $post->getKey()]);
 
-        $this->getJson('/api/v1/admin/blog/comments?status=pending')
+        $this->getJson($this->base().'/comments?status=pending')
             ->assertOk()
             ->assertJsonCount(1, 'data');
 
-        $this->getJson('/api/v1/admin/blog/comments')
+        $this->getJson($this->base().'/comments')
             ->assertOk()
             ->assertJsonCount(3, 'data');
     }
@@ -62,7 +80,7 @@ class AdminCommentControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $comment = Comment::factory()->pending()->create();
 
-        $this->putJson("/api/v1/admin/blog/comments/{$comment->getKey()}", [
+        $this->putJson($this->base()."/comments/{$comment->getKey()}", [
             'status' => CommentStatus::Approved->value,
         ])->assertOk()
             ->assertJsonPath('data.status', 'approved');
@@ -78,7 +96,7 @@ class AdminCommentControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $comment = Comment::factory()->pending()->create();
 
-        $this->putJson("/api/v1/admin/blog/comments/{$comment->getKey()}", [
+        $this->putJson($this->base()."/comments/{$comment->getKey()}", [
             'status' => 'unknown',
         ])->assertJsonValidationErrors('status');
     }
@@ -88,7 +106,7 @@ class AdminCommentControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $comment = Comment::factory()->create();
 
-        $this->deleteJson("/api/v1/admin/blog/comments/{$comment->getKey()}")
+        $this->deleteJson($this->base()."/comments/{$comment->getKey()}")
             ->assertOk();
 
         $this->assertDatabaseMissing('comments', ['id' => $comment->getKey()]);
