@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Contracts\Menu as MenuContract;
 use App\Contracts\MenuBox as MenuBoxContract;
 use App\Contracts\NavMenu as NavMenuContract;
+use App\Contracts\Network as NetworkContract;
 use App\Contracts\Setting as SettingContract;
 use App\Modules\FileRepository;
 use App\Support\MenuBoxRepository;
 use App\Support\MenuRepository;
 use App\Support\NavMenuRepository;
+use App\Support\NetworkRepository;
 use App\Support\SettingRepository;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -29,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton(NetworkContract::class, function ($app) {
+            return new NetworkRepository($app, $app['request']);
+        });
+
         config([
             'permission.cache.key' => config('permission.cache.key').'.'.(website_id() ?? 'global'),
         ]);
@@ -51,6 +57,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->app->make(NetworkContract::class)->init();
+
         Passport::tokensCan([
             'profile' => 'Read the authenticated user profile',
         ]);
