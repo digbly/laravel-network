@@ -1,14 +1,14 @@
 <?php
 
-namespace Modules\Auth\Http\Resources;
+namespace Modules\Admin\Http\Resources;
 
-use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
 /**
- * @property-read Role $resource
+ * @property-read Permission $resource
  */
 #[OA\Schema(
     schema: __CLASS__,
@@ -22,11 +22,16 @@ use OpenApi\Attributes as OA;
         new OA\Property(
             property: 'name',
             type: 'string',
-            example: 'editor'
+            example: 'users.manage'
+        ),
+        new OA\Property(
+            property: 'guard_name',
+            type: 'string',
+            example: 'api'
         ),
     ]
 )]
-class RoleResource extends JsonResource
+class PermissionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -38,6 +43,7 @@ class RoleResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,
+            'guard_name' => $this->resource->guard_name,
         ];
     }
 }

@@ -16,18 +16,21 @@ class WebsiteApiTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected User $actor;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->artisan('permission:generate');
 
-        Passport::actingAs($this->adminUser());
+        $this->actor = $this->adminUser();
+        Passport::actingAs($this->actor);
     }
 
     protected function adminUser(): User
     {
-        $role = Role::findOrCreate('admin', 'api');
+        $role = Role::findOrCreate('website-admin', 'api');
         $role->syncPermissions(WebsitePermission::values());
 
         $user = User::factory()->create();
@@ -53,28 +56,40 @@ class WebsiteApiTest extends TestCase
         $this->getJson('/api/v1/admin/websites')->assertUnauthorized();
     }
 
-    public function test_index_forbids_user_without_permission(): void
+    public function test_index_returns_empty_for_non_member(): void
     {
+        $this->makeWebsite();
+
         Passport::actingAs(User::factory()->create());
-
-        $this->getJson('/api/v1/admin/websites')->assertForbidden();
-    }
-
-    public function test_index_lists_websites(): void
-    {
-        $website = $this->makeWebsite(['title' => 'Alpha Site']);
 
         $this->getJson('/api/v1/admin/websites')
             ->assertOk()
-            ->assertJsonPath('data.0.id', $website->id)
+            ->assertJsonCount(0, 'data');
+    }
+
+    public function test_index_lists_only_websites_the_user_is_a_member_of(): void
+    {
+        $member = $this->makeWebsite(['title' => 'Alpha Site']);
+        $other = $this->makeWebsite(['title' => 'Other Site']);
+
+        $this->actor->websites()->attach($member);
+
+        $response = $this->getJson('/api/v1/admin/websites')->assertOk();
+
+        $response->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.id', $member->id)
             ->assertJsonPath('data.0.title', 'Alpha Site')
             ->assertJsonStructure(['data' => [['id', 'title', 'subdomain', 'status', 'status_label', 'url']]]);
+
+        $this->assertNotContains($other->id, array_column($response->json('data'), 'id'));
     }
 
     public function test_index_filters_by_search_and_status(): void
     {
-        $this->makeWebsite(['title' => 'Alpha', 'status' => WebsiteStatus::ACTIVE]);
-        $this->makeWebsite(['title' => 'Beta', 'status' => WebsiteStatus::SUSPENDED]);
+        $alpha = $this->makeWebsite(['title' => 'Alpha', 'status' => WebsiteStatus::ACTIVE]);
+        $beta = $this->makeWebsite(['title' => 'Beta', 'status' => WebsiteStatus::SUSPENDED]);
+
+        $this->actor->websites()->attach([$alpha->id, $beta->id]);
 
         $this->getJson('/api/v1/admin/websites?q=Alpha')
             ->assertOk()
@@ -105,6 +120,10 @@ class WebsiteApiTest extends TestCase
             ->assertJsonPath('data.owner.id', $owner->id);
 
         $this->assertDatabaseHas('websites', ['subdomain' => 'new-site', 'domain' => 'new-site.com']);
+        $this->assertDatabaseHas('website_user', [
+            'website_id' => $response->json('data.id'),
+            'user_id' => $owner->id,
+        ]);
     }
 
     public function test_store_validates_input(): void
@@ -164,6 +183,10 @@ class WebsiteApiTest extends TestCase
             'id' => $website->id,
             'title' => 'Updated',
             'status' => 'suspended',
+        ]);
+        $this->assertDatabaseHas('website_user', [
+            'website_id' => $website->id,
+            'user_id' => $website->user_id,
         ]);
     }
 

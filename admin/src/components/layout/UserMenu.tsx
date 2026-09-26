@@ -1,9 +1,11 @@
 import { type FC, useEffect, useRef, useState } from 'react';
-import { ChevronDown, Loader2, LogOut, ShieldCheck } from 'lucide-react';
+import { ChevronDown, Loader2, LogOut, RefreshCw, ShieldCheck } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../store/hooks';
 import { useLogoutMutation } from '../../store/services/authApi';
 import { getRoleVariant } from '../../utils/role';
+import { getWebsiteId } from '../../utils/website';
 
 const getInitials = (value: string): string => {
   const parts = value.trim().split(/\s+/).filter(Boolean);
@@ -14,6 +16,7 @@ const getInitials = (value: string): string => {
 
 export const UserMenu: FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const user = useAppSelector((state) => state.auth.user);
   const [logout, { isLoading }] = useLogoutMutation();
   const [open, setOpen] = useState(false);
@@ -46,6 +49,11 @@ export const UserMenu: FC = () => {
   const handleLogout = () => {
     setOpen(false);
     void logout();
+  };
+
+  const handleSwitchWebsite = () => {
+    setOpen(false);
+    navigate('/websites');
   };
 
   return (
@@ -113,6 +121,18 @@ export const UserMenu: FC = () => {
           </div>
 
           <div className="h-px bg-slate-200/70 dark:bg-white/[0.07] my-1" />
+
+          {getWebsiteId() && (
+            <button
+              type="button"
+              onClick={handleSwitchWebsite}
+              role="menuitem"
+              className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-colors cursor-pointer"
+            >
+              <RefreshCw className="w-4 h-4" />
+              <span>{t('admin.userMenu.switchWebsite')}</span>
+            </button>
+          )}
 
           <button
             type="button"

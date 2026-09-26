@@ -1,0 +1,49 @@
+{
+  "admin": {
+    "network": {
+      "title": "Chọn website",
+      "subtitle": "Chọn một website để quản lý bảng điều khiển, người dùng và cài đặt.",
+      "loading": "Đang tải danh sách website...",
+      "open": "Quản lý",
+      "create": "Tạo website",
+      "usersCount": "{{total}} thành viên",
+      "status": {
+        "active": "Đang hoạt động",
+        "inactive": "Tạm ngưng",
+        "suspended": "Bị treo"
+      },
+      "form": {
+        "createTitle": "Tạo website",
+        "createSubtitle": "Thiết lập website mới và bắt đầu quản lý ngay.",
+        "title": "Tiêu đề",
+        "titlePlaceholder": "Website của tôi",
+        "subdomain": "Tên miền phụ",
+        "subdomainPlaceholder": "my-site",
+        "subdomainHint": "Chỉ gồm chữ, số, gạch ngang và gạch dưới.",
+        "description": "Mô tả",
+        "descriptionPlaceholder": "Mô tả ngắn (không bắt buộc)",
+        "status": "Trạng thái",
+        "cancel": "Hủy",
+        "create": "Tạo",
+        "errors": {
+          "titleRequired": "Vui lòng nhập tiêu đề.",
+          "subdomainRequired": "Vui lòng nhập tên miền phụ.",
+          "subdomainMax": "Tên miền phụ tối đa {{max}} ký tự.",
+          "subdomainInvalid": "Tên miền phụ chỉ gồm chữ, số, gạch ngang và gạch dưới."
+        }
+      },
+      "notices": {
+        "created": "Tạo website thành công."
+      },
+      "errors": {
+        "loadFailed": "Không tải được danh sách website. Vui lòng thử lại.",
+        "retry": "Thử lại",
+        "createFailed": "Không tạo được website. Vui lòng thử lại."
+      },
+      "empty": {
+        "title": "Chưa có website",
+        "message": "Bạn chưa là thành viên của website nào. Hãy tạo website đầu tiên để bắt đầu."
+      }
+    }
+  }
+}

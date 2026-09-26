@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Enums\WebsiteStatus;
 use App\Models\Role;
+use App\Models\Website;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -15,11 +17,25 @@ class AdminUserControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected Website $website;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->artisan('permission:generate');
+
+        $this->website = Website::create([
+            'title' => 'Test Site',
+            'subdomain' => 'test-site',
+            'status' => WebsiteStatus::ACTIVE,
+            'user_id' => User::factory()->create()->id,
+        ]);
+    }
+
+    protected function base(): string
+    {
+        return "/api/v1/admin/websites/{$this->website->id}";
     }
 
     protected function admin(): User
@@ -47,14 +63,14 @@ class AdminUserControllerTest extends TestCase
     {
         $this->app['auth']->forgetGuards();
 
-        $this->getJson('/api/v1/admin/users')->assertUnauthorized();
+        $this->getJson($this->base().'/users')->assertUnauthorized();
     }
 
     public function test_index_forbids_non_admin(): void
     {
         Passport::actingAs(User::factory()->create());
 
-        $this->getJson('/api/v1/admin/users')->assertForbidden();
+        $this->getJson($this->base().'/users')->assertForbidden();
     }
 
     public function test_index_returns_paginated_users(): void
@@ -62,7 +78,7 @@ class AdminUserControllerTest extends TestCase
         Passport::actingAs($this->admin());
         User::factory()->count(3)->create();
 
-        $this->getJson('/api/v1/admin/users')
+        $this->getJson($this->base().'/users')
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -79,7 +95,7 @@ class AdminUserControllerTest extends TestCase
         User::factory()->create(['name' => 'Alice Wonderland']);
         User::factory()->create(['name' => 'Bob Builder']);
 
-        $this->getJson('/api/v1/admin/users?search=Alice')
+        $this->getJson($this->base().'/users?search=Alice')
             ->assertOk()
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.name', 'Alice Wonderland');
@@ -95,7 +111,7 @@ class AdminUserControllerTest extends TestCase
         User::factory()->count(2)->create()->each(fn (User $user) => $user->assignRole($editor));
         User::factory()->count(3)->create()->each(fn (User $user) => $user->assignRole($manager));
 
-        $this->getJson('/api/v1/admin/users?role=editor')
+        $this->getJson($this->base().'/users?role=editor')
             ->assertOk()
             ->assertJsonCount(2, 'data');
     }
@@ -108,15 +124,15 @@ class AdminUserControllerTest extends TestCase
         $trashed = User::factory()->create();
         $trashed->delete();
 
-        $this->getJson('/api/v1/admin/users?trashed=only')
+        $this->getJson($this->base().'/users?trashed=only')
             ->assertOk()
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.id', $trashed->getKey())
             ->assertJsonPath('data.0.deleted_at', fn ($value) => $value !== null);
 
-        $this->getJson('/api/v1/admin/users')
+        $this->getJson($this->base().'/users')
             ->assertOk()
-            ->assertJsonCount(2, 'data');
+            ->assertJsonCount(User::query()->count(), 'data');
     }
 
     public function test_store_creates_user_with_roles(): void
@@ -124,7 +140,7 @@ class AdminUserControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $this->makeRole('editor');
 
-        $response = $this->postJson('/api/v1/admin/users', [
+        $response = $this->postJson($this->base().'/users', [
             'name' => 'New Admin',
             'email' => 'new_admin@example.com',
             'password' => 'Password123!',
@@ -146,7 +162,7 @@ class AdminUserControllerTest extends TestCase
     {
         Passport::actingAs($this->admin());
 
-        $this->postJson('/api/v1/admin/users', [
+        $this->postJson($this->base().'/users', [
             'name' => 'Root',
             'email' => 'root@example.com',
             'password' => 'Password123!',
@@ -160,7 +176,7 @@ class AdminUserControllerTest extends TestCase
         Passport::actingAs($this->admin());
         User::factory()->create(['email' => 'taken@example.com']);
 
-        $this->postJson('/api/v1/admin/users', [
+        $this->postJson($this->base().'/users', [
             'name' => 'Duplicate',
             'email' => 'taken@example.com',
             'password' => 'Password123!',
@@ -172,7 +188,7 @@ class AdminUserControllerTest extends TestCase
     {
         Passport::actingAs($this->admin());
 
-        $this->postJson('/api/v1/admin/users', [
+        $this->postJson($this->base().'/users', [
             'name' => 'Ghost',
             'email' => 'ghost@example.com',
             'password' => 'Password123!',
@@ -185,7 +201,7 @@ class AdminUserControllerTest extends TestCase
     {
         Passport::actingAs(User::factory()->create());
 
-        $this->postJson('/api/v1/admin/users', [
+        $this->postJson($this->base().'/users', [
             'name' => 'Nope',
             'email' => 'nope@example.com',
             'password' => 'Password123!',
@@ -197,7 +213,7 @@ class AdminUserControllerTest extends TestCase
     {
         Passport::actingAs($this->userManager());
 
-        $this->postJson('/api/v1/admin/users', [
+        $this->postJson($this->base().'/users', [
             'name' => 'Sneaky',
             'email' => 'sneaky@example.com',
             'password' => 'Password123!',
@@ -210,7 +226,7 @@ class AdminUserControllerTest extends TestCase
     {
         Passport::actingAs($this->userManager());
 
-        $this->postJson('/api/v1/admin/users', [
+        $this->postJson($this->base().'/users', [
             'name' => 'Regular',
             'email' => 'regular@example.com',
             'password' => 'Password123!',
@@ -224,7 +240,7 @@ class AdminUserControllerTest extends TestCase
         Passport::actingAs($this->userManager());
         $target = User::factory()->create();
 
-        $this->putJson("/api/v1/admin/users/{$target->getKey()}", [
+        $this->putJson("{$this->base()}/users/{$target->getKey()}", [
             'name' => $target->name,
             'email' => $target->email,
             'is_super_admin' => true,
@@ -238,17 +254,17 @@ class AdminUserControllerTest extends TestCase
         Passport::actingAs($this->userManager());
         $superAdmin = User::factory()->create(['is_super_admin' => true]);
 
-        $this->putJson("/api/v1/admin/users/{$superAdmin->getKey()}", [
+        $this->putJson("{$this->base()}/users/{$superAdmin->getKey()}", [
             'name' => 'Hijacked',
             'email' => 'hijacked@example.com',
         ])->assertJsonValidationErrors('user');
 
-        $this->putJson("/api/v1/admin/users/{$superAdmin->getKey()}/password", [
+        $this->putJson("{$this->base()}/users/{$superAdmin->getKey()}/password", [
             'password' => 'Hijack123!',
             'password_confirmation' => 'Hijack123!',
         ])->assertJsonValidationErrors('user');
 
-        $this->deleteJson("/api/v1/admin/users/{$superAdmin->getKey()}")
+        $this->deleteJson("{$this->base()}/users/{$superAdmin->getKey()}")
             ->assertJsonValidationErrors('user');
 
         $this->assertNotSoftDeleted('users', ['id' => $superAdmin->getKey()]);
@@ -259,7 +275,7 @@ class AdminUserControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $user = User::factory()->create();
 
-        $this->getJson("/api/v1/admin/users/{$user->getKey()}")
+        $this->getJson("{$this->base()}/users/{$user->getKey()}")
             ->assertOk()
             ->assertJsonPath('data.id', $user->getKey());
     }
@@ -270,7 +286,7 @@ class AdminUserControllerTest extends TestCase
         $this->makeRole('editor');
         $user = User::factory()->create();
 
-        $this->putJson("/api/v1/admin/users/{$user->getKey()}", [
+        $this->putJson("{$this->base()}/users/{$user->getKey()}", [
             'name' => 'Updated Name',
             'email' => 'updated@example.com',
             'roles' => ['editor'],
@@ -290,7 +306,7 @@ class AdminUserControllerTest extends TestCase
         $admin = $this->admin();
         Passport::actingAs($admin);
 
-        $this->putJson("/api/v1/admin/users/{$admin->getKey()}", [
+        $this->putJson("{$this->base()}/users/{$admin->getKey()}", [
             'name' => $admin->name,
             'email' => $admin->email,
             'is_super_admin' => false,
@@ -304,7 +320,7 @@ class AdminUserControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $user = User::factory()->create();
 
-        $this->deleteJson("/api/v1/admin/users/{$user->getKey()}")
+        $this->deleteJson("{$this->base()}/users/{$user->getKey()}")
             ->assertOk();
 
         $this->assertSoftDeleted('users', ['id' => $user->getKey()]);
@@ -315,7 +331,7 @@ class AdminUserControllerTest extends TestCase
         $admin = $this->admin();
         Passport::actingAs($admin);
 
-        $this->deleteJson("/api/v1/admin/users/{$admin->getKey()}")
+        $this->deleteJson("{$this->base()}/users/{$admin->getKey()}")
             ->assertJsonValidationErrors('user');
 
         $this->assertNotSoftDeleted('users', ['id' => $admin->getKey()]);
@@ -327,7 +343,7 @@ class AdminUserControllerTest extends TestCase
         $user = User::factory()->create();
         $user->delete();
 
-        $this->postJson("/api/v1/admin/users/{$user->getKey()}/restore")
+        $this->postJson("{$this->base()}/users/{$user->getKey()}/restore")
             ->assertOk()
             ->assertJsonPath('data.deleted_at', null);
 
@@ -339,7 +355,7 @@ class AdminUserControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $user = User::factory()->create();
 
-        $this->putJson("/api/v1/admin/users/{$user->getKey()}/password", [
+        $this->putJson("{$this->base()}/users/{$user->getKey()}/password", [
             'password' => 'BrandNew123!',
             'password_confirmation' => 'BrandNew123!',
         ])->assertOk();
@@ -354,7 +370,7 @@ class AdminUserControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $user = User::factory()->unverified()->create();
 
-        $this->postJson("/api/v1/admin/users/{$user->getKey()}/resend-verification")
+        $this->postJson("{$this->base()}/users/{$user->getKey()}/resend-verification")
             ->assertOk();
 
         Notification::assertSentTo($user, VerifyEmail::class);
@@ -367,7 +383,7 @@ class AdminUserControllerTest extends TestCase
         Passport::actingAs($this->admin());
         $user = User::factory()->create();
 
-        $this->postJson("/api/v1/admin/users/{$user->getKey()}/resend-verification")
+        $this->postJson("{$this->base()}/users/{$user->getKey()}/resend-verification")
             ->assertJsonValidationErrors('email');
 
         Notification::assertNothingSent();
@@ -379,7 +395,7 @@ class AdminUserControllerTest extends TestCase
         $this->makeRole('editor');
         $this->makeRole('manager');
 
-        $this->getJson('/api/v1/admin/roles')
+        $this->getJson($this->base().'/roles')
             ->assertOk()
             ->assertJsonFragment(['name' => 'editor'])
             ->assertJsonFragment(['name' => 'manager']);

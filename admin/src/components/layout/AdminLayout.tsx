@@ -1,15 +1,17 @@
 import { type FC, Suspense, useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import { AdminSidebar } from './AdminSidebar';
 import { AdminTopbar } from './AdminTopbar';
 import { RequirePermission } from '../auth/RequirePermission';
 import { PageLoader } from '../ui/PageLoader';
 import { useAppDispatch } from '../../store/hooks';
 import { setUser } from '../../store/slices/authSlice';
+import { setLastWebsiteId } from '../../utils/website';
 import { useGetProfileQuery } from '../../store/services/userApi';
 
 export const AdminLayout: FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { websiteId } = useParams<{ websiteId: string }>();
   const dispatch = useAppDispatch();
   const { data: profile } = useGetProfileQuery();
   const profileUser = profile?.data;
@@ -17,6 +19,10 @@ export const AdminLayout: FC = () => {
   useEffect(() => {
     if (profileUser) dispatch(setUser(profileUser));
   }, [profileUser, dispatch]);
+
+  useEffect(() => {
+    if (websiteId) setLastWebsiteId(websiteId);
+  }, [websiteId]);
 
   useEffect(() => {
     const desktopQuery = window.matchMedia('(min-width: 1024px)');

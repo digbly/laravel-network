@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Laravel\Passport\AccessToken;
 use Laravel\Passport\RefreshToken;
+use Modules\Admin\Http\Resources\MessageResource;
+use Modules\Admin\Http\Resources\UserResource;
 use Modules\Auth\Http\Requests\ChangePasswordRequest;
 use Modules\Auth\Http\Requests\ForgotPasswordRequest;
 use Modules\Auth\Http\Requests\RegisterRequest;
 use Modules\Auth\Http\Requests\ResendVerificationEmailRequest;
 use Modules\Auth\Http\Requests\ResetPasswordRequest;
-use Modules\Auth\Http\Resources\MessageResource;
-use Modules\Auth\Http\Resources\UserResource;
 use Modules\Auth\Models\User;
 use OpenApi\Attributes as OA;
 

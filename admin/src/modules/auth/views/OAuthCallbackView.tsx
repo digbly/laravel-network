@@ -46,7 +46,7 @@ export const OAuthCallbackView = () => {
         const user = await fetchProfile(token.access_token);
 
         dispatch(setCredentials({ user, token }));
-        navigate('/dashboard', { replace: true });
+        navigate('/', { replace: true });
       } catch (e) {
         setError(getErrorMessage(e, t('auth.oauth.failed')));
       }

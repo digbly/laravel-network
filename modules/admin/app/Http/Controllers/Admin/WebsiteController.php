@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\WebsiteRequest;
-use App\Http\Resources\WebsiteResource;
 use App\Models\Database;
 use App\Models\Website;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,26 +10,26 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
+use Modules\Admin\Http\Requests\Admin\WebsiteRequest;
+use Modules\Admin\Http\Resources\WebsiteResource;
 use OpenApi\Attributes as OA;
 
 class WebsiteController extends Controller
 {
     #[OA\Get(
         path: '/api/v1/admin/websites',
-        summary: 'List Websites',
+        summary: 'List Websites of the authenticated user',
         operationId: 'websites.index',
         tags: ['Websites'],
         security: [['bearerAuth' => []]],
         parameters: [
             new OA\Parameter(name: 'q', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'status', in: 'query', required: false, schema: new OA\Schema(type: 'string', enum: ['active', 'inactive', 'suspended'])),
-            new OA\Parameter(name: 'per_page', in: 'query', required: false, schema: new OA\Schema(type: 'integer', default: 15)),
-            new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer', default: 1)),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Websites list',
+                description: 'Websites the authenticated user is a member of',
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
@@ -46,7 +44,8 @@ class WebsiteController extends Controller
     )]
     public function index(Request $request): AnonymousResourceCollection
     {
-        $websites = Website::query()
+        $websites = $request->user('api')
+            ->websites()
             ->with('owner')
             ->withCount('users')
             ->when($request->filled('q'), function (Builder $query) use ($request) {
@@ -62,8 +61,8 @@ class WebsiteController extends Controller
                 $request->filled('status'),
                 fn (Builder $query) => $query->where('status', $request->string('status'))
             )
-            ->latest()
-            ->paginate($request->integer('per_page', 15));
+            ->orderByDesc('websites.created_at')
+            ->get();
 
         return WebsiteResource::collection($websites);
     }
@@ -130,6 +129,8 @@ class WebsiteController extends Controller
         $website = DB::transaction(function () use ($request) {
             $website = Website::create($request->validated());
 
+            $website->users()->syncWithoutDetaching([$website->user_id]);
+
             if ($website->database) {
                 Database::query()->where('name', $website->database)->increment('total_websites');
             }
@@ -178,6 +179,8 @@ class WebsiteController extends Controller
 
         DB::transaction(function () use ($request, $website, $oldDatabase) {
             $website->update($request->validated());
+
+            $website->users()->syncWithoutDetaching([$website->user_id]);
 
             if ($oldDatabase !== $website->database) {
                 if ($oldDatabase) {

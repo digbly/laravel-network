@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { AuthUser, TokenData } from '../../types/auth';
+import { clearLastWebsiteId } from '../../utils/website';
 
 interface AuthState {
   user: AuthUser | null;
@@ -93,6 +94,8 @@ export const authSlice = createSlice({
       } catch (e) {
         console.error('Failed to clear auth storage', e);
       }
+
+      clearLastWebsiteId();
     },
   },
 });

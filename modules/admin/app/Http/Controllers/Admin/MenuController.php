@@ -1,27 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Facades\MenuBox;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MenuRequest;
-use App\Http\Resources\MenuResource;
 use App\Models\Menus\Menu;
+use App\Models\Website;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Modules\Admin\Http\Requests\Admin\MenuRequest;
+use Modules\Admin\Http\Resources\MenuResource;
 use OpenApi\Attributes as OA;
 
 class MenuController extends Controller
 {
     #[OA\Get(
-        path: '/api/v1/menus',
+        path: '/api/v1/admin/websites/{website}/menus',
         summary: 'List Menus',
         operationId: 'menus.index',
         tags: ['Menus'],
         security: [['bearerAuth' => []]],
+        parameters: [
+            new OA\Parameter(name: 'website', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -38,7 +42,7 @@ class MenuController extends Controller
             ),
         ]
     )]
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(Website $website, Request $request): AnonymousResourceCollection
     {
         $menus = Menu::withDataItems()
             ->paginate($request->integer('per_page', 15));
@@ -47,12 +51,13 @@ class MenuController extends Controller
     }
 
     #[OA\Get(
-        path: '/api/v1/menus/{id}',
+        path: '/api/v1/admin/websites/{website}/menus/{id}',
         summary: 'Show Menu',
         operationId: 'menus.show',
         tags: ['Menus'],
         security: [['bearerAuth' => []]],
         parameters: [
+            new OA\Parameter(name: 'website', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
         ],
         responses: [
@@ -68,7 +73,7 @@ class MenuController extends Controller
             new OA\Response(response: 404, description: 'Menu not found'),
         ]
     )]
-    public function show(Menu $menu): MenuResource
+    public function show(Website $website, Menu $menu): MenuResource
     {
         return MenuResource::make(
             Menu::withDataItems()->findOrFail($menu->getKey())
@@ -76,11 +81,14 @@ class MenuController extends Controller
     }
 
     #[OA\Post(
-        path: '/api/v1/menus',
+        path: '/api/v1/admin/websites/{website}/menus',
         summary: 'Create Menu',
         operationId: 'menus.store',
         tags: ['Menus'],
         security: [['bearerAuth' => []]],
+        parameters: [
+            new OA\Parameter(name: 'website', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
+        ],
         requestBody: new OA\RequestBody(
             required: true,
             content: [
@@ -103,7 +111,7 @@ class MenuController extends Controller
             new OA\Response(response: 422, description: 'Validation error'),
         ]
     )]
-    public function store(MenuRequest $request): MenuResource
+    public function store(Website $website, MenuRequest $request): MenuResource
     {
         $menu = Menu::create([
             'name' => $request->validated('name'),
@@ -114,12 +122,13 @@ class MenuController extends Controller
     }
 
     #[OA\Put(
-        path: '/api/v1/menus/{id}',
+        path: '/api/v1/admin/websites/{website}/menus/{id}',
         summary: 'Update Menu',
         operationId: 'menus.update',
         tags: ['Menus'],
         security: [['bearerAuth' => []]],
         parameters: [
+            new OA\Parameter(name: 'website', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
         ],
         requestBody: new OA\RequestBody(
@@ -145,7 +154,7 @@ class MenuController extends Controller
             new OA\Response(response: 422, description: 'Validation error'),
         ]
     )]
-    public function update(MenuRequest $request, Menu $menu): MenuResource
+    public function update(Website $website, MenuRequest $request, Menu $menu): MenuResource
     {
         $items = json_decode($request->validated('content'), true, 512, JSON_THROW_ON_ERROR);
         $locale = $request->validated('locale') ?? app()->getLocale();
@@ -169,12 +178,13 @@ class MenuController extends Controller
     }
 
     #[OA\Delete(
-        path: '/api/v1/menus/{id}',
+        path: '/api/v1/admin/websites/{website}/menus/{id}',
         summary: 'Delete Menu',
         operationId: 'menus.destroy',
         tags: ['Menus'],
         security: [['bearerAuth' => []]],
         parameters: [
+            new OA\Parameter(name: 'website', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
         ],
         responses: [
@@ -182,7 +192,7 @@ class MenuController extends Controller
             new OA\Response(response: 404, description: 'Menu not found'),
         ]
     )]
-    public function destroy(Menu $menu): JsonResponse
+    public function destroy(Website $website, Menu $menu): JsonResponse
     {
         $menu->delete();
 

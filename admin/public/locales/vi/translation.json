@@ -169,6 +169,7 @@
     "userMenu": {
       "fallbackName": "Tài khoản",
       "noEmail": "Chưa có email",
+      "switchWebsite": "Đổi website",
       "logout": "Đăng xuất"
     },
     "role": {
