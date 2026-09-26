@@ -1,9 +1,10 @@
-import { type FormEvent, useState } from 'react';
+import { type FormEvent, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { RichTextEditor } from '../../../components/ui/RichTextEditor';
 import { ErrorAlert } from '../../../components/ui/ErrorAlert';
+import { MediaPickerModal } from '../../media/components/MediaPickerModal';
 import type { AdminCategory, AdminPost, PostPayload, PostStatus, PostTranslation } from '../../../types/blog';
 
 const LOCALES = ['en', 'vi'] as const;
@@ -75,6 +76,8 @@ export const PostForm = ({
   );
   const [activeLocale, setActiveLocale] = useState<string>(LOCALES[0]);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [isMediaPickerOpen, setIsMediaPickerOpen] = useState(false);
+  const insertImageRef = useRef<((url: string, alt?: string) => void) | null>(null);
 
   const updateTranslation = (locale: string, field: keyof TranslationDraft, value: string) => {
     setTranslations((current) => ({
@@ -194,6 +197,11 @@ export const PostForm = ({
           key={activeLocale}
           value={active.content}
           placeholder={t('admin.blog.posts.form.contentPlaceholder')}
+          mediaLabel={t('admin.media.insertImage')}
+          onRequestMedia={(insert) => {
+            insertImageRef.current = insert;
+            setIsMediaPickerOpen(true);
+          }}
           onChange={(content) => updateTranslation(activeLocale, 'content', content)}
         />
       </div>
@@ -229,6 +237,15 @@ export const PostForm = ({
           </div>
         )}
       </div>
+
+      <MediaPickerModal
+        isOpen={isMediaPickerOpen}
+        onClose={() => setIsMediaPickerOpen(false)}
+        onSelect={(media) => {
+          insertImageRef.current?.(media.medium_url ?? media.url ?? '', media.alt ?? media.title ?? '');
+          setIsMediaPickerOpen(false);
+        }}
+      />
 
       <div className="flex justify-end gap-3 pt-2">
         <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>

@@ -1,14 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
+import { ImagePlus } from 'lucide-react';
 
 const CKEDITOR_SCRIPT_ID = 'ckeditor-cdn-script';
 const CKEDITOR_VERSION = '41.3.1';
 const CKEDITOR_SCRIPT_SRC = `https://cdn.ckeditor.com/ckeditor5/${CKEDITOR_VERSION}/classic/ckeditor.js`;
 
+interface ModelWriter {
+  createElement: (name: string, attributes?: Record<string, unknown>) => unknown;
+}
+
 interface ClassicEditorInstance {
   getData: () => string;
   setData: (data: string) => void;
   destroy: () => Promise<void>;
-  model: { document: { on: (event: string, callback: () => void) => void } };
+  model: {
+    document: { on: (event: string, callback: () => void) => void };
+    change: (callback: (writer: ModelWriter) => void) => void;
+    insertContent: (content: unknown) => void;
+  };
 }
 
 interface ClassicEditorStatic {
@@ -24,6 +33,9 @@ interface RichTextEditorProps {
   placeholder?: string;
   minHeight?: number;
   maxHeight?: number;
+  /** When provided, renders a toolbar button that opens a media picker. */
+  onRequestMedia?: (insert: (url: string, alt?: string) => void) => void;
+  mediaLabel?: string;
 }
 
 export const RichTextEditor = ({
@@ -32,6 +44,8 @@ export const RichTextEditor = ({
   placeholder = '',
   minHeight = 280,
   maxHeight = 600,
+  onRequestMedia,
+  mediaLabel,
 }: RichTextEditorProps) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const instanceRef = useRef<ClassicEditorInstance | null>(null);
@@ -154,6 +168,17 @@ export const RichTextEditor = ({
     }
   }, [value]);
 
+  const insertImage = (url: string, alt?: string): void => {
+    const editor = instanceRef.current;
+
+    if (!editor) return;
+
+    editor.model.change((writer) => {
+      const image = writer.createElement('image', { src: url, alt: alt ?? '' });
+      editor.model.insertContent(image);
+    });
+  };
+
   return (
     <div className="ckeditor-wrapper rounded-xl overflow-hidden border border-slate-200 dark:border-white/[0.08] bg-white">
       <style
@@ -171,6 +196,18 @@ export const RichTextEditor = ({
           `,
         }}
       />
+      {onRequestMedia && (
+        <div className="flex items-center gap-2 px-3 py-2 border-b border-slate-200 dark:border-white/[0.08] bg-slate-50/60 dark:bg-white/[0.02]">
+          <button
+            type="button"
+            onClick={() => onRequestMedia(insertImage)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-colors cursor-pointer"
+          >
+            <ImagePlus className="w-4 h-4" />
+            {mediaLabel}
+          </button>
+        </div>
+      )}
       <div ref={editorRef} />
     </div>
   );

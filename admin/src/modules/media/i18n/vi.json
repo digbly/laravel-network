@@ -1,0 +1,87 @@
+{
+  "admin": {
+    "nav": {
+      "media": "Thư viện"
+    },
+    "media": {
+      "title": "Thư viện Media",
+      "subtitle": "Tải lên, quản lý và tái sử dụng hình ảnh, tài liệu.",
+      "add": "Thêm media",
+      "insertImage": "Chèn ảnh",
+      "loading": "Đang tải media...",
+      "empty": "Không có media nào khớp bộ lọc.",
+      "dropzone": {
+        "title": "Kéo thả tệp vào đây hoặc bấm để tải lên",
+        "hint": "Hình ảnh, PDF và tài liệu tối đa 10MB mỗi tệp.",
+        "uploading": "Đang tải {{count}} tệp..."
+      },
+      "filters": {
+        "all": "Tất cả",
+        "image": "Hình ảnh",
+        "document": "Tài liệu",
+        "searchPlaceholder": "Tìm media",
+        "allMonths": "Tất cả ngày"
+      },
+      "item": {
+        "copyUrl": "Sao chép URL",
+        "delete": "Xoá",
+        "open": "Xem chi tiết"
+      },
+      "details": {
+        "title": "Chi tiết media",
+        "previewUnavailable": "Không có bản xem trước.",
+        "openInNewTab": "Mở tab mới",
+        "fields": {
+          "title": "Tiêu đề",
+          "alt": "Văn bản thay thế",
+          "caption": "Chú thích",
+          "description": "Mô tả"
+        },
+        "meta": {
+          "file": "Tệp",
+          "type": "Định dạng",
+          "size": "Dung lượng",
+          "dimensions": "Kích thước",
+          "uploaded": "Ngày tải",
+          "url": "URL tệp"
+        },
+        "copyUrl": "Sao chép URL",
+        "copied": "Đã sao chép",
+        "save": "Lưu thay đổi",
+        "delete": "Xoá vĩnh viễn"
+      },
+      "picker": {
+        "title": "Chèn media",
+        "subtitle": "Chọn một hình ảnh để chèn vào nội dung.",
+        "use": "Chèn ảnh đã chọn",
+        "empty": "Chưa có hình ảnh nào."
+      },
+      "notices": {
+        "uploaded": "Tải media lên thành công.",
+        "updated": "Cập nhật media thành công.",
+        "deleted": "Xoá media thành công.",
+        "copied": "Đã sao chép URL."
+      },
+      "errors": {
+        "loadFailed": "Không tải được media.",
+        "uploadFailed": "Tải media lên thất bại.",
+        "saveFailed": "Lưu media thất bại.",
+        "deleteFailed": "Xoá media thất bại.",
+        "copyFailed": "Sao chép URL thất bại.",
+        "retry": "Thử lại"
+      },
+      "deleteDialog": {
+        "title": "Xoá media",
+        "description": "Bạn chắc chắn muốn xoá \"{{name}}\"? Thao tác này không thể hoàn tác.",
+        "confirm": "Xoá",
+        "cancel": "Huỷ"
+      },
+      "pagination": {
+        "summary": "Hiển thị {{from}}-{{to}} / {{total}} mục",
+        "previous": "Trước",
+        "next": "Sau",
+        "page": "Trang {{current}} / {{total}}"
+      }
+    }
+  }
+}
