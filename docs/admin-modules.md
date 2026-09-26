@@ -204,14 +204,23 @@ Frontend:
 
 Backend contract (`modules/auth`):
 
-- `Modules\Auth\Enums\Permission` lists the permission strings.
-- `User::permissions()` maps the role to the granted list.
-- `UserResource` returns `permissions` in every user payload.
+- `Modules\Auth\Enums\Permission` lists the permission strings (capability
+  catalog). Run `php artisan permission:sync` to persist them as Spatie
+  permissions.
+- Spatie is the single source of truth for authorization: roles are dynamic
+  (admin-defined) and users get permissions through their roles.
+- `User::isSuperAdmin()` (column `users.is_super_admin`) bypasses every check
+  via a `Gate::before` hook.
+- `User::permissionNames()` returns the Spatie permission names, or `['*']` for
+  super admins.
+- `UserResource` returns `permissions`, `roles` and `is_super_admin` in every
+  user payload.
 
-If a module introduces a new permission, add it to `Permission`, include it in
-`User::permissions()`, and use the same string on `nav.permission` and
+If a module introduces a new permission, add it to `Permission`, run
+`permission:sync`, and use the same string on `nav.permission` and
 `handle.permission`. When the module adds admin-only API endpoints, enforce the
-permission server-side as well — the UI guard is not authorization.
+permission server-side as well (e.g. `permission:users.manage`) — the UI guard
+is not authorization.
 
 ## i18n
 
@@ -260,6 +269,6 @@ php artisan test tests/Unit/Auth tests/Feature/Auth
 - [ ] `modules/<name>/i18n/{en,vi}.json` hold `admin.nav.<name>` and `admin.<name>.*`
 - [ ] `modules/<name>/module.tsx` exports the `AdminModule`
 - [ ] `src/app/modules.ts` registers the module
-- [ ] New permission (if any) added to backend `Permission` + `User::permissions()`
+- [ ] New permission (if any) added to backend `Permission` + synced via `permission:sync`
 - [ ] `handle.permission` on the route and `permission` on the nav item match the backend string
 - [ ] `npm run lint` and `npm run build` pass

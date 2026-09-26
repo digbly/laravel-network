@@ -17,7 +17,7 @@ import { Button } from '../../../components/ui/Button';
 import { ErrorAlert } from '../../../components/ui/ErrorAlert';
 import { useAppSelector } from '../../../store/hooks';
 import { useGetProfileQuery } from '../../../store/services/userApi';
-import { getRoleMeta } from '../../../utils/role';
+import { getRoleVariant } from '../../../utils/role';
 
 interface StatItem {
   key: string;
@@ -39,7 +39,6 @@ export const DashboardView = () => {
 
   const user = data?.data ?? reduxUser;
   const isVerified = Boolean(user?.email_verified_at);
-  const roleMeta = getRoleMeta(user?.role);
 
   const formatDate = (value?: string | null): string =>
     value
@@ -132,13 +131,19 @@ export const DashboardView = () => {
                   <dt className="text-[11px] uppercase tracking-wider font-semibold text-slate-400 dark:text-slate-500">
                     {t('admin.dashboard.account.role')}
                   </dt>
-                  <dd className="mt-1">
-                    {user?.role ? (
-                      <Badge variant={roleMeta.variant} size="sm">
+                  <dd className="mt-1 flex flex-wrap items-center gap-1.5">
+                    {user?.is_super_admin && (
+                      <Badge variant="violet" size="sm">
                         <ShieldCheck className="w-3 h-3" />
-                        {t(roleMeta.labelKey)}
+                        {t('admin.users.status.superAdmin')}
                       </Badge>
-                    ) : (
+                    )}
+                    {(user?.roles ?? []).map((roleName) => (
+                      <Badge key={roleName} variant={getRoleVariant(roleName)} size="sm">
+                        {roleName}
+                      </Badge>
+                    ))}
+                    {!user?.is_super_admin && (user?.roles ?? []).length === 0 && (
                       <span className="text-sm text-slate-500 dark:text-slate-400">—</span>
                     )}
                   </dd>

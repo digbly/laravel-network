@@ -1,9 +1,16 @@
-export interface RoleMeta {
-  labelKey: string;
-  variant: 'violet' | 'slate';
-}
+export type RoleVariant = 'violet' | 'slate' | 'cyan';
 
-export const getRoleMeta = (role?: string): RoleMeta =>
-  role === 'admin'
-    ? { labelKey: 'admin.role.admin', variant: 'violet' }
-    : { labelKey: 'admin.role.user', variant: 'slate' };
+/**
+ * Roles are dynamic (admin-defined), so we infer a cosmetic badge variant
+ * from the role name instead of hardcoding a fixed set of roles.
+ */
+export const getRoleVariant = (role: string): RoleVariant => {
+  const normalized = role.toLowerCase();
+
+  if (normalized.includes('admin')) return 'violet';
+  if (normalized.includes('editor') || normalized.includes('manager') || normalized.includes('moderator')) {
+    return 'cyan';
+  }
+
+  return 'slate';
+};

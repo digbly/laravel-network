@@ -3,7 +3,7 @@ import { ChevronDown, Loader2, LogOut, ShieldCheck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../store/hooks';
 import { useLogoutMutation } from '../../store/services/authApi';
-import { getRoleMeta } from '../../utils/role';
+import { getRoleVariant } from '../../utils/role';
 
 const getInitials = (value: string): string => {
   const parts = value.trim().split(/\s+/).filter(Boolean);
@@ -41,7 +41,7 @@ export const UserMenu: FC = () => {
 
   const displayName = user?.name || user?.email || t('admin.userMenu.fallbackName');
   const initials = getInitials(user?.name || user?.email || '');
-  const roleMeta = getRoleMeta(user?.role);
+  const roles = user?.roles ?? [];
 
   const handleLogout = () => {
     setOpen(false);
@@ -88,17 +88,23 @@ export const UserMenu: FC = () => {
               <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
                 {displayName}
               </p>
-              {user?.role && (
-                <span
-                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium border ${
-                    roleMeta.variant === 'violet'
-                      ? 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20'
-                      : 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20'
-                  }`}
-                >
+              {user?.is_super_admin ? (
+                <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium border bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20">
                   <ShieldCheck className="w-3 h-3" />
-                  {t(roleMeta.labelKey)}
+                  {t('admin.users.status.superAdmin')}
                 </span>
+              ) : (
+                roles[0] && (
+                  <span
+                    className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium border ${
+                      getRoleVariant(roles[0]) === 'cyan'
+                        ? 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20'
+                        : 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20'
+                    }`}
+                  >
+                    {roles[0]}
+                  </span>
+                )
               )}
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">

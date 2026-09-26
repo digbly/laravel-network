@@ -18,7 +18,7 @@ class WebsitePermissionScopeTest extends TestCase
         config(['app.website_id' => null]);
     }
 
-    public function test_command_creates_global_permissions_and_role(): void
+    public function test_command_creates_global_permissions(): void
     {
         $this->artisan('permission:sync')->assertSuccessful();
 
@@ -28,8 +28,8 @@ class WebsitePermissionScopeTest extends TestCase
             'website_id' => null,
         ]);
 
-        $this->assertDatabaseHas('roles', [
-            'name' => 'admin',
+        $this->assertDatabaseHas('permissions', [
+            'name' => 'users.manage',
             'guard_name' => 'api',
             'website_id' => null,
         ]);

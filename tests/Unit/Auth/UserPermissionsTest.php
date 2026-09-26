@@ -2,32 +2,44 @@
 
 namespace Tests\Unit\Auth;
 
+use App\Models\Role;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Auth\Models\User;
 use Tests\TestCase;
 
 class UserPermissionsTest extends TestCase
 {
-    public function test_admin_receives_all_permissions(): void
-    {
-        $user = new User(['role' => User::ROLE_ADMIN]);
+    use RefreshDatabase;
 
-        $this->assertSame(
-            ['dashboard.view', 'users.manage', 'settings.manage'],
-            $user->permissions()
-        );
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->artisan('permission:sync');
     }
 
-    public function test_regular_user_receives_only_dashboard_permission(): void
+    public function test_super_admin_receives_wildcard_permission(): void
     {
-        $user = new User(['role' => User::ROLE_USER]);
+        $user = User::factory()->create(['is_super_admin' => true]);
 
-        $this->assertSame(['dashboard.view'], $user->permissions());
+        $this->assertSame(['*'], $user->permissionNames());
     }
 
-    public function test_user_without_role_falls_back_to_dashboard_permission(): void
+    public function test_user_without_roles_receives_no_permissions(): void
     {
-        $user = new User;
+        $user = User::factory()->create();
 
-        $this->assertSame(['dashboard.view'], $user->permissions());
+        $this->assertSame([], $user->permissionNames());
+    }
+
+    public function test_permissions_come_from_assigned_roles(): void
+    {
+        $role = Role::findOrCreate('editor', 'api');
+        $role->syncPermissions(['users.manage']);
+
+        $user = User::factory()->create();
+        $user->assignRole($role);
+
+        $this->assertSame(['users.manage'], $user->permissionNames());
     }
 }

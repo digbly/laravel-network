@@ -69,9 +69,9 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
-    public function test_profile_includes_role_permissions(): void
+    public function test_profile_includes_super_admin_permissions(): void
     {
-        $user = User::factory()->create(['role' => User::ROLE_ADMIN]);
+        $user = User::factory()->create(['is_super_admin' => true]);
 
         Passport::actingAs($user, ['*'], 'api');
 
@@ -79,7 +79,8 @@ class AuthControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJson([
                 'data' => [
-                    'permissions' => ['dashboard.view', 'users.manage', 'settings.manage'],
+                    'is_super_admin' => true,
+                    'permissions' => ['*'],
                 ],
             ]);
     }

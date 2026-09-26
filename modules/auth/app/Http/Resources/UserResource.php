@@ -32,10 +32,15 @@ use OpenApi\Attributes as OA;
             example: 'john@example.com'
         ),
         new OA\Property(
-            property: 'role',
-            type: 'string',
-            enum: ['user', 'admin'],
-            example: 'user'
+            property: 'roles',
+            type: 'array',
+            items: new OA\Items(type: 'string'),
+            example: ['admin']
+        ),
+        new OA\Property(
+            property: 'is_super_admin',
+            type: 'boolean',
+            example: false
         ),
         new OA\Property(
             property: 'permissions',
@@ -49,6 +54,13 @@ use OpenApi\Attributes as OA;
             format: 'date-time',
             nullable: true,
             example: '2026-08-16T09:00:00.000000Z'
+        ),
+        new OA\Property(
+            property: 'deleted_at',
+            type: 'string',
+            format: 'date-time',
+            nullable: true,
+            example: null
         ),
         new OA\Property(
             property: 'created_at',
@@ -77,9 +89,11 @@ class UserResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'email' => $this->resource->email,
-            'role' => $this->resource->role,
-            'permissions' => $this->resource->permissions(),
+            'roles' => $this->resource->getRoleNames()->values()->all(),
+            'is_super_admin' => $this->resource->isSuperAdmin(),
+            'permissions' => $this->resource->permissionNames(),
             'email_verified_at' => $this->resource->email_verified_at?->toISOString(),
+            'deleted_at' => $this->resource->deleted_at?->toISOString(),
             'created_at' => $this->resource->created_at?->toISOString(),
             'updated_at' => $this->resource->updated_at?->toISOString(),
         ];

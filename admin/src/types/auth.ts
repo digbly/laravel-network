@@ -3,7 +3,8 @@ export interface AuthUser {
   name: string;
   email: string;
   avatar?: string;
-  role?: string;
+  roles?: string[];
+  is_super_admin?: boolean;
   permissions?: string[];
   balance?: number;
   plan?: string;

@@ -2,6 +2,8 @@
 
 namespace Modules\Auth\Providers;
 
+use Illuminate\Support\Facades\Gate;
+use Modules\Auth\Models\User;
 use Nwidart\Modules\Support\ModuleServiceProvider;
 
 class AuthServiceProvider extends ModuleServiceProvider
@@ -32,4 +34,16 @@ class AuthServiceProvider extends ModuleServiceProvider
         EventServiceProvider::class,
         RouteServiceProvider::class,
     ];
+
+    /**
+     * Bootstrap module services.
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        Gate::before(
+            static fn (User $user): ?bool => $user->isSuperAdmin() ? true : null
+        );
+    }
 }
