@@ -17,19 +17,36 @@ class MenuBuilderApiTest extends TestCase
     {
         parent::setUp();
 
-        Passport::actingAs(User::factory()->create());
+        $this->artisan('permission:sync');
+
+        Passport::actingAs($this->adminUser());
+    }
+
+    protected function adminUser(): User
+    {
+        $user = User::factory()->create();
+        $user->assignRole('admin');
+
+        return $user;
     }
 
     public function test_index_requires_authentication(): void
     {
         $this->app['auth']->forgetGuards();
 
-        $this->getJson('/api/v1/menus')->assertUnauthorized();
+        $this->getJson('/api/v1/admin/menus')->assertUnauthorized();
+    }
+
+    public function test_index_forbids_user_without_permission(): void
+    {
+        Passport::actingAs(User::factory()->create());
+
+        $this->getJson('/api/v1/admin/menus')->assertForbidden();
     }
 
     public function test_store_creates_menu(): void
     {
-        $response = $this->postJson('/api/v1/menus', ['name' => 'Main Menu']);
+        $response = $this->postJson('/api/v1/admin/menus', ['name' => 'Main Menu']);
 
         $response->assertCreated()
             ->assertJsonPath('data.name', 'Main Menu');
@@ -39,7 +56,7 @@ class MenuBuilderApiTest extends TestCase
 
     public function test_store_validates_name(): void
     {
-        $this->postJson('/api/v1/menus', ['name' => ''])
+        $this->postJson('/api/v1/admin/menus', ['name' => ''])
             ->assertJsonValidationErrors('name');
     }
 
@@ -59,7 +76,7 @@ class MenuBuilderApiTest extends TestCase
             ],
         ]);
 
-        $response = $this->putJson("/api/v1/menus/{$menu->id}", [
+        $response = $this->putJson("/api/v1/admin/menus/{$menu->id}", [
             'name' => 'Main Updated',
             'content' => $content,
             'locale' => 'en',
@@ -91,7 +108,7 @@ class MenuBuilderApiTest extends TestCase
         $root->translateOrNew('en')->label = 'Home';
         $root->save();
 
-        $this->getJson("/api/v1/menus/{$menu->id}")
+        $this->getJson("/api/v1/admin/menus/{$menu->id}")
             ->assertOk()
             ->assertJsonPath('data.items.0.label', 'Home')
             ->assertJsonPath('data.items.0.is_custom', true);
@@ -101,7 +118,7 @@ class MenuBuilderApiTest extends TestCase
     {
         $menu = Menu::create(['name' => 'Main']);
 
-        $this->deleteJson("/api/v1/menus/{$menu->id}")->assertOk();
+        $this->deleteJson("/api/v1/admin/menus/{$menu->id}")->assertOk();
 
         $this->assertDatabaseMissing('menus', ['id' => $menu->id]);
         $this->assertSame(0, MenuItem::query()->count());

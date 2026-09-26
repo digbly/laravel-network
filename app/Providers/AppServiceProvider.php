@@ -29,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        config([
+            'permission.cache.key' => config('permission.cache.key').'.'.(website_id() ?? 'global'),
+        ]);
+
         $this->app->singleton(RepositoryInterface::class, function ($app) {
             $path = $app['config']->get('modules.paths.modules');
 
