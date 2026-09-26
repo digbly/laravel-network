@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { SidebarShell } from '../../../components/layout/SidebarShell';
+import { SidebarShell, type SidebarNavEntry } from '../../../components/layout/SidebarShell';
 import { NETWORK_NAV_ITEMS } from '../nav';
 
 interface NetworkSidebarProps {
@@ -12,6 +12,12 @@ interface NetworkSidebarProps {
 
 export const NetworkSidebar: FC<NetworkSidebarProps> = ({ open, onClose }) => {
   const { t } = useTranslation();
+  const items: SidebarNavEntry[] = NETWORK_NAV_ITEMS.map(({ to, labelKey, Icon, end }) => ({
+    to,
+    label: t(labelKey),
+    Icon,
+    end,
+  }));
 
   return (
     <SidebarShell
@@ -21,7 +27,7 @@ export const NetworkSidebar: FC<NetworkSidebarProps> = ({ open, onClose }) => {
       onClose={onClose}
       brandTo="/network"
       brandDescriptionKey="admin.networkAdmin.brandDesc"
-      items={NETWORK_NAV_ITEMS}
+      items={items}
       footer={
         <Link
           to="/websites"

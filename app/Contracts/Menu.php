@@ -12,5 +12,7 @@ interface Menu
 
     public function getByPosition(string $position): Collection;
 
+    public function tree(string $position): Collection;
+
     public function all(): Collection;
 }

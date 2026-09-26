@@ -1,8 +1,6 @@
 import i18n, { i18nReady } from '../i18n';
 import type { RouteObject } from 'react-router-dom';
-import type { AdminModule, AdminNavEntry, AdminNavItem } from './types';
-import { isNavGroup } from './types';
-import { hasPermission } from '../utils/permission';
+import type { AdminModule } from './types';
 
 const modules: AdminModule[] = [];
 
@@ -36,52 +34,3 @@ export const getAdminRoutes = (): RouteObject[] =>
 
 export const getPublicRoutes = (): RouteObject[] =>
   modules.flatMap((module) => module.publicRoutes ?? []);
-
-const getAllNavigation = (): AdminNavEntry[] =>
-  modules.flatMap((module) => module.nav ?? []);
-
-/** Flatten groups into their child links. */
-const flattenNavigation = (entries: AdminNavEntry[]): AdminNavItem[] =>
-  entries.flatMap((entry) => (isNavGroup(entry) ? entry.children : entry));
-
-export const getNavigation = (permissions?: string[]): AdminNavEntry[] =>
-  getAllNavigation()
-    .map((entry) =>
-      isNavGroup(entry)
-        ? {
-            ...entry,
-            children: entry.children.filter((child) =>
-              hasPermission(permissions, child.permission),
-            ),
-          }
-        : entry,
-    )
-    .filter((entry) =>
-      isNavGroup(entry)
-        ? entry.children.length > 0
-        : hasPermission(permissions, entry.permission),
-    );
-
-export const getRouteTitles = (): Record<string, string> =>
-  Object.fromEntries(
-    flattenNavigation(getAllNavigation()).map((item) => [item.to, item.labelKey]),
-  );
-
-/**
- * Resolve the title key for a route path, falling back to the longest nav
- * prefix so detail/form pages (e.g. `/blog/posts/new`) inherit the title of
- * the section they belong to.
- */
-export const getRouteTitle = (pathname: string): string | undefined => {
-  const titles = getRouteTitles();
-
-  if (titles[pathname]) {
-    return titles[pathname];
-  }
-
-  const prefix = Object.keys(titles)
-    .filter((path) => pathname.startsWith(`${path}/`))
-    .sort((a, b) => b.length - a.length)[0];
-
-  return prefix ? titles[prefix] : undefined;
-};

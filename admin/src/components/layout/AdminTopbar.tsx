@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { getRouteTitle } from '../../app/registry';
 import { stripWebsitePrefix } from '../../utils/website';
+import { resolveNavigationTitle } from '../../utils/navigation';
+import { useGetNavigationQuery } from '../../store/services/navigationApi';
 import { TopbarShell } from './TopbarShell';
 
 interface AdminTopbarProps {
@@ -13,10 +14,9 @@ export const AdminTopbar: FC<AdminTopbarProps> = ({ onOpenSidebar }) => {
   const { t } = useTranslation();
   const { websiteId } = useParams<{ websiteId: string }>();
   const { pathname } = useLocation();
+  const { data } = useGetNavigationQuery();
   const routePath = stripWebsitePrefix(pathname, websiteId);
-  const titleKey = getRouteTitle(routePath) ?? 'admin.nav.dashboard';
+  const title = resolveNavigationTitle(data?.data ?? [], routePath) ?? t('admin.nav.dashboard');
 
-  return (
-    <TopbarShell title={t(titleKey)} onOpenSidebar={onOpenSidebar} />
-  );
+  return <TopbarShell title={title} onOpenSidebar={onOpenSidebar} />;
 };

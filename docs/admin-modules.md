@@ -10,9 +10,8 @@ feature-agnostic.
 ```
 admin/src/
   app/
-    types.ts        # AdminModule, AdminNavItem, ModuleI18nBundle
-    registry.ts     # registerModules(), getAdminRoutes(), getPublicRoutes(),
-                    # getNavigation(), getRouteTitles()
+    types.ts        # AdminModule, ModuleI18nBundle
+    registry.ts     # registerModules(), getAdminRoutes(), getPublicRoutes()
     routes.tsx      # builds the RouteObject[] via useRoutes()
     modules.ts      # registers every module (imported for side effects)
   modules/
@@ -65,7 +64,6 @@ export const ReportsView = lazy(() =>
 ```json
 {
   "admin": {
-    "nav": { "reports": "Reports" },
     "reports": { "title": "Reports" }
   }
 }
@@ -76,7 +74,6 @@ export const ReportsView = lazy(() =>
 ```json
 {
   "admin": {
-    "nav": { "reports": "Báo cáo" },
     "reports": { "title": "Báo cáo" }
   }
 }
@@ -90,21 +87,12 @@ namespace at runtime.
 `admin/src/modules/reports/module.tsx`
 
 ```tsx
-import { FileBarChart } from 'lucide-react';
 import type { AdminModule } from '../../app/types';
 import { ReportsView } from './lazy';
 import i18nEn from './i18n/en.json';
 import i18nVi from './i18n/vi.json';
 
 export const reportsModule: AdminModule = {
-  nav: [
-    {
-      to: '/reports',
-      labelKey: 'admin.nav.reports',
-      Icon: FileBarChart,
-      permission: 'reports.view',
-    },
-  ],
   routes: [
     {
       path: '/reports',
@@ -115,6 +103,9 @@ export const reportsModule: AdminModule = {
   i18n: { en: i18nEn, vi: i18nVi },
 };
 ```
+
+The sidebar entry is **not** declared here. It is registered on the backend
+through the `Menu` repository (see "Navigation and titles").
 
 ### 5. Register the module
 
@@ -134,23 +125,7 @@ translations are wired automatically.
 Defined in `admin/src/app/types.ts`:
 
 ```ts
-interface AdminNavItem {
-  to: string;                                        // route path
-  labelKey: string;                                  // i18n key, e.g. admin.nav.reports
-  Icon: ComponentType<{ className?: string }>;       // lucide-react icon
-  permission?: string;                               // hide entry if missing
-}
-
-interface AdminNavGroup {
-  labelKey: string;                                  // group header i18n key
-  Icon: ComponentType<{ className?: string }>;
-  children: AdminNavItem[];                          // collapsible sub-entries
-}
-
-type AdminNavEntry = AdminNavItem | AdminNavGroup;
-
 interface AdminModule {
-  nav?: AdminNavEntry[];         // sidebar links and collapsible groups
   routes?: RouteObject[];        // inside ProtectedRoute + AdminLayout
   publicRoutes?: RouteObject[];  // outside the admin shell (e.g. auth pages)
   i18n?: { [language: string]: Record<string, unknown> };
@@ -158,7 +133,21 @@ interface AdminModule {
 ```
 
 All fields are optional, so `auth` only provides `publicRoutes`, while feature
-modules provide `nav` + `routes` + `i18n`.
+modules provide `routes` + `i18n`.
+
+The sidebar navigation has its own contract, returned by the backend
+(`admin/src/types/navigation.ts`):
+
+```ts
+interface NavigationItem {
+  id: string;
+  label: string;        // already translated by the API
+  to: string | null;    // SPA path (no website prefix), null for groups
+  icon: string;         // lucide icon name, mapped in utils/navIcons.ts
+  permission: string | null;
+  children: NavigationItem[];
+}
+```
 
 ## Routing and lazy loading
 
@@ -191,11 +180,42 @@ during navigation.
 
 ## Navigation and titles
 
-- `AdminSidebar` renders `getNavigation(permissions)`, filtered by the current
-  user's permissions (`state.auth.user.permissions`).
-- `AdminTopbar` resolves the title with `getRouteTitles()[pathname]`, which is
-  built from every module's `nav` regardless of permissions (so a forbidden
-  page still shows its name).
+The website-admin sidebar is **dynamic**: the frontend fetches it from
+`GET /api/v1/admin/websites/{website}/navigation`. It is not declared in the
+frontend modules.
+
+Backend registration (in the owning module's service provider, e.g.
+`Modules\Blog\Providers\BlogServiceProvider` for a blog item, or
+`Modules\Admin\Providers\AdminServiceProvider` for core admin items):
+
+```php
+Menu::make('reports', fn () => [
+    'label' => __('admin.nav.reports'),   // literal label, translated per request
+    'to' => '/reports',                   // SPA path, no website prefix
+    'icon' => 'file-bar-chart',           // lucide icon name
+    'permission' => 'reports.view',
+    'position' => MenuRepository::POSITION_ADMIN,
+    'priority' => 70,
+]);
+```
+
+- An item with a `parent` key becomes a child of that parent (collapsible group);
+  the parent item itself usually has no `to`.
+- Registering in the owning module means a disabled module contributes no
+  sidebar items.
+- `priority` controls ordering. Labels live in
+  `resources/lang/{en,vi}/admin.php` and follow the request `Accept-Language`
+  header.
+- The route stays in the frontend module (`routes` + `handle.permission`); the
+  menu only controls what the sidebar shows.
+
+Frontend consumption:
+
+- `AdminSidebar` renders `useGetNavigationQuery()`, filtered by
+  `state.auth.user.permissions` (`utils/navigation.ts` + `utils/permission.ts`).
+- `AdminTopbar` resolves the title from the same navigation via
+  `resolveNavigationTitle(pathname)`, so detail/form pages inherit the section
+  title. New icons must be added to `admin/src/utils/navIcons.ts`.
 
 ## Permissions
 
@@ -204,7 +224,7 @@ Permission checks are split between the API (the real boundary) and the UI
 
 Frontend:
 
-- `AdminNavItem.permission` hides the sidebar entry when the user lacks it.
+- `NavigationItem.permission` hides the sidebar entry when the user lacks it.
 - `route.handle.permission` is read by `RequirePermission` (via `useMatches`,
   deepest match wins) and renders `ForbiddenView` when access is denied.
 - `admin/src/utils/permission.ts` treats **unknown** permissions as allowed so
@@ -231,7 +251,7 @@ Backend contract (`modules/auth`):
 
 If a module introduces a new permission, add it to the relevant enum
 (`Permission`, `MenuPermission`, `WebsitePermission`) and use the same string on
-`nav.permission` and `handle.permission`; register it in
+the backend menu item and `handle.permission`; register it in
 `PermissionServiceProvider` and run `permission:generate`.
 When the module adds admin-only API endpoints, enforce the permission
 server-side as well (e.g. `permission:users.manage`) — the UI guard
@@ -244,7 +264,7 @@ Module bundles are merged into the `translation` namespace after the shared file
 cannot overwrite them. Keys are namespaced under `admin`:
 
 ```
-admin.nav.<module>       sidebar label (also the topbar title)
+admin.nav.<module>       in-page nav labels (tabs) + topbar fallback label
 admin.<module>.*         module-specific strings
 admin.forbidden.*        shared access-denied screen
 admin.topbar.* / admin.userMenu.* / admin.role.* / admin.comingSoon   shared shell
@@ -281,9 +301,11 @@ php artisan test tests/Unit/Auth tests/Feature/Auth
 
 - [ ] `modules/<name>/views/XxxView.tsx` created
 - [ ] `modules/<name>/lazy.ts` exports the lazy component
-- [ ] `modules/<name>/i18n/{en,vi}.json` hold `admin.nav.<name>` and `admin.<name>.*`
+- [ ] `modules/<name>/i18n/{en,vi}.json` hold `admin.<name>.*`
 - [ ] `modules/<name>/module.tsx` exports the `AdminModule`
 - [ ] `src/app/modules.ts` registers the module
+- [ ] Sidebar item registered in the owning module's service provider via `Menu::make()` with label, `to`, icon and permission
+- [ ] Label added to `resources/lang/{en,vi}/admin.php`; icon added to `src/utils/navIcons.ts` if new
 - [ ] New permission (if any) added to a backend permission enum, registered in `PermissionServiceProvider` + run `php artisan permission:generate`
-- [ ] `handle.permission` on the route and `permission` on the nav item match the backend string
+- [ ] `handle.permission` on the route and `permission` on the menu item match the backend string
 - [ ] `npm run lint` and `npm run build` pass

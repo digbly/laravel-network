@@ -1,18 +1,25 @@
-import { useState, type FC, type ReactNode } from 'react';
+import { useState, type ComponentType, type FC, type ReactNode } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { ChevronDown, Sparkles, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import type { NavItem } from '../../app/types';
+
+/** A single sidebar link. Labels are resolved by the caller. */
+export interface SidebarNavItem {
+  to: string;
+  label: string;
+  Icon: ComponentType<{ className?: string }>;
+  end?: boolean;
+}
 
 /** A collapsible sidebar group whose links are revealed on demand. */
 export interface SidebarNavGroup {
-  labelKey: string;
-  Icon: NavItem['Icon'];
-  children: NavItem[];
+  label: string;
+  Icon: ComponentType<{ className?: string }>;
+  children: SidebarNavItem[];
 }
 
 /** A sidebar entry is either a single link or a collapsible group of links. */
-export type SidebarNavEntry = NavItem | SidebarNavGroup;
+export type SidebarNavEntry = SidebarNavItem | SidebarNavGroup;
 
 const isNavGroupEntry = (entry: SidebarNavEntry): entry is SidebarNavGroup =>
   'children' in entry;
@@ -62,7 +69,7 @@ export const SidebarShell: FC<SidebarShellProps> = ({
     );
 
   const isGroupOpen = (group: SidebarNavGroup): boolean =>
-    groupOverrides[group.labelKey] ?? isGroupActive(group);
+    groupOverrides[group.label] ?? isGroupActive(group);
 
   return (
     <>
@@ -117,7 +124,7 @@ export const SidebarShell: FC<SidebarShellProps> = ({
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
           {items.map((entry) => {
             if (!isNavGroupEntry(entry)) {
-              const { to, labelKey, Icon, end } = entry;
+              const { to, label, Icon, end } = entry;
 
               return (
                 <NavLink
@@ -128,22 +135,22 @@ export const SidebarShell: FC<SidebarShellProps> = ({
                   className={linkClassName}
                 >
                   <Icon className="w-5 h-5 shrink-0" />
-                  <span>{t(labelKey)}</span>
+                  <span>{label}</span>
                 </NavLink>
               );
             }
 
-            const groupId = `sidebar-nav-group-${id}-${entry.labelKey.replace(/\./g, '-')}`;
+            const groupId = `sidebar-nav-group-${id}-${entry.label.replace(/\s+/g, '-').toLowerCase()}`;
             const expanded = isGroupOpen(entry);
 
             return (
-              <div key={entry.labelKey} className="space-y-1">
+              <div key={entry.label} className="space-y-1">
                 <button
                   type="button"
                   onClick={() =>
                     setGroupOverrides((previous) => ({
                       ...previous,
-                      [entry.labelKey]: !expanded,
+                      [entry.label]: !expanded,
                     }))
                   }
                   aria-expanded={expanded}
@@ -151,7 +158,7 @@ export const SidebarShell: FC<SidebarShellProps> = ({
                   className={`w-full ${linkClassName({ isActive: isGroupActive(entry) })}`}
                 >
                   <entry.Icon className="w-5 h-5 shrink-0" />
-                  <span className="flex-1 text-left">{t(entry.labelKey)}</span>
+                  <span className="flex-1 text-left">{entry.label}</span>
                   <ChevronDown
                     className={`w-4 h-4 shrink-0 transition-transform ${expanded ? 'rotate-180' : ''}`}
                   />
@@ -168,7 +175,7 @@ export const SidebarShell: FC<SidebarShellProps> = ({
                         className={linkClassName}
                       >
                         <child.Icon className="w-4 h-4 shrink-0" />
-                        <span>{t(child.labelKey)}</span>
+                        <span>{child.label}</span>
                       </NavLink>
                     ))}
                   </div>

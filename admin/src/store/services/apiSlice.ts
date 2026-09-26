@@ -139,6 +139,7 @@ export const apiSlice = createApi({
     'AdminCategory',
     'AdminComment',
     'AdminMedia',
+    'Navigation',
   ],
   endpoints: () => ({}),
 });

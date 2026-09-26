@@ -2,6 +2,9 @@
 
 namespace Modules\Blog\Providers;
 
+use App\Facades\Menu;
+use App\Support\MenuRepository;
+use Modules\Blog\Enums\Permission;
 use Nwidart\Modules\Support\ModuleServiceProvider;
 
 class BlogServiceProvider extends ModuleServiceProvider
@@ -24,4 +27,59 @@ class BlogServiceProvider extends ModuleServiceProvider
     protected array $providers = [
         RouteServiceProvider::class,
     ];
+
+    /**
+     * Bootstrap module services.
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->registerNavigation();
+    }
+
+    /**
+     * Register the admin SPA sidebar items owned by this module.
+     */
+    protected function registerNavigation(): void
+    {
+        $position = MenuRepository::POSITION_ADMIN;
+
+        Menu::make('blog', fn () => [
+            'label' => __('admin.nav.blog'),
+            'icon' => 'book-open',
+            'position' => $position,
+            'priority' => 30,
+        ]);
+
+        Menu::make('blog-posts', fn () => [
+            'label' => __('admin.nav.blogPosts'),
+            'to' => '/blog/posts',
+            'icon' => 'newspaper',
+            'permission' => Permission::PostsView->value,
+            'parent' => 'blog',
+            'position' => $position,
+            'priority' => 10,
+        ]);
+
+        Menu::make('blog-categories', fn () => [
+            'label' => __('admin.nav.blogCategories'),
+            'to' => '/blog/categories',
+            'icon' => 'folder-tree',
+            'permission' => Permission::CategoriesView->value,
+            'parent' => 'blog',
+            'position' => $position,
+            'priority' => 20,
+        ]);
+
+        Menu::make('blog-comments', fn () => [
+            'label' => __('admin.nav.blogComments'),
+            'to' => '/blog/comments',
+            'icon' => 'message-square',
+            'permission' => Permission::CommentsView->value,
+            'parent' => 'blog',
+            'position' => $position,
+            'priority' => 30,
+        ]);
+    }
 }

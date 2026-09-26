@@ -1,4 +1,3 @@
-import { BookOpen, FolderTree, MessageSquare, Newspaper } from 'lucide-react';
 import type { AdminModule } from '../../app/types';
 import {
   CategoriesView,
@@ -11,32 +10,6 @@ import i18nEn from './i18n/en.json';
 import i18nVi from './i18n/vi.json';
 
 export const blogModule: AdminModule = {
-  nav: [
-    {
-      labelKey: 'admin.nav.blog',
-      Icon: BookOpen,
-      children: [
-        {
-          to: '/blog/posts',
-          labelKey: 'admin.nav.blogPosts',
-          Icon: Newspaper,
-          permission: 'posts.view',
-        },
-        {
-          to: '/blog/categories',
-          labelKey: 'admin.nav.blogCategories',
-          Icon: FolderTree,
-          permission: 'categories.view',
-        },
-        {
-          to: '/blog/comments',
-          labelKey: 'admin.nav.blogComments',
-          Icon: MessageSquare,
-          permission: 'comments.view',
-        },
-      ],
-    },
-  ],
   routes: [
     {
       path: '/blog/posts',

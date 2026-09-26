@@ -8,28 +8,11 @@ export interface NavItem {
   end?: boolean;
 }
 
-export interface AdminNavItem extends NavItem {
-  permission?: string;
-}
-
-export interface AdminNavGroup {
-  labelKey: string;
-  Icon: ComponentType<{ className?: string }>;
-  children: AdminNavItem[];
-}
-
-export type AdminNavEntry = AdminNavItem | AdminNavGroup;
-
-export const isNavGroup = (entry: AdminNavEntry): entry is AdminNavGroup =>
-  'children' in entry;
-
 export interface ModuleI18nBundle {
   [language: string]: Record<string, unknown>;
 }
 
 export interface AdminModule {
-  /** Sidebar entries contributed by this module. */
-  nav?: AdminNavEntry[];
   /** Routes rendered inside the protected admin shell. */
   routes?: RouteObject[];
   /** Routes rendered outside the admin shell (e.g. public auth pages). */

@@ -5,6 +5,7 @@ use App\Enums\WebsitePermission;
 use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
 use Modules\Admin\Http\Controllers\Admin\MenuController;
+use Modules\Admin\Http\Controllers\Admin\NavigationController;
 use Modules\Admin\Http\Controllers\Admin\PermissionController;
 use Modules\Admin\Http\Controllers\Admin\RoleController;
 use Modules\Admin\Http\Controllers\Admin\UserController;
@@ -41,6 +42,12 @@ Route::middleware(['auth:api', InitWebsite::class])
             ->middleware('permission:'.MenuPermission::Update->value);
         Route::delete('{menu}', [MenuController::class, 'destroy'])
             ->middleware('permission:'.MenuPermission::Delete->value);
+    });
+
+Route::middleware(['auth:api', InitWebsite::class])
+    ->prefix('v1/admin/websites/{website}/navigation')
+    ->group(function () {
+        Route::get('/', [NavigationController::class, 'index']);
     });
 
 Route::middleware(['auth:api', InitWebsite::class, 'permission:'.Permission::UsersManage->value])

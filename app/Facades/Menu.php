@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void make(string $key, callable $callback)
  * @method static null|array get(string $key)
  * @method static Collection getByPosition(string $position)
+ * @method static Collection tree(string $position)
  * @method static Collection all()
  *
  * @see MenuRepository

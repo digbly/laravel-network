@@ -7,6 +7,11 @@ use Illuminate\Support\Collection;
 
 class MenuRepository implements MenuContract
 {
+    /**
+     * Position reserved for the admin SPA sidebar.
+     */
+    public const POSITION_ADMIN = 'admin';
+
     protected array $menus = [];
 
     public function make(string $key, callable $callback): void
@@ -63,6 +68,58 @@ class MenuRepository implements MenuContract
                 fn ($menu) => ($menu['position'] ?? 'admin-left') === $position
             )
             ->values();
+    }
+
+    /**
+     * Build a nested navigation tree for a given position.
+     *
+     * Items declare their container through the `parent` key (matching another
+     * menu key). Only `key`, `label`, `to`, `icon`, `permission`, `parent` and
+     * `priority` are exposed, making the result safe to serialise for the SPA.
+     */
+    public function tree(string $position): Collection
+    {
+        $items = collect($this->menus)
+            ->map(function ($callback, $key) use ($position) {
+                $data = $callback();
+
+                if (! is_array($data) || ($data['position'] ?? 'admin-left') !== $position) {
+                    return null;
+                }
+
+                return [
+                    'key' => $key,
+                    'label' => $data['label'] ?? $key,
+                    'to' => $data['to'] ?? null,
+                    'icon' => $data['icon'] ?? 'circle',
+                    'permission' => $data['permission'] ?? null,
+                    'parent' => $data['parent'] ?? null,
+                    'priority' => $data['priority'] ?? 20,
+                ];
+            })
+            ->filter()
+            ->values();
+
+        $keys = $items->pluck('key')->all();
+
+        $isRoot = static fn (array $item): bool => $item['parent'] === null
+            || ! in_array($item['parent'], $keys, true);
+
+        $build = function (?string $parent) use (&$build, $items, $isRoot): Collection {
+            return $items
+                ->filter(static fn (array $item): bool => $parent === null
+                    ? $isRoot($item)
+                    : $item['parent'] === $parent)
+                ->sortBy('priority')
+                ->map(function (array $item) use (&$build): array {
+                    $item['children'] = $build($item['key']);
+
+                    return $item;
+                })
+                ->values();
+        };
+
+        return $build(null);
     }
 
     public function all(): Collection
