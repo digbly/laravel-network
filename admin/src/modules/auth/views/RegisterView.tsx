@@ -3,12 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Mail, Lock, Eye, EyeOff, User, UserPlus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Input } from '../../components/ui/Input';
-import { Button } from '../../components/ui/Button';
-import { useRegisterMutation } from '../../store/services/authApi';
-import { getErrorMessage } from '../../utils/apiError';
-import { ErrorAlert } from '../../components/ui/ErrorAlert';
-import { EMAIL_REGEX, MIN_PASSWORD_LENGTH } from '../../utils/constants';
+import { Input } from '../../../components/ui/Input';
+import { Button } from '../../../components/ui/Button';
+import { useRegisterMutation } from '../../../store/services/authApi';
+import { getErrorMessage } from '../../../utils/apiError';
+import { ErrorAlert } from '../../../components/ui/ErrorAlert';
+import { EMAIL_REGEX, MIN_PASSWORD_LENGTH } from '../../../utils/constants';
 
 interface RegisterFormInputs {
   name: string;

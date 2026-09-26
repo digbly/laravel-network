@@ -4,6 +4,7 @@ export interface AuthUser {
   email: string;
   avatar?: string;
   role?: string;
+  permissions?: string[];
   balance?: number;
   plan?: string;
   email_verified_at?: string | null;

@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Mail, ArrowLeft, Send, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Input } from '../../components/ui/Input';
-import { Button } from '../../components/ui/Button';
-import { useForgotPasswordMutation } from '../../store/services/authApi';
-import { getErrorMessage } from '../../utils/apiError';
-import { ErrorAlert } from '../../components/ui/ErrorAlert';
-import { EMAIL_REGEX } from '../../utils/constants';
+import { Input } from '../../../components/ui/Input';
+import { Button } from '../../../components/ui/Button';
+import { useForgotPasswordMutation } from '../../../store/services/authApi';
+import { getErrorMessage } from '../../../utils/apiError';
+import { ErrorAlert } from '../../../components/ui/ErrorAlert';
+import { EMAIL_REGEX } from '../../../utils/constants';
 
 interface ForgotPasswordFormInputs {
   email: string;

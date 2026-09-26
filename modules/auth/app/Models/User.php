@@ -12,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\Contracts\OAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 use Modules\Auth\Database\Factories\UserFactory;
+use Modules\Auth\Enums\Permission;
 
 #[UseFactory(UserFactory::class)]
 class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
@@ -66,5 +67,17 @@ class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
     public function isAdmin(): bool
     {
         return $this->role === self::ROLE_ADMIN;
+    }
+
+    /**
+     * Permissions granted by the user's role.
+     *
+     * @return list<string>
+     */
+    public function permissions(): array
+    {
+        return $this->isAdmin()
+            ? Permission::values()
+            : [Permission::DashboardView->value];
     }
 }

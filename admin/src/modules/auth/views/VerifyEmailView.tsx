@@ -2,10 +2,10 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useNavigate, useSearchParams, useParams } from 'react-router-dom';
 import { MailCheck, ArrowRight, RefreshCw, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '../../components/ui/Button';
-import { Input } from '../../components/ui/Input';
-import { useResendVerificationEmailMutation, useVerifyEmailMutation } from '../../store/services/authApi';
-import { getErrorMessage } from '../../utils/apiError';
+import { Button } from '../../../components/ui/Button';
+import { Input } from '../../../components/ui/Input';
+import { useResendVerificationEmailMutation, useVerifyEmailMutation } from '../../../store/services/authApi';
+import { getErrorMessage } from '../../../utils/apiError';
 
 export const VerifyEmailView = () => {
   const { t } = useTranslation();

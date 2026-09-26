@@ -12,7 +12,7 @@ use OpenApi\Attributes as OA;
  */
 #[OA\Schema(
     schema: __CLASS__,
-    required: ['id', 'name', 'email', 'created_at', 'updated_at'],
+    required: ['id', 'name', 'email', 'permissions', 'created_at', 'updated_at'],
     properties: [
         new OA\Property(
             property: 'id',
@@ -36,6 +36,12 @@ use OpenApi\Attributes as OA;
             type: 'string',
             enum: ['user', 'admin'],
             example: 'user'
+        ),
+        new OA\Property(
+            property: 'permissions',
+            type: 'array',
+            items: new OA\Items(type: 'string'),
+            example: ['dashboard.view']
         ),
         new OA\Property(
             property: 'email_verified_at',
@@ -72,6 +78,7 @@ class UserResource extends JsonResource
             'name' => $this->resource->name,
             'email' => $this->resource->email,
             'role' => $this->resource->role,
+            'permissions' => $this->resource->permissions(),
             'email_verified_at' => $this->resource->email_verified_at?->toISOString(),
             'created_at' => $this->resource->created_at?->toISOString(),
             'updated_at' => $this->resource->updated_at?->toISOString(),

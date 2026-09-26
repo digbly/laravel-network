@@ -1,0 +1,11 @@
+{
+  "admin": {
+    "nav": {
+      "users": "Người dùng"
+    },
+    "users": {
+      "title": "Người dùng",
+      "placeholder": "Tính năng quản lý người dùng đang được xây dựng. Nơi đây sẽ hiển thị, tìm kiếm và quản lý tài khoản."
+    }
+  }
+}

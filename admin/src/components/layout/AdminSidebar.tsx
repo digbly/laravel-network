@@ -2,7 +2,8 @@ import type { FC } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Sparkles, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { adminNavItems } from '../../config/adminNav';
+import { getNavigation } from '../../app/registry';
+import { useAppSelector } from '../../store/hooks';
 
 interface AdminSidebarProps {
   open: boolean;
@@ -11,6 +12,8 @@ interface AdminSidebarProps {
 
 export const AdminSidebar: FC<AdminSidebarProps> = ({ open, onClose }) => {
   const { t } = useTranslation();
+  const permissions = useAppSelector((state) => state.auth.user?.permissions);
+  const navItems = getNavigation(permissions);
 
   return (
     <>
@@ -63,7 +66,7 @@ export const AdminSidebar: FC<AdminSidebarProps> = ({ open, onClose }) => {
         </div>
 
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-          {adminNavItems.map(({ to, labelKey, Icon }) => (
+          {navItems.map(({ to, labelKey, Icon }) => (
             <NavLink
               key={to}
               to={to}

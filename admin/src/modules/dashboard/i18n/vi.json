@@ -1,0 +1,39 @@
+{
+  "admin": {
+    "nav": {
+      "dashboard": "Tổng quan"
+    },
+    "dashboard": {
+      "welcome": "Chào mừng trở lại, {{name}}",
+      "guest": "bạn",
+      "subtitle": "Đây là tổng quan về tài khoản của bạn.",
+      "refresh": "Làm mới",
+      "loading": "Đang tải hồ sơ của bạn...",
+      "account": {
+        "title": "Thông tin tài khoản",
+        "subtitle": "Hồ sơ đã xác thực của bạn từ API.",
+        "name": "Họ và tên",
+        "email": "Địa chỉ email",
+        "role": "Vai trò",
+        "joined": "Ngày tham gia",
+        "verified": "Đã xác minh",
+        "unverified": "Chưa xác minh"
+      },
+      "stats": {
+        "title": "Số liệu workspace",
+        "comingSoon": "Số liệu sẽ xuất hiện khi API thống kê sẵn sàng.",
+        "noData": "Chưa có dữ liệu",
+        "cards": {
+          "members": "Thành viên",
+          "devices": "Thiết bị",
+          "sessions": "Phiên hoạt động",
+          "events": "Sự kiện"
+        }
+      },
+      "errors": {
+        "loadFailed": "Không thể tải hồ sơ của bạn. Vui lòng thử lại.",
+        "retry": "Thử lại"
+      }
+    }
+  }
+}

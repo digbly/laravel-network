@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from '../../store/hooks';
-import { setCredentials } from '../../store/slices/authSlice';
-import { exchangeAuthorizationCode, fetchProfile } from '../../utils/oauth';
-import { getErrorMessage } from '../../utils/apiError';
-import { ErrorAlert } from '../../components/ui/ErrorAlert';
+import { useAppDispatch } from '../../../store/hooks';
+import { setCredentials } from '../../../store/slices/authSlice';
+import { exchangeAuthorizationCode, fetchProfile } from '../../../utils/oauth';
+import { getErrorMessage } from '../../../utils/apiError';
+import { ErrorAlert } from '../../../components/ui/ErrorAlert';
 
 const readInitialError = (missingCodeMessage: string): string | null => {
   const params = new URLSearchParams(window.location.search);

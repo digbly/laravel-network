@@ -3,12 +3,12 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Lock, Eye, EyeOff, KeyRound, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Input } from '../../components/ui/Input';
-import { Button } from '../../components/ui/Button';
-import { useResetPasswordMutation } from '../../store/services/authApi';
-import { getErrorMessage } from '../../utils/apiError';
-import { ErrorAlert } from '../../components/ui/ErrorAlert';
-import { EMAIL_REGEX, MIN_PASSWORD_LENGTH } from '../../utils/constants';
+import { Input } from '../../../components/ui/Input';
+import { Button } from '../../../components/ui/Button';
+import { useResetPasswordMutation } from '../../../store/services/authApi';
+import { getErrorMessage } from '../../../utils/apiError';
+import { ErrorAlert } from '../../../components/ui/ErrorAlert';
+import { EMAIL_REGEX, MIN_PASSWORD_LENGTH } from '../../../utils/constants';
 
 interface ResetPasswordFormInputs {
   email: string;

@@ -1,0 +1,11 @@
+{
+  "admin": {
+    "nav": {
+      "users": "Users"
+    },
+    "users": {
+      "title": "Users",
+      "placeholder": "User management is under construction. It will list, search and manage accounts."
+    }
+  }
+}

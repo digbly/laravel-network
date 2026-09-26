@@ -1,0 +1,11 @@
+{
+  "admin": {
+    "nav": {
+      "settings": "Settings"
+    },
+    "settings": {
+      "title": "Settings",
+      "placeholder": "Workspace settings are under construction. Configuration options will live here."
+    }
+  }
+}

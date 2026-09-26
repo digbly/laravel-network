@@ -11,13 +11,13 @@ import {
   Wifi,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Card, CardBody, CardHeader } from '../../components/ui/Card';
-import { Badge } from '../../components/ui/Badge';
-import { Button } from '../../components/ui/Button';
-import { ErrorAlert } from '../../components/ui/ErrorAlert';
-import { useAppSelector } from '../../store/hooks';
-import { useGetProfileQuery } from '../../store/services/userApi';
-import { getRoleMeta } from '../../utils/role';
+import { Card, CardBody, CardHeader } from '../../../components/ui/Card';
+import { Badge } from '../../../components/ui/Badge';
+import { Button } from '../../../components/ui/Button';
+import { ErrorAlert } from '../../../components/ui/ErrorAlert';
+import { useAppSelector } from '../../../store/hooks';
+import { useGetProfileQuery } from '../../../store/services/userApi';
+import { getRoleMeta } from '../../../utils/role';
 
 interface StatItem {
   key: string;

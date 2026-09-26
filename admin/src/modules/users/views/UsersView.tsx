@@ -1,6 +1,6 @@
 import { Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { ComingSoon } from '../../components/admin/ComingSoon';
+import { ComingSoon } from '../../../components/admin/ComingSoon';
 
 export const UsersView = () => {
   const { t } = useTranslation();

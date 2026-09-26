@@ -3,7 +3,7 @@ import { Menu, Moon, Sun } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../context/useTheme';
-import { adminRouteTitles } from '../../config/adminNav';
+import { getRouteTitles } from '../../app/registry';
 import { UserMenu } from './UserMenu';
 
 interface AdminTopbarProps {
@@ -14,6 +14,7 @@ export const AdminTopbar: FC<AdminTopbarProps> = ({ onOpenSidebar }) => {
   const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
   const { pathname } = useLocation();
+  const routeTitles = getRouteTitles();
 
   return (
     <header className="sticky top-0 z-30 h-16 flex items-center gap-3 px-4 sm:px-6 bg-white/80 dark:bg-[#090D16]/80 backdrop-blur-md border-b border-slate-200/80 dark:border-white/[0.07]">
@@ -27,7 +28,7 @@ export const AdminTopbar: FC<AdminTopbarProps> = ({ onOpenSidebar }) => {
       </button>
 
       <h1 className="text-sm font-semibold text-slate-900 dark:text-white truncate">
-        {t(adminRouteTitles[pathname] ?? 'admin.nav.dashboard')}
+        {t(routeTitles[pathname] ?? 'admin.nav.dashboard')}
       </h1>
 
       <div className="ml-auto flex items-center gap-2">

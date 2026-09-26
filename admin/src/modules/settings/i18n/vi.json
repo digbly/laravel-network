@@ -1,0 +1,11 @@
+{
+  "admin": {
+    "nav": {
+      "settings": "Cài đặt"
+    },
+    "settings": {
+      "title": "Cài đặt",
+      "placeholder": "Cài đặt workspace đang được xây dựng. Các tùy chọn cấu hình sẽ nằm ở đây."
+    }
+  }
+}

@@ -160,10 +160,7 @@
     "version": "v0.1.0 · Admin Console",
     "comingSoon": "Coming soon",
     "nav": {
-      "menuLabel": "Admin navigation",
-      "dashboard": "Dashboard",
-      "users": "Users",
-      "settings": "Settings"
+      "menuLabel": "Admin navigation"
     },
     "topbar": {
       "openMenu": "Open navigation menu",
@@ -178,45 +175,9 @@
       "admin": "Admin",
       "user": "User"
     },
-    "dashboard": {
-      "welcome": "Welcome back, {{name}}",
-      "guest": "there",
-      "subtitle": "Here is an overview of your account.",
-      "refresh": "Refresh",
-      "loading": "Loading your profile...",
-      "account": {
-        "title": "Account information",
-        "subtitle": "Your authenticated profile from the API.",
-        "name": "Full name",
-        "email": "Email address",
-        "role": "Role",
-        "joined": "Joined",
-        "verified": "Verified",
-        "unverified": "Unverified"
-      },
-      "stats": {
-        "title": "Workspace metrics",
-        "comingSoon": "Metrics will appear here once the statistics API is available.",
-        "noData": "No data yet",
-        "cards": {
-          "members": "Members",
-          "devices": "Devices",
-          "sessions": "Active sessions",
-          "events": "Events"
-        }
-      },
-      "errors": {
-        "loadFailed": "Unable to load your profile. Please try again.",
-        "retry": "Retry"
-      }
-    },
-    "users": {
-      "title": "Users",
-      "placeholder": "User management is under construction. It will list, search and manage accounts."
-    },
-    "settings": {
-      "title": "Settings",
-      "placeholder": "Workspace settings are under construction. Configuration options will live here."
+    "forbidden": {
+      "title": "Access denied",
+      "message": "You do not have permission to view this page."
     }
   }
 }
