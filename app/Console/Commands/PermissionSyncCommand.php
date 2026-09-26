@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\MenuPermission;
+use App\Enums\WebsitePermission;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Console\Command;
@@ -22,7 +23,12 @@ class PermissionSyncCommand extends Command
         $guard = config('auth.defaults.guard', 'api');
         $websiteId = $this->option('website') ?? website_id();
 
-        foreach (MenuPermission::values() as $permission) {
+        $permissions = array_merge(
+            MenuPermission::values(),
+            WebsitePermission::values(),
+        );
+
+        foreach ($permissions as $permission) {
             Permission::query()->firstOrCreate([
                 'name' => $permission,
                 'guard_name' => $guard,
@@ -36,7 +42,7 @@ class PermissionSyncCommand extends Command
                 'guard_name' => $guard,
                 'website_id' => $websiteId,
             ])
-            ->syncPermissions(MenuPermission::values());
+            ->syncPermissions($permissions);
 
         $this->info('Permissions synced successfully.');
 
