@@ -81,6 +81,11 @@ export const blogApi = apiSlice.injectEndpoints({
           : [{ type: 'AdminCategory' as const, id: 'LIST' }],
     }),
 
+    getCategory: builder.query<ApiResponse<AdminCategory>, string>({
+      query: (id) => adminApiPath(`/blog/categories/${id}`),
+      providesTags: (_result, _error, id) => [{ type: 'AdminCategory', id }],
+    }),
+
     createCategory: builder.mutation<ApiResponse<AdminCategory>, CategoryPayload>({
       query: (body) => ({ url: adminApiPath('/blog/categories'), method: 'POST', body }),
       invalidatesTags: [{ type: 'AdminCategory', id: 'LIST' }],
@@ -148,6 +153,7 @@ export const {
   useUpdatePostMutation,
   useDeletePostMutation,
   useGetCategoriesQuery,
+  useGetCategoryQuery,
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,

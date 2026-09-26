@@ -66,3 +66,22 @@ export const getRouteTitles = (): Record<string, string> =>
   Object.fromEntries(
     flattenNavigation(getAllNavigation()).map((item) => [item.to, item.labelKey]),
   );
+
+/**
+ * Resolve the title key for a route path, falling back to the longest nav
+ * prefix so detail/form pages (e.g. `/blog/posts/new`) inherit the title of
+ * the section they belong to.
+ */
+export const getRouteTitle = (pathname: string): string | undefined => {
+  const titles = getRouteTitles();
+
+  if (titles[pathname]) {
+    return titles[pathname];
+  }
+
+  const prefix = Object.keys(titles)
+    .filter((path) => pathname.startsWith(`${path}/`))
+    .sort((a, b) => b.length - a.length)[0];
+
+  return prefix ? titles[prefix] : undefined;
+};

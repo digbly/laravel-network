@@ -50,6 +50,9 @@
         "form": {
           "createTitle": "Add post",
           "editTitle": "Edit post",
+          "subtitle": "Fill in the post details below.",
+          "back": "Back to posts",
+          "loadFailed": "Failed to load the post.",
           "status": "Status",
           "categories": "Categories",
           "noCategories": "No categories yet.",
@@ -106,6 +109,9 @@
         "form": {
           "createTitle": "Add category",
           "editTitle": "Edit category",
+          "subtitle": "Fill in the category details below.",
+          "back": "Back to categories",
+          "loadFailed": "Failed to load the category.",
           "parent": "Parent category",
           "noParent": "No parent",
           "isHome": "Show on homepage",

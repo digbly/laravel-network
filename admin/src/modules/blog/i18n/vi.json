@@ -50,6 +50,9 @@
         "form": {
           "createTitle": "Thêm bài viết",
           "editTitle": "Sửa bài viết",
+          "subtitle": "Điền thông tin bài viết bên dưới.",
+          "back": "Quay lại bài viết",
+          "loadFailed": "Không tải được bài viết.",
           "status": "Trạng thái",
           "categories": "Danh mục",
           "noCategories": "Chưa có danh mục nào.",
@@ -106,6 +109,9 @@
         "form": {
           "createTitle": "Thêm danh mục",
           "editTitle": "Sửa danh mục",
+          "subtitle": "Điền thông tin danh mục bên dưới.",
+          "back": "Quay lại danh mục",
+          "loadFailed": "Không tải được danh mục.",
           "parent": "Danh mục cha",
           "noParent": "Không có danh mục cha",
           "isHome": "Hiển thị trên trang chủ",

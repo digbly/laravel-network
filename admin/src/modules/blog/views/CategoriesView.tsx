@@ -1,21 +1,17 @@
 import { useEffect, useState } from 'react';
 import { AlertCircle, CheckCircle2, FolderTree, Loader2, Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Badge } from '../../../components/ui/Badge';
 import { Button } from '../../../components/ui/Button';
 import { Card, CardBody } from '../../../components/ui/Card';
 import { ErrorAlert } from '../../../components/ui/ErrorAlert';
 import { Input } from '../../../components/ui/Input';
-import {
-  useCreateCategoryMutation,
-  useDeleteCategoryMutation,
-  useGetCategoriesQuery,
-  useUpdateCategoryMutation,
-} from '../../../store/services/blogApi';
+import { useDeleteCategoryMutation, useGetCategoriesQuery } from '../../../store/services/blogApi';
 import { getErrorMessage } from '../../../utils/apiError';
-import type { AdminCategory, CategoryListParams, CategoryPayload } from '../../../types/blog';
+import { websitePath } from '../../../utils/website';
+import type { AdminCategory, CategoryListParams } from '../../../types/blog';
 import { BlogTabs } from '../components/BlogTabs';
-import { CategoryFormModal } from '../components/CategoryFormModal';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { Pagination } from '../components/Pagination';
 
@@ -23,19 +19,16 @@ const PER_PAGE = 20;
 
 export const CategoriesView = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { websiteId } = useParams<{ websiteId: string }>();
 
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
   const [notice, setNotice] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [formCategory, setFormCategory] = useState<AdminCategory | null>(null);
-  const [formError, setFormError] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<AdminCategory | null>(null);
 
-  const [createCategory, createState] = useCreateCategoryMutation();
-  const [updateCategory, updateState] = useUpdateCategoryMutation();
   const [deleteCategory, deleteState] = useDeleteCategoryMutation();
 
   useEffect(() => {
@@ -64,30 +57,9 @@ export const CategoriesView = () => {
   };
 
   const { data, isFetching, isError, refetch } = useGetCategoriesQuery(params);
-  const { data: allCategoriesData } = useGetCategoriesQuery({ per_page: 100 });
 
   const categories = data?.data ?? [];
   const meta = data?.meta;
-  const allCategories = allCategoriesData?.data ?? [];
-
-  const handleSubmit = async (payload: CategoryPayload) => {
-    setFormError(null);
-
-    try {
-      if (formCategory) {
-        await updateCategory({ id: formCategory.id, body: payload }).unwrap();
-        setNotice({ type: 'success', message: t('admin.blog.categories.notices.updated') });
-      } else {
-        await createCategory(payload).unwrap();
-        setNotice({ type: 'success', message: t('admin.blog.categories.notices.created') });
-      }
-
-      setIsFormOpen(false);
-      setFormCategory(null);
-    } catch (error) {
-      setFormError(getErrorMessage(error, t('admin.blog.categories.errors.saveFailed')));
-    }
-  };
 
   const handleDelete = async () => {
     if (!deleteTarget) return;
@@ -115,11 +87,7 @@ export const CategoriesView = () => {
         </div>
 
         <Button
-          onClick={() => {
-            setFormCategory(null);
-            setFormError(null);
-            setIsFormOpen(true);
-          }}
+          onClick={() => navigate(websitePath('/blog/categories/new', websiteId))}
           leftIcon={<Plus className="w-4 h-4" />}
         >
           {t('admin.blog.categories.add')}
@@ -215,11 +183,9 @@ export const CategoriesView = () => {
                         type="button"
                         title={t('admin.blog.categories.actions.edit')}
                         aria-label={t('admin.blog.categories.actions.edit')}
-                        onClick={() => {
-                          setFormCategory(category);
-                          setFormError(null);
-                          setIsFormOpen(true);
-                        }}
+                        onClick={() =>
+                          navigate(websitePath(`/blog/categories/${category.id}/edit`, websiteId))
+                        }
                         className="p-2 rounded-lg text-indigo-500 hover:text-indigo-600 hover:bg-indigo-500/10 dark:text-indigo-400 transition-colors"
                       >
                         <Pencil className="w-4 h-4" />
@@ -251,21 +217,6 @@ export const CategoriesView = () => {
             {t('admin.blog.categories.errors.retry')}
           </Button>
         </div>
-      )}
-
-      {isFormOpen && (
-        <CategoryFormModal
-          key={formCategory?.id ?? 'new'}
-          category={formCategory}
-          categories={allCategories}
-          isSubmitting={createState.isLoading || updateState.isLoading}
-          error={formError}
-          onSubmit={(payload) => void handleSubmit(payload)}
-          onClose={() => {
-            setIsFormOpen(false);
-            setFormCategory(null);
-          }}
-        />
       )}
 
       <ConfirmDialog
