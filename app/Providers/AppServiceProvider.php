@@ -6,12 +6,23 @@ use App\Contracts\Menu as MenuContract;
 use App\Contracts\MenuBox as MenuBoxContract;
 use App\Contracts\NavMenu as NavMenuContract;
 use App\Contracts\Network as NetworkContract;
+use App\Contracts\PageBlock as PageBlockContract;
+use App\Contracts\PageTemplate as PageTemplateContract;
 use App\Contracts\Setting as SettingContract;
+use App\Contracts\Sidebar as SidebarContract;
+use App\Contracts\ThemeSetting as ThemeSettingContract;
+use App\Contracts\Widget as WidgetContract;
+use App\Support\Customizes\CustomizeRegistry;
 use App\Support\MenuBoxRepository;
 use App\Support\MenuRepository;
 use App\Support\NavMenuRepository;
 use App\Support\NetworkRepository;
+use App\Support\PageBlockRepository;
+use App\Support\PageTemplateRepository;
 use App\Support\SettingRepository;
+use App\Support\SidebarRepository;
+use App\Support\ThemeSettingRepository;
+use App\Support\WidgetRepository;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -38,9 +49,15 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         $this->app->singleton(SettingContract::class, SettingRepository::class);
+        $this->app->singleton(ThemeSettingContract::class, ThemeSettingRepository::class);
         $this->app->singleton(MenuContract::class, MenuRepository::class);
         $this->app->singleton(MenuBoxContract::class, MenuBoxRepository::class);
         $this->app->singleton(NavMenuContract::class, NavMenuRepository::class);
+        $this->app->singleton(WidgetContract::class, WidgetRepository::class);
+        $this->app->singleton(SidebarContract::class, SidebarRepository::class);
+        $this->app->singleton(PageBlockContract::class, PageBlockRepository::class);
+        $this->app->singleton(PageTemplateContract::class, PageTemplateRepository::class);
+        $this->app->singleton(CustomizeRegistry::class);
     }
 
     /**

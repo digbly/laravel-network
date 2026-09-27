@@ -1,11 +1,15 @@
 import {
   BookOpen,
   Circle,
+  FileText,
   FolderTree,
   Images,
   LayoutDashboard,
+  LayoutGrid,
+  Menu as MenuIcon,
   MessageSquare,
   Newspaper,
+  Palette,
   Settings,
   Users,
   type LucideIcon,
@@ -17,11 +21,15 @@ import {
  */
 const NAV_ICONS: Record<string, LucideIcon> = {
   'book-open': BookOpen,
+  'file-text': FileText,
   'folder-tree': FolderTree,
   images: Images,
   'layout-dashboard': LayoutDashboard,
+  'layout-grid': LayoutGrid,
+  menu: MenuIcon,
   'message-square': MessageSquare,
   newspaper: Newspaper,
+  palette: Palette,
   settings: Settings,
   users: Users,
 };

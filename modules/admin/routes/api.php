@@ -2,17 +2,23 @@
 
 use App\Enums\LanguagePermission;
 use App\Enums\MenuPermission;
+use App\Enums\PagePermission;
+use App\Enums\ThemePermission;
 use App\Enums\WebsitePermission;
+use App\Enums\WidgetPermission;
 use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
+use Modules\Admin\Http\Controllers\Admin\CustomizeController;
 use Modules\Admin\Http\Controllers\Admin\LanguageController;
 use Modules\Admin\Http\Controllers\Admin\MenuController;
 use Modules\Admin\Http\Controllers\Admin\NavigationController;
+use Modules\Admin\Http\Controllers\Admin\PageController;
 use Modules\Admin\Http\Controllers\Admin\PermissionController;
 use Modules\Admin\Http\Controllers\Admin\RoleController;
 use Modules\Admin\Http\Controllers\Admin\SettingController;
 use Modules\Admin\Http\Controllers\Admin\UserController;
 use Modules\Admin\Http\Controllers\Admin\WebsiteController;
+use Modules\Admin\Http\Controllers\Admin\WidgetController;
 use Modules\Admin\Http\Controllers\AdminController;
 use Modules\Auth\Enums\Permission;
 
@@ -39,12 +45,27 @@ Route::middleware(['auth:api', InitWebsite::class])
             ->middleware('permission:'.MenuPermission::View->value);
         Route::post('/', [MenuController::class, 'store'])
             ->middleware('permission:'.MenuPermission::Create->value);
+        Route::get('boxes', [MenuController::class, 'boxes'])
+            ->middleware('permission:'.MenuPermission::View->value);
+        Route::get('boxes/{box}', [MenuController::class, 'boxItems'])
+            ->middleware('permission:'.MenuPermission::View->value);
+        Route::get('locations', [MenuController::class, 'locations'])
+            ->middleware('permission:'.MenuPermission::View->value);
         Route::get('{menu}', [MenuController::class, 'show'])
             ->middleware('permission:'.MenuPermission::View->value);
         Route::match(['put', 'patch'], '{menu}', [MenuController::class, 'update'])
             ->middleware('permission:'.MenuPermission::Update->value);
         Route::delete('{menu}', [MenuController::class, 'destroy'])
             ->middleware('permission:'.MenuPermission::Delete->value);
+    });
+
+Route::middleware(['auth:api', InitWebsite::class])
+    ->prefix('v1/admin/websites/{website}/widgets')
+    ->group(function () {
+        Route::get('/', [WidgetController::class, 'index'])
+            ->middleware('permission:'.WidgetPermission::View->value);
+        Route::put('{sidebar}', [WidgetController::class, 'update'])
+            ->middleware('permission:'.WidgetPermission::Update->value);
     });
 
 Route::middleware(['auth:api', InitWebsite::class])
@@ -102,4 +123,32 @@ Route::middleware(['auth:api', InitWebsite::class, 'permission:'.Permission::Rol
     ->prefix('v1/admin/websites/{website}/permissions')
     ->group(function () {
         Route::get('/', [PermissionController::class, 'index']);
+    });
+
+Route::middleware(['auth:api', InitWebsite::class])
+    ->prefix('v1/admin/websites/{website}/customize')
+    ->group(function () {
+        Route::get('/', [CustomizeController::class, 'index'])
+            ->middleware('permission:'.ThemePermission::View->value);
+        Route::post('/', [CustomizeController::class, 'update'])
+            ->middleware('permission:'.ThemePermission::Update->value);
+        Route::get('page-blocks/{page}', [CustomizeController::class, 'pageBlocks'])
+            ->middleware('permission:'.ThemePermission::View->value);
+        Route::get('widgets', [CustomizeController::class, 'widgets'])
+            ->middleware('permission:'.ThemePermission::View->value);
+    });
+
+Route::middleware(['auth:api', InitWebsite::class])
+    ->prefix('v1/admin/websites/{website}/pages')
+    ->group(function () {
+        Route::get('/', [PageController::class, 'index'])
+            ->middleware('permission:'.PagePermission::View->value);
+        Route::post('/', [PageController::class, 'store'])
+            ->middleware('permission:'.PagePermission::Create->value);
+        Route::get('{page}', [PageController::class, 'show'])
+            ->middleware('permission:'.PagePermission::View->value);
+        Route::match(['put', 'patch'], '{page}', [PageController::class, 'update'])
+            ->middleware('permission:'.PagePermission::Update->value);
+        Route::delete('{page}', [PageController::class, 'destroy'])
+            ->middleware('permission:'.PagePermission::Delete->value);
     });

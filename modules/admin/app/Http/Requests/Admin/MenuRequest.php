@@ -18,6 +18,13 @@ use OpenApi\Attributes as OA;
             nullable: true
         ),
         new OA\Property(property: 'locale', type: 'string', maxLength: 10, nullable: true, example: 'en'),
+        new OA\Property(
+            property: 'location',
+            description: 'Theme locations the menu is assigned to.',
+            type: 'array',
+            nullable: true,
+            items: new OA\Items(type: 'string')
+        ),
     ]
 )]
 class MenuRequest extends FormRequest
@@ -36,6 +43,8 @@ class MenuRequest extends FormRequest
                 'json',
             ],
             'locale' => ['nullable', 'string', 'max:10'],
+            'location' => ['nullable', 'array'],
+            'location.*' => ['string'],
         ];
     }
 }

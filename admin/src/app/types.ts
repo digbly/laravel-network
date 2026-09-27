@@ -15,6 +15,12 @@ export interface ModuleI18nBundle {
 export interface AdminModule {
   /** Routes rendered inside the protected admin shell. */
   routes?: RouteObject[];
+  /**
+   * Routes rendered under `/websites/:websiteId` but outside the admin shell
+   * (no sidebar/topbar). Used by full-screen experiences such as the theme
+   * customizer.
+   */
+  standaloneRoutes?: RouteObject[];
   /** Routes rendered outside the admin shell (e.g. public auth pages). */
   publicRoutes?: RouteObject[];
   /** Translation bundles merged into the `translation` namespace on registration. */

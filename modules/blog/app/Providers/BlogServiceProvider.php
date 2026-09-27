@@ -3,8 +3,11 @@
 namespace Modules\Blog\Providers;
 
 use App\Facades\Menu;
+use App\Facades\MenuBox;
 use App\Support\MenuRepository;
 use Modules\Blog\Enums\Permission;
+use Modules\Blog\Models\Category;
+use Modules\Blog\Models\Post;
 use Nwidart\Modules\Support\ModuleServiceProvider;
 
 class BlogServiceProvider extends ModuleServiceProvider
@@ -36,6 +39,7 @@ class BlogServiceProvider extends ModuleServiceProvider
         parent::boot();
 
         $this->registerNavigation();
+        $this->registerMenuBoxes();
     }
 
     /**
@@ -80,6 +84,26 @@ class BlogServiceProvider extends ModuleServiceProvider
             'parent' => 'blog',
             'position' => $position,
             'priority' => 30,
+        ]);
+    }
+
+    /**
+     * Register the content sources the menu builder can pull items from.
+     */
+    protected function registerMenuBoxes(): void
+    {
+        MenuBox::make('posts', Post::class, fn () => [
+            'label' => __('admin.nav.blogPosts'),
+            'icon' => 'newspaper',
+            'field' => 'title',
+            'priority' => 10,
+        ]);
+
+        MenuBox::make('post-categories', Category::class, fn () => [
+            'label' => __('admin.nav.blogCategories'),
+            'icon' => 'folder-tree',
+            'field' => 'name',
+            'priority' => 20,
         ]);
     }
 }

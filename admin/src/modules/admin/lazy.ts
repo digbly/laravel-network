@@ -15,3 +15,19 @@ export const UsersView = lazy(() =>
 export const UserFormView = lazy(() =>
   import('./views/UserFormView').then((module) => ({ default: module.UserFormView }))
 );
+
+export const MenusView = lazy(() =>
+  import('./views/MenusView').then((module) => ({ default: module.MenusView }))
+);
+
+export const WidgetsView = lazy(() =>
+  import('./views/WidgetsView').then((module) => ({ default: module.WidgetsView }))
+);
+
+export const CustomizeView = lazy(() =>
+  import('./views/CustomizeView').then((module) => ({ default: module.CustomizeView }))
+);
+
+export const PagesView = lazy(() =>
+  import('./views/PagesView').then((module) => ({ default: module.PagesView }))
+);

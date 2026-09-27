@@ -2,7 +2,12 @@
 
 namespace Modules\Admin\Providers;
 
+use App\Enums\MenuPermission;
+use App\Enums\PagePermission;
+use App\Enums\ThemePermission;
+use App\Enums\WidgetPermission;
 use App\Facades\Menu;
+use App\Facades\NavMenu;
 use App\Support\MenuRepository;
 use Modules\Auth\Enums\Permission as AuthPermission;
 use Nwidart\Modules\Support\ModuleServiceProvider;
@@ -45,6 +50,25 @@ class AdminServiceProvider extends ModuleServiceProvider
         parent::boot();
 
         $this->registerNavigation();
+        $this->registerMenuLocations();
+    }
+
+    /**
+     * Register the navigation menu locations a menu can be assigned to.
+     *
+     * These live here rather than in the theme because the admin API must
+     * expose them even when no theme is booted for the current request. Themes
+     * may register additional locations through the same facade.
+     */
+    protected function registerMenuLocations(): void
+    {
+        NavMenu::make('primary', fn () => [
+            'label' => __('admin.navMenu.primary'),
+        ]);
+
+        NavMenu::make('footer', fn () => [
+            'label' => __('admin.navMenu.footer'),
+        ]);
     }
 
     /**
@@ -82,6 +106,53 @@ class AdminServiceProvider extends ModuleServiceProvider
             'permission' => AuthPermission::SettingsManage->value,
             'position' => $position,
             'priority' => 60,
+        ]);
+
+        Menu::make('appearance', fn () => [
+            'label' => __('admin.nav.appearance'),
+            'icon' => 'palette',
+            'position' => $position,
+            'priority' => 90,
+        ]);
+
+        Menu::make('menus', fn () => [
+            'label' => __('admin.nav.menus'),
+            'to' => '/menus',
+            'icon' => 'menu',
+            'permission' => MenuPermission::View->value,
+            'parent' => 'appearance',
+            'position' => $position,
+            'priority' => 10,
+        ]);
+
+        Menu::make('widgets', fn () => [
+            'label' => __('admin.nav.widgets'),
+            'to' => '/widgets',
+            'icon' => 'layout-grid',
+            'permission' => WidgetPermission::View->value,
+            'parent' => 'appearance',
+            'position' => $position,
+            'priority' => 20,
+        ]);
+
+        Menu::make('customize', fn () => [
+            'label' => __('admin.nav.customize'),
+            'to' => '/customize',
+            'icon' => 'palette',
+            'permission' => ThemePermission::View->value,
+            'parent' => 'appearance',
+            'position' => $position,
+            'priority' => 30,
+        ]);
+
+        Menu::make('pages', fn () => [
+            'label' => __('admin.nav.pages'),
+            'to' => '/pages',
+            'icon' => 'file-text',
+            'permission' => PagePermission::View->value,
+            'parent' => 'appearance',
+            'position' => $position,
+            'priority' => 40,
         ]);
     }
 

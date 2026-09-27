@@ -3,7 +3,12 @@
     "nav": {
       "dashboard": "Dashboard",
       "settings": "Settings",
-      "users": "Users"
+      "users": "Users",
+      "appearance": "Appearance",
+      "menus": "Menus",
+      "widgets": "Widgets",
+      "customize": "Customize",
+      "pages": "Pages"
     },
     "dashboard": {
       "welcome": "Welcome back, {{name}}",
@@ -35,6 +40,161 @@
       "errors": {
         "loadFailed": "Unable to load your profile. Please try again.",
         "retry": "Retry"
+      }
+    },
+    "menus": {
+      "title": "Menus",
+      "subtitle": "Build the navigation menus used across your website.",
+      "createNew": "Create new menu",
+      "selectMenu": "Select a menu to edit:",
+      "or": "or",
+      "loading": "Loading...",
+      "empty": "No menus yet. Create your first menu to get started.",
+      "name": "Menu name",
+      "namePlaceholder": "Main menu",
+      "addMenu": "Add menu",
+      "addItems": "Add menu items",
+      "structure": "Menu structure",
+      "settings": "Menu settings",
+      "save": "Save menu",
+      "delete": "Delete menu",
+      "notices": {
+        "created": "Menu created successfully.",
+        "updated": "Menu saved successfully.",
+        "deleted": "Menu deleted successfully."
+      },
+      "errors": {
+        "saveFailed": "Failed to save the menu.",
+        "deleteFailed": "Failed to delete the menu."
+      },
+      "deleteDialog": {
+        "title": "Delete menu",
+        "description": "Are you sure you want to delete \"{{name}}\"? This cannot be undone.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "builder": {
+        "level": "Lvl {{level}}",
+        "outdent": "Outdent",
+        "indent": "Indent",
+        "toggle": "Toggle details",
+        "remove": "Remove item",
+        "navigationLabel": "Navigation label",
+        "url": "URL",
+        "target": "Target",
+        "sameWindow": "Same window (_self)",
+        "newWindow": "New window (_blank)",
+        "empty": "Select items from the left to add them to the menu."
+      },
+      "boxes": {
+        "latest": "Latest",
+        "search": "Search",
+        "searchPlaceholder": "Search...",
+        "loading": "Loading...",
+        "empty": "No items found.",
+        "selectAll": "Select all",
+        "addToMenu": "Add to menu"
+      },
+      "customLink": {
+        "title": "Custom link",
+        "url": "URL",
+        "label": "Link text",
+        "labelPlaceholder": "Link text",
+        "addToMenu": "Add to menu"
+      }
+    },
+    "widgets": {
+      "title": "Widgets",
+      "subtitle": "Manage the widgets displayed in your theme sidebars.",
+      "loading": "Loading widgets...",
+      "availableWidgets": "Available widgets",
+      "noWidgets": "No widgets are registered for the active theme.",
+      "addToSidebar": "Add to sidebar",
+      "noWidgetsInSidebar": "No widgets in this sidebar yet.",
+      "toggle": "Toggle settings",
+      "remove": "Remove",
+      "save": "Save sidebar",
+      "notices": {
+        "saved": "Sidebar saved successfully."
+      },
+      "errors": {
+        "saveFailed": "Failed to save the sidebar."
+      }
+    },
+    "customize": {
+      "title": "Customize",
+      "subtitle": "Tune the site identity, homepage blocks and widgets, then publish.",
+      "loading": "Loading the customizer...",
+      "customizing": "Customizing",
+      "publish": "Publish",
+      "back": "Back",
+      "exit": "Exit customizer",
+      "footer": "Theme Customizer",
+      "panel": "Panel",
+      "section": "Section",
+      "livePreview": "Live Preview",
+      "site": {
+        "title": "Site title",
+        "description": "Site description"
+      },
+      "homePage": {
+        "title": "Home page",
+        "select": "-- Select a page --",
+        "templateBlocks": "Template blocks",
+        "addBlock": "Add block",
+        "noBlocks": "No blocks added yet.",
+        "blockTitle": "Title",
+        "blockDescription": "Description"
+      },
+      "widgets": {
+        "add": "Add widget",
+        "empty": "No sidebars are registered for the active theme.",
+        "emptySidebar": "No widgets in this sidebar yet."
+      },
+      "notices": {
+        "saved": "Customizer settings published successfully."
+      },
+      "errors": {
+        "saveFailed": "Failed to publish the customizer settings."
+      }
+    },
+    "pages": {
+      "title": "Pages",
+      "subtitle": "Create and manage the pages used across your website.",
+      "addPage": "Add page",
+      "empty": "No pages yet. Create your first page to get started.",
+      "status": {
+        "published": "Published",
+        "draft": "Draft"
+      },
+      "notices": {
+        "created": "Page created successfully.",
+        "updated": "Page updated successfully.",
+        "deleted": "Page deleted successfully."
+      },
+      "errors": {
+        "saveFailed": "Failed to save the page.",
+        "deleteFailed": "Failed to delete the page."
+      },
+      "form": {
+        "createTitle": "Add page",
+        "editTitle": "Edit page",
+        "title": "Title",
+        "titleRequired": "Title is required.",
+        "slug": "Slug",
+        "content": "Content",
+        "description": "Description",
+        "status": "Status",
+        "template": "Template",
+        "cancel": "Cancel",
+        "save": "Save changes",
+        "create": "Create page"
+      },
+      "deleteDialog": {
+        "title": "Delete page",
+        "description": "Are you sure you want to delete \"{{name}}\"? This cannot be undone.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
       }
     },
     "settings": {

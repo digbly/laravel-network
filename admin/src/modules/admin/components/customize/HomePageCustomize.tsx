@@ -1,0 +1,268 @@
+import { type FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ChevronDown, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
+import { useLazyGetPageBlocksQuery } from '../../../../store/services/customizeApi';
+import type {
+  BlockDefinition,
+  PageBlockItem,
+  PageSummary,
+  PageTemplateDefinition,
+} from '../../../../types/customize';
+
+interface HomePageCustomizeProps {
+  value: string;
+  pages: PageSummary[];
+  pageTemplates: PageTemplateDefinition[];
+  availableBlocks: BlockDefinition[];
+  blocks: Record<string, PageBlockItem[]>;
+  onChangePage: (pageId: string) => void;
+  onBlocksChange: (blocks: Record<string, PageBlockItem[]>) => void;
+}
+
+/**
+ * Homepage picker plus per-container block editor for the selected page.
+ *
+ * The page templates and available blocks are contributed by the backend
+ * (PageTemplate/PageBlock registries). Block settings use a generic
+ * title/description form until a theme ships a dedicated form.
+ */
+export const HomePageCustomize: FC<HomePageCustomizeProps> = ({
+  value,
+  pages,
+  pageTemplates,
+  availableBlocks,
+  blocks,
+  onChangePage,
+  onBlocksChange,
+}) => {
+  const { t } = useTranslation();
+  const [fetchBlocks] = useLazyGetPageBlocksQuery();
+
+  const selectedPage = pages.find((page) => page.id === value);
+  const template = pageTemplates.find((item) => item.key === selectedPage?.template);
+  const templateBlocks = template?.blocks ?? null;
+
+  const handlePageChange = async (pageId: string): Promise<void> => {
+    onChangePage(pageId);
+
+    if (!pageId) {
+      onBlocksChange({});
+      return;
+    }
+
+    try {
+      const response = await fetchBlocks(pageId).unwrap();
+      onBlocksChange(response.blocks ?? {});
+    } catch {
+      onBlocksChange({});
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
+          {t('admin.customize.homePage.title')}
+        </label>
+        <select
+          value={value}
+          onChange={(event) => void handlePageChange(event.target.value)}
+          className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white text-sm rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+        >
+          <option value="">{t('admin.customize.homePage.select')}</option>
+          {pages.map((page) => (
+            <option key={page.id} value={page.id}>
+              {page.title}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {templateBlocks && (
+        <div className="space-y-4 pt-3 border-t border-slate-100 dark:border-white/[0.06]">
+          <h5 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+            {t('admin.customize.homePage.templateBlocks')}
+          </h5>
+
+          {Object.entries(templateBlocks).map(([containerKey, containerLabel]) => (
+            <div
+              key={containerKey}
+              className="rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50/60 dark:bg-slate-900/40 p-3 space-y-3"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                  {containerLabel}
+                </span>
+                <ContainerAddBlock
+                  containerKey={containerKey}
+                  availableBlocks={availableBlocks}
+                  onAdd={(block) => {
+                    const list = blocks[containerKey] ?? [];
+                    onBlocksChange({
+                      ...blocks,
+                      [containerKey]: [
+                        ...list,
+                        { id: null, block: block.key, label: block.label, data: {} },
+                      ],
+                    });
+                  }}
+                />
+              </div>
+
+              {(blocks[containerKey] ?? []).length === 0 ? (
+                <p className="py-2 text-center text-xs italic text-slate-400">
+                  {t('admin.customize.homePage.noBlocks')}
+                </p>
+              ) : (
+                <div className="space-y-2">
+                  {(blocks[containerKey] ?? []).map((item, index) => (
+                    <BlockRow
+                      key={item.id ?? `${containerKey}-${index}`}
+                      item={item}
+                      isFirst={index === 0}
+                      isLast={index === (blocks[containerKey] ?? []).length - 1}
+                      onMove={(direction) => {
+                        const list = [...(blocks[containerKey] ?? [])];
+                        const target = direction === 'up' ? index - 1 : index + 1;
+                        if (target < 0 || target >= list.length) return;
+                        [list[index], list[target]] = [list[target], list[index]];
+                        onBlocksChange({ ...blocks, [containerKey]: list });
+                      }}
+                      onRemove={() => {
+                        const list = [...(blocks[containerKey] ?? [])];
+                        list.splice(index, 1);
+                        onBlocksChange({ ...blocks, [containerKey]: list });
+                      }}
+                      onChangeData={(field, val) => {
+                        const list = [...(blocks[containerKey] ?? [])];
+                        list[index] = { ...list[index], data: { ...list[index].data, [field]: val } };
+                        onBlocksChange({ ...blocks, [containerKey]: list });
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const ContainerAddBlock = ({
+  containerKey,
+  availableBlocks,
+  onAdd,
+}: {
+  containerKey: string;
+  availableBlocks: BlockDefinition[];
+  onAdd: (block: BlockDefinition) => void;
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <select
+      value=""
+      aria-label={t('admin.customize.homePage.addBlock')}
+      onChange={(event) => {
+        const block = availableBlocks.find((item) => item.key === event.target.value);
+        if (block) onAdd(block);
+      }}
+      className="rounded-lg border border-indigo-200 dark:border-indigo-500/30 bg-white dark:bg-slate-900 px-2 py-1 text-xs text-indigo-600 dark:text-indigo-400"
+    >
+      <option value="" disabled>
+        + {t('admin.customize.homePage.addBlock')}
+      </option>
+      {availableBlocks.map((block) => (
+        <option key={`${containerKey}-${block.key}`} value={block.key}>
+          {block.label}
+        </option>
+      ))}
+    </select>
+  );
+};
+
+const BlockRow = ({
+  item,
+  isFirst,
+  isLast,
+  onMove,
+  onRemove,
+  onChangeData,
+}: {
+  item: PageBlockItem;
+  isFirst: boolean;
+  isLast: boolean;
+  onMove: (direction: 'up' | 'down') => void;
+  onRemove: () => void;
+  onChangeData: (field: string, value: unknown) => void;
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <details className="group rounded-lg border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#0F1626]">
+      <summary className="flex cursor-pointer items-center justify-between gap-2 p-2.5 text-xs">
+        <span className="flex items-center gap-1.5 truncate">
+          <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform group-open:rotate-180" />
+          <span className="rounded bg-indigo-50 px-1.5 py-0.5 font-semibold text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400">
+            {item.block}
+          </span>
+          <span className="truncate font-medium text-slate-700 dark:text-slate-200">
+            {item.label || item.block}
+          </span>
+        </span>
+
+        <span className="flex items-center gap-0.5" onClick={(event) => event.preventDefault()}>
+          <button
+            type="button"
+            disabled={isFirst}
+            onClick={() => onMove('up')}
+            className="p-1 text-slate-400 hover:text-slate-600 disabled:opacity-30"
+          >
+            <ArrowUp className="h-3.5 w-3.5" />
+          </button>
+          <button
+            type="button"
+            disabled={isLast}
+            onClick={() => onMove('down')}
+            className="p-1 text-slate-400 hover:text-slate-600 disabled:opacity-30"
+          >
+            <ArrowDown className="h-3.5 w-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={onRemove}
+            className="p-1 text-rose-400 hover:text-rose-600"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </button>
+        </span>
+      </summary>
+
+      <div className="space-y-2 border-t border-slate-100 p-3 dark:border-white/[0.06]">
+        <label className="block text-[10px] font-medium text-slate-500">
+          {t('admin.customize.homePage.blockTitle')}
+        </label>
+        <input
+          type="text"
+          value={String(item.data?.title ?? '')}
+          onChange={(event) => onChangeData('title', event.target.value)}
+          className="w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs dark:border-white/[0.08] dark:bg-slate-900 dark:text-white"
+        />
+
+        <label className="block text-[10px] font-medium text-slate-500">
+          {t('admin.customize.homePage.blockDescription')}
+        </label>
+        <input
+          type="text"
+          value={String(item.data?.description ?? '')}
+          onChange={(event) => onChangeData('description', event.target.value)}
+          className="w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs dark:border-white/[0.08] dark:bg-slate-900 dark:text-white"
+        />
+      </div>
+    </details>
+  );
+};
+
+export default HomePageCustomize;

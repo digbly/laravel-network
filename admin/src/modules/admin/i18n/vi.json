@@ -3,7 +3,12 @@
     "nav": {
       "dashboard": "Tổng quan",
       "settings": "Cài đặt",
-      "users": "Người dùng"
+      "users": "Người dùng",
+      "appearance": "Giao diện",
+      "menus": "Menu",
+      "widgets": "Widget",
+      "customize": "Tùy biến giao diện",
+      "pages": "Trang"
     },
     "dashboard": {
       "welcome": "Chào mừng trở lại, {{name}}",
@@ -35,6 +40,161 @@
       "errors": {
         "loadFailed": "Không thể tải hồ sơ của bạn. Vui lòng thử lại.",
         "retry": "Thử lại"
+      }
+    },
+    "menus": {
+      "title": "Menu",
+      "subtitle": "Xây dựng các menu điều hướng dùng trên website của bạn.",
+      "createNew": "Tạo menu mới",
+      "selectMenu": "Chọn menu để chỉnh sửa:",
+      "or": "hoặc",
+      "loading": "Đang tải...",
+      "empty": "Chưa có menu nào. Hãy tạo menu đầu tiên để bắt đầu.",
+      "name": "Tên menu",
+      "namePlaceholder": "Menu chính",
+      "addMenu": "Thêm menu",
+      "addItems": "Thêm mục vào menu",
+      "structure": "Cấu trúc menu",
+      "settings": "Cài đặt menu",
+      "save": "Lưu menu",
+      "delete": "Xóa menu",
+      "notices": {
+        "created": "Đã tạo menu thành công.",
+        "updated": "Đã lưu menu thành công.",
+        "deleted": "Đã xóa menu thành công."
+      },
+      "errors": {
+        "saveFailed": "Không lưu được menu.",
+        "deleteFailed": "Không xóa được menu."
+      },
+      "deleteDialog": {
+        "title": "Xóa menu",
+        "description": "Bạn có chắc muốn xóa \"{{name}}\"? Thao tác này không thể hoàn tác.",
+        "confirm": "Xóa",
+        "cancel": "Hủy"
+      },
+      "builder": {
+        "level": "Cấp {{level}}",
+        "outdent": "Giảm cấp",
+        "indent": "Tăng cấp",
+        "toggle": "Bật/tắt chi tiết",
+        "remove": "Xóa mục",
+        "navigationLabel": "Nhãn điều hướng",
+        "url": "URL",
+        "target": "Target",
+        "sameWindow": "Cùng cửa sổ (_self)",
+        "newWindow": "Cửa sổ mới (_blank)",
+        "empty": "Chọn mục từ cột bên trái để thêm vào menu."
+      },
+      "boxes": {
+        "latest": "Mới nhất",
+        "search": "Tìm kiếm",
+        "searchPlaceholder": "Tìm kiếm...",
+        "loading": "Đang tải...",
+        "empty": "Không tìm thấy mục nào.",
+        "selectAll": "Chọn tất cả",
+        "addToMenu": "Thêm vào menu"
+      },
+      "customLink": {
+        "title": "Liên kết tùy chỉnh",
+        "url": "URL",
+        "label": "Văn bản liên kết",
+        "labelPlaceholder": "Văn bản liên kết",
+        "addToMenu": "Thêm vào menu"
+      }
+    },
+    "widgets": {
+      "title": "Widget",
+      "subtitle": "Quản lý các widget hiển thị trong sidebar của giao diện.",
+      "loading": "Đang tải widget...",
+      "availableWidgets": "Widget khả dụng",
+      "noWidgets": "Chưa có widget nào được đăng ký cho giao diện đang dùng.",
+      "addToSidebar": "Thêm vào sidebar",
+      "noWidgetsInSidebar": "Sidebar này chưa có widget nào.",
+      "toggle": "Bật/tắt cài đặt",
+      "remove": "Xoá",
+      "save": "Lưu sidebar",
+      "notices": {
+        "saved": "Đã lưu sidebar thành công."
+      },
+      "errors": {
+        "saveFailed": "Không lưu được sidebar."
+      }
+    },
+    "customize": {
+      "title": "Tùy biến giao diện",
+      "subtitle": "Chỉnh nhận diện website, khối trang chủ và widget rồi xuất bản.",
+      "loading": "Đang tải trình tùy biến...",
+      "customizing": "Đang tùy biến",
+      "publish": "Xuất bản",
+      "back": "Quay lại",
+      "exit": "Thoát tùy biến",
+      "footer": "Trình tùy biến giao diện",
+      "panel": "Bảng",
+      "section": "Mục",
+      "livePreview": "Xem trước trực tiếp",
+      "site": {
+        "title": "Tiêu đề site",
+        "description": "Mô tả site"
+      },
+      "homePage": {
+        "title": "Trang chủ",
+        "select": "-- Chọn một trang --",
+        "templateBlocks": "Khối theo mẫu",
+        "addBlock": "Thêm khối",
+        "noBlocks": "Chưa có khối nào.",
+        "blockTitle": "Tiêu đề",
+        "blockDescription": "Mô tả"
+      },
+      "widgets": {
+        "add": "Thêm widget",
+        "empty": "Chưa có sidebar nào cho giao diện đang dùng.",
+        "emptySidebar": "Sidebar này chưa có widget nào."
+      },
+      "notices": {
+        "saved": "Đã xuất bản cấu hình giao diện thành công."
+      },
+      "errors": {
+        "saveFailed": "Không xuất bản được cấu hình giao diện."
+      }
+    },
+    "pages": {
+      "title": "Trang",
+      "subtitle": "Tạo và quản lý các trang dùng trên website của bạn.",
+      "addPage": "Thêm trang",
+      "empty": "Chưa có trang nào. Hãy tạo trang đầu tiên.",
+      "status": {
+        "published": "Đã xuất bản",
+        "draft": "Bản nháp"
+      },
+      "notices": {
+        "created": "Đã tạo trang thành công.",
+        "updated": "Đã cập nhật trang thành công.",
+        "deleted": "Đã xóa trang thành công."
+      },
+      "errors": {
+        "saveFailed": "Không lưu được trang.",
+        "deleteFailed": "Không xóa được trang."
+      },
+      "form": {
+        "createTitle": "Thêm trang",
+        "editTitle": "Sửa trang",
+        "title": "Tiêu đề",
+        "titleRequired": "Vui lòng nhập tiêu đề.",
+        "slug": "Đường dẫn",
+        "content": "Nội dung",
+        "description": "Mô tả",
+        "status": "Trạng thái",
+        "template": "Mẫu",
+        "cancel": "Hủy",
+        "save": "Lưu thay đổi",
+        "create": "Tạo trang"
+      },
+      "deleteDialog": {
+        "title": "Xóa trang",
+        "description": "Bạn có chắc muốn xóa \"{{name}}\"? Thao tác này không thể hoàn tác.",
+        "confirm": "Xóa",
+        "cancel": "Hủy"
       }
     },
     "settings": {

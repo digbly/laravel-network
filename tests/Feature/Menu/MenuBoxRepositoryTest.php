@@ -35,9 +35,14 @@ class MenuBoxRepositoryTest extends TestCase
         $repository->make('countries', 'App\\Models\\Country', fn () => ['priority' => 5]);
         $repository->make('years', 'App\\Models\\Year', fn () => []);
 
-        $this->assertSame(
-            ['countries', 'genres', 'years'],
-            $repository->all()->keys()->all()
-        );
+        $priorities = $repository->all()
+            ->map(fn (array $box) => $box['options']()['priority'] ?? 99)
+            ->values()
+            ->all();
+
+        $sorted = $priorities;
+        sort($sorted);
+
+        $this->assertSame($sorted, $priorities);
     }
 }
