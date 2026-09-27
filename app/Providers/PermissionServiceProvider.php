@@ -2,15 +2,15 @@
 
 namespace App\Providers;
 
-use App\Enums\LanguagePermission;
-use App\Enums\MediaPermission;
-use App\Enums\MenuPermission;
-use App\Enums\PagePermission;
-use App\Enums\ThemePermission;
-use App\Enums\WebsitePermission;
-use App\Enums\WidgetPermission;
 use App\Support\PermissionRegistry;
 use Illuminate\Support\ServiceProvider;
+use Modules\Admin\Enums\LanguagePermission;
+use Modules\Admin\Enums\MediaPermission;
+use Modules\Admin\Enums\MenuPermission;
+use Modules\Admin\Enums\PagePermission;
+use Modules\Admin\Enums\ThemePermission;
+use Modules\Admin\Enums\WebsitePermission;
+use Modules\Admin\Enums\WidgetPermission;
 use Modules\Auth\Enums\Permission as AuthPermission;
 use Modules\Blog\Enums\Permission as BlogPermission;
 

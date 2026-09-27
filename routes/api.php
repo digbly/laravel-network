@@ -1,12 +1,12 @@
 <?php
 
-use App\Enums\MediaPermission;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NetworkConfigController;
 use App\Http\Controllers\SettingController;
 use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
+use Modules\Admin\Enums\MediaPermission;
 
 /*
 |--------------------------------------------------------------------------

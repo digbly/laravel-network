@@ -2,16 +2,18 @@
 
 namespace Modules\Admin\Providers;
 
-use App\Enums\MenuPermission;
-use App\Enums\PagePermission;
-use App\Enums\ThemePermission;
-use App\Enums\WidgetPermission;
 use App\Facades\Menu;
 use App\Facades\NavMenu;
+use App\Facades\Setting;
 use App\Support\MenuRepository;
+use Illuminate\Console\Scheduling\Schedule;
+use Modules\Admin\Enums\MediaPermission;
+use Modules\Admin\Enums\MenuPermission;
+use Modules\Admin\Enums\PagePermission;
+use Modules\Admin\Enums\ThemePermission;
+use Modules\Admin\Enums\WidgetPermission;
 use Modules\Auth\Enums\Permission as AuthPermission;
 use Nwidart\Modules\Support\ModuleServiceProvider;
-use Illuminate\Console\Scheduling\Schedule;
 
 class AdminServiceProvider extends ModuleServiceProvider
 {
@@ -51,6 +53,7 @@ class AdminServiceProvider extends ModuleServiceProvider
 
         $this->registerNavigation();
         $this->registerMenuLocations();
+        $this->registerSettings();
     }
 
     /**
@@ -88,6 +91,15 @@ class AdminServiceProvider extends ModuleServiceProvider
             'permission' => AuthPermission::DashboardView->value,
             'position' => $position,
             'priority' => 10,
+        ]);
+
+        Menu::make('media', fn () => [
+            'label' => __('admin.nav.media'),
+            'to' => '/media',
+            'icon' => 'images',
+            'permission' => MediaPermission::MediaView->value,
+            'position' => $position,
+            'priority' => 40,
         ]);
 
         Menu::make('users', fn () => [
@@ -157,9 +169,60 @@ class AdminServiceProvider extends ModuleServiceProvider
     }
 
     /**
+     * Register the application setting definitions.
+     */
+    protected function registerSettings(): void
+    {
+        Setting::make('title')
+            ->default((string) config('app.name'))
+            ->type('string')
+            ->translatable()
+            ->rules(['nullable', 'string', 'max:255'])
+            ->add();
+
+        Setting::make('description')
+            ->type('text')
+            ->translatable()
+            ->rules(['nullable', 'string', 'max:500'])
+            ->add();
+
+        Setting::make('sitename')
+            ->type('string')
+            ->rules(['nullable', 'string', 'max:120'])
+            ->add();
+
+        Setting::make('logo')
+            ->type('media')
+            ->rules(['nullable', 'string', 'uuid'])
+            ->add();
+
+        Setting::make('favicon')
+            ->type('media')
+            ->rules(['nullable', 'string', 'uuid'])
+            ->add();
+
+        Setting::make('banner')
+            ->type('media')
+            ->rules(['nullable', 'string', 'uuid'])
+            ->add();
+
+        Setting::make('user_registration')
+            ->default(true)
+            ->type('boolean')
+            ->rules(['nullable', 'boolean'])
+            ->add();
+
+        Setting::make('user_verification')
+            ->default(false)
+            ->type('boolean')
+            ->rules(['nullable', 'boolean'])
+            ->add();
+    }
+
+    /**
      * Define module schedules.
-     * 
-     * @param $schedule
+     *
+     * @param  $schedule
      */
     // protected function configureSchedules(Schedule $schedule): void
     // {

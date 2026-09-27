@@ -1,13 +1,13 @@
 <?php
 
-use App\Enums\LanguagePermission;
-use App\Enums\MenuPermission;
-use App\Enums\PagePermission;
-use App\Enums\ThemePermission;
-use App\Enums\WebsitePermission;
-use App\Enums\WidgetPermission;
 use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
+use Modules\Admin\Enums\LanguagePermission;
+use Modules\Admin\Enums\MenuPermission;
+use Modules\Admin\Enums\PagePermission;
+use Modules\Admin\Enums\ThemePermission;
+use Modules\Admin\Enums\WebsitePermission;
+use Modules\Admin\Enums\WidgetPermission;
 use Modules\Admin\Http\Controllers\Admin\CustomizeController;
 use Modules\Admin\Http\Controllers\Admin\LanguageController;
 use Modules\Admin\Http\Controllers\Admin\MenuController;
