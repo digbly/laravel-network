@@ -127,8 +127,6 @@
         "restore": "Khôi phục người dùng"
       },
       "notices": {
-        "created": "Tạo người dùng thành công.",
-        "updated": "Cập nhật người dùng thành công.",
         "deleted": "Xóa người dùng thành công.",
         "restored": "Khôi phục người dùng thành công.",
         "verificationSent": "Đã gửi email xác thực.",
@@ -144,6 +142,8 @@
         "resetFailed": "Đặt lại mật khẩu thất bại."
       },
       "form": {
+        "back": "Về danh sách người dùng",
+        "loadFailed": "Không tải được người dùng.",
         "createTitle": "Thêm người dùng",
         "editTitle": "Sửa người dùng",
         "createSubtitle": "Tạo tài khoản mới trong hệ thống.",

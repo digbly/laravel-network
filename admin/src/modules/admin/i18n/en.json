@@ -127,8 +127,6 @@
         "restore": "Restore user"
       },
       "notices": {
-        "created": "User created successfully.",
-        "updated": "User updated successfully.",
         "deleted": "User deleted successfully.",
         "restored": "User restored successfully.",
         "verificationSent": "Verification email sent.",
@@ -144,6 +142,8 @@
         "resetFailed": "Failed to reset the password."
       },
       "form": {
+        "back": "Back to users",
+        "loadFailed": "Failed to load the user.",
         "createTitle": "Add user",
         "editTitle": "Edit user",
         "createSubtitle": "Create a new workspace account.",

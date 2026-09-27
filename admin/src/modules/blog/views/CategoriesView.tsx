@@ -11,7 +11,6 @@ import { useDeleteCategoryMutation, useGetCategoriesQuery } from '../../../store
 import { getErrorMessage } from '../../../utils/apiError';
 import { websitePath } from '../../../utils/website';
 import type { AdminCategory, CategoryListParams } from '../../../types/blog';
-import { BlogTabs } from '../components/BlogTabs';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { Pagination } from '../components/Pagination';
 
@@ -93,8 +92,6 @@ export const CategoriesView = () => {
           {t('admin.blog.categories.add')}
         </Button>
       </div>
-
-      <BlogTabs />
 
       {notice && (
         <div

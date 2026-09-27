@@ -11,3 +11,7 @@ export const SettingsView = lazy(() =>
 export const UsersView = lazy(() =>
   import('./views/UsersView').then((module) => ({ default: module.UsersView }))
 );
+
+export const UserFormView = lazy(() =>
+  import('./views/UserFormView').then((module) => ({ default: module.UserFormView }))
+);

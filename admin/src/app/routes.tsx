@@ -8,6 +8,7 @@ import { PageLoader } from '../components/ui/PageLoader';
 import { NetworkLayout } from '../modules/network/layout/NetworkLayout';
 import {
   NetworkDashboardView,
+  NetworkUserFormView,
   NetworkUsersView,
   NetworkWebsitesView,
   WebsitePickerView,
@@ -71,6 +72,8 @@ const routes: RouteObject[] = [
       { index: true, element: <NetworkDashboardView /> },
       { path: 'websites', element: <NetworkWebsitesView /> },
       { path: 'users', element: <NetworkUsersView /> },
+      { path: 'users/new', element: <NetworkUserFormView /> },
+      { path: 'users/:userId/edit', element: <NetworkUserFormView /> },
     ],
   },
   {

@@ -14,6 +14,7 @@ import {
   Users,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Badge } from '../../../components/ui/Badge';
 import { Button } from '../../../components/ui/Button';
 import { Card, CardBody } from '../../../components/ui/Card';
@@ -21,28 +22,20 @@ import { ErrorAlert } from '../../../components/ui/ErrorAlert';
 import { Input } from '../../../components/ui/Input';
 import { useAppSelector } from '../../../store/hooks';
 import {
-  useCreateUserMutation,
   useDeleteUserMutation,
   useGetRolesQuery,
   useGetUsersQuery,
   useResendUserVerificationMutation,
   useResetUserPasswordMutation,
   useRestoreUserMutation,
-  useUpdateUserMutation,
 } from '../../../store/services/adminUserApi';
 import { getErrorMessage } from '../../../utils/apiError';
 import { getRoleVariant } from '../../../utils/role';
-import type {
-  AdminUser,
-  CreateUserPayload,
-  TrashedFilter,
-  UpdateUserPayload,
-  UserListParams,
-} from '../../../types/user';
+import { websitePath } from '../../../utils/website';
+import type { AdminUser, TrashedFilter, UserListParams } from '../../../types/user';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { Pagination } from '../components/Pagination';
 import { ResetPasswordModal } from '../components/ResetPasswordModal';
-import { UserFormModal, type UserFormValues } from '../components/UserFormModal';
 
 const PER_PAGE = 10;
 
@@ -107,6 +100,8 @@ const StatCard: FC<{ Icon: ComponentType<{ className?: string }>; label: string;
 
 export const UsersView = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const { websiteId } = useParams<{ websiteId: string }>();
   const selfId = useAppSelector((state) => state.auth.user?.id);
   const currentIsSuperAdmin = useAppSelector((state) => state.auth.user?.is_super_admin ?? false);
 
@@ -117,15 +112,10 @@ export const UsersView = () => {
   const [trashed, setTrashed] = useState<TrashedFilter | ''>('');
   const [notice, setNotice] = useState<Notice | null>(null);
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [formUser, setFormUser] = useState<AdminUser | null>(null);
-  const [formError, setFormError] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<AdminUser | null>(null);
   const [resetTarget, setResetTarget] = useState<AdminUser | null>(null);
   const [resetError, setResetError] = useState<string | null>(null);
 
-  const [createUser, createState] = useCreateUserMutation();
-  const [updateUser, updateState] = useUpdateUserMutation();
   const [deleteUser, deleteState] = useDeleteUserMutation();
   const [restoreUser] = useRestoreUserMutation();
   const [resetUserPassword, resetState] = useResetUserPasswordMutation();
@@ -175,55 +165,11 @@ export const UsersView = () => {
       : '—';
 
   const openCreate = () => {
-    setFormUser(null);
-    setFormError(null);
-    setIsFormOpen(true);
+    navigate(websitePath('/users/new', websiteId));
   };
 
   const openEdit = (user: AdminUser) => {
-    setFormUser(user);
-    setFormError(null);
-    setIsFormOpen(true);
-  };
-
-  const closeForm = () => {
-    setIsFormOpen(false);
-    setFormUser(null);
-    setFormError(null);
-  };
-
-  const handleFormSubmit = async (values: UserFormValues) => {
-    setFormError(null);
-
-    try {
-      if (formUser) {
-        const body: UpdateUserPayload = {
-          name: values.name,
-          email: values.email,
-          roles: values.roles,
-          is_super_admin: values.is_super_admin,
-        };
-
-        await updateUser({ id: String(formUser.id), body }).unwrap();
-        setNotice({ type: 'success', message: t('admin.users.notices.updated') });
-      } else {
-        const body: CreateUserPayload = {
-          name: values.name,
-          email: values.email,
-          roles: values.roles,
-          is_super_admin: values.is_super_admin,
-          password: values.password,
-          password_confirmation: values.password_confirmation,
-        };
-
-        await createUser(body).unwrap();
-        setNotice({ type: 'success', message: t('admin.users.notices.created') });
-      }
-
-      closeForm();
-    } catch (error) {
-      setFormError(getErrorMessage(error, t('admin.users.errors.saveFailed')));
-    }
+    navigate(websitePath(`/users/${user.id}/edit`, websiteId));
   };
 
   const handleDelete = async () => {
@@ -273,8 +219,6 @@ export const UsersView = () => {
       setResetError(getErrorMessage(error, t('admin.users.errors.resetFailed')));
     }
   };
-
-  const isSaving = createState.isLoading || updateState.isLoading;
 
   const renderStatus = (user: AdminUser) => {
     if (user.deleted_at) {
@@ -543,17 +487,6 @@ export const UsersView = () => {
 
         <Pagination meta={meta} isFetching={isFetching} onPageChange={setPage} />
       </Card>
-
-      {isFormOpen && (
-        <UserFormModal
-          user={formUser}
-          selfId={selfId}
-          isSubmitting={isSaving}
-          error={formError}
-          onSubmit={(values) => void handleFormSubmit(values)}
-          onClose={closeForm}
-        />
-      )}
 
       {resetTarget && (
         <ResetPasswordModal

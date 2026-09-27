@@ -11,7 +11,6 @@ import { useDeletePostMutation, useGetPostsQuery } from '../../../store/services
 import { getErrorMessage } from '../../../utils/apiError';
 import { websitePath } from '../../../utils/website';
 import type { AdminPost, PostListParams, PostStatus } from '../../../types/blog';
-import { BlogTabs } from '../components/BlogTabs';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { Pagination } from '../components/Pagination';
 
@@ -106,8 +105,6 @@ export const PostsView = () => {
           {t('admin.blog.posts.add')}
         </Button>
       </div>
-
-      <BlogTabs />
 
       {notice && (
         <div

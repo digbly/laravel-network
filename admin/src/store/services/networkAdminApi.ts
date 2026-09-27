@@ -109,6 +109,11 @@ export const networkAdminApi = apiSlice.injectEndpoints({
           : [{ type: 'NetworkUser' as const, id: 'LIST' }],
     }),
 
+    getNetworkUser: builder.query<ApiResponse<AdminUser>, string>({
+      query: (id) => `${NETWORK_PREFIX}/users/${id}`,
+      providesTags: (_result, _error, id) => [{ type: 'NetworkUser', id }],
+    }),
+
     createNetworkUser: builder.mutation<ApiResponse<AdminUser>, CreateUserPayload>({
       query: (body) => ({
         url: `${NETWORK_PREFIX}/users`,
@@ -189,6 +194,7 @@ export const {
   useDeleteNetworkWebsiteMutation,
   useGetNetworkRolesQuery,
   useGetNetworkUsersQuery,
+  useGetNetworkUserQuery,
   useCreateNetworkUserMutation,
   useUpdateNetworkUserMutation,
   useDeleteNetworkUserMutation,

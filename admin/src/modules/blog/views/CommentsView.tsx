@@ -13,7 +13,6 @@ import {
 } from '../../../store/services/blogApi';
 import { getErrorMessage } from '../../../utils/apiError';
 import type { AdminComment, CommentListParams, CommentStatus } from '../../../types/blog';
-import { BlogTabs } from '../components/BlogTabs';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { Pagination } from '../components/Pagination';
 
@@ -117,8 +116,6 @@ export const CommentsView = () => {
           {t('admin.blog.comments.subtitle')}
         </p>
       </div>
-
-      <BlogTabs />
 
       {notice && (
         <div

@@ -23,3 +23,9 @@ export const NetworkUsersView = lazy(() =>
     default: module.NetworkUsersView,
   }))
 );
+
+export const NetworkUserFormView = lazy(() =>
+  import('./views/NetworkUserFormView').then((module) => ({
+    default: module.NetworkUserFormView,
+  }))
+);

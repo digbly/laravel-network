@@ -14,6 +14,7 @@ import {
   Users,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Badge } from '../../../components/ui/Badge';
 import { Button } from '../../../components/ui/Button';
 import { Card, CardBody } from '../../../components/ui/Card';
@@ -21,31 +22,19 @@ import { ErrorAlert } from '../../../components/ui/ErrorAlert';
 import { Input } from '../../../components/ui/Input';
 import { useAppSelector } from '../../../store/hooks';
 import {
-  useCreateNetworkUserMutation,
   useDeleteNetworkUserMutation,
   useGetNetworkRolesQuery,
   useGetNetworkUsersQuery,
   useResendNetworkUserVerificationMutation,
   useResetNetworkUserPasswordMutation,
   useRestoreNetworkUserMutation,
-  useUpdateNetworkUserMutation,
 } from '../../../store/services/networkAdminApi';
 import { getErrorMessage } from '../../../utils/apiError';
 import { getRoleVariant } from '../../../utils/role';
-import type {
-  AdminUser,
-  CreateUserPayload,
-  TrashedFilter,
-  UpdateUserPayload,
-  UserListParams,
-} from '../../../types/user';
+import type { AdminUser, TrashedFilter, UserListParams } from '../../../types/user';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { Pagination } from '../components/Pagination';
 import { NetworkResetPasswordModal } from '../components/NetworkResetPasswordModal';
-import {
-  NetworkUserFormModal,
-  type NetworkUserFormValues,
-} from '../components/NetworkUserFormModal';
 
 const PER_PAGE = 10;
 
@@ -86,6 +75,7 @@ const RowAction: FC<{
 
 export const NetworkUsersPanel = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const selfId = useAppSelector((state) => state.auth.user?.id);
 
   const [page, setPage] = useState(1);
@@ -95,15 +85,10 @@ export const NetworkUsersPanel = () => {
   const [trashed, setTrashed] = useState<TrashedFilter | ''>('');
   const [notice, setNotice] = useState<Notice | null>(null);
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [formUser, setFormUser] = useState<AdminUser | null>(null);
-  const [formError, setFormError] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<AdminUser | null>(null);
   const [resetTarget, setResetTarget] = useState<AdminUser | null>(null);
   const [resetError, setResetError] = useState<string | null>(null);
 
-  const [createUser, createState] = useCreateNetworkUserMutation();
-  const [updateUser, updateState] = useUpdateNetworkUserMutation();
   const [deleteUser, deleteState] = useDeleteNetworkUserMutation();
   const [restoreUser] = useRestoreNetworkUserMutation();
   const [resetUserPassword, resetState] = useResetNetworkUserPasswordMutation();
@@ -153,55 +138,11 @@ export const NetworkUsersPanel = () => {
       : '—';
 
   const openCreate = () => {
-    setFormUser(null);
-    setFormError(null);
-    setIsFormOpen(true);
+    navigate('/network/users/new');
   };
 
   const openEdit = (user: AdminUser) => {
-    setFormUser(user);
-    setFormError(null);
-    setIsFormOpen(true);
-  };
-
-  const closeForm = () => {
-    setIsFormOpen(false);
-    setFormUser(null);
-    setFormError(null);
-  };
-
-  const handleFormSubmit = async (values: NetworkUserFormValues) => {
-    setFormError(null);
-
-    try {
-      if (formUser) {
-        const body: UpdateUserPayload = {
-          name: values.name,
-          email: values.email,
-          roles: values.roles,
-          is_super_admin: values.is_super_admin,
-        };
-
-        await updateUser({ id: String(formUser.id), body }).unwrap();
-        setNotice({ type: 'success', message: t('admin.networkAdmin.notices.userUpdated') });
-      } else {
-        const body: CreateUserPayload = {
-          name: values.name,
-          email: values.email,
-          roles: values.roles,
-          is_super_admin: values.is_super_admin,
-          password: values.password,
-          password_confirmation: values.password_confirmation,
-        };
-
-        await createUser(body).unwrap();
-        setNotice({ type: 'success', message: t('admin.networkAdmin.notices.userCreated') });
-      }
-
-      closeForm();
-    } catch (error) {
-      setFormError(getErrorMessage(error, t('admin.networkAdmin.errors.saveFailed')));
-    }
+    navigate(`/network/users/${user.id}/edit`);
   };
 
   const handleDelete = async () => {
@@ -260,8 +201,6 @@ export const NetworkUsersPanel = () => {
       setResetError(getErrorMessage(error, t('admin.networkAdmin.errors.resetFailed')));
     }
   };
-
-  const isSaving = createState.isLoading || updateState.isLoading;
 
   const renderStatus = (user: AdminUser) => {
     if (user.deleted_at) {
@@ -518,17 +457,6 @@ export const NetworkUsersPanel = () => {
             {t('admin.networkAdmin.errors.retry')}
           </Button>
         </div>
-      )}
-
-      {isFormOpen && (
-        <NetworkUserFormModal
-          user={formUser}
-          selfId={selfId}
-          isSubmitting={isSaving}
-          error={formError}
-          onSubmit={(values) => void handleFormSubmit(values)}
-          onClose={closeForm}
-        />
       )}
 
       {resetTarget && (

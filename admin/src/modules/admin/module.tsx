@@ -1,5 +1,5 @@
 import type { AdminModule } from '../../app/types';
-import { DashboardView, SettingsView, UsersView } from './lazy';
+import { DashboardView, SettingsView, UserFormView, UsersView } from './lazy';
 import i18nEn from './i18n/en.json';
 import i18nVi from './i18n/vi.json';
 
@@ -18,6 +18,16 @@ export const adminModule: AdminModule = {
     {
       path: '/users',
       element: <UsersView />,
+      handle: { permission: 'users.manage' },
+    },
+    {
+      path: '/users/new',
+      element: <UserFormView />,
+      handle: { permission: 'users.manage' },
+    },
+    {
+      path: '/users/:userId/edit',
+      element: <UserFormView />,
       handle: { permission: 'users.manage' },
     },
   ],
