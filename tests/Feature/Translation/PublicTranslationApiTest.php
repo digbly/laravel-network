@@ -9,47 +9,31 @@ class PublicTranslationApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_returns_namespaces_without_authentication(): void
+    public function test_it_returns_every_namespace_without_authentication(): void
     {
-        $this->getJson('/api/v1/translations/en/common')
+        $this->getJson('/api/v1/translations/en')
             ->assertOk()
-            ->assertJsonPath('layout.brand', 'SiteStore')
-            ->assertJsonPath('topbar.openMenu', 'Open navigation menu');
-
-        $this->getJson('/api/v1/translations/en/admin')
-            ->assertOk()
-            ->assertJsonPath('nav.dashboard', 'Dashboard')
-            ->assertJsonPath('users.title', 'Users')
-            ->assertJsonPath('media.title', 'Media Library');
-
-        $this->getJson('/api/v1/translations/en/auth')
-            ->assertOk()
-            ->assertJsonPath('login.title', 'Welcome back');
-
-        $this->getJson('/api/v1/translations/en/blog')
-            ->assertOk()
-            ->assertJsonPath('posts.title', 'Blog Posts')
-            ->assertJsonPath('nav.blogPosts', 'Blog Posts');
-
-        $this->getJson('/api/v1/translations/en/network')
-            ->assertOk()
-            ->assertJsonPath('networkAdmin.dashboard.title', 'Network dashboard');
+            ->assertJsonPath('common.layout.brand', 'SiteStore')
+            ->assertJsonPath('common.topbar.openMenu', 'Open navigation menu')
+            ->assertJsonPath('admin.nav.dashboard', 'Dashboard')
+            ->assertJsonPath('admin.users.title', 'Users')
+            ->assertJsonPath('admin.media.title', 'Media Library')
+            ->assertJsonPath('auth.login.title', 'Welcome back')
+            ->assertJsonPath('blog.posts.title', 'Blog Posts')
+            ->assertJsonPath('blog.nav.blogPosts', 'Blog Posts')
+            ->assertJsonPath('network.networkAdmin.dashboard.title', 'Network dashboard');
     }
 
     public function test_it_returns_vietnamese_translations(): void
     {
-        $this->getJson('/api/v1/translations/vi/auth')
+        $this->getJson('/api/v1/translations/vi')
             ->assertOk()
-            ->assertJsonPath('login.title', 'Chào mừng trở lại');
-
-        $this->getJson('/api/v1/translations/vi/blog')
-            ->assertOk()
-            ->assertJsonPath('posts.title', 'Bài viết');
+            ->assertJsonPath('auth.login.title', 'Chào mừng trở lại')
+            ->assertJsonPath('blog.posts.title', 'Bài viết');
     }
 
-    public function test_it_returns_not_found_for_an_unknown_locale_or_namespace(): void
+    public function test_it_returns_not_found_for_an_unknown_locale(): void
     {
-        $this->getJson('/api/v1/translations/xx/admin')->assertNotFound();
-        $this->getJson('/api/v1/translations/en/unknown')->assertNotFound();
+        $this->getJson('/api/v1/translations/xx')->assertNotFound();
     }
 }

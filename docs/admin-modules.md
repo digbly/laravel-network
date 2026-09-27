@@ -267,9 +267,11 @@ is not authorization.
 ## i18n
 
 The admin SPA loads its strings at runtime from the backend, one i18next
-namespace per module. `src/i18n/index.ts` points the i18next HTTP backend at
-`GET /api/v1/translations/{{lng}}/{{ns}}` (public, no authentication), which
-`TranslationController` answers from the language files described in
+namespace per module. A single public request to
+`GET /api/v1/translations/{locale}` (no authentication) returns every
+namespace at once; the custom backend in `src/i18n/index.ts` fetches it once
+per language and serves each namespace from cache. `TranslationController`
+builds the response from the language files described in
 `config/admin-translations.php`:
 
 | i18next namespace | Backend group | Stored in |

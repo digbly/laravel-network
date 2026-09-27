@@ -28,7 +28,7 @@ Route::get('settings', SettingController::class)->name('settings.index');
 
 Route::get('languages', LanguageController::class)->name('languages.index');
 
-Route::get('translations/{locale}/{namespace}', TranslationController::class)->name('translations.show');
+Route::get('translations/{locale}', TranslationController::class)->name('translations.show');
 
 Route::middleware(['auth:api', InitWebsite::class])
     ->prefix('admin/websites/{website}/media')
