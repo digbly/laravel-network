@@ -1,7 +1,86 @@
 {
   "admin": {
     "nav": {
+      "dashboard": "Tổng quan",
+      "settings": "Cài đặt",
       "users": "Người dùng"
+    },
+    "dashboard": {
+      "welcome": "Chào mừng trở lại, {{name}}",
+      "guest": "bạn",
+      "subtitle": "Đây là tổng quan về tài khoản của bạn.",
+      "refresh": "Làm mới",
+      "loading": "Đang tải hồ sơ của bạn...",
+      "account": {
+        "title": "Thông tin tài khoản",
+        "subtitle": "Hồ sơ đã xác thực của bạn từ API.",
+        "name": "Họ và tên",
+        "email": "Địa chỉ email",
+        "role": "Vai trò",
+        "joined": "Ngày tham gia",
+        "verified": "Đã xác minh",
+        "unverified": "Chưa xác minh"
+      },
+      "stats": {
+        "title": "Số liệu workspace",
+        "comingSoon": "Số liệu sẽ xuất hiện khi API thống kê sẵn sàng.",
+        "noData": "Chưa có dữ liệu",
+        "cards": {
+          "members": "Thành viên",
+          "devices": "Thiết bị",
+          "sessions": "Phiên hoạt động",
+          "events": "Sự kiện"
+        }
+      },
+      "errors": {
+        "loadFailed": "Không thể tải hồ sơ của bạn. Vui lòng thử lại.",
+        "retry": "Thử lại"
+      }
+    },
+    "settings": {
+      "title": "Cài đặt",
+      "subtitle": "Quản lý nhận diện công khai, thương hiệu và tùy chọn đăng ký của website này.",
+      "save": "Lưu thay đổi",
+      "general": {
+        "title": "Chung",
+        "subtitle": "Tiêu đề, mô tả và tên ngắn của site.",
+        "locale": "Ngôn ngữ"
+      },
+      "branding": {
+        "title": "Thương hiệu",
+        "subtitle": "Logo, favicon và banner dùng trên toàn site.",
+        "choose": "Chọn ảnh",
+        "change": "Đổi ảnh",
+        "remove": "Xóa",
+        "loading": "Đang tải..."
+      },
+      "users": {
+        "title": "Người dùng",
+        "subtitle": "Kiểm soát cách khách truy cập đăng ký và xác thực tài khoản."
+      },
+      "fields": {
+        "title": "Tiêu đề",
+        "titlePlaceholder": "Website của tôi",
+        "description": "Mô tả",
+        "descriptionPlaceholder": "Mô tả ngắn về website của bạn",
+        "sitename": "Tên site",
+        "sitenamePlaceholder": "MyWebsite",
+        "logo": "Logo",
+        "favicon": "Favicon",
+        "banner": "Banner",
+        "userRegistration": "Cho phép đăng ký người dùng",
+        "userRegistrationHint": "Khi tắt, khách truy cập mới không thể tạo tài khoản.",
+        "userVerification": "Bắt buộc xác thực email",
+        "userVerificationHint": "Tài khoản mới phải xác thực email trước khi đăng nhập."
+      },
+      "notices": {
+        "saved": "Lưu cài đặt thành công."
+      },
+      "errors": {
+        "loadFailed": "Không tải được cài đặt.",
+        "saveFailed": "Lưu cài đặt thất bại.",
+        "retry": "Thử lại"
+      }
     },
     "users": {
       "title": "Người dùng",

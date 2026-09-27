@@ -1,7 +1,86 @@
 {
   "admin": {
     "nav": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
       "users": "Users"
+    },
+    "dashboard": {
+      "welcome": "Welcome back, {{name}}",
+      "guest": "there",
+      "subtitle": "Here is an overview of your account.",
+      "refresh": "Refresh",
+      "loading": "Loading your profile...",
+      "account": {
+        "title": "Account information",
+        "subtitle": "Your authenticated profile from the API.",
+        "name": "Full name",
+        "email": "Email address",
+        "role": "Role",
+        "joined": "Joined",
+        "verified": "Verified",
+        "unverified": "Unverified"
+      },
+      "stats": {
+        "title": "Workspace metrics",
+        "comingSoon": "Metrics will appear here once the statistics API is available.",
+        "noData": "No data yet",
+        "cards": {
+          "members": "Members",
+          "devices": "Devices",
+          "sessions": "Active sessions",
+          "events": "Events"
+        }
+      },
+      "errors": {
+        "loadFailed": "Unable to load your profile. Please try again.",
+        "retry": "Retry"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Manage the public identity, branding and registration options of this website.",
+      "save": "Save changes",
+      "general": {
+        "title": "General",
+        "subtitle": "Site title, description and short name.",
+        "locale": "Language"
+      },
+      "branding": {
+        "title": "Branding",
+        "subtitle": "Logo, favicon and banner used across the site.",
+        "choose": "Choose image",
+        "change": "Change image",
+        "remove": "Remove",
+        "loading": "Loading..."
+      },
+      "users": {
+        "title": "Users",
+        "subtitle": "Control how visitors can register and verify accounts."
+      },
+      "fields": {
+        "title": "Title",
+        "titlePlaceholder": "My website",
+        "description": "Description",
+        "descriptionPlaceholder": "A short description of your website",
+        "sitename": "Site name",
+        "sitenamePlaceholder": "MyWebsite",
+        "logo": "Logo",
+        "favicon": "Favicon",
+        "banner": "Banner",
+        "userRegistration": "Allow user registration",
+        "userRegistrationHint": "When disabled, new visitors cannot create an account.",
+        "userVerification": "Require email verification",
+        "userVerificationHint": "New accounts must verify their email before signing in."
+      },
+      "notices": {
+        "saved": "Settings saved successfully."
+      },
+      "errors": {
+        "loadFailed": "Failed to load settings.",
+        "saveFailed": "Failed to save settings.",
+        "retry": "Retry"
+      }
     },
     "users": {
       "title": "Users",
