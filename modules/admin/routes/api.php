@@ -1,9 +1,11 @@
 <?php
 
+use App\Enums\LanguagePermission;
 use App\Enums\MenuPermission;
 use App\Enums\WebsitePermission;
 use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
+use Modules\Admin\Http\Controllers\Admin\LanguageController;
 use Modules\Admin\Http\Controllers\Admin\MenuController;
 use Modules\Admin\Http\Controllers\Admin\NavigationController;
 use Modules\Admin\Http\Controllers\Admin\PermissionController;
@@ -49,6 +51,21 @@ Route::middleware(['auth:api', InitWebsite::class])
     ->prefix('v1/admin/websites/{website}/navigation')
     ->group(function () {
         Route::get('/', [NavigationController::class, 'index']);
+    });
+
+Route::middleware(['auth:api', InitWebsite::class])
+    ->prefix('v1/admin/websites/{website}/languages')
+    ->group(function () {
+        Route::get('/', [LanguageController::class, 'index'])
+            ->middleware('permission:'.LanguagePermission::View->value);
+        Route::post('/', [LanguageController::class, 'store'])
+            ->middleware('permission:'.LanguagePermission::Create->value);
+        Route::get('{language}', [LanguageController::class, 'show'])
+            ->middleware('permission:'.LanguagePermission::View->value);
+        Route::match(['put', 'patch'], '{language}', [LanguageController::class, 'update'])
+            ->middleware('permission:'.LanguagePermission::Update->value);
+        Route::delete('{language}', [LanguageController::class, 'destroy'])
+            ->middleware('permission:'.LanguagePermission::Delete->value);
     });
 
 Route::middleware(['auth:api', InitWebsite::class, 'permission:'.Permission::SettingsManage->value])

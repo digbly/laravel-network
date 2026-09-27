@@ -2,6 +2,7 @@
 
 use App\Enums\MediaPermission;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NetworkConfigController;
 use App\Http\Controllers\SettingController;
 use App\Http\Middleware\InitWebsite;
@@ -23,6 +24,8 @@ Route::get('ping', fn () => response()->json(['status' => 'ok']));
 Route::get('network/config', NetworkConfigController::class)->name('network.config');
 
 Route::get('settings', SettingController::class)->name('settings.index');
+
+Route::get('languages', LanguageController::class)->name('languages.index');
 
 Route::middleware(['auth:api', InitWebsite::class])
     ->prefix('admin/websites/{website}/media')

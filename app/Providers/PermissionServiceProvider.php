@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\LanguagePermission;
 use App\Enums\MediaPermission;
 use App\Enums\MenuPermission;
 use App\Enums\WebsitePermission;
@@ -25,6 +26,7 @@ class PermissionServiceProvider extends ServiceProvider
             ...BlogPermission::values(),
             ...MediaPermission::values(),
             ...WebsitePermission::values(),
+            ...LanguagePermission::values(),
         ]);
     }
 }
