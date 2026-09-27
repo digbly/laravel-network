@@ -19,6 +19,7 @@
         "spatie/laravel-medialibrary": "^11.23",
         "spatie/laravel-permission": "^6.25",
         "spatie/laravel-sitemap": "^8.0",
+        "spatie/laravel-translation-loader": "^2.8",
         "wikimedia/composer-merge-plugin": "^2.1"
     },
     "require-dev": {
