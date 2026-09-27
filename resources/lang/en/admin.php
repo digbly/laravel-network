@@ -12,9 +12,15 @@ return [
         'settings' => 'Settings',
         'appearance' => 'Appearance',
         'menus' => 'Menus',
+        'widgets' => 'Widgets',
     ],
     'navMenu' => [
         'primary' => 'Primary Menu',
         'footer' => 'Footer Menu',
+    ],
+    'widgets' => [
+        'notices' => [
+            'saved' => 'Sidebar saved successfully.',
+        ],
     ],
 ];

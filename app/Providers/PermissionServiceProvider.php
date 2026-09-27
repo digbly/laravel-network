@@ -6,6 +6,7 @@ use App\Enums\LanguagePermission;
 use App\Enums\MediaPermission;
 use App\Enums\MenuPermission;
 use App\Enums\WebsitePermission;
+use App\Enums\WidgetPermission;
 use App\Support\PermissionRegistry;
 use Illuminate\Support\ServiceProvider;
 use Modules\Auth\Enums\Permission as AuthPermission;
@@ -27,6 +28,7 @@ class PermissionServiceProvider extends ServiceProvider
             ...MediaPermission::values(),
             ...WebsitePermission::values(),
             ...LanguagePermission::values(),
+            ...WidgetPermission::values(),
         ]);
     }
 }

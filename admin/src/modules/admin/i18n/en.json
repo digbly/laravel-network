@@ -5,7 +5,8 @@
       "settings": "Settings",
       "users": "Users",
       "appearance": "Appearance",
-      "menus": "Menus"
+      "menus": "Menus",
+      "widgets": "Widgets"
     },
     "dashboard": {
       "welcome": "Welcome back, {{name}}",
@@ -98,6 +99,24 @@
         "label": "Link text",
         "labelPlaceholder": "Link text",
         "addToMenu": "Add to menu"
+      }
+    },
+    "widgets": {
+      "title": "Widgets",
+      "subtitle": "Manage the widgets displayed in your theme sidebars.",
+      "loading": "Loading widgets...",
+      "availableWidgets": "Available widgets",
+      "noWidgets": "No widgets are registered for the active theme.",
+      "addToSidebar": "Add to sidebar",
+      "noWidgetsInSidebar": "No widgets in this sidebar yet.",
+      "toggle": "Toggle settings",
+      "remove": "Remove",
+      "save": "Save sidebar",
+      "notices": {
+        "saved": "Sidebar saved successfully."
+      },
+      "errors": {
+        "saveFailed": "Failed to save the sidebar."
       }
     },
     "settings": {

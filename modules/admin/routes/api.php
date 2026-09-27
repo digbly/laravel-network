@@ -3,6 +3,7 @@
 use App\Enums\LanguagePermission;
 use App\Enums\MenuPermission;
 use App\Enums\WebsitePermission;
+use App\Enums\WidgetPermission;
 use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
 use Modules\Admin\Http\Controllers\Admin\LanguageController;
@@ -13,6 +14,7 @@ use Modules\Admin\Http\Controllers\Admin\RoleController;
 use Modules\Admin\Http\Controllers\Admin\SettingController;
 use Modules\Admin\Http\Controllers\Admin\UserController;
 use Modules\Admin\Http\Controllers\Admin\WebsiteController;
+use Modules\Admin\Http\Controllers\Admin\WidgetController;
 use Modules\Admin\Http\Controllers\AdminController;
 use Modules\Auth\Enums\Permission;
 
@@ -51,6 +53,15 @@ Route::middleware(['auth:api', InitWebsite::class])
             ->middleware('permission:'.MenuPermission::Update->value);
         Route::delete('{menu}', [MenuController::class, 'destroy'])
             ->middleware('permission:'.MenuPermission::Delete->value);
+    });
+
+Route::middleware(['auth:api', InitWebsite::class])
+    ->prefix('v1/admin/websites/{website}/widgets')
+    ->group(function () {
+        Route::get('/', [WidgetController::class, 'index'])
+            ->middleware('permission:'.WidgetPermission::View->value);
+        Route::put('{sidebar}', [WidgetController::class, 'update'])
+            ->middleware('permission:'.WidgetPermission::Update->value);
     });
 
 Route::middleware(['auth:api', InitWebsite::class])

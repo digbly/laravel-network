@@ -12,9 +12,15 @@ return [
         'settings' => 'Cài đặt',
         'appearance' => 'Giao diện',
         'menus' => 'Menu',
+        'widgets' => 'Widget',
     ],
     'navMenu' => [
         'primary' => 'Menu chính',
         'footer' => 'Menu chân trang',
+    ],
+    'widgets' => [
+        'notices' => [
+            'saved' => 'Đã lưu sidebar thành công.',
+        ],
     ],
 ];

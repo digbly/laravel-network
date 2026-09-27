@@ -140,6 +140,7 @@ export const apiSlice = createApi({
     'AdminComment',
     'AdminMedia',
     'AdminMenu',
+    'AdminWidget',
     'Navigation',
     'Setting',
   ],

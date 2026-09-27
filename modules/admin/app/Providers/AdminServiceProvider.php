@@ -3,6 +3,7 @@
 namespace Modules\Admin\Providers;
 
 use App\Enums\MenuPermission;
+use App\Enums\WidgetPermission;
 use App\Facades\Menu;
 use App\Facades\NavMenu;
 use App\Support\MenuRepository;
@@ -120,6 +121,16 @@ class AdminServiceProvider extends ModuleServiceProvider
             'parent' => 'appearance',
             'position' => $position,
             'priority' => 10,
+        ]);
+
+        Menu::make('widgets', fn () => [
+            'label' => __('admin.nav.widgets'),
+            'to' => '/widgets',
+            'icon' => 'layout-grid',
+            'permission' => WidgetPermission::View->value,
+            'parent' => 'appearance',
+            'position' => $position,
+            'priority' => 20,
         ]);
     }
 

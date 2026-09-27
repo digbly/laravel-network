@@ -10,34 +10,43 @@ use Modules\Blog\Models\Post;
 class SidebarData
 {
     /**
-     * @return array{categories: Collection, recent: Collection, popular: Collection}
+     * @return Collection<int, Category>
      */
-    public function get(): array
+    public function categories(): Collection
     {
-        $limit = max(1, (int) config('default.sidebar.recent', 5));
-        $popularLimit = max(1, (int) config('default.sidebar.popular', 5));
+        return Category::query()
+            ->with('translations')
+            ->withCount(['posts' => fn (Builder $query) => $query->published()])
+            ->orderBy('created_at')
+            ->get();
+    }
 
-        return [
-            'categories' => Category::query()
-                ->with('translations')
-                ->withCount(['posts' => fn (Builder $query) => $query->published()])
-                ->orderBy('created_at')
-                ->get(),
-            'recent' => Post::query()
-                ->published()
-                ->with('translations')
-                ->latest()
-                ->orderBy('id')
-                ->limit($limit)
-                ->get(),
-            'popular' => Post::query()
-                ->published()
-                ->with('translations')
-                ->orderByDesc('views')
-                ->latest()
-                ->orderBy('id')
-                ->limit($popularLimit)
-                ->get(),
-        ];
+    /**
+     * @return Collection<int, Post>
+     */
+    public function recent(int $limit = 5): Collection
+    {
+        return Post::query()
+            ->published()
+            ->with('translations')
+            ->latest()
+            ->orderBy('id')
+            ->limit(max(1, $limit))
+            ->get();
+    }
+
+    /**
+     * @return Collection<int, Post>
+     */
+    public function popular(int $limit = 5): Collection
+    {
+        return Post::query()
+            ->published()
+            ->with('translations')
+            ->orderByDesc('views')
+            ->latest()
+            ->orderBy('id')
+            ->limit(max(1, $limit))
+            ->get();
     }
 }

@@ -19,3 +19,7 @@ export const UserFormView = lazy(() =>
 export const MenusView = lazy(() =>
   import('./views/MenusView').then((module) => ({ default: module.MenusView }))
 );
+
+export const WidgetsView = lazy(() =>
+  import('./views/WidgetsView').then((module) => ({ default: module.WidgetsView }))
+);

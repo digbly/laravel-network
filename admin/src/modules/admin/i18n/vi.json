@@ -5,7 +5,8 @@
       "settings": "Cài đặt",
       "users": "Người dùng",
       "appearance": "Giao diện",
-      "menus": "Menu"
+      "menus": "Menu",
+      "widgets": "Widget"
     },
     "dashboard": {
       "welcome": "Chào mừng trở lại, {{name}}",
@@ -98,6 +99,24 @@
         "label": "Văn bản liên kết",
         "labelPlaceholder": "Văn bản liên kết",
         "addToMenu": "Thêm vào menu"
+      }
+    },
+    "widgets": {
+      "title": "Widget",
+      "subtitle": "Quản lý các widget hiển thị trong sidebar của giao diện.",
+      "loading": "Đang tải widget...",
+      "availableWidgets": "Widget khả dụng",
+      "noWidgets": "Chưa có widget nào được đăng ký cho giao diện đang dùng.",
+      "addToSidebar": "Thêm vào sidebar",
+      "noWidgetsInSidebar": "Sidebar này chưa có widget nào.",
+      "toggle": "Bật/tắt cài đặt",
+      "remove": "Xoá",
+      "save": "Lưu sidebar",
+      "notices": {
+        "saved": "Đã lưu sidebar thành công."
+      },
+      "errors": {
+        "saveFailed": "Không lưu được sidebar."
       }
     },
     "settings": {
