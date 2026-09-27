@@ -43,6 +43,11 @@ export const mediaApi = apiSlice.injectEndpoints({
           : [{ type: 'AdminMedia' as const, id: 'LIST' }],
     }),
 
+    getMediaById: builder.query<ApiResponse<AdminMedia>, string>({
+      query: (id) => adminApiPath(`/media/${id}`),
+      providesTags: (_result, _error, id) => [{ type: 'AdminMedia' as const, id }],
+    }),
+
     uploadMedia: builder.mutation<ApiResponse<AdminMedia[]>, UploadMediaArgs>({
       query: ({ files, ...metadata }) => {
         const body = new FormData();
@@ -83,6 +88,7 @@ export const mediaApi = apiSlice.injectEndpoints({
 
 export const {
   useGetMediaQuery,
+  useGetMediaByIdQuery,
   useUploadMediaMutation,
   useUpdateMediaMutation,
   useDeleteMediaMutation,

@@ -135,7 +135,18 @@ class SettingRepository implements SettingContract
 
     public function settings(): Collection
     {
-        return new Collection(config('settings', []));
+        return new Collection(SettingsRegistry::all());
+    }
+
+    public function localized(): Collection
+    {
+        return SettingModel::query()
+            ->with('translations')
+            ->where('translatable', true)
+            ->get()
+            ->mapWithKeys(fn (SettingModel $item) => [
+                $item->code => $item->translations->pluck('lang_value', 'locale'),
+            ]);
     }
 
     public function configs(): Collection

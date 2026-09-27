@@ -12,6 +12,8 @@ use Illuminate\Support\Collection;
  */
 interface Setting
 {
+    public function locale(string $locale): static;
+
     public function make(string $key): SettingEntity;
 
     public function get(string $key, mixed $default = null): mixed;
@@ -33,6 +35,8 @@ interface Setting
     public function keys(?array $keys = null): Collection;
 
     public function settings(): Collection;
+
+    public function localized(): Collection;
 
     public function configs(): Collection;
 }

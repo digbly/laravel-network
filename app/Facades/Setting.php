@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static \App\Support\Entities\Setting make(string $key)
+ * @method static \App\Contracts\Setting locale(string $locale)
  * @method static mixed get(string $key, mixed $default = null)
  * @method static \App\Models\Setting set(string $key, mixed $value = null)
  * @method static \Illuminate\Support\Collection sets(array $keys)
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Illuminate\Support\Collection all()
  * @method static \Illuminate\Support\Collection keys(?array $keys = null)
  * @method static \Illuminate\Support\Collection settings()
+ * @method static \Illuminate\Support\Collection localized()
  * @method static \Illuminate\Support\Collection configs()
  *
  * @see SettingRepository

@@ -4,6 +4,7 @@ namespace Tests\Feature\Setting;
 
 use App\Contracts\Setting as SettingContract;
 use App\Models\Setting as SettingModel;
+use App\Support\SettingsRegistry;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,6 +17,8 @@ class SettingRepositoryTest extends TestCase
         parent::setUp();
 
         config(['app.website_id' => null]);
+
+        SettingsRegistry::flush();
     }
 
     protected function repository(): SettingContract

@@ -8,6 +8,7 @@ use Modules\Admin\Http\Controllers\Admin\MenuController;
 use Modules\Admin\Http\Controllers\Admin\NavigationController;
 use Modules\Admin\Http\Controllers\Admin\PermissionController;
 use Modules\Admin\Http\Controllers\Admin\RoleController;
+use Modules\Admin\Http\Controllers\Admin\SettingController;
 use Modules\Admin\Http\Controllers\Admin\UserController;
 use Modules\Admin\Http\Controllers\Admin\WebsiteController;
 use Modules\Admin\Http\Controllers\AdminController;
@@ -48,6 +49,13 @@ Route::middleware(['auth:api', InitWebsite::class])
     ->prefix('v1/admin/websites/{website}/navigation')
     ->group(function () {
         Route::get('/', [NavigationController::class, 'index']);
+    });
+
+Route::middleware(['auth:api', InitWebsite::class, 'permission:'.Permission::SettingsManage->value])
+    ->prefix('v1/admin/websites/{website}/settings')
+    ->group(function () {
+        Route::get('/', [SettingController::class, 'index']);
+        Route::match(['put', 'patch'], '/', [SettingController::class, 'update']);
     });
 
 Route::middleware(['auth:api', InitWebsite::class, 'permission:'.Permission::UsersManage->value])

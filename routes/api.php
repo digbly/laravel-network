@@ -3,6 +3,7 @@
 use App\Enums\MediaPermission;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\NetworkConfigController;
+use App\Http\Controllers\SettingController;
 use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('ping', fn () => response()->json(['status' => 'ok']));
 
 Route::get('network/config', NetworkConfigController::class)->name('network.config');
+
+Route::get('settings', SettingController::class)->name('settings.index');
 
 Route::middleware(['auth:api', InitWebsite::class])
     ->prefix('admin/websites/{website}/media')

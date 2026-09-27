@@ -2,6 +2,7 @@
 
 namespace App\Support\Entities;
 
+use App\Support\SettingsRegistry;
 use Illuminate\Contracts\Support\Arrayable;
 
 class Setting implements Arrayable
@@ -77,10 +78,7 @@ class Setting implements Arrayable
     {
         $this->added = true;
 
-        $settings = config('settings', []);
-        $settings[$this->key] = $this->toArray();
-
-        config(['settings' => $settings]);
+        SettingsRegistry::add($this->key, $this->toArray());
     }
 
     public function withAdded(bool $added): static
