@@ -10,5 +10,11 @@ return [
         'media' => 'Media',
         'users' => 'Users',
         'settings' => 'Settings',
+        'appearance' => 'Appearance',
+        'menus' => 'Menus',
+    ],
+    'navMenu' => [
+        'primary' => 'Primary Menu',
+        'footer' => 'Footer Menu',
     ],
 ];

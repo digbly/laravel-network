@@ -39,6 +39,12 @@ Route::middleware(['auth:api', InitWebsite::class])
             ->middleware('permission:'.MenuPermission::View->value);
         Route::post('/', [MenuController::class, 'store'])
             ->middleware('permission:'.MenuPermission::Create->value);
+        Route::get('boxes', [MenuController::class, 'boxes'])
+            ->middleware('permission:'.MenuPermission::View->value);
+        Route::get('boxes/{box}', [MenuController::class, 'boxItems'])
+            ->middleware('permission:'.MenuPermission::View->value);
+        Route::get('locations', [MenuController::class, 'locations'])
+            ->middleware('permission:'.MenuPermission::View->value);
         Route::get('{menu}', [MenuController::class, 'show'])
             ->middleware('permission:'.MenuPermission::View->value);
         Route::match(['put', 'patch'], '{menu}', [MenuController::class, 'update'])

@@ -1,0 +1,69 @@
+{
+  "admin": {
+    "nav": {
+      "appearance": "Giao diện",
+      "menus": "Menu"
+    },
+    "menus": {
+      "title": "Menu",
+      "subtitle": "Xây dựng các menu điều hướng dùng trên website của bạn.",
+      "createNew": "Tạo menu mới",
+      "selectMenu": "Chọn menu để chỉnh sửa:",
+      "or": "hoặc",
+      "loading": "Đang tải...",
+      "empty": "Chưa có menu nào. Hãy tạo menu đầu tiên để bắt đầu.",
+      "name": "Tên menu",
+      "namePlaceholder": "Menu chính",
+      "addMenu": "Thêm menu",
+      "addItems": "Thêm mục vào menu",
+      "structure": "Cấu trúc menu",
+      "settings": "Cài đặt menu",
+      "save": "Lưu menu",
+      "delete": "Xóa menu",
+      "notices": {
+        "created": "Đã tạo menu thành công.",
+        "updated": "Đã lưu menu thành công.",
+        "deleted": "Đã xóa menu thành công."
+      },
+      "errors": {
+        "saveFailed": "Không lưu được menu.",
+        "deleteFailed": "Không xóa được menu."
+      },
+      "deleteDialog": {
+        "title": "Xóa menu",
+        "description": "Bạn có chắc muốn xóa \"{{name}}\"? Thao tác này không thể hoàn tác.",
+        "confirm": "Xóa",
+        "cancel": "Hủy"
+      },
+      "builder": {
+        "level": "Cấp {{level}}",
+        "outdent": "Giảm cấp",
+        "indent": "Tăng cấp",
+        "toggle": "Bật/tắt chi tiết",
+        "remove": "Xóa mục",
+        "navigationLabel": "Nhãn điều hướng",
+        "url": "URL",
+        "target": "Target",
+        "sameWindow": "Cùng cửa sổ (_self)",
+        "newWindow": "Cửa sổ mới (_blank)",
+        "empty": "Chọn mục từ cột bên trái để thêm vào menu."
+      },
+      "boxes": {
+        "latest": "Mới nhất",
+        "search": "Tìm kiếm",
+        "searchPlaceholder": "Tìm kiếm...",
+        "loading": "Đang tải...",
+        "empty": "Không tìm thấy mục nào.",
+        "selectAll": "Chọn tất cả",
+        "addToMenu": "Thêm vào menu"
+      },
+      "customLink": {
+        "title": "Liên kết tùy chỉnh",
+        "url": "URL",
+        "label": "Văn bản liên kết",
+        "labelPlaceholder": "Văn bản liên kết",
+        "addToMenu": "Thêm vào menu"
+      }
+    }
+  }
+}

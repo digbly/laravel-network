@@ -1,0 +1,69 @@
+{
+  "admin": {
+    "nav": {
+      "appearance": "Appearance",
+      "menus": "Menus"
+    },
+    "menus": {
+      "title": "Menus",
+      "subtitle": "Build the navigation menus used across your website.",
+      "createNew": "Create new menu",
+      "selectMenu": "Select a menu to edit:",
+      "or": "or",
+      "loading": "Loading...",
+      "empty": "No menus yet. Create your first menu to get started.",
+      "name": "Menu name",
+      "namePlaceholder": "Main menu",
+      "addMenu": "Add menu",
+      "addItems": "Add menu items",
+      "structure": "Menu structure",
+      "settings": "Menu settings",
+      "save": "Save menu",
+      "delete": "Delete menu",
+      "notices": {
+        "created": "Menu created successfully.",
+        "updated": "Menu saved successfully.",
+        "deleted": "Menu deleted successfully."
+      },
+      "errors": {
+        "saveFailed": "Failed to save the menu.",
+        "deleteFailed": "Failed to delete the menu."
+      },
+      "deleteDialog": {
+        "title": "Delete menu",
+        "description": "Are you sure you want to delete \"{{name}}\"? This cannot be undone.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "builder": {
+        "level": "Lvl {{level}}",
+        "outdent": "Outdent",
+        "indent": "Indent",
+        "toggle": "Toggle details",
+        "remove": "Remove item",
+        "navigationLabel": "Navigation label",
+        "url": "URL",
+        "target": "Target",
+        "sameWindow": "Same window (_self)",
+        "newWindow": "New window (_blank)",
+        "empty": "Select items from the left to add them to the menu."
+      },
+      "boxes": {
+        "latest": "Latest",
+        "search": "Search",
+        "searchPlaceholder": "Search...",
+        "loading": "Loading...",
+        "empty": "No items found.",
+        "selectAll": "Select all",
+        "addToMenu": "Add to menu"
+      },
+      "customLink": {
+        "title": "Custom link",
+        "url": "URL",
+        "label": "Link text",
+        "labelPlaceholder": "Link text",
+        "addToMenu": "Add to menu"
+      }
+    }
+  }
+}

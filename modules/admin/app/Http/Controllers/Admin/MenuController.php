@@ -3,9 +3,12 @@
 namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Facades\MenuBox;
+use App\Facades\NavMenu;
+use App\Facades\Setting;
 use App\Http\Controllers\Controller;
 use App\Models\Menus\Menu;
 use App\Models\Website;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -78,6 +81,118 @@ class MenuController extends Controller
         return MenuResource::make(
             Menu::withDataItems()->findOrFail($menu->getKey())
         );
+    }
+
+    #[OA\Get(
+        path: '/api/v1/admin/websites/{website}/menus/boxes',
+        summary: 'List available menu boxes',
+        operationId: 'menus.boxes',
+        tags: ['Menus'],
+        security: [['bearerAuth' => []]],
+        parameters: [
+            new OA\Parameter(name: 'website', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Menu boxes'),
+        ]
+    )]
+    public function boxes(Website $website, Request $request): JsonResponse
+    {
+        app()->setLocale($request->getPreferredLanguage(['en', 'vi']));
+
+        $boxes = MenuBox::all()
+            ->map(fn (array $box, string $key) => [
+                'key' => $key,
+                'label' => $box['options']()['label'] ?? ucfirst($key),
+            ])
+            ->values();
+
+        return response()->json(['data' => $boxes]);
+    }
+
+    #[OA\Get(
+        path: '/api/v1/admin/websites/{website}/menus/boxes/{box}',
+        summary: 'List items available for a menu box',
+        operationId: 'menus.boxes.items',
+        tags: ['Menus'],
+        security: [['bearerAuth' => []]],
+        parameters: [
+            new OA\Parameter(name: 'website', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
+            new OA\Parameter(name: 'box', in: 'path', required: true, schema: new OA\Schema(type: 'string')),
+            new OA\Parameter(name: 'q', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Menu box items'),
+        ]
+    )]
+    public function boxItems(Website $website, string $box, Request $request): JsonResponse
+    {
+        app()->setLocale($request->getPreferredLanguage(['en', 'vi']));
+
+        $definition = MenuBox::get($box);
+        $class = $definition['class'] ?? null;
+
+        if (! $class || ! class_exists($class)) {
+            return response()->json(['results' => []]);
+        }
+
+        $field = $definition['options']()['field'] ?? 'name';
+        $search = $request->string('q')->toString();
+        $translatable = (new $class) instanceof TranslatableContract;
+
+        $query = $class::query()->latest();
+
+        if ($translatable) {
+            $query->with('translations');
+
+            if ($search !== '') {
+                $query->whereHas(
+                    'translations',
+                    fn ($builder) => $builder->where($field, 'like', "%{$search}%")
+                );
+            }
+        } elseif ($search !== '') {
+            $query->where($field, 'like', "%{$search}%");
+        }
+
+        $results = $query->limit(20)->get()->map(fn ($item) => [
+            'id' => $item->getKey(),
+            'text' => (string) $item->{$field},
+            'menuable_class' => get_class($item),
+            'menuable_class_name' => class_basename($item),
+        ]);
+
+        return response()->json(['results' => $results]);
+    }
+
+    #[OA\Get(
+        path: '/api/v1/admin/websites/{website}/menus/locations',
+        summary: 'List menu locations',
+        operationId: 'menus.locations',
+        tags: ['Menus'],
+        security: [['bearerAuth' => []]],
+        parameters: [
+            new OA\Parameter(name: 'website', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Menu locations'),
+        ]
+    )]
+    public function locations(Website $website, Request $request): JsonResponse
+    {
+        app()->setLocale($request->getPreferredLanguage(['en', 'vi']));
+
+        $locations = NavMenu::all()
+            ->map(fn (array $nav, string $key) => [
+                'key' => $key,
+                'label' => $nav['label'] ?? ucfirst($key),
+            ])
+            ->values();
+
+        return response()->json([
+            'data' => $locations,
+            'selected' => (array) Setting::get('nav_location', []),
+        ]);
     }
 
     #[OA\Post(
@@ -170,6 +285,10 @@ class MenuController extends Controller
                         ->orWhereColumn('id', 'parent_id')
                 )
                 ->delete();
+
+            if ($request->has('location')) {
+                $this->syncLocations($menu, (array) $request->input('location', []));
+            }
         });
 
         return MenuResource::make(
@@ -251,5 +370,28 @@ class MenuController extends Controller
         }
 
         return $keptIds;
+    }
+
+    /**
+     * Assign the menu to the given theme locations, detaching it from the
+     * locations it no longer belongs to.
+     *
+     * @param  array<int, string>  $locations
+     */
+    protected function syncLocations(Menu $menu, array $locations): void
+    {
+        $config = (array) Setting::get('nav_location', []);
+
+        foreach ($config as $key => $menuId) {
+            if ((string) $menuId === (string) $menu->getKey()) {
+                unset($config[$key]);
+            }
+        }
+
+        foreach ($locations as $location) {
+            $config[$location] = $menu->getKey();
+        }
+
+        Setting::set('nav_location', $config);
     }
 }
