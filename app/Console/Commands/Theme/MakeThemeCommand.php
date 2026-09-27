@@ -30,7 +30,8 @@ class MakeThemeCommand extends Command
 
         $studly = Str::studly($name);
         $alias = Str::kebab($name);
-        $directory = rtrim(config('themes.paths.themes'), '/').'/'.$studly;
+        $slug = Str::slug($name);
+        $directory = rtrim(config('themes.paths.themes'), '/').'/'.$slug;
 
         if ($files->isDirectory($directory) && ! $this->option('force')) {
             $this->components->error("Theme [{$studly}] already exists. Use --force to overwrite.");
@@ -66,7 +67,7 @@ class MakeThemeCommand extends Command
 
         $this->dumpAutoload();
 
-        $this->components->info("Theme [{$studly}] created at themes/{$studly}.");
+        $this->components->info("Theme [{$studly}] created at themes/{$slug}.");
 
         return self::SUCCESS;
     }

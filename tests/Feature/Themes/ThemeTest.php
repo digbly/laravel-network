@@ -238,7 +238,7 @@ class ThemeTest extends TestCase
     {
         $this->artisan('theme:make', ['name' => 'Blog'])->assertSuccessful();
 
-        $directory = $this->themesPath.'/Blog';
+        $directory = $this->themesPath.'/blog';
 
         $this->assertFileExists($directory.'/theme.json');
         $this->assertFileExists($directory.'/composer.json');
@@ -269,7 +269,7 @@ class ThemeTest extends TestCase
     {
         $this->artisan('theme:make', ['name' => 'My Theme'])->assertSuccessful();
 
-        $this->assertFileExists($this->themesPath.'/MyTheme/theme.json');
+        $this->assertFileExists($this->themesPath.'/my-theme/theme.json');
         $this->assertTrue($this->repository()->findOrFail('MyTheme')->isEnabled());
     }
 
