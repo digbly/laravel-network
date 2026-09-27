@@ -2,8 +2,14 @@
 
 namespace Themes\Default\Providers;
 
+use App\Facades\Customize;
+use App\Facades\PageBlock;
+use App\Facades\PageTemplate;
 use App\Facades\Sidebar;
+use App\Facades\ThemeSetting;
 use App\Facades\Widget;
+use App\Support\Customizes\Customize as CustomizeBuilder;
+use App\Support\Customizes\CustomizeControl;
 use App\Support\SidebarRenderer;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -21,6 +27,10 @@ class ThemeServiceProvider extends ServiceProvider
         $this->registerErrorViews();
         $this->registerSidebars();
         $this->registerWidgets();
+        $this->registerPageTemplates();
+        $this->registerPageBlocks();
+        $this->registerThemeSettings();
+        $this->registerCustomizePanels();
 
         View::composer('default::partials.sidebar', function ($view): void {
             $view->with(
@@ -73,6 +83,81 @@ class ThemeServiceProvider extends ServiceProvider
             'only' => ['sidebar'],
             'defaults' => ['limit' => 5],
         ]);
+    }
+
+    /**
+     * Register the page templates the homepage builder can assign to a page,
+     * mapping each template to the containers its blocks are placed in.
+     */
+    protected function registerPageTemplates(): void
+    {
+        PageTemplate::make('landing', fn () => [
+            'label' => __('default::messages.page_template_landing'),
+            'blocks' => [
+                'content' => __('default::messages.page_container_content'),
+            ],
+        ]);
+    }
+
+    /**
+     * Register the blocks available to the page templates of this theme.
+     */
+    protected function registerPageBlocks(): void
+    {
+        PageBlock::make('hero', fn () => [
+            'label' => __('default::messages.page_block_hero'),
+        ]);
+
+        PageBlock::make('posts', fn () => [
+            'label' => __('default::messages.page_block_posts'),
+        ]);
+    }
+
+    /**
+     * Register the theme settings the customizer exposes.
+     */
+    protected function registerThemeSettings(): void
+    {
+        ThemeSetting::make('home_page')
+            ->type('string')
+            ->default(null)
+            ->add();
+    }
+
+    /**
+     * Register the customizer panels owned by this theme. The homepage control
+     * pairs the theme setting with the page templates registered above; the
+     * widgets control exposes the theme sidebars.
+     */
+    protected function registerCustomizePanels(): void
+    {
+        Customize::register(function (CustomizeBuilder $customize): void {
+            $customize->addSection('home_page_settings', [
+                'title' => __('admin.customize.home_page'),
+                'priority' => 1,
+            ]);
+
+            $customize->addControl(new CustomizeControl('home_page', [
+                'label' => __('admin.customize.home_page'),
+                'section' => 'home_page_settings',
+                'settings' => 'home_page',
+                'type' => 'homepage',
+                'is_theme' => true,
+            ]));
+
+            $customize->addSection('widgets', [
+                'title' => __('admin.customize.widgets'),
+                'priority' => 3,
+            ]);
+
+            $customize->addControl(new CustomizeControl('widgets', [
+                'label' => __('admin.customize.widgets'),
+                'section' => 'widgets',
+                'settings' => 'widgets',
+                'type' => 'widgets',
+                'is_theme' => true,
+            ]));
+        });
     }
 
     /**

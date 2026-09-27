@@ -3,6 +3,8 @@
 namespace Modules\Admin\Providers;
 
 use App\Enums\MenuPermission;
+use App\Enums\PagePermission;
+use App\Enums\ThemePermission;
 use App\Enums\WidgetPermission;
 use App\Facades\Menu;
 use App\Facades\NavMenu;
@@ -131,6 +133,26 @@ class AdminServiceProvider extends ModuleServiceProvider
             'parent' => 'appearance',
             'position' => $position,
             'priority' => 20,
+        ]);
+
+        Menu::make('customize', fn () => [
+            'label' => __('admin.nav.customize'),
+            'to' => '/customize',
+            'icon' => 'palette',
+            'permission' => ThemePermission::View->value,
+            'parent' => 'appearance',
+            'position' => $position,
+            'priority' => 30,
+        ]);
+
+        Menu::make('pages', fn () => [
+            'label' => __('admin.nav.pages'),
+            'to' => '/pages',
+            'icon' => 'file-text',
+            'permission' => PagePermission::View->value,
+            'parent' => 'appearance',
+            'position' => $position,
+            'priority' => 40,
         ]);
     }
 

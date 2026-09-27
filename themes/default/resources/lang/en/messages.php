@@ -38,4 +38,8 @@ return [
     'widget_popular_posts_description' => 'Display the most viewed published posts.',
     'sidebar_main' => 'Main sidebar',
     'sidebar_main_description' => 'The primary blog sidebar.',
+    'page_template_landing' => 'Landing Page',
+    'page_container_content' => 'Content',
+    'page_block_hero' => 'Hero',
+    'page_block_posts' => 'Posts',
 ];

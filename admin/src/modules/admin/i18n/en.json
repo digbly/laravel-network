@@ -6,7 +6,9 @@
       "users": "Users",
       "appearance": "Appearance",
       "menus": "Menus",
-      "widgets": "Widgets"
+      "widgets": "Widgets",
+      "customize": "Customize",
+      "pages": "Pages"
     },
     "dashboard": {
       "welcome": "Welcome back, {{name}}",
@@ -117,6 +119,80 @@
       },
       "errors": {
         "saveFailed": "Failed to save the sidebar."
+      }
+    },
+    "customize": {
+      "title": "Customize",
+      "subtitle": "Tune the site identity, homepage blocks and widgets, then publish.",
+      "loading": "Loading the customizer...",
+      "customizing": "Customizing",
+      "publish": "Publish",
+      "back": "Back",
+      "panel": "Panel",
+      "section": "Section",
+      "livePreview": "Live Preview",
+      "site": {
+        "title": "Site title",
+        "description": "Site description"
+      },
+      "homePage": {
+        "title": "Home page",
+        "select": "-- Select a page --",
+        "templateBlocks": "Template blocks",
+        "addBlock": "Add block",
+        "noBlocks": "No blocks added yet.",
+        "blockTitle": "Title",
+        "blockDescription": "Description"
+      },
+      "widgets": {
+        "add": "Add widget",
+        "empty": "No sidebars are registered for the active theme.",
+        "emptySidebar": "No widgets in this sidebar yet."
+      },
+      "notices": {
+        "saved": "Customizer settings published successfully."
+      },
+      "errors": {
+        "saveFailed": "Failed to publish the customizer settings."
+      }
+    },
+    "pages": {
+      "title": "Pages",
+      "subtitle": "Create and manage the pages used across your website.",
+      "addPage": "Add page",
+      "empty": "No pages yet. Create your first page to get started.",
+      "status": {
+        "published": "Published",
+        "draft": "Draft"
+      },
+      "notices": {
+        "created": "Page created successfully.",
+        "updated": "Page updated successfully.",
+        "deleted": "Page deleted successfully."
+      },
+      "errors": {
+        "saveFailed": "Failed to save the page.",
+        "deleteFailed": "Failed to delete the page."
+      },
+      "form": {
+        "createTitle": "Add page",
+        "editTitle": "Edit page",
+        "title": "Title",
+        "titleRequired": "Title is required.",
+        "slug": "Slug",
+        "content": "Content",
+        "description": "Description",
+        "status": "Status",
+        "template": "Template",
+        "cancel": "Cancel",
+        "save": "Save changes",
+        "create": "Create page"
+      },
+      "deleteDialog": {
+        "title": "Delete page",
+        "description": "Are you sure you want to delete \"{{name}}\"? This cannot be undone.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
       }
     },
     "settings": {

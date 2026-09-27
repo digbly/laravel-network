@@ -1,6 +1,7 @@
 <?php
 
 use App\Contracts\Network as NetworkContract;
+use App\Contracts\ThemeSetting as ThemeSettingContract;
 use App\Models\Website;
 use App\Themes\FileRepository;
 use App\Themes\Theme;
@@ -78,6 +79,21 @@ if (! function_exists('theme_name')) {
         }
 
         return config('themes.default');
+    }
+}
+
+if (! function_exists('theme_setting')) {
+    /**
+     * Get a theme setting value, or the theme setting repository when called
+     * without arguments.
+     */
+    function theme_setting(?string $key = null, mixed $default = null): mixed
+    {
+        if (func_num_args() > 0) {
+            return app(ThemeSettingContract::class)->get($key, $default);
+        }
+
+        return app(ThemeSettingContract::class);
     }
 }
 

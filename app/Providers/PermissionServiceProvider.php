@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Enums\LanguagePermission;
 use App\Enums\MediaPermission;
 use App\Enums\MenuPermission;
+use App\Enums\PagePermission;
+use App\Enums\ThemePermission;
 use App\Enums\WebsitePermission;
 use App\Enums\WidgetPermission;
 use App\Support\PermissionRegistry;
@@ -29,6 +31,8 @@ class PermissionServiceProvider extends ServiceProvider
             ...WebsitePermission::values(),
             ...LanguagePermission::values(),
             ...WidgetPermission::values(),
+            ...PagePermission::values(),
+            ...ThemePermission::values(),
         ]);
     }
 }

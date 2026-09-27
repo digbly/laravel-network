@@ -1,6 +1,7 @@
 import {
   BookOpen,
   Circle,
+  FileText,
   FolderTree,
   Images,
   LayoutDashboard,
@@ -20,6 +21,7 @@ import {
  */
 const NAV_ICONS: Record<string, LucideIcon> = {
   'book-open': BookOpen,
+  'file-text': FileText,
   'folder-tree': FolderTree,
   images: Images,
   'layout-dashboard': LayoutDashboard,
