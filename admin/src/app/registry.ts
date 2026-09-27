@@ -1,32 +1,10 @@
-import i18n, { i18nReady } from '../i18n';
 import type { RouteObject } from 'react-router-dom';
 import type { AdminModule } from './types';
 
 const modules: AdminModule[] = [];
 
-const mergeModuleTranslations = (module: AdminModule): void => {
-  if (!module.i18n) return;
-
-  Object.entries(module.i18n).forEach(([language, bundle]) => {
-    i18n.addResourceBundle(language, 'translation', bundle, true, true);
-  });
-};
-
-/**
- * Merge module translation bundles only after the shared `translation`
- * namespace has loaded, otherwise the HTTP backend would overwrite them.
- */
-const applyTranslations = (registered: AdminModule[]): void => {
-  i18nReady
-    .then(() => registered.forEach(mergeModuleTranslations))
-    .catch((error) => {
-      console.error('Failed to merge module translations', error);
-    });
-};
-
 export const registerModules = (registered: AdminModule[]): void => {
   modules.push(...registered);
-  applyTranslations(registered);
 };
 
 export const getAdminRoutes = (): RouteObject[] =>

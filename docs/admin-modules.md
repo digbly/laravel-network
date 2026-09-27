@@ -10,7 +10,7 @@ feature-agnostic.
 ```
 admin/src/
   app/
-    types.ts        # AdminModule, ModuleI18nBundle
+    types.ts        # AdminModule
     registry.ts     # registerModules(), getAdminRoutes(), getPublicRoutes()
     routes.tsx      # builds the RouteObject[] via useRoutes()
     modules.ts      # registers every module (imported for side effects)
@@ -21,10 +21,9 @@ admin/src/
       layout/AuthLayout.tsx
       views/*.tsx
     dashboard/
-      module.tsx    # nav + routes + i18n
+      module.tsx    # nav + routes
       lazy.ts
       views/DashboardView.tsx
-      i18n/{en,vi}.json
     users/ settings/ ...
   components/       # shared UI, layout shell, route guards
   store/ utils/     # shared state and helpers
@@ -59,28 +58,39 @@ export const ReportsView = lazy(() =>
 
 ### 3. Add translations
 
-`admin/src/modules/reports/i18n/en.json`
+The admin SPA has no bundled translations: every string is served by the
+backend from language files declared in `config/admin-translations.php`. Give
+the module its own i18next namespace so it owns its strings.
 
-```json
-{
-  "admin": {
-    "reports": { "title": "Reports" }
-  }
-}
+1. Declare the namespace in `config/admin-translations.php`:
+
+```php
+'reports' => ['group' => 'reports', 'module' => 'Reports'],
 ```
 
-`admin/src/modules/reports/i18n/vi.json`
+2. Create the language files in the owning module:
 
-```json
-{
-  "admin": {
-    "reports": { "title": "Báo cáo" }
-  }
-}
+```php
+// modules/reports/lang/en/reports.php
+return [
+    'title' => 'Reports',
+];
 ```
 
-Use `vi.json` for the key set. Both files are merged into the `translation`
-namespace at runtime.
+```php
+// modules/reports/lang/vi/reports.php
+return [
+    'title' => 'Báo cáo',
+];
+```
+
+3. Load it in the view with `const { t } = useTranslation();` and use
+   `t('reports:title')`. Shared shell strings fall back to the `common`
+   namespace, so they need no prefix.
+
+A module that only adds pages to the existing admin shell can instead add keys
+under the `admin` group in `modules/admin/lang/{en,vi}/admin.php` and use
+`t('admin:pages.title')`.
 
 ### 4. Describe the module
 
@@ -89,8 +99,6 @@ namespace at runtime.
 ```tsx
 import type { AdminModule } from '../../app/types';
 import { ReportsView } from './lazy';
-import i18nEn from './i18n/en.json';
-import i18nVi from './i18n/vi.json';
 
 export const reportsModule: AdminModule = {
   routes: [
@@ -100,7 +108,6 @@ export const reportsModule: AdminModule = {
       handle: { permission: 'reports.view' },
     },
   ],
-  i18n: { en: i18nEn, vi: i18nVi },
 };
 ```
 
@@ -114,11 +121,11 @@ through the `Menu` repository (see "Navigation and titles").
 ```ts
 import { reportsModule } from '../modules/reports/module';
 
-registerModules([authModule, dashboardModule, usersModule, settingsModule, reportsModule]);
+registerModules([authModule, adminModule, blogModule, reportsModule]);
 ```
 
-That is all: the route, the sidebar entry, the topbar title, and the
-translations are wired automatically.
+That is all: the route, the sidebar entry and the topbar title are wired
+automatically; translations come from the namespace declared earlier.
 
 ## Module contract
 
@@ -128,12 +135,12 @@ Defined in `admin/src/app/types.ts`:
 interface AdminModule {
   routes?: RouteObject[];        // inside ProtectedRoute + AdminLayout
   publicRoutes?: RouteObject[];  // outside the admin shell (e.g. auth pages)
-  i18n?: { [language: string]: Record<string, unknown> };
 }
 ```
 
 All fields are optional, so `auth` only provides `publicRoutes`, while feature
-modules provide `routes` + `i18n`.
+modules provide `routes` (and optionally `standaloneRoutes`). Translations are
+not part of the module contract; they are served by the backend namespaces.
 
 The sidebar navigation has its own contract, returned by the backend
 (`admin/src/types/navigation.ts`):
@@ -203,9 +210,9 @@ Menu::make('reports', fn () => [
   the parent item itself usually has no `to`.
 - Registering in the owning module means a disabled module contributes no
   sidebar items.
-- `priority` controls ordering. Labels live in
-  `resources/lang/{en,vi}/admin.php` and follow the request `Accept-Language`
-  header.
+- `priority` controls ordering. Labels live in the owning module's language
+  file (`modules/admin/lang/{en,vi}/admin.php`, `modules/blog/lang/{en,vi}/blog.php`)
+  and follow the request `Accept-Language` header.
 - The route stays in the frontend module (`routes` + `handle.permission`); the
   menu only controls what the sidebar shows.
 
@@ -259,19 +266,54 @@ is not authorization.
 
 ## i18n
 
-Module bundles are merged into the `translation` namespace after the shared file
-(`admin/public/locales/<lng>/translation.json`) has loaded, so the HTTP backend
-cannot overwrite them. Keys are namespaced under `admin`:
+The admin SPA loads its strings at runtime from the backend, one i18next
+namespace per module. `src/i18n/index.ts` points the i18next HTTP backend at
+`GET /api/v1/translations/{{lng}}/{{ns}}` (public, no authentication), which
+`TranslationController` answers from the language files described in
+`config/admin-translations.php`:
+
+| i18next namespace | Backend group | Stored in |
+| ----------------- | ------------- | --------- |
+| `common`          | `common`      | `resources/lang/{en,vi}/common.php` (shell + auth/network layout) |
+| `admin`           | `admin`       | `modules/admin/lang/{en,vi}/admin.php` (also holds the backend navigation labels) |
+| `auth`            | `admin_auth`  | `modules/auth/lang/{en,vi}/admin_auth.php` |
+| `blog`            | `blog`        | `modules/blog/lang/{en,vi}/blog.php` |
+| `network`         | `network`     | `modules/network/lang/{en,vi}/network.php` |
+
+`App\Support\AdminTranslations` resolves each namespace to its backend group
+and owning module. `registerNamespaces()` registers module directories as
+translation namespaces independently of module activation (the Network module
+is not always enabled). Add a namespace to `config/admin-translations.php` with
+its `group` and optional `module` to make it available.
+
+Components call `useTranslation()` and reference the namespace inline with
+i18next's `namespace:key` syntax (`t('blog:posts.title')`). Keys without a
+namespace prefix resolve against `common`
+(`defaultNS`/`fallbackNS: 'common'`) for shared shell strings:
 
 ```
-admin.nav.<module>       in-page nav labels (tabs) + topbar fallback label
-admin.<module>.*         module-specific strings
-admin.forbidden.*        shared access-denied screen
-admin.topbar.* / admin.userMenu.* / admin.role.* / admin.comingSoon   shared shell
+common:  topbar.*, userMenu.*, role.*, forbidden.*, comingSoon,
+         brandDesc, version, layout.*
+admin:   nav.* (also read by the backend menu), dashboard.*, users.*,
+         settings.*, media.*, menus.*, widgets.*, customize.*, pages.*
+auth:    login.*, register.*, forgotPassword.*, resetPassword.*, verifyEmail.*, oauth.*
+blog:    nav.* (also read by the backend menu), posts.*, categories.*,
+         comments.*, pagination.*
+network: network.*, networkAdmin.*
 ```
 
-JSON imports require `resolveJsonModule` in `admin/tsconfig.app.json` (already
-enabled).
+Cross-namespace references are explicit: the blog post form uses
+`t('blog:posts.title')` for its own strings and `t('admin:media.insertImage')`
+for the shared media picker.
+
+Locales are discovered from the directories in `resources/lang/` and every
+owning module's `lang/`; the frontend is limited to the codes listed in
+`supportedLngs` (`['en', 'vi']`). Unknown locales or namespaces return `404`.
+
+The `nav.*` labels live in the `admin`/`blog` namespaces and are read by both
+sides: the backend menu uses `__('admin.nav.dashboard')` /
+`__('blog.nav.blogPosts')`, and the shell uses `t('admin:nav.dashboard')` /
+`t('admin:nav.menuLabel')`.
 
 ## Conventions and gotchas
 
@@ -281,7 +323,10 @@ enabled).
   grows (e.g. `/reports`, `/reports/settings`).
 - Backend modules should namespace their API routes per module
   (`api/v1/reports/...`) to avoid collisions.
-- Do not touch `src/i18n` for module strings — use the module's `i18n/*.json`.
+- Do not add translation JSON to the frontend. Strings live in the backend:
+  the shared shell in `resources/lang/{en,vi}/common.php`, and each module's
+  own strings in that module's `lang/` directory. Reference them with
+  `useTranslation()` + `t('<namespace>:key')`.
 
 ## Verify
 
@@ -301,11 +346,11 @@ php artisan test tests/Unit/Auth tests/Feature/Auth
 
 - [ ] `modules/<name>/views/XxxView.tsx` created
 - [ ] `modules/<name>/lazy.ts` exports the lazy component
-- [ ] `modules/<name>/i18n/{en,vi}.json` hold `admin.<name>.*`
+- [ ] Namespace declared in `config/admin-translations.php`; strings added to the owning module's `lang/{en,vi}/<group>.php`
 - [ ] `modules/<name>/module.tsx` exports the `AdminModule`
 - [ ] `src/app/modules.ts` registers the module
 - [ ] Sidebar item registered in the owning module's service provider via `Menu::make()` with label, `to`, icon and permission
-- [ ] Label added to `resources/lang/{en,vi}/admin.php`; icon added to `src/utils/navIcons.ts` if new
+- [ ] Label added to the owning module's language file; icon added to `src/utils/navIcons.ts` if new
 - [ ] New permission (if any) added to a backend permission enum, registered in `PermissionServiceProvider` + run `php artisan permission:generate`
 - [ ] `handle.permission` on the route and `permission` on the menu item match the backend string
 - [ ] `npm run lint` and `npm run build` pass

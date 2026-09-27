@@ -33,17 +33,17 @@ export const NetworkResetPasswordModal: FC<NetworkResetPasswordModalProps> = ({
     const errors: Record<string, string> = {};
 
     if (!password) {
-      errors.password = t('admin.networkAdmin.userForm.errors.passwordRequired');
+      errors.password = t('network:networkAdmin.userForm.errors.passwordRequired');
     } else if (password.length < MIN_PASSWORD_LENGTH) {
-      errors.password = t('admin.networkAdmin.userForm.errors.passwordMin', {
+      errors.password = t('network:networkAdmin.userForm.errors.passwordMin', {
         min: MIN_PASSWORD_LENGTH,
       });
     }
 
     if (!confirmation) {
-      errors.password_confirmation = t('admin.networkAdmin.userForm.errors.confirmRequired');
+      errors.password_confirmation = t('network:networkAdmin.userForm.errors.confirmRequired');
     } else if (password !== confirmation) {
-      errors.password_confirmation = t('admin.networkAdmin.userForm.errors.passwordMismatch');
+      errors.password_confirmation = t('network:networkAdmin.userForm.errors.passwordMismatch');
     }
 
     setFieldErrors(errors);
@@ -57,17 +57,17 @@ export const NetworkResetPasswordModal: FC<NetworkResetPasswordModalProps> = ({
     <Modal
       isOpen
       onClose={onClose}
-      title={t('admin.networkAdmin.resetPassword.title')}
-      description={t('admin.networkAdmin.resetPassword.subtitle', { name: user.name })}
+      title={t('network:networkAdmin.resetPassword.title')}
+      description={t('network:networkAdmin.resetPassword.subtitle', { name: user.name })}
       maxWidth="md"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && <ErrorAlert message={error} />}
 
         <Input
-          label={t('admin.networkAdmin.userForm.password')}
+          label={t('network:networkAdmin.userForm.password')}
           type="password"
-          placeholder={t('admin.networkAdmin.userForm.passwordPlaceholder')}
+          placeholder={t('network:networkAdmin.userForm.passwordPlaceholder')}
           value={password}
           onChange={(event) => {
             setPassword(event.target.value);
@@ -78,9 +78,9 @@ export const NetworkResetPasswordModal: FC<NetworkResetPasswordModalProps> = ({
         />
 
         <Input
-          label={t('admin.networkAdmin.userForm.confirmPassword')}
+          label={t('network:networkAdmin.userForm.confirmPassword')}
           type="password"
-          placeholder={t('admin.networkAdmin.userForm.confirmPasswordPlaceholder')}
+          placeholder={t('network:networkAdmin.userForm.confirmPasswordPlaceholder')}
           value={confirmation}
           onChange={(event) => {
             setConfirmation(event.target.value);
@@ -91,10 +91,10 @@ export const NetworkResetPasswordModal: FC<NetworkResetPasswordModalProps> = ({
 
         <div className="flex justify-end gap-3 pt-2">
           <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
-            {t('admin.networkAdmin.userForm.cancel')}
+            {t('network:networkAdmin.userForm.cancel')}
           </Button>
           <Button type="submit" isLoading={isSubmitting}>
-            {t('admin.networkAdmin.resetPassword.submit')}
+            {t('network:networkAdmin.resetPassword.submit')}
           </Button>
         </div>
       </form>

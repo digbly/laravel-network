@@ -87,9 +87,9 @@ export const CommentsView = () => {
   const changeStatus = async (comment: AdminComment, nextStatus: CommentStatus) => {
     try {
       await updateComment({ id: comment.id, status: nextStatus }).unwrap();
-      setNotice({ type: 'success', message: t('admin.blog.comments.notices.updated') });
+      setNotice({ type: 'success', message: t('blog:comments.notices.updated') });
     } catch (error) {
-      setNotice({ type: 'error', message: getErrorMessage(error, t('admin.blog.comments.errors.updateFailed')) });
+      setNotice({ type: 'error', message: getErrorMessage(error, t('blog:comments.errors.updateFailed')) });
     }
   };
 
@@ -98,9 +98,9 @@ export const CommentsView = () => {
 
     try {
       await deleteComment(deleteTarget.id).unwrap();
-      setNotice({ type: 'success', message: t('admin.blog.comments.notices.deleted') });
+      setNotice({ type: 'success', message: t('blog:comments.notices.deleted') });
     } catch (error) {
-      setNotice({ type: 'error', message: getErrorMessage(error, t('admin.blog.comments.errors.deleteFailed')) });
+      setNotice({ type: 'error', message: getErrorMessage(error, t('blog:comments.errors.deleteFailed')) });
     } finally {
       setDeleteTarget(null);
     }
@@ -110,10 +110,10 @@ export const CommentsView = () => {
     <div className="space-y-6 animate-in fade-in duration-200">
       <div>
         <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          {t('admin.blog.comments.title')}
+          {t('blog:comments.title')}
         </h2>
         <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-          {t('admin.blog.comments.subtitle')}
+          {t('blog:comments.subtitle')}
         </p>
       </div>
 
@@ -134,7 +134,7 @@ export const CommentsView = () => {
         </div>
       )}
 
-      {isError && <ErrorAlert message={t('admin.blog.comments.errors.loadFailed')} />}
+      {isError && <ErrorAlert message={t('blog:comments.errors.loadFailed')} />}
 
       <Card>
         <CardBody className="p-4 sm:p-5 border-b border-slate-100 dark:border-white/[0.06]">
@@ -143,7 +143,7 @@ export const CommentsView = () => {
               <Input
                 value={searchInput}
                 onChange={(event) => setSearchInput(event.target.value)}
-                placeholder={t('admin.blog.comments.searchPlaceholder')}
+                placeholder={t('blog:comments.searchPlaceholder')}
                 leftIcon={<Search className="w-4 h-4" />}
               />
             </div>
@@ -156,11 +156,11 @@ export const CommentsView = () => {
               }}
               className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white text-sm rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
             >
-              <option value="">{t('admin.blog.comments.filters.allStatuses')}</option>
-              <option value="pending">{t('admin.blog.comments.filters.pending')}</option>
-              <option value="approved">{t('admin.blog.comments.filters.approved')}</option>
-              <option value="spam">{t('admin.blog.comments.filters.spam')}</option>
-              <option value="rejected">{t('admin.blog.comments.filters.rejected')}</option>
+              <option value="">{t('blog:comments.filters.allStatuses')}</option>
+              <option value="pending">{t('blog:comments.filters.pending')}</option>
+              <option value="approved">{t('blog:comments.filters.approved')}</option>
+              <option value="spam">{t('blog:comments.filters.spam')}</option>
+              <option value="rejected">{t('blog:comments.filters.rejected')}</option>
             </select>
           </div>
         </CardBody>
@@ -169,11 +169,11 @@ export const CommentsView = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-slate-100 dark:border-white/[0.06] text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                <th className="px-6 py-3 font-semibold">{t('admin.blog.comments.table.author')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.blog.comments.table.comment')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.blog.comments.table.status')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.blog.comments.table.created')}</th>
-                <th className="px-6 py-3 font-semibold text-right">{t('admin.blog.comments.table.actions')}</th>
+                <th className="px-6 py-3 font-semibold">{t('blog:comments.table.author')}</th>
+                <th className="px-6 py-3 font-semibold">{t('blog:comments.table.comment')}</th>
+                <th className="px-6 py-3 font-semibold">{t('blog:comments.table.status')}</th>
+                <th className="px-6 py-3 font-semibold">{t('blog:comments.table.created')}</th>
+                <th className="px-6 py-3 font-semibold text-right">{t('blog:comments.table.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-white/[0.06]">
@@ -182,7 +182,7 @@ export const CommentsView = () => {
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>{t('admin.blog.comments.loading')}</span>
+                      <span>{t('blog:comments.loading')}</span>
                     </div>
                   </td>
                 </tr>
@@ -193,7 +193,7 @@ export const CommentsView = () => {
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                       <MessageSquare className="w-6 h-6 text-slate-400" />
-                      <span>{t('admin.blog.comments.empty')}</span>
+                      <span>{t('blog:comments.empty')}</span>
                     </div>
                   </td>
                 </tr>
@@ -222,8 +222,8 @@ export const CommentsView = () => {
                       {comment.status !== 'approved' && (
                         <button
                           type="button"
-                          title={t('admin.blog.comments.actions.approve')}
-                          aria-label={t('admin.blog.comments.actions.approve')}
+                          title={t('blog:comments.actions.approve')}
+                          aria-label={t('blog:comments.actions.approve')}
                           onClick={() => void changeStatus(comment, 'approved')}
                           className="p-2 rounded-lg text-emerald-500 hover:text-emerald-600 hover:bg-emerald-500/10 dark:text-emerald-400 transition-colors"
                         >
@@ -234,8 +234,8 @@ export const CommentsView = () => {
                       {comment.status !== 'rejected' && (
                         <button
                           type="button"
-                          title={t('admin.blog.comments.actions.reject')}
-                          aria-label={t('admin.blog.comments.actions.reject')}
+                          title={t('blog:comments.actions.reject')}
+                          aria-label={t('blog:comments.actions.reject')}
                           onClick={() => void changeStatus(comment, 'rejected')}
                           className="p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-500/10 dark:text-slate-400 transition-colors"
                         >
@@ -246,8 +246,8 @@ export const CommentsView = () => {
                       {comment.status !== 'spam' && (
                         <button
                           type="button"
-                          title={t('admin.blog.comments.actions.spam')}
-                          aria-label={t('admin.blog.comments.actions.spam')}
+                          title={t('blog:comments.actions.spam')}
+                          aria-label={t('blog:comments.actions.spam')}
                           onClick={() => void changeStatus(comment, 'spam')}
                           className="p-2 rounded-lg text-amber-500 hover:text-amber-600 hover:bg-amber-500/10 dark:text-amber-400 transition-colors"
                         >
@@ -257,8 +257,8 @@ export const CommentsView = () => {
 
                       <button
                         type="button"
-                        title={t('admin.blog.comments.actions.delete')}
-                        aria-label={t('admin.blog.comments.actions.delete')}
+                        title={t('blog:comments.actions.delete')}
+                        aria-label={t('blog:comments.actions.delete')}
                         onClick={() => setDeleteTarget(comment)}
                         className="p-2 rounded-lg text-rose-500 hover:text-rose-600 hover:bg-rose-500/10 dark:text-rose-400 transition-colors"
                       >
@@ -278,17 +278,17 @@ export const CommentsView = () => {
       {isError && (
         <div className="flex justify-center">
           <Button variant="secondary" size="sm" onClick={() => void refetch()}>
-            {t('admin.blog.comments.errors.retry')}
+            {t('blog:comments.errors.retry')}
           </Button>
         </div>
       )}
 
       <ConfirmDialog
         isOpen={Boolean(deleteTarget)}
-        title={t('admin.blog.comments.deleteDialog.title')}
-        description={t('admin.blog.comments.deleteDialog.description')}
-        confirmLabel={t('admin.blog.comments.deleteDialog.confirm')}
-        cancelLabel={t('admin.blog.comments.deleteDialog.cancel')}
+        title={t('blog:comments.deleteDialog.title')}
+        description={t('blog:comments.deleteDialog.description')}
+        confirmLabel={t('blog:comments.deleteDialog.confirm')}
+        cancelLabel={t('blog:comments.deleteDialog.cancel')}
         isLoading={deleteState.isLoading}
         variant="danger"
         onConfirm={() => void handleDelete()}

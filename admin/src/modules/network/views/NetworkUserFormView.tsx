@@ -66,7 +66,7 @@ export const NetworkUserFormView = () => {
 
       goBack();
     } catch (submitError) {
-      setError(getErrorMessage(submitError, t('admin.networkAdmin.errors.saveFailed')));
+      setError(getErrorMessage(submitError, t('network:networkAdmin.errors.saveFailed')));
     }
   };
 
@@ -81,19 +81,19 @@ export const NetworkUserFormView = () => {
           leftIcon={<ArrowLeft className="w-4 h-4" />}
           onClick={goBack}
         >
-          {t('admin.networkAdmin.userForm.back')}
+          {t('network:networkAdmin.userForm.back')}
         </Button>
 
         <div>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
             {isEditing
-              ? t('admin.networkAdmin.userForm.editTitle')
-              : t('admin.networkAdmin.userForm.createTitle')}
+              ? t('network:networkAdmin.userForm.editTitle')
+              : t('network:networkAdmin.userForm.createTitle')}
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             {isEditing
-              ? t('admin.networkAdmin.userForm.editSubtitle')
-              : t('admin.networkAdmin.userForm.createSubtitle')}
+              ? t('network:networkAdmin.userForm.editSubtitle')
+              : t('network:networkAdmin.userForm.createSubtitle')}
           </p>
         </div>
       </div>
@@ -109,9 +109,9 @@ export const NetworkUserFormView = () => {
       {isEditing && isUserError && (
         <Card>
           <CardBody className="space-y-4">
-            <ErrorAlert message={t('admin.networkAdmin.userForm.loadFailed')} />
+            <ErrorAlert message={t('network:networkAdmin.userForm.loadFailed')} />
             <Button variant="secondary" size="sm" onClick={() => void refetchUser()}>
-              {t('admin.networkAdmin.errors.retry')}
+              {t('network:networkAdmin.errors.retry')}
             </Button>
           </CardBody>
         </Card>

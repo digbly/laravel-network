@@ -78,9 +78,9 @@ export const PostsView = () => {
 
     try {
       await deletePost(deleteTarget.id).unwrap();
-      setNotice({ type: 'success', message: t('admin.blog.posts.notices.deleted') });
+      setNotice({ type: 'success', message: t('blog:posts.notices.deleted') });
     } catch (error) {
-      setNotice({ type: 'error', message: getErrorMessage(error, t('admin.blog.posts.errors.deleteFailed')) });
+      setNotice({ type: 'error', message: getErrorMessage(error, t('blog:posts.errors.deleteFailed')) });
     } finally {
       setDeleteTarget(null);
     }
@@ -91,10 +91,10 @@ export const PostsView = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t('admin.blog.posts.title')}
+            {t('blog:posts.title')}
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            {t('admin.blog.posts.subtitle')}
+            {t('blog:posts.subtitle')}
           </p>
         </div>
 
@@ -102,7 +102,7 @@ export const PostsView = () => {
           onClick={() => navigate(websitePath('/blog/posts/new', websiteId))}
           leftIcon={<Plus className="w-4 h-4" />}
         >
-          {t('admin.blog.posts.add')}
+          {t('blog:posts.add')}
         </Button>
       </div>
 
@@ -123,7 +123,7 @@ export const PostsView = () => {
         </div>
       )}
 
-      {isError && <ErrorAlert message={t('admin.blog.posts.errors.loadFailed')} />}
+      {isError && <ErrorAlert message={t('blog:posts.errors.loadFailed')} />}
 
       <Card>
         <CardBody className="p-4 sm:p-5 border-b border-slate-100 dark:border-white/[0.06]">
@@ -132,7 +132,7 @@ export const PostsView = () => {
               <Input
                 value={searchInput}
                 onChange={(event) => setSearchInput(event.target.value)}
-                placeholder={t('admin.blog.posts.searchPlaceholder')}
+                placeholder={t('blog:posts.searchPlaceholder')}
                 leftIcon={<Search className="w-4 h-4" />}
               />
             </div>
@@ -145,9 +145,9 @@ export const PostsView = () => {
               }}
               className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white text-sm rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
             >
-              <option value="">{t('admin.blog.posts.filters.allStatuses')}</option>
-              <option value="draft">{t('admin.blog.posts.filters.draft')}</option>
-              <option value="published">{t('admin.blog.posts.filters.published')}</option>
+              <option value="">{t('blog:posts.filters.allStatuses')}</option>
+              <option value="draft">{t('blog:posts.filters.draft')}</option>
+              <option value="published">{t('blog:posts.filters.published')}</option>
             </select>
           </div>
         </CardBody>
@@ -156,11 +156,11 @@ export const PostsView = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-slate-100 dark:border-white/[0.06] text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                <th className="px-6 py-3 font-semibold">{t('admin.blog.posts.table.post')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.blog.posts.table.status')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.blog.posts.table.categories')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.blog.posts.table.created')}</th>
-                <th className="px-6 py-3 font-semibold text-right">{t('admin.blog.posts.table.actions')}</th>
+                <th className="px-6 py-3 font-semibold">{t('blog:posts.table.post')}</th>
+                <th className="px-6 py-3 font-semibold">{t('blog:posts.table.status')}</th>
+                <th className="px-6 py-3 font-semibold">{t('blog:posts.table.categories')}</th>
+                <th className="px-6 py-3 font-semibold">{t('blog:posts.table.created')}</th>
+                <th className="px-6 py-3 font-semibold text-right">{t('blog:posts.table.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-white/[0.06]">
@@ -169,7 +169,7 @@ export const PostsView = () => {
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>{t('admin.blog.posts.loading')}</span>
+                      <span>{t('blog:posts.loading')}</span>
                     </div>
                   </td>
                 </tr>
@@ -180,7 +180,7 @@ export const PostsView = () => {
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                       <Newspaper className="w-6 h-6 text-slate-400" />
-                      <span>{t('admin.blog.posts.empty')}</span>
+                      <span>{t('blog:posts.empty')}</span>
                     </div>
                   </td>
                 </tr>
@@ -225,8 +225,8 @@ export const PostsView = () => {
                     <div className="flex items-center justify-end gap-1">
                       <button
                         type="button"
-                        title={t('admin.blog.posts.actions.edit')}
-                        aria-label={t('admin.blog.posts.actions.edit')}
+                        title={t('blog:posts.actions.edit')}
+                        aria-label={t('blog:posts.actions.edit')}
                         onClick={() => navigate(websitePath(`/blog/posts/${post.id}/edit`, websiteId))}
                         className="p-2 rounded-lg text-indigo-500 hover:text-indigo-600 hover:bg-indigo-500/10 dark:text-indigo-400 transition-colors"
                       >
@@ -235,8 +235,8 @@ export const PostsView = () => {
 
                       <button
                         type="button"
-                        title={t('admin.blog.posts.actions.delete')}
-                        aria-label={t('admin.blog.posts.actions.delete')}
+                        title={t('blog:posts.actions.delete')}
+                        aria-label={t('blog:posts.actions.delete')}
                         onClick={() => setDeleteTarget(post)}
                         className="p-2 rounded-lg text-rose-500 hover:text-rose-600 hover:bg-rose-500/10 dark:text-rose-400 transition-colors"
                       >
@@ -256,17 +256,17 @@ export const PostsView = () => {
       {isError && (
         <div className="flex justify-center">
           <Button variant="secondary" size="sm" onClick={() => void refetch()}>
-            {t('admin.blog.posts.errors.retry')}
+            {t('blog:posts.errors.retry')}
           </Button>
         </div>
       )}
 
       <ConfirmDialog
         isOpen={Boolean(deleteTarget)}
-        title={t('admin.blog.posts.deleteDialog.title')}
-        description={t('admin.blog.posts.deleteDialog.description', { title: deleteTarget?.title ?? '' })}
-        confirmLabel={t('admin.blog.posts.deleteDialog.confirm')}
-        cancelLabel={t('admin.blog.posts.deleteDialog.cancel')}
+        title={t('blog:posts.deleteDialog.title')}
+        description={t('blog:posts.deleteDialog.description', { title: deleteTarget?.title ?? '' })}
+        confirmLabel={t('blog:posts.deleteDialog.confirm')}
+        cancelLabel={t('blog:posts.deleteDialog.cancel')}
         isLoading={deleteState.isLoading}
         variant="danger"
         onConfirm={() => void handleDelete()}

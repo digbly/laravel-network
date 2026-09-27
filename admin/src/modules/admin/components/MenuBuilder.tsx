@@ -176,7 +176,7 @@ const SortableMenuItem = ({
               levelBadge[currentDepth] ?? 'bg-slate-500/10 text-slate-500'
             }`}
           >
-            {t('admin.menus.builder.level', { level: currentDepth + 1 })}
+            {t('admin:menus.builder.level', { level: currentDepth + 1 })}
           </span>
         </div>
 
@@ -185,8 +185,8 @@ const SortableMenuItem = ({
             type="button"
             onClick={onOutdent}
             disabled={!canOutdent}
-            title={t('admin.menus.builder.outdent')}
-            aria-label={t('admin.menus.builder.outdent')}
+            title={t('admin:menus.builder.outdent')}
+            aria-label={t('admin:menus.builder.outdent')}
             className="p-1 text-slate-500 hover:text-indigo-600 disabled:opacity-30 transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -195,8 +195,8 @@ const SortableMenuItem = ({
             type="button"
             onClick={onIndent}
             disabled={!canIndent}
-            title={t('admin.menus.builder.indent')}
-            aria-label={t('admin.menus.builder.indent')}
+            title={t('admin:menus.builder.indent')}
+            aria-label={t('admin:menus.builder.indent')}
             className="p-1 text-slate-500 hover:text-indigo-600 disabled:opacity-30 transition-colors"
           >
             <ChevronRight className="w-4 h-4" />
@@ -205,7 +205,7 @@ const SortableMenuItem = ({
           <button
             type="button"
             onClick={() => setIsExpanded((value) => !value)}
-            aria-label={t('admin.menus.builder.toggle')}
+            aria-label={t('admin:menus.builder.toggle')}
             className="p-1.5 text-slate-500 hover:text-indigo-600 transition-colors"
           >
             <ChevronDown
@@ -215,7 +215,7 @@ const SortableMenuItem = ({
           <button
             type="button"
             onClick={() => onRemove(item.id)}
-            aria-label={t('admin.menus.builder.remove')}
+            aria-label={t('admin:menus.builder.remove')}
             className="p-1.5 text-slate-500 hover:text-rose-600 transition-colors"
           >
             <Trash2 className="w-4 h-4" />
@@ -227,7 +227,7 @@ const SortableMenuItem = ({
         <div className="p-4 border-t border-slate-100 dark:border-white/[0.06] space-y-4">
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-              {t('admin.menus.builder.navigationLabel')}
+              {t('admin:menus.builder.navigationLabel')}
             </label>
             <input
               type="text"
@@ -240,7 +240,7 @@ const SortableMenuItem = ({
           {item.is_custom && (
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-                {t('admin.menus.builder.url')}
+                {t('admin:menus.builder.url')}
               </label>
               <input
                 type="text"
@@ -253,15 +253,15 @@ const SortableMenuItem = ({
 
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-              {t('admin.menus.builder.target')}
+              {t('admin:menus.builder.target')}
             </label>
             <select
               value={item.target ?? '_self'}
               onChange={(event) => onUpdate(item.id, { target: event.target.value })}
               className="w-full px-3 py-2 text-sm bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
             >
-              <option value="_self">{t('admin.menus.builder.sameWindow')}</option>
-              <option value="_blank">{t('admin.menus.builder.newWindow')}</option>
+              <option value="_self">{t('admin:menus.builder.sameWindow')}</option>
+              <option value="_blank">{t('admin:menus.builder.newWindow')}</option>
             </select>
           </div>
         </div>
@@ -405,7 +405,7 @@ export const MenuBuilder = ({ items, onChange }: MenuBuilderProps) => {
 
         {flatItems.length === 0 && (
           <div className="p-8 text-center border-2 border-dashed border-slate-200 dark:border-white/[0.08] rounded-2xl text-sm text-slate-500 dark:text-slate-400">
-            {t('admin.menus.builder.empty')}
+            {t('admin:menus.builder.empty')}
           </div>
         )}
       </div>

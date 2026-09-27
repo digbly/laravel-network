@@ -28,7 +28,7 @@ export const OAuthCallbackView = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [error, setError] = useState<string | null>(() =>
-    readInitialError(t('auth.oauth.missingCode'))
+    readInitialError(t('auth:oauth.missingCode'))
   );
   const processed = useRef(false);
 
@@ -48,7 +48,7 @@ export const OAuthCallbackView = () => {
         dispatch(setCredentials({ user, token }));
         navigate('/', { replace: true });
       } catch (e) {
-        setError(getErrorMessage(e, t('auth.oauth.failed')));
+        setError(getErrorMessage(e, t('auth:oauth.failed')));
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,13 +64,13 @@ export const OAuthCallbackView = () => {
               to="/auth/login"
               className="inline-block text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
             >
-              {t('auth.oauth.backToLogin')}
+              {t('auth:oauth.backToLogin')}
             </Link>
           </>
         ) : (
           <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
             <Loader2 className="w-4 h-4 animate-spin" />
-            <span>{t('auth.oauth.processing')}</span>
+            <span>{t('auth:oauth.processing')}</span>
           </div>
         )}
       </div>

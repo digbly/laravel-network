@@ -54,12 +54,12 @@ export const DashboardView = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t('admin.dashboard.welcome', {
-              name: user?.name || t('admin.dashboard.guest'),
+            {t('admin:dashboard.welcome', {
+              name: user?.name || t('admin:dashboard.guest'),
             })}
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            {t('admin.dashboard.subtitle')}
+            {t('admin:dashboard.subtitle')}
           </p>
         </div>
 
@@ -70,15 +70,15 @@ export const DashboardView = () => {
           disabled={isFetching}
           leftIcon={<RefreshCw className={`w-3.5 h-3.5 ${isFetching ? 'animate-spin' : ''}`} />}
         >
-          {t('admin.dashboard.refresh')}
+          {t('admin:dashboard.refresh')}
         </Button>
       </div>
 
       {isError && (
         <div className="space-y-3">
-          <ErrorAlert message={t('admin.dashboard.errors.loadFailed')} />
+          <ErrorAlert message={t('admin:dashboard.errors.loadFailed')} />
           <Button variant="secondary" size="sm" onClick={() => void refetch()}>
-            {t('admin.dashboard.errors.retry')}
+            {t('admin:dashboard.errors.retry')}
           </Button>
         </div>
       )}
@@ -86,16 +86,16 @@ export const DashboardView = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2">
           <CardHeader
-            title={t('admin.dashboard.account.title')}
-            subtitle={t('admin.dashboard.account.subtitle')}
+            title={t('admin:dashboard.account.title')}
+            subtitle={t('admin:dashboard.account.subtitle')}
             action={
               isVerified ? (
                 <Badge variant="emerald" size="sm" dot>
-                  {t('admin.dashboard.account.verified')}
+                  {t('admin:dashboard.account.verified')}
                 </Badge>
               ) : (
                 <Badge variant="amber" size="sm" dot>
-                  {t('admin.dashboard.account.unverified')}
+                  {t('admin:dashboard.account.unverified')}
                 </Badge>
               )
             }
@@ -104,13 +104,13 @@ export const DashboardView = () => {
             {isLoading && !user ? (
               <div className="flex items-center justify-center gap-2 py-10 text-sm text-slate-500 dark:text-slate-400">
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>{t('admin.dashboard.loading')}</span>
+                <span>{t('admin:dashboard.loading')}</span>
               </div>
             ) : (
               <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
                 <div className="min-w-0">
                   <dt className="text-[11px] uppercase tracking-wider font-semibold text-slate-400 dark:text-slate-500">
-                    {t('admin.dashboard.account.name')}
+                    {t('admin:dashboard.account.name')}
                   </dt>
                   <dd className="mt-1 text-sm font-medium text-slate-900 dark:text-white truncate">
                     {user?.name || '—'}
@@ -119,7 +119,7 @@ export const DashboardView = () => {
 
                 <div className="min-w-0">
                   <dt className="text-[11px] uppercase tracking-wider font-semibold text-slate-400 dark:text-slate-500">
-                    {t('admin.dashboard.account.email')}
+                    {t('admin:dashboard.account.email')}
                   </dt>
                   <dd className="mt-1 flex items-center gap-2 text-sm font-medium text-slate-900 dark:text-white min-w-0">
                     <Mail className="w-4 h-4 text-slate-400 shrink-0" />
@@ -129,13 +129,13 @@ export const DashboardView = () => {
 
                 <div>
                   <dt className="text-[11px] uppercase tracking-wider font-semibold text-slate-400 dark:text-slate-500">
-                    {t('admin.dashboard.account.role')}
+                    {t('admin:dashboard.account.role')}
                   </dt>
                   <dd className="mt-1 flex flex-wrap items-center gap-1.5">
                     {user?.is_super_admin && (
                       <Badge variant="violet" size="sm">
                         <ShieldCheck className="w-3 h-3" />
-                        {t('admin.users.status.superAdmin')}
+                        {t('admin:users.status.superAdmin')}
                       </Badge>
                     )}
                     {(user?.roles ?? []).map((roleName) => (
@@ -151,7 +151,7 @@ export const DashboardView = () => {
 
                 <div>
                   <dt className="text-[11px] uppercase tracking-wider font-semibold text-slate-400 dark:text-slate-500">
-                    {t('admin.dashboard.account.joined')}
+                    {t('admin:dashboard.account.joined')}
                   </dt>
                   <dd className="mt-1 flex items-center gap-2 text-sm font-medium text-slate-900 dark:text-white">
                     <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
@@ -169,10 +169,10 @@ export const DashboardView = () => {
               <Activity className="w-5 h-5" />
             </div>
             <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-white">
-              {t('admin.dashboard.stats.title')}
+              {t('admin:dashboard.stats.title')}
             </h3>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              {t('admin.dashboard.stats.comingSoon')}
+              {t('admin:dashboard.stats.comingSoon')}
             </p>
           </CardBody>
         </Card>
@@ -186,10 +186,10 @@ export const DashboardView = () => {
             </div>
             <p className="mt-4 text-2xl font-bold text-slate-900 dark:text-white">—</p>
             <p className="text-xs font-medium text-slate-600 dark:text-slate-300 mt-0.5">
-              {t(`admin.dashboard.stats.cards.${key}`)}
+              {t(`admin:dashboard.stats.cards.${key}`)}
             </p>
             <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
-              {t('admin.dashboard.stats.noData')}
+              {t('admin:dashboard.stats.noData')}
             </p>
           </Card>
         ))}

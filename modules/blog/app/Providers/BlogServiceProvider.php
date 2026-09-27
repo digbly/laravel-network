@@ -50,14 +50,14 @@ class BlogServiceProvider extends ModuleServiceProvider
         $position = MenuRepository::POSITION_ADMIN;
 
         Menu::make('blog', fn () => [
-            'label' => __('admin.nav.blog'),
+            'label' => __('blog.nav.blog'),
             'icon' => 'book-open',
             'position' => $position,
             'priority' => 30,
         ]);
 
         Menu::make('blog-posts', fn () => [
-            'label' => __('admin.nav.blogPosts'),
+            'label' => __('blog.nav.blogPosts'),
             'to' => '/blog/posts',
             'icon' => 'newspaper',
             'permission' => Permission::PostsView->value,
@@ -67,7 +67,7 @@ class BlogServiceProvider extends ModuleServiceProvider
         ]);
 
         Menu::make('blog-categories', fn () => [
-            'label' => __('admin.nav.blogCategories'),
+            'label' => __('blog.nav.blogCategories'),
             'to' => '/blog/categories',
             'icon' => 'folder-tree',
             'permission' => Permission::CategoriesView->value,
@@ -77,7 +77,7 @@ class BlogServiceProvider extends ModuleServiceProvider
         ]);
 
         Menu::make('blog-comments', fn () => [
-            'label' => __('admin.nav.blogComments'),
+            'label' => __('blog.nav.blogComments'),
             'to' => '/blog/comments',
             'icon' => 'message-square',
             'permission' => Permission::CommentsView->value,
@@ -93,14 +93,14 @@ class BlogServiceProvider extends ModuleServiceProvider
     protected function registerMenuBoxes(): void
     {
         MenuBox::make('posts', Post::class, fn () => [
-            'label' => __('admin.nav.blogPosts'),
+            'label' => __('blog.nav.blogPosts'),
             'icon' => 'newspaper',
             'field' => 'title',
             'priority' => 10,
         ]);
 
         MenuBox::make('post-categories', Category::class, fn () => [
-            'label' => __('admin.nav.blogCategories'),
+            'label' => __('blog.nav.blogCategories'),
             'icon' => 'folder-tree',
             'field' => 'name',
             'priority' => 20,

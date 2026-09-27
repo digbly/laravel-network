@@ -45,7 +45,7 @@ export const VerifyEmailView = () => {
   const handleResend = async () => {
     setValidationError(null);
     if (!email) {
-      setValidationError(t('auth.verifyEmail.errors.emailRequired'));
+      setValidationError(t('auth:verifyEmail.errors.emailRequired'));
       return;
     }
 
@@ -82,17 +82,17 @@ export const VerifyEmailView = () => {
         <div className="space-y-2">
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
             {isVerifying
-              ? t('auth.verifyEmail.verifying', 'Verifying your email...')
+              ? t('auth:verifyEmail.verifying', 'Verifying your email...')
               : verifySuccess
-                ? t('auth.verifyEmail.verified', 'Email verified successfully!')
-                : t('auth.verifyEmail.failed', 'Verification failed')}
+                ? t('auth:verifyEmail.verified', 'Email verified successfully!')
+                : t('auth:verifyEmail.failed', 'Verification failed')}
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm mx-auto">
             {isVerifying
-              ? t('auth.verifyEmail.verifyingMessage', 'Please wait while we verify your email address.')
+              ? t('auth:verifyEmail.verifyingMessage', 'Please wait while we verify your email address.')
               : verifySuccess
-                ? t('auth.verifyEmail.verifiedMessage', 'Your email has been verified. You can now log in.')
-                : errorMessage || t('auth.verifyEmail.failedMessage', 'The verification link is invalid or has expired.')}
+                ? t('auth:verifyEmail.verifiedMessage', 'Your email has been verified. You can now log in.')
+                : errorMessage || t('auth:verifyEmail.failedMessage', 'The verification link is invalid or has expired.')}
           </p>
         </div>
 
@@ -106,7 +106,7 @@ export const VerifyEmailView = () => {
               onClick={() => navigate('/auth/login')}
               rightIcon={<ArrowRight className="w-4 h-4" />}
             >
-              {t('auth.verifyEmail.continue')}
+              {t('auth:verifyEmail.continue')}
             </Button>
           )}
 
@@ -118,7 +118,7 @@ export const VerifyEmailView = () => {
               onClick={() => navigate('/auth/verify-email')}
               leftIcon={<RefreshCw className="w-4 h-4" />}
             >
-              {t('auth.verifyEmail.resend')}
+              {t('auth:verifyEmail.resend')}
             </Button>
           )}
         </div>
@@ -129,7 +129,7 @@ export const VerifyEmailView = () => {
             to="/auth/login"
             className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:underline transition-colors"
           >
-            {t('auth.verifyEmail.signInAnother')}
+            {t('auth:verifyEmail.signInAnother')}
           </Link>
         </div>
       </div>
@@ -147,10 +147,10 @@ export const VerifyEmailView = () => {
       {/* Header */}
       <div className="space-y-2">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          {t('auth.verifyEmail.title')}
+          {t('auth:verifyEmail.title')}
         </h1>
         <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm mx-auto">
-          {t('auth.verifyEmail.message', {
+          {t('auth:verifyEmail.message', {
             emailSuffix: email ? ` (${email})` : '',
           })}
         </p>
@@ -160,7 +160,7 @@ export const VerifyEmailView = () => {
       {resendStatus === 'sent' && (
         <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs flex items-center justify-center gap-2">
           <CheckCircle2 className="w-4 h-4" />
-          <span>{t('auth.verifyEmail.resentSuccess')}</span>
+          <span>{t('auth:verifyEmail.resentSuccess')}</span>
         </div>
       )}
 
@@ -173,9 +173,9 @@ export const VerifyEmailView = () => {
 
       {!emailParam && (
         <Input
-          label={t('auth.verifyEmail.emailLabel')}
+          label={t('auth:verifyEmail.emailLabel')}
           type="email"
-          placeholder={t('auth.verifyEmail.emailPlaceholder')}
+          placeholder={t('auth:verifyEmail.emailPlaceholder')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -191,7 +191,7 @@ export const VerifyEmailView = () => {
           onClick={() => navigate('/auth/login')}
           rightIcon={<ArrowRight className="w-4 h-4" />}
         >
-          {t('auth.verifyEmail.continue')}
+          {t('auth:verifyEmail.continue')}
         </Button>
 
         <Button
@@ -202,7 +202,7 @@ export const VerifyEmailView = () => {
           isLoading={isResending}
           leftIcon={<RefreshCw className="w-4 h-4" />}
         >
-          {t('auth.verifyEmail.resend')}
+          {t('auth:verifyEmail.resend')}
         </Button>
       </div>
 
@@ -212,7 +212,7 @@ export const VerifyEmailView = () => {
           to="/auth/login"
           className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:underline transition-colors"
         >
-          {t('auth.verifyEmail.signInAnother')}
+          {t('auth:verifyEmail.signInAnother')}
         </Link>
       </div>
     </div>

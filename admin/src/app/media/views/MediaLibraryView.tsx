@@ -27,9 +27,9 @@ const PER_PAGE = 24;
 type TypeFilter = 'all' | MediaType;
 
 const tabs: { key: TypeFilter; labelKey: string; Icon: typeof ImageIcon }[] = [
-  { key: 'all', labelKey: 'admin.media.filters.all', Icon: FolderOpen },
-  { key: 'image', labelKey: 'admin.media.filters.image', Icon: ImageIcon },
-  { key: 'document', labelKey: 'admin.media.filters.document', Icon: FolderOpen },
+  { key: 'all', labelKey: 'admin:media.filters.all', Icon: FolderOpen },
+  { key: 'image', labelKey: 'admin:media.filters.image', Icon: ImageIcon },
+  { key: 'document', labelKey: 'admin:media.filters.document', Icon: FolderOpen },
 ];
 
 export const MediaLibraryView = () => {
@@ -80,9 +80,9 @@ export const MediaLibraryView = () => {
 
     try {
       await navigator.clipboard.writeText(item.url);
-      setNotice({ type: 'success', message: t('admin.media.notices.copied') });
+      setNotice({ type: 'success', message: t('admin:media.notices.copied') });
     } catch {
-      setNotice({ type: 'error', message: t('admin.media.errors.copyFailed') });
+      setNotice({ type: 'error', message: t('admin:media.errors.copyFailed') });
     }
   };
 
@@ -91,13 +91,13 @@ export const MediaLibraryView = () => {
 
     try {
       await deleteMedia(deleteTarget.id).unwrap();
-      setNotice({ type: 'success', message: t('admin.media.notices.deleted') });
+      setNotice({ type: 'success', message: t('admin:media.notices.deleted') });
 
       if (detailTarget?.id === deleteTarget.id) {
         setDetailTarget(null);
       }
     } catch (error) {
-      setNotice({ type: 'error', message: getErrorMessage(error, t('admin.media.errors.deleteFailed')) });
+      setNotice({ type: 'error', message: getErrorMessage(error, t('admin:media.errors.deleteFailed')) });
     } finally {
       setDeleteTarget(null);
     }
@@ -107,10 +107,10 @@ export const MediaLibraryView = () => {
     <div className="space-y-6 animate-in fade-in duration-200">
       <div>
         <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          {t('admin.media.title')}
+          {t('admin:media.title')}
         </h2>
         <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-          {t('admin.media.subtitle')}
+          {t('admin:media.subtitle')}
         </p>
       </div>
 
@@ -135,7 +135,7 @@ export const MediaLibraryView = () => {
         <CardBody>
           <MediaUploader
             onUploaded={() => {
-              setNotice({ type: 'success', message: t('admin.media.notices.uploaded') });
+              setNotice({ type: 'success', message: t('admin:media.notices.uploaded') });
               setPage(1);
             }}
           />
@@ -170,7 +170,7 @@ export const MediaLibraryView = () => {
               <Input
                 value={searchInput}
                 onChange={(event) => setSearchInput(event.target.value)}
-                placeholder={t('admin.media.filters.searchPlaceholder')}
+                placeholder={t('admin:media.filters.searchPlaceholder')}
                 leftIcon={<Search className="w-4 h-4" />}
               />
             </div>
@@ -190,14 +190,14 @@ export const MediaLibraryView = () => {
           {isError ? (
             <div className="text-center py-10 space-y-3">
               <p className="text-sm text-rose-600 dark:text-rose-400">
-                {t('admin.media.errors.loadFailed')}
+                {t('admin:media.errors.loadFailed')}
               </p>
               <button
                 type="button"
                 onClick={() => void refetch()}
                 className="text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:underline"
               >
-                {t('admin.media.errors.retry')}
+                {t('admin:media.errors.retry')}
               </button>
             </div>
           ) : isFetching && items.length === 0 ? (
@@ -206,7 +206,7 @@ export const MediaLibraryView = () => {
             </div>
           ) : items.length === 0 ? (
             <p className="text-sm text-slate-500 dark:text-slate-400 py-10 text-center">
-              {t('admin.media.empty')}
+              {t('admin:media.empty')}
             </p>
           ) : (
             <MediaGrid
@@ -227,19 +227,19 @@ export const MediaLibraryView = () => {
         onClose={() => setDetailTarget(null)}
         onSaved={(updated) => {
           setDetailTarget(updated);
-          setNotice({ type: 'success', message: t('admin.media.notices.updated') });
+          setNotice({ type: 'success', message: t('admin:media.notices.updated') });
         }}
         onDelete={(item) => setDeleteTarget(item)}
       />
 
       <ConfirmDialog
         isOpen={deleteTarget !== null}
-        title={t('admin.media.deleteDialog.title')}
-        description={t('admin.media.deleteDialog.description', {
+        title={t('admin:media.deleteDialog.title')}
+        description={t('admin:media.deleteDialog.description', {
           name: deleteTarget?.title || deleteTarget?.file_name || '',
         })}
-        confirmLabel={t('admin.media.deleteDialog.confirm')}
-        cancelLabel={t('admin.media.deleteDialog.cancel')}
+        confirmLabel={t('admin:media.deleteDialog.confirm')}
+        cancelLabel={t('admin:media.deleteDialog.cancel')}
         isLoading={deleteState.isLoading}
         variant="danger"
         onConfirm={() => void handleDelete()}

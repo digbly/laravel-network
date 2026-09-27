@@ -63,10 +63,10 @@ export const ResetPasswordView = () => {
       <div className="space-y-6 text-center animate-in fade-in duration-200">
         <div className="space-y-2">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t('auth.resetPassword.invalidLink')}
+            {t('auth:resetPassword.invalidLink')}
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm mx-auto">
-            {t('auth.resetPassword.invalidLinkDesc')}
+            {t('auth:resetPassword.invalidLinkDesc')}
           </p>
         </div>
         <div className="pt-2">
@@ -74,7 +74,7 @@ export const ResetPasswordView = () => {
             to="/auth/forgot-password"
             className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
           >
-            {t('auth.resetPassword.requestNew')}
+            {t('auth:resetPassword.requestNew')}
           </Link>
         </div>
       </div>
@@ -90,10 +90,10 @@ export const ResetPasswordView = () => {
 
         <div className="space-y-2">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t('auth.resetPassword.successTitle')}
+            {t('auth:resetPassword.successTitle')}
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm mx-auto">
-            {t('auth.resetPassword.successMessage')}
+            {t('auth:resetPassword.successMessage')}
           </p>
         </div>
 
@@ -104,7 +104,7 @@ export const ResetPasswordView = () => {
             className="w-full"
             onClick={() => navigate('/auth/login')}
           >
-            {t('auth.resetPassword.proceedToSignIn')}
+            {t('auth:resetPassword.proceedToSignIn')}
           </Button>
         </div>
       </div>
@@ -116,10 +116,10 @@ export const ResetPasswordView = () => {
       {/* Header */}
       <div className="text-center space-y-1.5">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          {t('auth.resetPassword.title')}
+          {t('auth:resetPassword.title')}
         </h1>
         <p className="text-xs text-slate-500 dark:text-slate-400">
-          {t('auth.resetPassword.subtitle')}
+          {t('auth:resetPassword.subtitle')}
         </p>
       </div>
 
@@ -129,24 +129,24 @@ export const ResetPasswordView = () => {
       {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
         <Input
-          label={t('auth.resetPassword.emailLabel')}
+          label={t('auth:resetPassword.emailLabel')}
           type="email"
-          placeholder={t('auth.resetPassword.emailPlaceholder')}
+          placeholder={t('auth:resetPassword.emailPlaceholder')}
           autoComplete="email"
           error={errors.email?.message}
           {...register('email', {
-            required: t('auth.resetPassword.errors.emailRequired'),
+            required: t('auth:resetPassword.errors.emailRequired'),
             pattern: {
               value: EMAIL_REGEX,
-              message: t('auth.resetPassword.errors.emailInvalid'),
+              message: t('auth:resetPassword.errors.emailInvalid'),
             },
           })}
         />
 
         <Input
-          label={t('auth.resetPassword.newPasswordLabel')}
+          label={t('auth:resetPassword.newPasswordLabel')}
           type={showPassword ? 'text' : 'password'}
-          placeholder={t('auth.resetPassword.newPasswordPlaceholder')}
+          placeholder={t('auth:resetPassword.newPasswordPlaceholder')}
           leftIcon={<Lock className="w-4 h-4" />}
           autoComplete="new-password"
           error={errors.password?.message}
@@ -165,25 +165,25 @@ export const ResetPasswordView = () => {
             </button>
           }
           {...register('password', {
-            required: t('auth.resetPassword.errors.passwordRequired'),
+            required: t('auth:resetPassword.errors.passwordRequired'),
             minLength: {
               value: MIN_PASSWORD_LENGTH,
-              message: t('auth.resetPassword.errors.passwordMinLength', { min: MIN_PASSWORD_LENGTH }),
+              message: t('auth:resetPassword.errors.passwordMinLength', { min: MIN_PASSWORD_LENGTH }),
             },
           })}
         />
 
         <Input
-          label={t('auth.resetPassword.confirmPasswordLabel')}
+          label={t('auth:resetPassword.confirmPasswordLabel')}
           type={showPassword ? 'text' : 'password'}
-          placeholder={t('auth.resetPassword.confirmPasswordPlaceholder')}
+          placeholder={t('auth:resetPassword.confirmPasswordPlaceholder')}
           leftIcon={<Lock className="w-4 h-4" />}
           autoComplete="new-password"
           error={errors.passwordConfirmation?.message}
           {...register('passwordConfirmation', {
-            required: t('auth.resetPassword.errors.confirmRequired'),
+            required: t('auth:resetPassword.errors.confirmRequired'),
             validate: (value, formValues) =>
-              value === formValues.password || t('auth.resetPassword.errors.passwordMismatch'),
+              value === formValues.password || t('auth:resetPassword.errors.passwordMismatch'),
           })}
         />
 
@@ -195,7 +195,7 @@ export const ResetPasswordView = () => {
           isLoading={isLoading}
           leftIcon={<KeyRound className="w-4 h-4" />}
         >
-          {t('auth.resetPassword.submit')}
+          {t('auth:resetPassword.submit')}
         </Button>
       </form>
 
@@ -205,7 +205,7 @@ export const ResetPasswordView = () => {
           to="/auth/login"
           className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:underline transition-colors"
         >
-          {t('auth.resetPassword.cancelAndReturn')}
+          {t('auth:resetPassword.cancelAndReturn')}
         </Link>
       </div>
     </div>

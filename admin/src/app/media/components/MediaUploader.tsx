@@ -34,7 +34,7 @@ export const MediaUploader: FC<MediaUploaderProps> = ({
       const result = await uploadMedia({ files }).unwrap();
       onUploaded?.(result.data);
     } catch (uploadError) {
-      setError(getErrorMessage(uploadError, t('admin.media.errors.uploadFailed')));
+      setError(getErrorMessage(uploadError, t('admin:media.errors.uploadFailed')));
     } finally {
       setPendingCount(0);
 
@@ -86,17 +86,17 @@ export const MediaUploader: FC<MediaUploaderProps> = ({
           <>
             <Loader2 className="w-6 h-6 animate-spin text-indigo-500" />
             <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
-              {t('admin.media.dropzone.uploading', { count: pendingCount })}
+              {t('admin:media.dropzone.uploading', { count: pendingCount })}
             </p>
           </>
         ) : (
           <>
             <UploadCloud className="w-6 h-6 text-slate-400" />
             <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
-              {t('admin.media.dropzone.title')}
+              {t('admin:media.dropzone.title')}
             </p>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              {t('admin.media.dropzone.hint')}
+              {t('admin:media.dropzone.hint')}
             </p>
           </>
         )}

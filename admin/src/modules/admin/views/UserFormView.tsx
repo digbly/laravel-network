@@ -67,7 +67,7 @@ export const UserFormView = () => {
 
       goBack();
     } catch (submitError) {
-      setError(getErrorMessage(submitError, t('admin.users.errors.saveFailed')));
+      setError(getErrorMessage(submitError, t('admin:users.errors.saveFailed')));
     }
   };
 
@@ -82,15 +82,15 @@ export const UserFormView = () => {
           leftIcon={<ArrowLeft className="w-4 h-4" />}
           onClick={goBack}
         >
-          {t('admin.users.form.back')}
+          {t('admin:users.form.back')}
         </Button>
 
         <div>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {isEditing ? t('admin.users.form.editTitle') : t('admin.users.form.createTitle')}
+            {isEditing ? t('admin:users.form.editTitle') : t('admin:users.form.createTitle')}
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            {isEditing ? t('admin.users.form.editSubtitle') : t('admin.users.form.createSubtitle')}
+            {isEditing ? t('admin:users.form.editSubtitle') : t('admin:users.form.createSubtitle')}
           </p>
         </div>
       </div>
@@ -106,9 +106,9 @@ export const UserFormView = () => {
       {isEditing && isUserError && (
         <Card>
           <CardBody className="space-y-4">
-            <ErrorAlert message={t('admin.users.form.loadFailed')} />
+            <ErrorAlert message={t('admin:users.form.loadFailed')} />
             <Button variant="secondary" size="sm" onClick={() => void refetchUser()}>
-              {t('admin.users.errors.retry')}
+              {t('admin:users.errors.retry')}
             </Button>
           </CardBody>
         </Card>

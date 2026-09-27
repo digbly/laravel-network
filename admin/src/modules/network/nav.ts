@@ -6,9 +6,9 @@ import type { NavItem } from '../../app/types';
  * topbar so route, label and icon stay in sync.
  */
 export const NETWORK_NAV_ITEMS: NavItem[] = [
-  { to: '/network', labelKey: 'admin.networkAdmin.nav.dashboard', Icon: LayoutDashboard, end: true },
-  { to: '/network/websites', labelKey: 'admin.networkAdmin.nav.websites', Icon: Globe },
-  { to: '/network/users', labelKey: 'admin.networkAdmin.nav.users', Icon: Users },
+  { to: '/network', labelKey: 'network:networkAdmin.nav.dashboard', Icon: LayoutDashboard, end: true },
+  { to: '/network/websites', labelKey: 'network:networkAdmin.nav.websites', Icon: Globe },
+  { to: '/network/users', labelKey: 'network:networkAdmin.nav.users', Icon: Users },
 ];
 
 export const getNetworkTitleKey = (pathname: string): string =>

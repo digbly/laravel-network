@@ -179,15 +179,15 @@ export const NetworkWebsitesPanel = () => {
     try {
       if (formWebsite) {
         await updateWebsite({ id: formWebsite.id, body: payload }).unwrap();
-        setNotice({ type: 'success', message: t('admin.networkAdmin.notices.websiteUpdated') });
+        setNotice({ type: 'success', message: t('network:networkAdmin.notices.websiteUpdated') });
       } else {
         await createWebsite(payload).unwrap();
-        setNotice({ type: 'success', message: t('admin.networkAdmin.notices.websiteCreated') });
+        setNotice({ type: 'success', message: t('network:networkAdmin.notices.websiteCreated') });
       }
 
       closeForm();
     } catch (error) {
-      setFormError(getErrorMessage(error, t('admin.networkAdmin.errors.saveFailed')));
+      setFormError(getErrorMessage(error, t('network:networkAdmin.errors.saveFailed')));
     }
   };
 
@@ -196,11 +196,11 @@ export const NetworkWebsitesPanel = () => {
 
     try {
       await deleteWebsite(deleteTarget.id).unwrap();
-      setNotice({ type: 'success', message: t('admin.networkAdmin.notices.websiteDeleted') });
+      setNotice({ type: 'success', message: t('network:networkAdmin.notices.websiteDeleted') });
     } catch (error) {
       setNotice({
         type: 'error',
-        message: getErrorMessage(error, t('admin.networkAdmin.errors.deleteFailed')),
+        message: getErrorMessage(error, t('network:networkAdmin.errors.deleteFailed')),
       });
     } finally {
       setDeleteTarget(null);
@@ -228,11 +228,11 @@ export const NetworkWebsitesPanel = () => {
         </div>
       )}
 
-      {isError && <ErrorAlert message={t('admin.networkAdmin.errors.websitesLoadFailed')} />}
+      {isError && <ErrorAlert message={t('network:networkAdmin.errors.websitesLoadFailed')} />}
 
       <div className="flex justify-end">
         <Button onClick={openCreate} leftIcon={<Plus className="w-4 h-4" />}>
-          {t('admin.networkAdmin.websites.add')}
+          {t('network:networkAdmin.websites.add')}
         </Button>
       </div>
 
@@ -243,7 +243,7 @@ export const NetworkWebsitesPanel = () => {
               <Input
                 value={searchInput}
                 onChange={(event) => setSearchInput(event.target.value)}
-                placeholder={t('admin.networkAdmin.websites.searchPlaceholder')}
+                placeholder={t('network:networkAdmin.websites.searchPlaceholder')}
                 leftIcon={<Search className="w-4 h-4" />}
               />
             </div>
@@ -256,10 +256,10 @@ export const NetworkWebsitesPanel = () => {
               }}
               className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white text-sm rounded-xl px-3.5 py-2.5 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
             >
-              <option value="">{t('admin.networkAdmin.websites.allStatuses')}</option>
+              <option value="">{t('network:networkAdmin.websites.allStatuses')}</option>
               {STATUSES.map((item) => (
                 <option key={item} value={item}>
-                  {t(`admin.network.status.${item}`)}
+                  {t(`network:network.status.${item}`)}
                 </option>
               ))}
             </select>
@@ -267,7 +267,7 @@ export const NetworkWebsitesPanel = () => {
 
           {meta && (
             <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">
-              {t('admin.networkAdmin.websites.total', { total: meta.total })}
+              {t('network:networkAdmin.websites.total', { total: meta.total })}
             </p>
           )}
         </CardBody>
@@ -276,13 +276,13 @@ export const NetworkWebsitesPanel = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-slate-100 dark:border-white/[0.06] text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                <th className="px-6 py-3 font-semibold">{t('admin.networkAdmin.websites.table.website')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.networkAdmin.websites.table.owner')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.networkAdmin.websites.table.status')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.networkAdmin.websites.table.members')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.networkAdmin.websites.table.created')}</th>
+                <th className="px-6 py-3 font-semibold">{t('network:networkAdmin.websites.table.website')}</th>
+                <th className="px-6 py-3 font-semibold">{t('network:networkAdmin.websites.table.owner')}</th>
+                <th className="px-6 py-3 font-semibold">{t('network:networkAdmin.websites.table.status')}</th>
+                <th className="px-6 py-3 font-semibold">{t('network:networkAdmin.websites.table.members')}</th>
+                <th className="px-6 py-3 font-semibold">{t('network:networkAdmin.websites.table.created')}</th>
                 <th className="px-6 py-3 font-semibold text-right">
-                  {t('admin.networkAdmin.websites.table.actions')}
+                  {t('network:networkAdmin.websites.table.actions')}
                 </th>
               </tr>
             </thead>
@@ -292,7 +292,7 @@ export const NetworkWebsitesPanel = () => {
                   <td colSpan={6} className="px-6 py-12 text-center">
                     <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>{t('admin.networkAdmin.websites.loading')}</span>
+                      <span>{t('network:networkAdmin.websites.loading')}</span>
                     </div>
                   </td>
                 </tr>
@@ -303,7 +303,7 @@ export const NetworkWebsitesPanel = () => {
                   <td colSpan={6} className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                       <Globe className="w-6 h-6 text-slate-400" />
-                      <span>{t('admin.networkAdmin.websites.empty')}</span>
+                      <span>{t('network:networkAdmin.websites.empty')}</span>
                     </div>
                   </td>
                 </tr>
@@ -359,7 +359,7 @@ export const NetworkWebsitesPanel = () => {
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-1">
                       <RowAction
-                        label={t('admin.networkAdmin.websites.actions.edit')}
+                        label={t('network:networkAdmin.websites.actions.edit')}
                         onClick={() => openEdit(website)}
                         tone="accent"
                       >
@@ -367,7 +367,7 @@ export const NetworkWebsitesPanel = () => {
                       </RowAction>
 
                       <RowAction
-                        label={t('admin.networkAdmin.websites.actions.delete')}
+                        label={t('network:networkAdmin.websites.actions.delete')}
                         onClick={() => setDeleteTarget(website)}
                         tone="danger"
                       >
@@ -387,7 +387,7 @@ export const NetworkWebsitesPanel = () => {
       {isError && (
         <div className="flex justify-center">
           <Button variant="secondary" size="sm" onClick={() => void refetch()}>
-            {t('admin.networkAdmin.errors.retry')}
+            {t('network:networkAdmin.errors.retry')}
           </Button>
         </div>
       )}
@@ -405,12 +405,12 @@ export const NetworkWebsitesPanel = () => {
 
       <ConfirmDialog
         isOpen={Boolean(deleteTarget)}
-        title={t('admin.networkAdmin.websiteDelete.title')}
-        description={t('admin.networkAdmin.websiteDelete.description', {
+        title={t('network:networkAdmin.websiteDelete.title')}
+        description={t('network:networkAdmin.websiteDelete.description', {
           name: deleteTarget?.title ?? '',
         })}
-        confirmLabel={t('admin.networkAdmin.websiteDelete.confirm')}
-        cancelLabel={t('admin.networkAdmin.websiteDelete.cancel')}
+        confirmLabel={t('network:networkAdmin.websiteDelete.confirm')}
+        cancelLabel={t('network:networkAdmin.websiteDelete.cancel')}
         isLoading={deleteState.isLoading}
         variant="danger"
         onConfirm={() => void handleDelete()}

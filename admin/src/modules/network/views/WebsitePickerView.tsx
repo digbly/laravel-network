@@ -88,10 +88,10 @@ export const WebsitePickerView = () => {
 
     try {
       await createWebsite(payload).unwrap();
-      setNotice(t('admin.network.notices.created'));
+      setNotice(t('network:network.notices.created'));
       closeCreate();
     } catch (error) {
-      setFormError(getErrorMessage(error, t('admin.network.errors.createFailed')));
+      setFormError(getErrorMessage(error, t('network:network.errors.createFailed')));
     }
   };
 
@@ -115,7 +115,7 @@ export const WebsitePickerView = () => {
               </span>
             </div>
             <p className="text-[11px] text-slate-500 dark:text-slate-400">
-              {t('admin.brandDesc')}
+              {t('brandDesc')}
             </p>
           </div>
         </div>
@@ -127,10 +127,10 @@ export const WebsitePickerView = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="space-y-1.5">
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-              {t('admin.network.title')}
+              {t('network:network.title')}
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              {t('admin.network.subtitle')}
+              {t('network:network.subtitle')}
             </p>
           </div>
 
@@ -141,13 +141,13 @@ export const WebsitePickerView = () => {
                 className="inline-flex items-center justify-center gap-2 text-sm px-4 py-2.5 rounded-xl font-medium transition-all duration-200 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60"
               >
                 <ShieldCheck className="w-4 h-4" />
-                {t('admin.networkAdmin.entry')}
+                {t('network:networkAdmin.entry')}
               </Link>
             )}
 
             {canCreate && (
               <Button onClick={openCreate} leftIcon={<Plus className="w-4 h-4" />}>
-                {t('admin.network.create')}
+                {t('network:network.create')}
               </Button>
             )}
           </div>
@@ -163,11 +163,11 @@ export const WebsitePickerView = () => {
         {isLoading ? (
           <div className="flex items-center justify-center gap-2 py-20 text-sm text-slate-500 dark:text-slate-400">
             <Loader2 className="w-4 h-4 animate-spin" />
-            <span>{t('admin.network.loading')}</span>
+            <span>{t('network:network.loading')}</span>
           </div>
         ) : isError ? (
           <div className="space-y-3">
-            <ErrorAlert message={t('admin.network.errors.loadFailed')} />
+            <ErrorAlert message={t('network:network.errors.loadFailed')} />
             <Button
               variant="secondary"
               size="sm"
@@ -175,7 +175,7 @@ export const WebsitePickerView = () => {
               disabled={isFetching}
               leftIcon={<RefreshCw className={`w-3.5 h-3.5 ${isFetching ? 'animate-spin' : ''}`} />}
             >
-              {t('admin.network.errors.retry')}
+              {t('network:network.errors.retry')}
             </Button>
           </div>
         ) : websites.length === 0 ? (
@@ -184,15 +184,15 @@ export const WebsitePickerView = () => {
               <Globe className="w-6 h-6" />
             </div>
             <h2 className="mt-4 text-base font-semibold text-slate-900 dark:text-white">
-              {t('admin.network.empty.title')}
+              {t('network:network.empty.title')}
             </h2>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-              {t('admin.network.empty.message')}
+              {t('network:network.empty.message')}
             </p>
             {canCreate && (
               <div className="mt-5 flex justify-center">
                 <Button onClick={openCreate} leftIcon={<Plus className="w-4 h-4" />}>
-                  {t('admin.network.create')}
+                  {t('network:network.create')}
                 </Button>
               </div>
             )}
@@ -239,10 +239,10 @@ export const WebsitePickerView = () => {
                 <div className="mt-auto flex items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-white/[0.06]">
                   <span className="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
                     <Users className="w-3.5 h-3.5" />
-                    {t('admin.network.usersCount', { total: website.users_count ?? 0 })}
+                    {t('network:network.usersCount', { total: website.users_count ?? 0 })}
                   </span>
                   <span className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400">
-                    {t('admin.network.open')}
+                    {t('network:network.open')}
                     <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>

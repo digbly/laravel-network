@@ -54,10 +54,10 @@ export const RegisterView = () => {
 
   const strength = getPasswordStrength(passwordValue);
   const strengthLabels = [
-    t('auth.register.strength.weak'),
-    t('auth.register.strength.fair'),
-    t('auth.register.strength.good'),
-    t('auth.register.strength.strong'),
+    t('auth:register.strength.weak'),
+    t('auth:register.strength.fair'),
+    t('auth:register.strength.good'),
+    t('auth:register.strength.strong'),
   ];
   const strengthColors = [
     'bg-rose-500',
@@ -87,10 +87,10 @@ export const RegisterView = () => {
       {/* View Header */}
       <div className="text-center space-y-1.5">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          {t('auth.register.title')}
+          {t('auth:register.title')}
         </h1>
         <p className="text-xs text-slate-500 dark:text-slate-400">
-          {t('auth.register.subtitle')}
+          {t('auth:register.subtitle')}
         </p>
       </div>
 
@@ -100,42 +100,42 @@ export const RegisterView = () => {
       {/* Register Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5" noValidate>
         <Input
-          label={t('auth.register.nameLabel')}
+          label={t('auth:register.nameLabel')}
           type="text"
-          placeholder={t('auth.register.namePlaceholder')}
+          placeholder={t('auth:register.namePlaceholder')}
           leftIcon={<User className="w-4 h-4" />}
           autoComplete="name"
           error={errors.name?.message}
           {...register('name', {
-            required: t('auth.register.errors.nameRequired'),
+            required: t('auth:register.errors.nameRequired'),
             minLength: {
               value: 2,
-              message: t('auth.register.errors.nameMinLength'),
+              message: t('auth:register.errors.nameMinLength'),
             },
           })}
         />
 
         <Input
-          label={t('auth.register.emailLabel')}
+          label={t('auth:register.emailLabel')}
           type="email"
-          placeholder={t('auth.register.emailPlaceholder')}
+          placeholder={t('auth:register.emailPlaceholder')}
           leftIcon={<Mail className="w-4 h-4" />}
           autoComplete="email"
           error={errors.email?.message}
           {...register('email', {
-            required: t('auth.register.errors.emailRequired'),
+            required: t('auth:register.errors.emailRequired'),
             pattern: {
               value: EMAIL_REGEX,
-              message: t('auth.register.errors.emailInvalid'),
+              message: t('auth:register.errors.emailInvalid'),
             },
           })}
         />
 
         <div className="space-y-1.5">
           <Input
-            label={t('auth.register.passwordLabel')}
+            label={t('auth:register.passwordLabel')}
             type={showPassword ? 'text' : 'password'}
-            placeholder={t('auth.register.passwordPlaceholder')}
+            placeholder={t('auth:register.passwordPlaceholder')}
             leftIcon={<Lock className="w-4 h-4" />}
             autoComplete="new-password"
             error={errors.password?.message}
@@ -154,10 +154,10 @@ export const RegisterView = () => {
               </button>
             }
             {...register('password', {
-              required: t('auth.register.errors.passwordRequired'),
+              required: t('auth:register.errors.passwordRequired'),
               minLength: {
                 value: MIN_PASSWORD_LENGTH,
-                message: t('auth.register.errors.passwordMinLength', { min: MIN_PASSWORD_LENGTH }),
+                message: t('auth:register.errors.passwordMinLength', { min: MIN_PASSWORD_LENGTH }),
               },
             })}
           />
@@ -179,26 +179,26 @@ export const RegisterView = () => {
               </div>
               <div className="flex justify-between items-center text-[10px] text-slate-400">
                 <span>
-                  {t('auth.register.strength.tooWeak')}
+                  {t('auth:register.strength.tooWeak')}
                   {strength > 0 ? `: ${strengthLabels[strength - 1]}` : ''}
                 </span>
-                <span>{t('auth.register.strength.hint')}</span>
+                <span>{t('auth:register.strength.hint')}</span>
               </div>
             </div>
           )}
         </div>
 
         <Input
-          label={t('auth.register.confirmPasswordLabel')}
+          label={t('auth:register.confirmPasswordLabel')}
           type={showPassword ? 'text' : 'password'}
-          placeholder={t('auth.register.confirmPasswordPlaceholder')}
+          placeholder={t('auth:register.confirmPasswordPlaceholder')}
           leftIcon={<Lock className="w-4 h-4" />}
           autoComplete="new-password"
           error={errors.passwordConfirmation?.message}
           {...register('passwordConfirmation', {
-            required: t('auth.register.errors.confirmRequired'),
+            required: t('auth:register.errors.confirmRequired'),
             validate: (value, formValues) =>
-              value === formValues.password || t('auth.register.errors.passwordMismatch'),
+              value === formValues.password || t('auth:register.errors.passwordMismatch'),
           })}
         />
 
@@ -209,13 +209,13 @@ export const RegisterView = () => {
               type="checkbox"
               className="w-4 h-4 rounded border-slate-300 dark:border-white/10 text-indigo-600 focus:ring-indigo-500/20 dark:bg-slate-800 mt-0.5 shrink-0"
               {...register('agreeTerms', {
-                required: t('auth.register.errors.termsRequired'),
+                required: t('auth:register.errors.termsRequired'),
               })}
             />
             <span className="leading-snug">
-              {t('auth.register.agreeTerms', {
-                terms: t('auth.register.terms'),
-                privacy: t('auth.register.privacy'),
+              {t('auth:register.agreeTerms', {
+                terms: t('auth:register.terms'),
+                privacy: t('auth:register.privacy'),
               })}
             </span>
           </label>
@@ -233,18 +233,18 @@ export const RegisterView = () => {
           isLoading={isLoading}
           leftIcon={<UserPlus className="w-4 h-4" />}
         >
-          {t('auth.register.submit')}
+          {t('auth:register.submit')}
         </Button>
       </form>
 
       {/* Switch to Login */}
       <div className="text-center text-xs text-slate-500 dark:text-slate-400 pt-1">
-        {t('auth.register.hasAccount')}{' '}
+        {t('auth:register.hasAccount')}{' '}
         <Link
           to="/auth/login"
           className="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
         >
-          {t('auth.register.signIn')}
+          {t('auth:register.signIn')}
         </Link>
       </div>
     </div>

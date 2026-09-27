@@ -6,8 +6,6 @@ import {
   PostFormView,
   PostsView,
 } from './lazy';
-import i18nEn from './i18n/en.json';
-import i18nVi from './i18n/vi.json';
 
 export const blogModule: AdminModule = {
   routes: [
@@ -47,5 +45,4 @@ export const blogModule: AdminModule = {
       handle: { permission: 'comments.view' },
     },
   ],
-  i18n: { en: i18nEn, vi: i18nVi },
 };

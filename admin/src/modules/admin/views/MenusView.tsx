@@ -99,11 +99,11 @@ const MenuEditor = ({ menu, boxes, locations, onNotice, onDeleted }: MenuEditorP
 
     try {
       await updateMenu({ id: menu.id, body }).unwrap();
-      onNotice({ type: 'success', message: t('admin.menus.notices.updated') });
+      onNotice({ type: 'success', message: t('admin:menus.notices.updated') });
     } catch (error) {
       onNotice({
         type: 'error',
-        message: getErrorMessage(error, t('admin.menus.errors.saveFailed')),
+        message: getErrorMessage(error, t('admin:menus.errors.saveFailed')),
       });
     }
   };
@@ -111,12 +111,12 @@ const MenuEditor = ({ menu, boxes, locations, onNotice, onDeleted }: MenuEditorP
   const handleDelete = async () => {
     try {
       await deleteMenu(menu.id).unwrap();
-      onNotice({ type: 'success', message: t('admin.menus.notices.deleted') });
+      onNotice({ type: 'success', message: t('admin:menus.notices.deleted') });
       onDeleted();
     } catch (error) {
       onNotice({
         type: 'error',
-        message: getErrorMessage(error, t('admin.menus.errors.deleteFailed')),
+        message: getErrorMessage(error, t('admin:menus.errors.deleteFailed')),
       });
     } finally {
       setConfirmDelete(false);
@@ -133,7 +133,7 @@ const MenuEditor = ({ menu, boxes, locations, onNotice, onDeleted }: MenuEditorP
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-1">
         <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-3">
-          {t('admin.menus.addItems')}
+          {t('admin:menus.addItems')}
         </h3>
 
         {boxes.map((box) => (
@@ -154,7 +154,7 @@ const MenuEditor = ({ menu, boxes, locations, onNotice, onDeleted }: MenuEditorP
           <CardBody className="flex flex-wrap items-end gap-4">
             <div className="flex-1 min-w-[220px]">
               <Input
-                label={t('admin.menus.name')}
+                label={t('admin:menus.name')}
                 value={name}
                 onChange={(event) => setName(event.target.value)}
               />
@@ -164,11 +164,11 @@ const MenuEditor = ({ menu, boxes, locations, onNotice, onDeleted }: MenuEditorP
               isLoading={updateState.isLoading}
               leftIcon={<Save className="w-4 h-4" />}
             >
-              {t('admin.menus.save')}
+              {t('admin:menus.save')}
             </Button>
           </CardBody>
 
-          <CardHeader title={t('admin.menus.structure')} />
+          <CardHeader title={t('admin:menus.structure')} />
 
           <CardBody className="bg-slate-50/50 dark:bg-white/[0.01]">
             <MenuBuilder items={items} onChange={setItems} />
@@ -176,7 +176,7 @@ const MenuEditor = ({ menu, boxes, locations, onNotice, onDeleted }: MenuEditorP
 
           {(locations?.data.length ?? 0) > 0 && (
             <>
-              <CardHeader title={t('admin.menus.settings')} />
+              <CardHeader title={t('admin:menus.settings')} />
               <CardBody className="space-y-2">
                 {locations?.data.map((location) => (
                   <label key={location.key} className="flex items-center gap-3 cursor-pointer">
@@ -202,7 +202,7 @@ const MenuEditor = ({ menu, boxes, locations, onNotice, onDeleted }: MenuEditorP
               leftIcon={<Trash2 className="w-4 h-4" />}
               className="text-rose-600 hover:text-rose-500 hover:bg-rose-500/10"
             >
-              {t('admin.menus.delete')}
+              {t('admin:menus.delete')}
             </Button>
 
             <Button
@@ -210,7 +210,7 @@ const MenuEditor = ({ menu, boxes, locations, onNotice, onDeleted }: MenuEditorP
               isLoading={updateState.isLoading}
               leftIcon={<Save className="w-4 h-4" />}
             >
-              {t('admin.menus.save')}
+              {t('admin:menus.save')}
             </Button>
           </CardFooter>
         </Card>
@@ -219,19 +219,19 @@ const MenuEditor = ({ menu, boxes, locations, onNotice, onDeleted }: MenuEditorP
       <Modal
         isOpen={confirmDelete}
         onClose={() => setConfirmDelete(false)}
-        title={t('admin.menus.deleteDialog.title')}
-        description={t('admin.menus.deleteDialog.description', { name })}
+        title={t('admin:menus.deleteDialog.title')}
+        description={t('admin:menus.deleteDialog.description', { name })}
       >
         <div className="flex justify-end gap-3">
           <Button variant="secondary" onClick={() => setConfirmDelete(false)}>
-            {t('admin.menus.deleteDialog.cancel')}
+            {t('admin:menus.deleteDialog.cancel')}
           </Button>
           <Button
             variant="danger"
             isLoading={deleteState.isLoading}
             onClick={() => void handleDelete()}
           >
-            {t('admin.menus.deleteDialog.confirm')}
+            {t('admin:menus.deleteDialog.confirm')}
           </Button>
         </div>
       </Modal>
@@ -282,11 +282,11 @@ export const MenusView = () => {
       setNewName('');
       setIsCreating(false);
       setSelectedId(response.data.id);
-      setNotice({ type: 'success', message: t('admin.menus.notices.created') });
+      setNotice({ type: 'success', message: t('admin:menus.notices.created') });
     } catch (error) {
       setNotice({
         type: 'error',
-        message: getErrorMessage(error, t('admin.menus.errors.saveFailed')),
+        message: getErrorMessage(error, t('admin:menus.errors.saveFailed')),
       });
     }
   };
@@ -296,10 +296,10 @@ export const MenusView = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t('admin.menus.title')}
+            {t('admin:menus.title')}
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            {t('admin.menus.subtitle')}
+            {t('admin:menus.subtitle')}
           </p>
         </div>
 
@@ -307,7 +307,7 @@ export const MenusView = () => {
           onClick={() => setIsCreating((value) => !value)}
           leftIcon={<Plus className="w-4 h-4" />}
         >
-          {t('admin.menus.createNew')}
+          {t('admin:menus.createNew')}
         </Button>
       </div>
 
@@ -333,12 +333,12 @@ export const MenusView = () => {
           {menus.length > 0 ? (
             <>
               <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                {t('admin.menus.selectMenu')}
+                {t('admin:menus.selectMenu')}
               </span>
               <select
                 value={activeId ?? ''}
                 onChange={(event) => setSelectedId(event.target.value)}
-                aria-label={t('admin.menus.selectMenu')}
+                aria-label={t('admin:menus.selectMenu')}
                 className="flex-1 max-w-sm px-3 py-2 text-sm bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
               >
                 {menus.map((entry) => (
@@ -347,13 +347,13 @@ export const MenusView = () => {
                   </option>
                 ))}
               </select>
-              <span className="text-sm text-slate-500">{t('admin.menus.or')}</span>
+              <span className="text-sm text-slate-500">{t('admin:menus.or')}</span>
               <button
                 type="button"
                 onClick={() => setIsCreating((value) => !value)}
                 className="text-sm font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
               >
-                {t('admin.menus.createNew')}
+                {t('admin:menus.createNew')}
               </button>
             </>
           ) : (
@@ -361,10 +361,10 @@ export const MenusView = () => {
               {isMenusFetching ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>{t('admin.menus.loading')}</span>
+                  <span>{t('admin:menus.loading')}</span>
                 </>
               ) : (
-                <span>{t('admin.menus.empty')}</span>
+                <span>{t('admin:menus.empty')}</span>
               )}
             </div>
           )}
@@ -377,10 +377,10 @@ export const MenusView = () => {
             <form onSubmit={handleCreate} className="flex flex-wrap items-end gap-4">
               <div className="flex-1 min-w-[220px]">
                 <Input
-                  label={t('admin.menus.name')}
+                  label={t('admin:menus.name')}
                   value={newName}
                   onChange={(event) => setNewName(event.target.value)}
-                  placeholder={t('admin.menus.namePlaceholder')}
+                  placeholder={t('admin:menus.namePlaceholder')}
                   required
                 />
               </div>
@@ -389,7 +389,7 @@ export const MenusView = () => {
                 isLoading={createState.isLoading}
                 leftIcon={<Plus className="w-4 h-4" />}
               >
-                {t('admin.menus.addMenu')}
+                {t('admin:menus.addMenu')}
               </Button>
             </form>
           </CardBody>
@@ -399,7 +399,7 @@ export const MenusView = () => {
       {activeId && isMenuFetching && !menu && (
         <div className="flex items-center justify-center gap-2 py-16 text-slate-400 dark:text-slate-500">
           <Loader2 className="w-5 h-5 animate-spin" />
-          <span className="text-sm">{t('admin.menus.loading')}</span>
+          <span className="text-sm">{t('admin:menus.loading')}</span>
         </div>
       )}
 
@@ -418,7 +418,7 @@ export const MenusView = () => {
         <Card>
           <CardBody className="py-16 text-center">
             <MenuIcon className="w-6 h-6 text-slate-400 mx-auto mb-2" />
-            <p className="text-sm text-slate-500 dark:text-slate-400">{t('admin.menus.empty')}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{t('admin:menus.empty')}</p>
           </CardBody>
         </Card>
       )}

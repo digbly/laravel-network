@@ -20,7 +20,7 @@ export const Pagination: FC<PaginationProps> = ({ meta, isFetching, onPageChange
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-4 border-t border-slate-100 dark:border-white/[0.06]">
       <p className="text-xs text-slate-500 dark:text-slate-400">
-        {t('admin.media.pagination.summary', { from: from ?? 0, to: to ?? 0, total })}
+        {t('admin:media.pagination.summary', { from: from ?? 0, to: to ?? 0, total })}
       </p>
 
       <div className="flex items-center gap-2">
@@ -31,11 +31,11 @@ export const Pagination: FC<PaginationProps> = ({ meta, isFetching, onPageChange
           onClick={() => onPageChange(currentPage - 1)}
           leftIcon={<ChevronLeft className="w-3.5 h-3.5" />}
         >
-          {t('admin.media.pagination.previous')}
+          {t('admin:media.pagination.previous')}
         </Button>
 
         <span className="text-xs font-medium text-slate-500 dark:text-slate-400 px-1">
-          {t('admin.media.pagination.page', { current: currentPage, total: lastPage })}
+          {t('admin:media.pagination.page', { current: currentPage, total: lastPage })}
         </span>
 
         <Button
@@ -45,7 +45,7 @@ export const Pagination: FC<PaginationProps> = ({ meta, isFetching, onPageChange
           onClick={() => onPageChange(currentPage + 1)}
           rightIcon={<ChevronRight className="w-3.5 h-3.5" />}
         >
-          {t('admin.media.pagination.next')}
+          {t('admin:media.pagination.next')}
         </Button>
       </div>
     </div>

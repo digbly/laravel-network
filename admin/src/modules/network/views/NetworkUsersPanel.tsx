@@ -150,11 +150,11 @@ export const NetworkUsersPanel = () => {
 
     try {
       await deleteUser(String(deleteTarget.id)).unwrap();
-      setNotice({ type: 'success', message: t('admin.networkAdmin.notices.userDeleted') });
+      setNotice({ type: 'success', message: t('network:networkAdmin.notices.userDeleted') });
     } catch (error) {
       setNotice({
         type: 'error',
-        message: getErrorMessage(error, t('admin.networkAdmin.errors.deleteFailed')),
+        message: getErrorMessage(error, t('network:networkAdmin.errors.deleteFailed')),
       });
     } finally {
       setDeleteTarget(null);
@@ -164,11 +164,11 @@ export const NetworkUsersPanel = () => {
   const handleRestore = async (user: AdminUser) => {
     try {
       await restoreUser(String(user.id)).unwrap();
-      setNotice({ type: 'success', message: t('admin.networkAdmin.notices.userRestored') });
+      setNotice({ type: 'success', message: t('network:networkAdmin.notices.userRestored') });
     } catch (error) {
       setNotice({
         type: 'error',
-        message: getErrorMessage(error, t('admin.networkAdmin.errors.restoreFailed')),
+        message: getErrorMessage(error, t('network:networkAdmin.errors.restoreFailed')),
       });
     }
   };
@@ -176,11 +176,11 @@ export const NetworkUsersPanel = () => {
   const handleResend = async (user: AdminUser) => {
     try {
       await resendUserVerification(String(user.id)).unwrap();
-      setNotice({ type: 'success', message: t('admin.networkAdmin.notices.verificationSent') });
+      setNotice({ type: 'success', message: t('network:networkAdmin.notices.verificationSent') });
     } catch (error) {
       setNotice({
         type: 'error',
-        message: getErrorMessage(error, t('admin.networkAdmin.errors.resendFailed')),
+        message: getErrorMessage(error, t('network:networkAdmin.errors.resendFailed')),
       });
     }
   };
@@ -195,10 +195,10 @@ export const NetworkUsersPanel = () => {
 
     try {
       await resetUserPassword({ id: String(resetTarget.id), body: values }).unwrap();
-      setNotice({ type: 'success', message: t('admin.networkAdmin.notices.passwordReset') });
+      setNotice({ type: 'success', message: t('network:networkAdmin.notices.passwordReset') });
       setResetTarget(null);
     } catch (error) {
-      setResetError(getErrorMessage(error, t('admin.networkAdmin.errors.resetFailed')));
+      setResetError(getErrorMessage(error, t('network:networkAdmin.errors.resetFailed')));
     }
   };
 
@@ -206,18 +206,18 @@ export const NetworkUsersPanel = () => {
     if (user.deleted_at) {
       return (
         <Badge variant="rose" size="sm" dot>
-          {t('admin.networkAdmin.users.status.deleted')}
+          {t('network:networkAdmin.users.status.deleted')}
         </Badge>
       );
     }
 
     return user.email_verified_at ? (
       <Badge variant="emerald" size="sm" dot>
-        {t('admin.networkAdmin.users.status.verified')}
+        {t('network:networkAdmin.users.status.verified')}
       </Badge>
     ) : (
       <Badge variant="amber" size="sm" dot>
-        {t('admin.networkAdmin.users.status.unverified')}
+        {t('network:networkAdmin.users.status.unverified')}
       </Badge>
     );
   };
@@ -241,11 +241,11 @@ export const NetworkUsersPanel = () => {
         </div>
       )}
 
-      {isError && <ErrorAlert message={t('admin.networkAdmin.errors.usersLoadFailed')} />}
+      {isError && <ErrorAlert message={t('network:networkAdmin.errors.usersLoadFailed')} />}
 
       <div className="flex justify-end">
         <Button onClick={openCreate} leftIcon={<UserPlus className="w-4 h-4" />}>
-          {t('admin.networkAdmin.users.add')}
+          {t('network:networkAdmin.users.add')}
         </Button>
       </div>
 
@@ -256,7 +256,7 @@ export const NetworkUsersPanel = () => {
               <Input
                 value={searchInput}
                 onChange={(event) => setSearchInput(event.target.value)}
-                placeholder={t('admin.networkAdmin.users.searchPlaceholder')}
+                placeholder={t('network:networkAdmin.users.searchPlaceholder')}
                 leftIcon={<Search className="w-4 h-4" />}
               />
             </div>
@@ -269,7 +269,7 @@ export const NetworkUsersPanel = () => {
               }}
               className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white text-sm rounded-xl px-3.5 py-2.5 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
             >
-              <option value="">{t('admin.networkAdmin.users.allRoles')}</option>
+              <option value="">{t('network:networkAdmin.users.allRoles')}</option>
               {roleOptions.map((roleOption) => (
                 <option key={roleOption.id} value={roleOption.name}>
                   {roleOption.name}
@@ -285,15 +285,15 @@ export const NetworkUsersPanel = () => {
               }}
               className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white text-sm rounded-xl px-3.5 py-2.5 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
             >
-              <option value="">{t('admin.networkAdmin.users.activeUsers')}</option>
-              <option value="only">{t('admin.networkAdmin.users.deletedOnly')}</option>
-              <option value="with">{t('admin.networkAdmin.users.allUsers')}</option>
+              <option value="">{t('network:networkAdmin.users.activeUsers')}</option>
+              <option value="only">{t('network:networkAdmin.users.deletedOnly')}</option>
+              <option value="with">{t('network:networkAdmin.users.allUsers')}</option>
             </select>
           </div>
 
           {meta && (
             <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">
-              {t('admin.networkAdmin.users.total', { total: meta.total })}
+              {t('network:networkAdmin.users.total', { total: meta.total })}
             </p>
           )}
         </CardBody>
@@ -302,12 +302,12 @@ export const NetworkUsersPanel = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-slate-100 dark:border-white/[0.06] text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                <th className="px-6 py-3 font-semibold">{t('admin.networkAdmin.users.table.user')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.networkAdmin.users.table.role')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.networkAdmin.users.table.status')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.networkAdmin.users.table.joined')}</th>
+                <th className="px-6 py-3 font-semibold">{t('network:networkAdmin.users.table.user')}</th>
+                <th className="px-6 py-3 font-semibold">{t('network:networkAdmin.users.table.role')}</th>
+                <th className="px-6 py-3 font-semibold">{t('network:networkAdmin.users.table.status')}</th>
+                <th className="px-6 py-3 font-semibold">{t('network:networkAdmin.users.table.joined')}</th>
                 <th className="px-6 py-3 font-semibold text-right">
-                  {t('admin.networkAdmin.users.table.actions')}
+                  {t('network:networkAdmin.users.table.actions')}
                 </th>
               </tr>
             </thead>
@@ -317,7 +317,7 @@ export const NetworkUsersPanel = () => {
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>{t('admin.networkAdmin.users.loading')}</span>
+                      <span>{t('network:networkAdmin.users.loading')}</span>
                     </div>
                   </td>
                 </tr>
@@ -328,7 +328,7 @@ export const NetworkUsersPanel = () => {
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                       <Users className="w-6 h-6 text-slate-400" />
-                      <span>{t('admin.networkAdmin.users.empty')}</span>
+                      <span>{t('network:networkAdmin.users.empty')}</span>
                     </div>
                   </td>
                 </tr>
@@ -354,7 +354,7 @@ export const NetworkUsersPanel = () => {
                             {user.name}
                             {isSelf && (
                               <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide text-indigo-500">
-                                {t('admin.networkAdmin.users.you')}
+                                {t('network:networkAdmin.users.you')}
                               </span>
                             )}
                           </p>
@@ -370,7 +370,7 @@ export const NetworkUsersPanel = () => {
                         {user.is_super_admin && (
                           <Badge variant="violet" size="sm">
                             <ShieldCheck className="w-3 h-3" />
-                            {t('admin.networkAdmin.users.status.superAdmin')}
+                            {t('network:networkAdmin.users.status.superAdmin')}
                           </Badge>
                         )}
                         {userRoles.map((roleName) => (
@@ -394,7 +394,7 @@ export const NetworkUsersPanel = () => {
                       <div className="flex items-center justify-end gap-1">
                         {isDeleted ? (
                           <RowAction
-                            label={t('admin.networkAdmin.users.actions.restore')}
+                            label={t('network:networkAdmin.users.actions.restore')}
                             onClick={() => void handleRestore(user)}
                             tone="accent"
                           >
@@ -403,7 +403,7 @@ export const NetworkUsersPanel = () => {
                         ) : (
                           <>
                             <RowAction
-                              label={t('admin.networkAdmin.users.actions.edit')}
+                              label={t('network:networkAdmin.users.actions.edit')}
                               onClick={() => openEdit(user)}
                               tone="accent"
                             >
@@ -411,7 +411,7 @@ export const NetworkUsersPanel = () => {
                             </RowAction>
 
                             <RowAction
-                              label={t('admin.networkAdmin.users.actions.resetPassword')}
+                              label={t('network:networkAdmin.users.actions.resetPassword')}
                               onClick={() => {
                                 setResetError(null);
                                 setResetTarget(user);
@@ -422,7 +422,7 @@ export const NetworkUsersPanel = () => {
 
                             {!user.email_verified_at && (
                               <RowAction
-                                label={t('admin.networkAdmin.users.actions.resendVerification')}
+                                label={t('network:networkAdmin.users.actions.resendVerification')}
                                 onClick={() => void handleResend(user)}
                               >
                                 <Mail className="w-4 h-4" />
@@ -430,7 +430,7 @@ export const NetworkUsersPanel = () => {
                             )}
 
                             <RowAction
-                              label={t('admin.networkAdmin.users.actions.delete')}
+                              label={t('network:networkAdmin.users.actions.delete')}
                               onClick={() => setDeleteTarget(user)}
                               disabled={isSelf}
                               tone="danger"
@@ -454,7 +454,7 @@ export const NetworkUsersPanel = () => {
       {isError && (
         <div className="flex justify-center">
           <Button variant="secondary" size="sm" onClick={() => void refetch()}>
-            {t('admin.networkAdmin.errors.retry')}
+            {t('network:networkAdmin.errors.retry')}
           </Button>
         </div>
       )}
@@ -471,12 +471,12 @@ export const NetworkUsersPanel = () => {
 
       <ConfirmDialog
         isOpen={Boolean(deleteTarget)}
-        title={t('admin.networkAdmin.userDelete.title')}
-        description={t('admin.networkAdmin.userDelete.description', {
+        title={t('network:networkAdmin.userDelete.title')}
+        description={t('network:networkAdmin.userDelete.description', {
           name: deleteTarget?.name ?? '',
         })}
-        confirmLabel={t('admin.networkAdmin.userDelete.confirm')}
-        cancelLabel={t('admin.networkAdmin.userDelete.cancel')}
+        confirmLabel={t('network:networkAdmin.userDelete.confirm')}
+        cancelLabel={t('network:networkAdmin.userDelete.cancel')}
         isLoading={deleteState.isLoading}
         variant="danger"
         onConfirm={() => void handleDelete()}

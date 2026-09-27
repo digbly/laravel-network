@@ -115,7 +115,7 @@ export const SidebarShell: FC<SidebarShellProps> = ({
             type="button"
             onClick={onClose}
             className="lg:hidden p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-colors cursor-pointer"
-            aria-label={t('admin.topbar.closeMenu')}
+            aria-label={t('topbar.closeMenu')}
           >
             <X className="w-4 h-4" />
           </button>
@@ -188,7 +188,7 @@ export const SidebarShell: FC<SidebarShellProps> = ({
         <div className="p-3 border-t border-slate-200/80 dark:border-white/[0.07] space-y-1">
           {footer}
           <p className="px-3 text-[10px] text-slate-400 dark:text-slate-500">
-            {t('admin.version')}
+            {t('version')}
           </p>
         </div>
       </aside>

@@ -52,7 +52,7 @@ export const CategoryFormView = () => {
 
       goBack();
     } catch (submitError) {
-      setError(getErrorMessage(submitError, t('admin.blog.categories.errors.saveFailed')));
+      setError(getErrorMessage(submitError, t('blog:categories.errors.saveFailed')));
     }
   };
 
@@ -67,17 +67,17 @@ export const CategoryFormView = () => {
           leftIcon={<ArrowLeft className="w-4 h-4" />}
           onClick={goBack}
         >
-          {t('admin.blog.categories.form.back')}
+          {t('blog:categories.form.back')}
         </Button>
 
         <div>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
             {isEditing
-              ? t('admin.blog.categories.form.editTitle')
-              : t('admin.blog.categories.form.createTitle')}
+              ? t('blog:categories.form.editTitle')
+              : t('blog:categories.form.createTitle')}
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            {t('admin.blog.categories.form.subtitle')}
+            {t('blog:categories.form.subtitle')}
           </p>
         </div>
       </div>
@@ -93,9 +93,9 @@ export const CategoryFormView = () => {
       {isEditing && isCategoryError && (
         <Card>
           <CardBody className="space-y-4">
-            <ErrorAlert message={t('admin.blog.categories.form.loadFailed')} />
+            <ErrorAlert message={t('blog:categories.form.loadFailed')} />
             <Button variant="secondary" size="sm" onClick={() => void refetchCategory()}>
-              {t('admin.blog.categories.errors.retry')}
+              {t('blog:categories.errors.retry')}
             </Button>
           </CardBody>
         </Card>

@@ -104,7 +104,7 @@ export const WidgetCustomize: FC<WidgetCustomizeProps> = ({ data, items, onChang
   if (data.sidebars.length === 0) {
     return (
       <p className="text-sm text-slate-500 dark:text-slate-400">
-        {t('admin.customize.widgets.empty')}
+        {t('admin:customize.widgets.empty')}
       </p>
     );
   }
@@ -134,14 +134,14 @@ export const WidgetCustomize: FC<WidgetCustomizeProps> = ({ data, items, onChang
               <div className="relative">
                 <select
                   value=""
-                  aria-label={t('admin.customize.widgets.add')}
+                  aria-label={t('admin:customize.widgets.add')}
                   onChange={(event) => {
                     if (event.target.value) handleAdd(sidebar.key, event.target.value);
                   }}
                   className="rounded-lg border border-indigo-200 bg-white px-2 py-1 text-xs text-indigo-600 dark:border-indigo-500/30 dark:bg-slate-900 dark:text-indigo-400"
                 >
                   <option value="" disabled>
-                    + {t('admin.customize.widgets.add')}
+                    + {t('admin:customize.widgets.add')}
                   </option>
                   {available.map((widget) => (
                     <option key={`${sidebar.key}-${widget.key}`} value={widget.key}>
@@ -164,7 +164,7 @@ export const WidgetCustomize: FC<WidgetCustomizeProps> = ({ data, items, onChang
                 <div className="space-y-2 rounded-xl border border-dashed border-slate-300 p-3 dark:border-white/[0.1]">
                   {list.length === 0 && (
                     <p className="py-3 text-center text-xs text-slate-400">
-                      {t('admin.customize.widgets.emptySidebar')}
+                      {t('admin:customize.widgets.emptySidebar')}
                     </p>
                   )}
 
@@ -250,7 +250,7 @@ const SortableCard: FC<SortableCardProps> = ({
           <button
             type="button"
             onClick={onToggle}
-            aria-label={t('admin.widgets.toggle')}
+            aria-label={t('admin:widgets.toggle')}
             className="p-1.5 text-slate-400 transition-colors hover:text-indigo-600"
           >
             <ChevronDown
@@ -260,7 +260,7 @@ const SortableCard: FC<SortableCardProps> = ({
           <button
             type="button"
             onClick={onRemove}
-            aria-label={t('admin.widgets.remove')}
+            aria-label={t('admin:widgets.remove')}
             className="p-1.5 text-rose-400 transition-colors hover:text-rose-600"
           >
             <Trash2 className="h-4 w-4" />

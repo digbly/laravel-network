@@ -177,9 +177,9 @@ export const UsersView = () => {
 
     try {
       await deleteUser(String(deleteTarget.id)).unwrap();
-      setNotice({ type: 'success', message: t('admin.users.notices.deleted') });
+      setNotice({ type: 'success', message: t('admin:users.notices.deleted') });
     } catch (error) {
-      setNotice({ type: 'error', message: getErrorMessage(error, t('admin.users.errors.deleteFailed')) });
+      setNotice({ type: 'error', message: getErrorMessage(error, t('admin:users.errors.deleteFailed')) });
     } finally {
       setDeleteTarget(null);
     }
@@ -188,18 +188,18 @@ export const UsersView = () => {
   const handleRestore = async (user: AdminUser) => {
     try {
       await restoreUser(String(user.id)).unwrap();
-      setNotice({ type: 'success', message: t('admin.users.notices.restored') });
+      setNotice({ type: 'success', message: t('admin:users.notices.restored') });
     } catch (error) {
-      setNotice({ type: 'error', message: getErrorMessage(error, t('admin.users.errors.restoreFailed')) });
+      setNotice({ type: 'error', message: getErrorMessage(error, t('admin:users.errors.restoreFailed')) });
     }
   };
 
   const handleResend = async (user: AdminUser) => {
     try {
       await resendUserVerification(String(user.id)).unwrap();
-      setNotice({ type: 'success', message: t('admin.users.notices.verificationSent') });
+      setNotice({ type: 'success', message: t('admin:users.notices.verificationSent') });
     } catch (error) {
-      setNotice({ type: 'error', message: getErrorMessage(error, t('admin.users.errors.resendFailed')) });
+      setNotice({ type: 'error', message: getErrorMessage(error, t('admin:users.errors.resendFailed')) });
     }
   };
 
@@ -213,10 +213,10 @@ export const UsersView = () => {
 
     try {
       await resetUserPassword({ id: String(resetTarget.id), body: values }).unwrap();
-      setNotice({ type: 'success', message: t('admin.users.notices.passwordReset') });
+      setNotice({ type: 'success', message: t('admin:users.notices.passwordReset') });
       setResetTarget(null);
     } catch (error) {
-      setResetError(getErrorMessage(error, t('admin.users.errors.resetFailed')));
+      setResetError(getErrorMessage(error, t('admin:users.errors.resetFailed')));
     }
   };
 
@@ -224,18 +224,18 @@ export const UsersView = () => {
     if (user.deleted_at) {
       return (
         <Badge variant="rose" size="sm" dot>
-          {t('admin.users.status.deleted')}
+          {t('admin:users.status.deleted')}
         </Badge>
       );
     }
 
     return user.email_verified_at ? (
       <Badge variant="emerald" size="sm" dot>
-        {t('admin.users.status.verified')}
+        {t('admin:users.status.verified')}
       </Badge>
     ) : (
       <Badge variant="amber" size="sm" dot>
-        {t('admin.users.status.unverified')}
+        {t('admin:users.status.unverified')}
       </Badge>
     );
   };
@@ -245,15 +245,15 @@ export const UsersView = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t('admin.users.title')}
+            {t('admin:users.title')}
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            {t('admin.users.subtitle')}
+            {t('admin:users.subtitle')}
           </p>
         </div>
 
         <Button onClick={openCreate} leftIcon={<UserPlus className="w-4 h-4" />}>
-          {t('admin.users.addUser')}
+          {t('admin:users.addUser')}
         </Button>
       </div>
 
@@ -274,7 +274,7 @@ export const UsersView = () => {
         </div>
       )}
 
-      {isError && <ErrorAlert message={t('admin.users.errors.loadFailed')} />}
+      {isError && <ErrorAlert message={t('admin:users.errors.loadFailed')} />}
 
       <Card>
         <CardBody className="p-4 sm:p-5 border-b border-slate-100 dark:border-white/[0.06]">
@@ -283,7 +283,7 @@ export const UsersView = () => {
               <Input
                 value={searchInput}
                 onChange={(event) => setSearchInput(event.target.value)}
-                placeholder={t('admin.users.searchPlaceholder')}
+                placeholder={t('admin:users.searchPlaceholder')}
                 leftIcon={<Search className="w-4 h-4" />}
               />
             </div>
@@ -296,7 +296,7 @@ export const UsersView = () => {
               }}
               className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white text-sm rounded-xl px-3.5 py-2.5 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
             >
-              <option value="">{t('admin.users.filters.allRoles')}</option>
+              <option value="">{t('admin:users.filters.allRoles')}</option>
               {roleOptions.map((roleOption) => (
                 <option key={roleOption.id} value={roleOption.name}>
                   {roleOption.name}
@@ -312,19 +312,19 @@ export const UsersView = () => {
               }}
               className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white text-sm rounded-xl px-3.5 py-2.5 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
             >
-              <option value="">{t('admin.users.filters.active')}</option>
-              <option value="only">{t('admin.users.filters.deleted')}</option>
-              <option value="with">{t('admin.users.filters.all')}</option>
+              <option value="">{t('admin:users.filters.active')}</option>
+              <option value="only">{t('admin:users.filters.deleted')}</option>
+              <option value="with">{t('admin:users.filters.all')}</option>
             </select>
           </div>
 
           {meta && (
             <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-3">
-              <StatCard Icon={Users} label={t('admin.users.stats.total')} value={meta.total} />
+              <StatCard Icon={Users} label={t('admin:users.stats.total')} value={meta.total} />
               <StatCard
                 Icon={CheckCircle2}
-                label={t('admin.users.stats.page')}
-                value={t('admin.users.pagination.page', {
+                label={t('admin:users.stats.page')}
+                value={t('admin:users.pagination.page', {
                   current: meta.current_page,
                   total: meta.last_page,
                 })}
@@ -337,11 +337,11 @@ export const UsersView = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-slate-100 dark:border-white/[0.06] text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                <th className="px-6 py-3 font-semibold">{t('admin.users.table.user')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.users.table.role')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.users.table.status')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.users.table.joined')}</th>
-                <th className="px-6 py-3 font-semibold text-right">{t('admin.users.table.actions')}</th>
+                <th className="px-6 py-3 font-semibold">{t('admin:users.table.user')}</th>
+                <th className="px-6 py-3 font-semibold">{t('admin:users.table.role')}</th>
+                <th className="px-6 py-3 font-semibold">{t('admin:users.table.status')}</th>
+                <th className="px-6 py-3 font-semibold">{t('admin:users.table.joined')}</th>
+                <th className="px-6 py-3 font-semibold text-right">{t('admin:users.table.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-white/[0.06]">
@@ -350,7 +350,7 @@ export const UsersView = () => {
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>{t('admin.users.loading')}</span>
+                      <span>{t('admin:users.loading')}</span>
                     </div>
                   </td>
                 </tr>
@@ -361,7 +361,7 @@ export const UsersView = () => {
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                       <Users className="w-6 h-6 text-slate-400" />
-                      <span>{t('admin.users.empty')}</span>
+                      <span>{t('admin:users.empty')}</span>
                     </div>
                   </td>
                 </tr>
@@ -388,7 +388,7 @@ export const UsersView = () => {
                             {user.name}
                             {isSelf && (
                               <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide text-indigo-500">
-                                {t('admin.users.you')}
+                                {t('admin:users.you')}
                               </span>
                             )}
                           </p>
@@ -404,7 +404,7 @@ export const UsersView = () => {
                         {user.is_super_admin && (
                           <Badge variant="violet" size="sm">
                             <ShieldCheck className="w-3 h-3" />
-                            {t('admin.users.status.superAdmin')}
+                            {t('admin:users.status.superAdmin')}
                           </Badge>
                         )}
                         {userRoles.map((roleName) => (
@@ -428,7 +428,7 @@ export const UsersView = () => {
                       <div className="flex items-center justify-end gap-1">
                         {isDeleted ? (
                           <RowAction
-                            label={t('admin.users.actions.restore')}
+                            label={t('admin:users.actions.restore')}
                             onClick={() => void handleRestore(user)}
                             disabled={!canManage}
                             tone="accent"
@@ -438,7 +438,7 @@ export const UsersView = () => {
                         ) : (
                           <>
                             <RowAction
-                              label={t('admin.users.actions.edit')}
+                              label={t('admin:users.actions.edit')}
                               onClick={() => openEdit(user)}
                               disabled={!canManage}
                               tone="accent"
@@ -447,7 +447,7 @@ export const UsersView = () => {
                             </RowAction>
 
                             <RowAction
-                              label={t('admin.users.actions.resetPassword')}
+                              label={t('admin:users.actions.resetPassword')}
                               onClick={() => {
                                 setResetError(null);
                                 setResetTarget(user);
@@ -459,7 +459,7 @@ export const UsersView = () => {
 
                             {!user.email_verified_at && (
                               <RowAction
-                                label={t('admin.users.actions.resendVerification')}
+                                label={t('admin:users.actions.resendVerification')}
                                 onClick={() => void handleResend(user)}
                               >
                                 <Mail className="w-4 h-4" />
@@ -467,7 +467,7 @@ export const UsersView = () => {
                             )}
 
                             <RowAction
-                              label={t('admin.users.actions.delete')}
+                              label={t('admin:users.actions.delete')}
                               onClick={() => setDeleteTarget(user)}
                               disabled={isSelf || !canManage}
                               tone="danger"
@@ -500,12 +500,12 @@ export const UsersView = () => {
 
       <ConfirmDialog
         isOpen={Boolean(deleteTarget)}
-        title={t('admin.users.deleteDialog.title')}
-        description={t('admin.users.deleteDialog.description', {
+        title={t('admin:users.deleteDialog.title')}
+        description={t('admin:users.deleteDialog.description', {
           name: deleteTarget?.name ?? '',
         })}
-        confirmLabel={t('admin.users.deleteDialog.confirm')}
-        cancelLabel={t('admin.users.deleteDialog.cancel')}
+        confirmLabel={t('admin:users.deleteDialog.confirm')}
+        cancelLabel={t('admin:users.deleteDialog.cancel')}
         isLoading={deleteState.isLoading}
         variant="danger"
         onConfirm={() => void handleDelete()}
@@ -515,7 +515,7 @@ export const UsersView = () => {
       {isError && (
         <div className="flex justify-center">
           <Button variant="secondary" size="sm" onClick={() => void refetch()}>
-            {t('admin.users.errors.retry')}
+            {t('admin:users.errors.retry')}
           </Button>
         </div>
       )}

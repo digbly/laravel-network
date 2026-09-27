@@ -56,7 +56,7 @@ export const CustomizeControlField: FC<CustomizeControlFieldProps> = ({
         <div className="space-y-4">
           <div>
             <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500">
-              {t('admin.customize.site.title')}
+              {t('admin:customize.site.title')}
             </label>
             <input
               type="text"
@@ -68,7 +68,7 @@ export const CustomizeControlField: FC<CustomizeControlFieldProps> = ({
 
           <div>
             <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500">
-              {t('admin.customize.site.description')}
+              {t('admin:customize.site.description')}
             </label>
             <textarea
               rows={3}
@@ -79,13 +79,13 @@ export const CustomizeControlField: FC<CustomizeControlFieldProps> = ({
           </div>
 
           <MediaField
-            label={t('admin.settings.fields.logo')}
+            label={t('admin:settings.fields.logo')}
             value={(global.logo as string | null) ?? null}
             onChange={(id) => onChangeSetting('logo', id)}
           />
 
           <MediaField
-            label={t('admin.settings.fields.favicon')}
+            label={t('admin:settings.fields.favicon')}
             value={(global.favicon as string | null) ?? null}
             onChange={(id) => onChangeSetting('favicon', id)}
           />

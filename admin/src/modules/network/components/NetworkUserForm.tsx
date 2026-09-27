@@ -74,28 +74,28 @@ export const NetworkUserForm: FC<NetworkUserFormProps> = ({
     const errors: Record<string, string> = {};
 
     if (!values.name.trim()) {
-      errors.name = t('admin.networkAdmin.userForm.errors.nameRequired');
+      errors.name = t('network:networkAdmin.userForm.errors.nameRequired');
     }
 
     if (!values.email.trim()) {
-      errors.email = t('admin.networkAdmin.userForm.errors.emailRequired');
+      errors.email = t('network:networkAdmin.userForm.errors.emailRequired');
     } else if (!EMAIL_REGEX.test(values.email.trim())) {
-      errors.email = t('admin.networkAdmin.userForm.errors.emailInvalid');
+      errors.email = t('network:networkAdmin.userForm.errors.emailInvalid');
     }
 
     if (!isEdit) {
       if (!values.password) {
-        errors.password = t('admin.networkAdmin.userForm.errors.passwordRequired');
+        errors.password = t('network:networkAdmin.userForm.errors.passwordRequired');
       } else if (values.password.length < MIN_PASSWORD_LENGTH) {
-        errors.password = t('admin.networkAdmin.userForm.errors.passwordMin', {
+        errors.password = t('network:networkAdmin.userForm.errors.passwordMin', {
           min: MIN_PASSWORD_LENGTH,
         });
       }
 
       if (!values.password_confirmation) {
-        errors.password_confirmation = t('admin.networkAdmin.userForm.errors.confirmRequired');
+        errors.password_confirmation = t('network:networkAdmin.userForm.errors.confirmRequired');
       } else if (values.password !== values.password_confirmation) {
-        errors.password_confirmation = t('admin.networkAdmin.userForm.errors.passwordMismatch');
+        errors.password_confirmation = t('network:networkAdmin.userForm.errors.passwordMismatch');
       }
     }
 
@@ -115,8 +115,8 @@ export const NetworkUserForm: FC<NetworkUserFormProps> = ({
       {error && <ErrorAlert message={error} />}
 
       <Input
-        label={t('admin.networkAdmin.userForm.name')}
-        placeholder={t('admin.networkAdmin.userForm.namePlaceholder')}
+        label={t('network:networkAdmin.userForm.name')}
+        placeholder={t('network:networkAdmin.userForm.namePlaceholder')}
         value={values.name}
         onChange={(event) => setField('name', event.target.value)}
         error={fieldErrors.name}
@@ -124,9 +124,9 @@ export const NetworkUserForm: FC<NetworkUserFormProps> = ({
       />
 
       <Input
-        label={t('admin.networkAdmin.userForm.email')}
+        label={t('network:networkAdmin.userForm.email')}
         type="email"
-        placeholder={t('admin.networkAdmin.userForm.emailPlaceholder')}
+        placeholder={t('network:networkAdmin.userForm.emailPlaceholder')}
         value={values.email}
         onChange={(event) => setField('email', event.target.value)}
         error={fieldErrors.email}
@@ -134,17 +134,17 @@ export const NetworkUserForm: FC<NetworkUserFormProps> = ({
 
       <div>
         <span className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-          {t('admin.networkAdmin.userForm.roles')}
+          {t('network:networkAdmin.userForm.roles')}
         </span>
 
         {isLoadingRoles ? (
           <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 py-2">
             <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            <span>{t('admin.networkAdmin.userForm.loadingRoles')}</span>
+            <span>{t('network:networkAdmin.userForm.loadingRoles')}</span>
           </div>
         ) : roleOptions.length === 0 ? (
           <p className="text-xs text-slate-500 dark:text-slate-400 py-1">
-            {t('admin.networkAdmin.userForm.noRoles')}
+            {t('network:networkAdmin.userForm.noRoles')}
           </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -171,7 +171,7 @@ export const NetworkUserForm: FC<NetworkUserFormProps> = ({
         )}
         {isSelf && (
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            {t('admin.networkAdmin.userForm.selfRolesHint')}
+            {t('network:networkAdmin.userForm.selfRolesHint')}
           </p>
         )}
       </div>
@@ -191,10 +191,10 @@ export const NetworkUserForm: FC<NetworkUserFormProps> = ({
         <span>
           <span className="flex items-center gap-1.5 text-sm font-medium text-slate-900 dark:text-white">
             <ShieldCheck className="w-4 h-4 text-indigo-500" />
-            {t('admin.networkAdmin.userForm.superAdmin')}
+            {t('network:networkAdmin.userForm.superAdmin')}
           </span>
           <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            {t('admin.networkAdmin.userForm.superAdminHint')}
+            {t('network:networkAdmin.userForm.superAdminHint')}
           </span>
         </span>
       </label>
@@ -202,17 +202,17 @@ export const NetworkUserForm: FC<NetworkUserFormProps> = ({
       {!isEdit && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
-            label={t('admin.networkAdmin.userForm.password')}
+            label={t('network:networkAdmin.userForm.password')}
             type="password"
-            placeholder={t('admin.networkAdmin.userForm.passwordPlaceholder')}
+            placeholder={t('network:networkAdmin.userForm.passwordPlaceholder')}
             value={values.password}
             onChange={(event) => setField('password', event.target.value)}
             error={fieldErrors.password}
           />
           <Input
-            label={t('admin.networkAdmin.userForm.confirmPassword')}
+            label={t('network:networkAdmin.userForm.confirmPassword')}
             type="password"
-            placeholder={t('admin.networkAdmin.userForm.confirmPasswordPlaceholder')}
+            placeholder={t('network:networkAdmin.userForm.confirmPasswordPlaceholder')}
             value={values.password_confirmation}
             onChange={(event) => setField('password_confirmation', event.target.value)}
             error={fieldErrors.password_confirmation}
@@ -222,12 +222,12 @@ export const NetworkUserForm: FC<NetworkUserFormProps> = ({
 
       <div className="flex justify-end gap-3 pt-2">
         <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
-          {t('admin.networkAdmin.userForm.cancel')}
+          {t('network:networkAdmin.userForm.cancel')}
         </Button>
         <Button type="submit" isLoading={isSubmitting}>
           {isEdit
-            ? t('admin.networkAdmin.userForm.save')
-            : t('admin.networkAdmin.userForm.create')}
+            ? t('network:networkAdmin.userForm.save')
+            : t('network:networkAdmin.userForm.create')}
         </Button>
       </div>
     </form>

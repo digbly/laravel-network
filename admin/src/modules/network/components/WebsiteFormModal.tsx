@@ -58,15 +58,15 @@ export const WebsiteFormModal: FC<WebsiteFormModalProps> = ({
     const subdomain = values.subdomain.trim();
 
     if (!title) {
-      errors.title = t('admin.network.form.errors.titleRequired');
+      errors.title = t('network:network.form.errors.titleRequired');
     }
 
     if (!subdomain) {
-      errors.subdomain = t('admin.network.form.errors.subdomainRequired');
+      errors.subdomain = t('network:network.form.errors.subdomainRequired');
     } else if (subdomain.length > 32) {
-      errors.subdomain = t('admin.network.form.errors.subdomainMax', { max: 32 });
+      errors.subdomain = t('network:network.form.errors.subdomainMax', { max: 32 });
     } else if (!SUBDOMAIN_REGEX.test(subdomain)) {
-      errors.subdomain = t('admin.network.form.errors.subdomainInvalid');
+      errors.subdomain = t('network:network.form.errors.subdomainInvalid');
     }
 
     setFieldErrors(errors);
@@ -85,16 +85,16 @@ export const WebsiteFormModal: FC<WebsiteFormModalProps> = ({
     <Modal
       isOpen
       onClose={onClose}
-      title={t('admin.network.form.createTitle')}
-      description={t('admin.network.form.createSubtitle')}
+      title={t('network:network.form.createTitle')}
+      description={t('network:network.form.createSubtitle')}
       maxWidth="lg"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && <ErrorAlert message={error} />}
 
         <Input
-          label={t('admin.network.form.title')}
-          placeholder={t('admin.network.form.titlePlaceholder')}
+          label={t('network:network.form.title')}
+          placeholder={t('network:network.form.titlePlaceholder')}
           value={values.title}
           onChange={(event) => setField('title', event.target.value)}
           error={fieldErrors.title}
@@ -106,7 +106,7 @@ export const WebsiteFormModal: FC<WebsiteFormModalProps> = ({
             htmlFor="website-subdomain"
             className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
           >
-            {t('admin.network.form.subdomain')}
+            {t('network:network.form.subdomain')}
           </label>
           <div
             className={`flex items-stretch overflow-hidden rounded-xl border bg-slate-50/80 dark:bg-slate-900/60 transition-all duration-150 focus-within:ring-2 ${
@@ -119,7 +119,7 @@ export const WebsiteFormModal: FC<WebsiteFormModalProps> = ({
               id="website-subdomain"
               value={values.subdomain}
               onChange={(event) => setField('subdomain', event.target.value)}
-              placeholder={t('admin.network.form.subdomainPlaceholder')}
+              placeholder={t('network:network.form.subdomainPlaceholder')}
               autoComplete="off"
               className="flex-1 min-w-0 bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm px-3.5 py-2.5 focus:outline-none"
             />
@@ -133,7 +133,7 @@ export const WebsiteFormModal: FC<WebsiteFormModalProps> = ({
             <p className="text-xs text-rose-500 mt-1">{fieldErrors.subdomain}</p>
           ) : (
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              {t('admin.network.form.subdomainHint')}
+              {t('network:network.form.subdomainHint')}
             </p>
           )}
         </div>
@@ -143,7 +143,7 @@ export const WebsiteFormModal: FC<WebsiteFormModalProps> = ({
             htmlFor="website-status"
             className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
           >
-            {t('admin.network.form.status')}
+            {t('network:network.form.status')}
           </label>
           <select
             id="website-status"
@@ -153,7 +153,7 @@ export const WebsiteFormModal: FC<WebsiteFormModalProps> = ({
           >
             {STATUSES.map((status) => (
               <option key={status} value={status}>
-                {t(`admin.network.status.${status}`)}
+                {t(`network:network.status.${status}`)}
               </option>
             ))}
           </select>
@@ -164,24 +164,24 @@ export const WebsiteFormModal: FC<WebsiteFormModalProps> = ({
             htmlFor="website-description"
             className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
           >
-            {t('admin.network.form.description')}
+            {t('network:network.form.description')}
           </label>
           <textarea
             id="website-description"
             rows={3}
             value={values.description}
             onChange={(event) => setField('description', event.target.value)}
-            placeholder={t('admin.network.form.descriptionPlaceholder')}
+            placeholder={t('network:network.form.descriptionPlaceholder')}
             className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm rounded-xl px-3.5 py-2.5 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 resize-none"
           />
         </div>
 
         <div className="flex justify-end gap-3 pt-2">
           <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
-            {t('admin.network.form.cancel')}
+            {t('network:network.form.cancel')}
           </Button>
           <Button type="submit" isLoading={isSubmitting}>
-            {t('admin.network.form.create')}
+            {t('network:network.form.create')}
           </Button>
         </div>
       </form>

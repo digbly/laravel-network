@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NetworkConfigController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TranslationController;
 use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
 use Modules\Admin\Enums\MediaPermission;
@@ -26,6 +27,8 @@ Route::get('network/config', NetworkConfigController::class)->name('network.conf
 Route::get('settings', SettingController::class)->name('settings.index');
 
 Route::get('languages', LanguageController::class)->name('languages.index');
+
+Route::get('translations/{locale}/{namespace}', TranslationController::class)->name('translations.show');
 
 Route::middleware(['auth:api', InitWebsite::class])
     ->prefix('admin/websites/{website}/media')

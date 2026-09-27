@@ -99,7 +99,7 @@ export const MenuBoxAccordion = ({ box, onAddItems }: MenuBoxAccordionProps) => 
                     : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'
                 }`}
               >
-                {t(`admin.menus.boxes.${tab}`)}
+                {t(`admin:menus.boxes.${tab}`)}
               </button>
             ))}
           </div>
@@ -109,7 +109,7 @@ export const MenuBoxAccordion = ({ box, onAddItems }: MenuBoxAccordionProps) => 
               <Input
                 value={searchInput}
                 onChange={(event) => setSearchInput(event.target.value)}
-                placeholder={t('admin.menus.boxes.searchPlaceholder')}
+                placeholder={t('admin:menus.boxes.searchPlaceholder')}
                 leftIcon={<Search className="w-4 h-4" />}
               />
             </div>
@@ -119,7 +119,7 @@ export const MenuBoxAccordion = ({ box, onAddItems }: MenuBoxAccordionProps) => 
             {isFetching ? (
               <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400 py-4">
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>{t('admin.menus.boxes.loading')}</span>
+                <span>{t('admin:menus.boxes.loading')}</span>
               </div>
             ) : items.length > 0 ? (
               items.map((item) => (
@@ -138,7 +138,7 @@ export const MenuBoxAccordion = ({ box, onAddItems }: MenuBoxAccordionProps) => 
               ))
             ) : (
               <div className="text-sm text-slate-500 dark:text-slate-400 text-center py-4">
-                {t('admin.menus.boxes.empty')}
+                {t('admin:menus.boxes.empty')}
               </div>
             )}
           </div>
@@ -152,7 +152,7 @@ export const MenuBoxAccordion = ({ box, onAddItems }: MenuBoxAccordionProps) => 
                 className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
               />
               <span className="text-sm text-slate-600 dark:text-slate-400">
-                {t('admin.menus.boxes.selectAll')}
+                {t('admin:menus.boxes.selectAll')}
               </span>
             </label>
 
@@ -163,7 +163,7 @@ export const MenuBoxAccordion = ({ box, onAddItems }: MenuBoxAccordionProps) => 
               disabled={selectedIds.length === 0}
               leftIcon={<Plus className="w-4 h-4" />}
             >
-              {t('admin.menus.boxes.addToMenu')}
+              {t('admin:menus.boxes.addToMenu')}
             </Button>
           </div>
         </div>

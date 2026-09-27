@@ -52,7 +52,7 @@ export const PostFormView = () => {
 
       goBack();
     } catch (submitError) {
-      setError(getErrorMessage(submitError, t('admin.blog.posts.errors.saveFailed')));
+      setError(getErrorMessage(submitError, t('blog:posts.errors.saveFailed')));
     }
   };
 
@@ -67,15 +67,15 @@ export const PostFormView = () => {
           leftIcon={<ArrowLeft className="w-4 h-4" />}
           onClick={goBack}
         >
-          {t('admin.blog.posts.form.back')}
+          {t('blog:posts.form.back')}
         </Button>
 
         <div>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {isEditing ? t('admin.blog.posts.form.editTitle') : t('admin.blog.posts.form.createTitle')}
+            {isEditing ? t('blog:posts.form.editTitle') : t('blog:posts.form.createTitle')}
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            {t('admin.blog.posts.form.subtitle')}
+            {t('blog:posts.form.subtitle')}
           </p>
         </div>
       </div>
@@ -91,9 +91,9 @@ export const PostFormView = () => {
       {isEditing && isPostError && (
         <Card>
           <CardBody className="space-y-4">
-            <ErrorAlert message={t('admin.blog.posts.form.loadFailed')} />
+            <ErrorAlert message={t('blog:posts.form.loadFailed')} />
             <Button variant="secondary" size="sm" onClick={() => void refetchPost()}>
-              {t('admin.blog.posts.errors.retry')}
+              {t('blog:posts.errors.retry')}
             </Button>
           </CardBody>
         </Card>

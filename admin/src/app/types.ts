@@ -8,10 +8,6 @@ export interface NavItem {
   end?: boolean;
 }
 
-export interface ModuleI18nBundle {
-  [language: string]: Record<string, unknown>;
-}
-
 export interface AdminModule {
   /** Routes rendered inside the protected admin shell. */
   routes?: RouteObject[];
@@ -23,6 +19,4 @@ export interface AdminModule {
   standaloneRoutes?: RouteObject[];
   /** Routes rendered outside the admin shell (e.g. public auth pages). */
   publicRoutes?: RouteObject[];
-  /** Translation bundles merged into the `translation` namespace on registration. */
-  i18n?: ModuleI18nBundle;
 }

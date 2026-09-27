@@ -30,7 +30,7 @@ export const MediaField: FC<MediaFieldProps> = ({ label, value, onChange }) => {
           {value && preview ? (
             <img src={preview} alt={media?.alt ?? label} className="w-full h-full object-cover" />
           ) : value && isFetching ? (
-            <span className="text-[10px] text-slate-400">{t('admin.settings.branding.loading')}</span>
+            <span className="text-[10px] text-slate-400">{t('admin:settings.branding.loading')}</span>
           ) : (
             <ImageIcon className="w-6 h-6 text-slate-300 dark:text-slate-600" />
           )}
@@ -44,7 +44,7 @@ export const MediaField: FC<MediaFieldProps> = ({ label, value, onChange }) => {
             onClick={() => setIsPickerOpen(true)}
             leftIcon={<ImageIcon className="w-4 h-4" />}
           >
-            {value ? t('admin.settings.branding.change') : t('admin.settings.branding.choose')}
+            {value ? t('admin:settings.branding.change') : t('admin:settings.branding.choose')}
           </Button>
 
           {value && (
@@ -55,7 +55,7 @@ export const MediaField: FC<MediaFieldProps> = ({ label, value, onChange }) => {
               onClick={() => onChange(null)}
               leftIcon={<X className="w-4 h-4" />}
             >
-              {t('admin.settings.branding.remove')}
+              {t('admin:settings.branding.remove')}
             </Button>
           )}
         </div>

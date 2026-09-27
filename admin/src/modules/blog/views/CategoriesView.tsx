@@ -65,9 +65,9 @@ export const CategoriesView = () => {
 
     try {
       await deleteCategory(deleteTarget.id).unwrap();
-      setNotice({ type: 'success', message: t('admin.blog.categories.notices.deleted') });
+      setNotice({ type: 'success', message: t('blog:categories.notices.deleted') });
     } catch (error) {
-      setNotice({ type: 'error', message: getErrorMessage(error, t('admin.blog.categories.errors.deleteFailed')) });
+      setNotice({ type: 'error', message: getErrorMessage(error, t('blog:categories.errors.deleteFailed')) });
     } finally {
       setDeleteTarget(null);
     }
@@ -78,10 +78,10 @@ export const CategoriesView = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t('admin.blog.categories.title')}
+            {t('blog:categories.title')}
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            {t('admin.blog.categories.subtitle')}
+            {t('blog:categories.subtitle')}
           </p>
         </div>
 
@@ -89,7 +89,7 @@ export const CategoriesView = () => {
           onClick={() => navigate(websitePath('/blog/categories/new', websiteId))}
           leftIcon={<Plus className="w-4 h-4" />}
         >
-          {t('admin.blog.categories.add')}
+          {t('blog:categories.add')}
         </Button>
       </div>
 
@@ -110,14 +110,14 @@ export const CategoriesView = () => {
         </div>
       )}
 
-      {isError && <ErrorAlert message={t('admin.blog.categories.errors.loadFailed')} />}
+      {isError && <ErrorAlert message={t('blog:categories.errors.loadFailed')} />}
 
       <Card>
         <CardBody className="p-4 sm:p-5 border-b border-slate-100 dark:border-white/[0.06]">
           <Input
             value={searchInput}
             onChange={(event) => setSearchInput(event.target.value)}
-            placeholder={t('admin.blog.categories.searchPlaceholder')}
+            placeholder={t('blog:categories.searchPlaceholder')}
             leftIcon={<Search className="w-4 h-4" />}
           />
         </CardBody>
@@ -126,11 +126,11 @@ export const CategoriesView = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-slate-100 dark:border-white/[0.06] text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                <th className="px-6 py-3 font-semibold">{t('admin.blog.categories.table.name')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.blog.categories.table.slug')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.blog.categories.table.posts')}</th>
-                <th className="px-6 py-3 font-semibold">{t('admin.blog.categories.table.home')}</th>
-                <th className="px-6 py-3 font-semibold text-right">{t('admin.blog.categories.table.actions')}</th>
+                <th className="px-6 py-3 font-semibold">{t('blog:categories.table.name')}</th>
+                <th className="px-6 py-3 font-semibold">{t('blog:categories.table.slug')}</th>
+                <th className="px-6 py-3 font-semibold">{t('blog:categories.table.posts')}</th>
+                <th className="px-6 py-3 font-semibold">{t('blog:categories.table.home')}</th>
+                <th className="px-6 py-3 font-semibold text-right">{t('blog:categories.table.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-white/[0.06]">
@@ -139,7 +139,7 @@ export const CategoriesView = () => {
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>{t('admin.blog.categories.loading')}</span>
+                      <span>{t('blog:categories.loading')}</span>
                     </div>
                   </td>
                 </tr>
@@ -150,7 +150,7 @@ export const CategoriesView = () => {
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                       <FolderTree className="w-6 h-6 text-slate-400" />
-                      <span>{t('admin.blog.categories.empty')}</span>
+                      <span>{t('blog:categories.empty')}</span>
                     </div>
                   </td>
                 </tr>
@@ -170,16 +170,16 @@ export const CategoriesView = () => {
                   <td className="px-6 py-4">
                     <Badge variant={category.is_home ? 'emerald' : 'slate'} size="sm">
                       {category.is_home
-                        ? t('admin.blog.categories.homeYes')
-                        : t('admin.blog.categories.homeNo')}
+                        ? t('blog:categories.homeYes')
+                        : t('blog:categories.homeNo')}
                     </Badge>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-1">
                       <button
                         type="button"
-                        title={t('admin.blog.categories.actions.edit')}
-                        aria-label={t('admin.blog.categories.actions.edit')}
+                        title={t('blog:categories.actions.edit')}
+                        aria-label={t('blog:categories.actions.edit')}
                         onClick={() =>
                           navigate(websitePath(`/blog/categories/${category.id}/edit`, websiteId))
                         }
@@ -190,8 +190,8 @@ export const CategoriesView = () => {
 
                       <button
                         type="button"
-                        title={t('admin.blog.categories.actions.delete')}
-                        aria-label={t('admin.blog.categories.actions.delete')}
+                        title={t('blog:categories.actions.delete')}
+                        aria-label={t('blog:categories.actions.delete')}
                         onClick={() => setDeleteTarget(category)}
                         className="p-2 rounded-lg text-rose-500 hover:text-rose-600 hover:bg-rose-500/10 dark:text-rose-400 transition-colors"
                       >
@@ -211,19 +211,19 @@ export const CategoriesView = () => {
       {isError && (
         <div className="flex justify-center">
           <Button variant="secondary" size="sm" onClick={() => void refetch()}>
-            {t('admin.blog.categories.errors.retry')}
+            {t('blog:categories.errors.retry')}
           </Button>
         </div>
       )}
 
       <ConfirmDialog
         isOpen={Boolean(deleteTarget)}
-        title={t('admin.blog.categories.deleteDialog.title')}
-        description={t('admin.blog.categories.deleteDialog.description', {
+        title={t('blog:categories.deleteDialog.title')}
+        description={t('blog:categories.deleteDialog.description', {
           name: deleteTarget?.name ?? '',
         })}
-        confirmLabel={t('admin.blog.categories.deleteDialog.confirm')}
-        cancelLabel={t('admin.blog.categories.deleteDialog.cancel')}
+        confirmLabel={t('blog:categories.deleteDialog.confirm')}
+        cancelLabel={t('blog:categories.deleteDialog.cancel')}
         isLoading={deleteState.isLoading}
         variant="danger"
         onConfirm={() => void handleDelete()}

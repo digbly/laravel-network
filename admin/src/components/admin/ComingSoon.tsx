@@ -30,7 +30,7 @@ export const ComingSoon: FC<ComingSoonProps> = ({ Icon, title, description }) =>
             {description}
           </p>
           <span className="mt-4 inline-flex items-center rounded-full bg-slate-500/10 text-slate-600 dark:text-slate-400 border border-slate-500/20 px-3 py-1 text-[11px] font-medium">
-            {t('admin.comingSoon')}
+            {t('comingSoon')}
           </span>
         </CardBody>
       </Card>

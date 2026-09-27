@@ -13,10 +13,10 @@ export const ForbiddenView = () => {
             <ShieldX className="w-6 h-6" />
           </div>
           <h2 className="mt-5 text-lg font-bold text-slate-900 dark:text-white">
-            {t('admin.forbidden.title')}
+            {t('forbidden.title')}
           </h2>
           <p className="mt-1.5 max-w-md text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-            {t('admin.forbidden.message')}
+            {t('forbidden.message')}
           </p>
         </CardBody>
       </Card>

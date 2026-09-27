@@ -84,10 +84,10 @@ export const NetworkDashboardView = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="space-y-1">
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t('admin.networkAdmin.dashboard.title')}
+            {t('network:networkAdmin.dashboard.title')}
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            {t('admin.networkAdmin.dashboard.subtitle')}
+            {t('network:networkAdmin.dashboard.subtitle')}
           </p>
         </div>
 
@@ -98,15 +98,15 @@ export const NetworkDashboardView = () => {
           disabled={isFetching}
           leftIcon={<RefreshCw className={`w-3.5 h-3.5 ${isFetching ? 'animate-spin' : ''}`} />}
         >
-          {t('admin.networkAdmin.dashboard.refresh')}
+          {t('network:networkAdmin.dashboard.refresh')}
         </Button>
       </div>
 
       {isError && (
         <div className="space-y-3">
-          <ErrorAlert message={t('admin.networkAdmin.dashboard.errors.loadFailed')} />
+          <ErrorAlert message={t('network:networkAdmin.dashboard.errors.loadFailed')} />
           <Button variant="secondary" size="sm" onClick={() => void refetch()}>
-            {t('admin.networkAdmin.errors.retry')}
+            {t('network:networkAdmin.errors.retry')}
           </Button>
         </div>
       )}
@@ -130,7 +130,7 @@ export const NetworkDashboardView = () => {
                 )}
               </p>
               <p className="text-xs font-medium text-slate-600 dark:text-slate-300 mt-0.5">
-                {t(`admin.networkAdmin.dashboard.stats.${key}`)}
+                {t(`network:networkAdmin.dashboard.stats.${key}`)}
               </p>
             </Card>
           </Link>
@@ -140,14 +140,14 @@ export const NetworkDashboardView = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader
-            title={t('admin.networkAdmin.dashboard.recentWebsites.title')}
-            subtitle={t('admin.networkAdmin.dashboard.recentWebsites.subtitle')}
+            title={t('network:networkAdmin.dashboard.recentWebsites.title')}
+            subtitle={t('network:networkAdmin.dashboard.recentWebsites.subtitle')}
             action={
               <Link
                 to="/network/websites"
                 className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
               >
-                {t('admin.networkAdmin.dashboard.viewAll')}
+                {t('network:networkAdmin.dashboard.viewAll')}
               </Link>
             }
           />
@@ -155,11 +155,11 @@ export const NetworkDashboardView = () => {
             {isLoading ? (
               <div className="flex items-center justify-center gap-2 py-10 text-sm text-slate-500 dark:text-slate-400">
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>{t('admin.networkAdmin.websites.loading')}</span>
+                <span>{t('network:networkAdmin.websites.loading')}</span>
               </div>
             ) : recentWebsites.length === 0 ? (
               <p className="px-5 py-10 text-center text-sm text-slate-500 dark:text-slate-400">
-                {t('admin.networkAdmin.dashboard.recentWebsites.empty')}
+                {t('network:networkAdmin.dashboard.recentWebsites.empty')}
               </p>
             ) : (
               <ul className="divide-y divide-slate-100 dark:divide-white/[0.06]">
@@ -193,14 +193,14 @@ export const NetworkDashboardView = () => {
 
         <Card>
           <CardHeader
-            title={t('admin.networkAdmin.dashboard.recentUsers.title')}
-            subtitle={t('admin.networkAdmin.dashboard.recentUsers.subtitle')}
+            title={t('network:networkAdmin.dashboard.recentUsers.title')}
+            subtitle={t('network:networkAdmin.dashboard.recentUsers.subtitle')}
             action={
               <Link
                 to="/network/users"
                 className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
               >
-                {t('admin.networkAdmin.dashboard.viewAll')}
+                {t('network:networkAdmin.dashboard.viewAll')}
               </Link>
             }
           />
@@ -208,11 +208,11 @@ export const NetworkDashboardView = () => {
             {isLoading ? (
               <div className="flex items-center justify-center gap-2 py-10 text-sm text-slate-500 dark:text-slate-400">
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>{t('admin.networkAdmin.users.loading')}</span>
+                <span>{t('network:networkAdmin.users.loading')}</span>
               </div>
             ) : recentUsers.length === 0 ? (
               <p className="px-5 py-10 text-center text-sm text-slate-500 dark:text-slate-400">
-                {t('admin.networkAdmin.dashboard.recentUsers.empty')}
+                {t('network:networkAdmin.dashboard.recentUsers.empty')}
               </p>
             ) : (
               <ul className="divide-y divide-slate-100 dark:divide-white/[0.06]">

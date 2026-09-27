@@ -50,11 +50,11 @@ export const AdminSidebar: FC<AdminSidebarProps> = ({ open, onClose }) => {
   return (
     <SidebarShell
       id="admin-sidebar"
-      ariaLabel={t('admin.nav.menuLabel')}
+      ariaLabel={t('admin:nav.menuLabel')}
       open={open}
       onClose={onClose}
       brandTo={websitePath('/dashboard', websiteId)}
-      brandDescriptionKey="admin.brandDesc"
+      brandDescriptionKey="brandDesc"
       items={items}
     />
   );

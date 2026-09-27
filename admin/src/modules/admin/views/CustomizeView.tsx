@@ -131,12 +131,12 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
         widgets,
       }).unwrap();
 
-      onNotice({ type: 'success', message: t('admin.customize.notices.saved') });
+      onNotice({ type: 'success', message: t('admin:customize.notices.saved') });
       setIframeKey((prev) => prev + 1);
     } catch (error) {
       onNotice({
         type: 'error',
-        message: getErrorMessage(error, t('admin.customize.errors.saveFailed')),
+        message: getErrorMessage(error, t('admin:customize.errors.saveFailed')),
       });
     }
   };
@@ -179,21 +179,21 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
           <div className="flex min-w-0 items-center gap-2">
             <Link
               to={websitePath('/dashboard', websiteId)}
-              title={t('admin.customize.exit')}
+              title={t('admin:customize.exit')}
               className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-white/[0.06] dark:hover:text-slate-200"
             >
               <X className="h-5 w-5" />
             </Link>
             <div className="min-w-0">
               <span className="block text-[10px] font-bold uppercase tracking-wider text-indigo-500">
-                {t('admin.customize.customizing')}
+                {t('admin:customize.customizing')}
               </span>
               <h1 className="truncate text-sm font-bold">{index.title}</h1>
             </div>
           </div>
 
           <Button size="sm" onClick={() => void handleSave()} isLoading={isSaving}>
-            {t('admin.customize.publish')}
+            {t('admin:customize.publish')}
           </Button>
         </header>
 
@@ -205,7 +205,7 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
               className="inline-flex items-center gap-1 font-semibold text-slate-500 transition-colors hover:text-slate-800 dark:hover:text-slate-200"
             >
               <ChevronLeft className="h-3.5 w-3.5" />
-              {t('admin.customize.back')}
+              {t('admin:customize.back')}
             </button>
             <ChevronRight className="h-3 w-3 text-slate-300" />
             <span className="truncate font-bold text-slate-600 dark:text-slate-300">
@@ -248,8 +248,8 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
                       </span>
                       <span className="text-[10px] uppercase tracking-widest text-slate-400">
                         {isPanel(item)
-                          ? t('admin.customize.panel')
-                          : t('admin.customize.section')}
+                          ? t('admin:customize.panel')
+                          : t('admin:customize.section')}
                       </span>
                     </span>
                   </span>
@@ -306,14 +306,14 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
         </div>
 
         <footer className="border-t border-slate-200 px-4 py-2 text-center text-[10px] text-slate-400 dark:border-white/[0.08]">
-          {t('admin.customize.footer')}
+          {t('admin:customize.footer')}
         </footer>
       </aside>
 
       <section className="hidden h-full flex-1 flex-col lg:flex">
         <div className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-2.5 dark:border-white/[0.08] dark:bg-[#0F1626]">
           <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-            {t('admin.customize.livePreview')}
+            {t('admin:customize.livePreview')}
           </span>
 
           <div className="flex items-center gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
@@ -355,7 +355,7 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
             <iframe
               key={iframeKey}
               src={index.previewUrl ?? 'about:blank'}
-              title={t('admin.customize.livePreview')}
+              title={t('admin:customize.livePreview')}
               className="h-full w-full border-none"
             />
           </div>
@@ -387,7 +387,7 @@ export const CustomizeView = () => {
     return (
       <div className="flex h-screen items-center justify-center gap-2 bg-slate-100 text-slate-400 dark:bg-[#090D16] dark:text-slate-500">
         <Loader2 className={`h-5 w-5 ${isFetching ? 'animate-spin' : ''}`} />
-        <span className="text-sm">{t('admin.customize.loading')}</span>
+        <span className="text-sm">{t('admin:customize.loading')}</span>
       </div>
     );
   }

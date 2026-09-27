@@ -62,14 +62,14 @@ export const HomePageCustomize: FC<HomePageCustomizeProps> = ({
     <div className="space-y-4">
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-          {t('admin.customize.homePage.title')}
+          {t('admin:customize.homePage.title')}
         </label>
         <select
           value={value}
           onChange={(event) => void handlePageChange(event.target.value)}
           className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white text-sm rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
         >
-          <option value="">{t('admin.customize.homePage.select')}</option>
+          <option value="">{t('admin:customize.homePage.select')}</option>
           {pages.map((page) => (
             <option key={page.id} value={page.id}>
               {page.title}
@@ -81,7 +81,7 @@ export const HomePageCustomize: FC<HomePageCustomizeProps> = ({
       {templateBlocks && (
         <div className="space-y-4 pt-3 border-t border-slate-100 dark:border-white/[0.06]">
           <h5 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-            {t('admin.customize.homePage.templateBlocks')}
+            {t('admin:customize.homePage.templateBlocks')}
           </h5>
 
           {Object.entries(templateBlocks).map(([containerKey, containerLabel]) => (
@@ -111,7 +111,7 @@ export const HomePageCustomize: FC<HomePageCustomizeProps> = ({
 
               {(blocks[containerKey] ?? []).length === 0 ? (
                 <p className="py-2 text-center text-xs italic text-slate-400">
-                  {t('admin.customize.homePage.noBlocks')}
+                  {t('admin:customize.homePage.noBlocks')}
                 </p>
               ) : (
                 <div className="space-y-2">
@@ -164,7 +164,7 @@ const ContainerAddBlock = ({
   return (
     <select
       value=""
-      aria-label={t('admin.customize.homePage.addBlock')}
+      aria-label={t('admin:customize.homePage.addBlock')}
       onChange={(event) => {
         const block = availableBlocks.find((item) => item.key === event.target.value);
         if (block) onAdd(block);
@@ -172,7 +172,7 @@ const ContainerAddBlock = ({
       className="rounded-lg border border-indigo-200 dark:border-indigo-500/30 bg-white dark:bg-slate-900 px-2 py-1 text-xs text-indigo-600 dark:text-indigo-400"
     >
       <option value="" disabled>
-        + {t('admin.customize.homePage.addBlock')}
+        + {t('admin:customize.homePage.addBlock')}
       </option>
       {availableBlocks.map((block) => (
         <option key={`${containerKey}-${block.key}`} value={block.key}>
@@ -242,7 +242,7 @@ const BlockRow = ({
 
       <div className="space-y-2 border-t border-slate-100 p-3 dark:border-white/[0.06]">
         <label className="block text-[10px] font-medium text-slate-500">
-          {t('admin.customize.homePage.blockTitle')}
+          {t('admin:customize.homePage.blockTitle')}
         </label>
         <input
           type="text"
@@ -252,7 +252,7 @@ const BlockRow = ({
         />
 
         <label className="block text-[10px] font-medium text-slate-500">
-          {t('admin.customize.homePage.blockDescription')}
+          {t('admin:customize.homePage.blockDescription')}
         </label>
         <input
           type="text"

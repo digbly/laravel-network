@@ -57,8 +57,8 @@ export const MediaPickerModal: FC<MediaPickerModalProps> = ({ isOpen, onClose, o
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={t('admin.media.picker.title')}
-      description={t('admin.media.picker.subtitle')}
+      title={t('admin:media.picker.title')}
+      description={t('admin:media.picker.subtitle')}
       maxWidth="4xl"
     >
       <div className="space-y-4">
@@ -67,17 +67,17 @@ export const MediaPickerModal: FC<MediaPickerModalProps> = ({ isOpen, onClose, o
         <Input
           value={searchInput}
           onChange={(event) => setSearchInput(event.target.value)}
-          placeholder={t('admin.media.filters.searchPlaceholder')}
+          placeholder={t('admin:media.filters.searchPlaceholder')}
           leftIcon={<Search className="w-4 h-4" />}
         />
 
         {isFetching && items.length === 0 ? (
           <p className="text-sm text-slate-500 dark:text-slate-400 py-8 text-center">
-            {t('admin.media.loading')}
+            {t('admin:media.loading')}
           </p>
         ) : items.length === 0 ? (
           <p className="text-sm text-slate-500 dark:text-slate-400 py-8 text-center">
-            {t('admin.media.picker.empty')}
+            {t('admin:media.picker.empty')}
           </p>
         ) : (
           <MediaGrid items={items} onOpen={setSelected} selectedId={selected?.id ?? null} />
@@ -87,14 +87,14 @@ export const MediaPickerModal: FC<MediaPickerModalProps> = ({ isOpen, onClose, o
 
         <div className="flex justify-end gap-3">
           <Button type="button" variant="outline" onClick={onClose}>
-            {t('admin.media.deleteDialog.cancel')}
+            {t('admin:media.deleteDialog.cancel')}
           </Button>
           <Button
             type="button"
             disabled={!selected}
             onClick={() => selected && onSelect(selected)}
           >
-            {t('admin.media.picker.use')}
+            {t('admin:media.picker.use')}
           </Button>
         </div>
       </div>

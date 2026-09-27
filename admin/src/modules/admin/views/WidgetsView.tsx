@@ -118,7 +118,7 @@ const SortableWidgetCard = ({
           <button
             type="button"
             onClick={onToggle}
-            aria-label={t('admin.widgets.toggle')}
+            aria-label={t('admin:widgets.toggle')}
             className="p-1.5 text-slate-400 hover:text-indigo-600 transition-colors"
           >
             <ChevronDown className={`w-4 h-4 transition-transform ${expanded ? 'rotate-180' : ''}`} />
@@ -143,7 +143,7 @@ const SortableWidgetCard = ({
               className="inline-flex items-center gap-1 text-sm font-medium text-rose-600 hover:text-rose-500 transition-colors"
             >
               <X className="w-4 h-4" />
-              {t('admin.widgets.remove')}
+              {t('admin:widgets.remove')}
             </button>
           </div>
         </div>
@@ -253,11 +253,11 @@ const WidgetsEditor = ({ index, onNotice }: WidgetsEditorProps) => {
 
     try {
       await updateSidebar({ sidebar: sidebar.key, body }).unwrap();
-      onNotice({ type: 'success', message: t('admin.widgets.notices.saved') });
+      onNotice({ type: 'success', message: t('admin:widgets.notices.saved') });
     } catch (error) {
       onNotice({
         type: 'error',
-        message: getErrorMessage(error, t('admin.widgets.errors.saveFailed')),
+        message: getErrorMessage(error, t('admin:widgets.errors.saveFailed')),
       });
     } finally {
       setProcessing(null);
@@ -268,11 +268,11 @@ const WidgetsEditor = ({ index, onNotice }: WidgetsEditorProps) => {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-1">
         <Card>
-          <CardHeader title={t('admin.widgets.availableWidgets')} />
+          <CardHeader title={t('admin:widgets.availableWidgets')} />
           <CardBody className="space-y-3">
             {index.widgets.length === 0 && (
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                {t('admin.widgets.noWidgets')}
+                {t('admin:widgets.noWidgets')}
               </p>
             )}
 
@@ -299,7 +299,7 @@ const WidgetsEditor = ({ index, onNotice }: WidgetsEditorProps) => {
                     </div>
                     <button
                       type="button"
-                      aria-label={t('admin.widgets.addToSidebar')}
+                      aria-label={t('admin:widgets.addToSidebar')}
                       onClick={() => setOpenWidget(openWidget === widget.key ? null : widget.key)}
                       className="p-1.5 text-slate-400 hover:text-indigo-600 transition-colors"
                     >
@@ -314,7 +314,7 @@ const WidgetsEditor = ({ index, onNotice }: WidgetsEditorProps) => {
                   {openWidget === widget.key && (
                     <div className="p-3 space-y-2 border-t border-slate-200 dark:border-white/[0.08]">
                       <p className="text-xs text-slate-500 dark:text-slate-400">
-                        {t('admin.widgets.addToSidebar')}
+                        {t('admin:widgets.addToSidebar')}
                       </p>
                       {sidebars.map((sidebar) => (
                         <button
@@ -356,7 +356,7 @@ const WidgetsEditor = ({ index, onNotice }: WidgetsEditorProps) => {
                     <div className="mb-4 min-h-[64px] space-y-3 rounded-xl border border-dashed border-slate-300 dark:border-white/[0.1] p-3">
                       {items.length === 0 && (
                         <p className="py-4 text-center text-sm text-slate-500 dark:text-slate-400">
-                          {t('admin.widgets.noWidgetsInSidebar')}
+                          {t('admin:widgets.noWidgetsInSidebar')}
                         </p>
                       )}
 
@@ -391,7 +391,7 @@ const WidgetsEditor = ({ index, onNotice }: WidgetsEditorProps) => {
                     isLoading={processing === sidebar.key}
                     leftIcon={<Save className="w-4 h-4" />}
                   >
-                    {t('admin.widgets.save')}
+                    {t('admin:widgets.save')}
                   </Button>
                 </div>
               </CardBody>
@@ -422,10 +422,10 @@ export const WidgetsView = () => {
     <div className="space-y-6 animate-in fade-in duration-200">
       <div>
         <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          {t('admin.widgets.title')}
+          {t('admin:widgets.title')}
         </h2>
         <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-          {t('admin.widgets.subtitle')}
+          {t('admin:widgets.subtitle')}
         </p>
       </div>
 
@@ -451,7 +451,7 @@ export const WidgetsView = () => {
       ) : (
         <div className="flex items-center justify-center gap-2 py-16 text-slate-400 dark:text-slate-500">
           <Loader2 className={`w-5 h-5 ${isFetching ? 'animate-spin' : ''}`} />
-          <span className="text-sm">{t('admin.widgets.loading')}</span>
+          <span className="text-sm">{t('admin:widgets.loading')}</span>
         </div>
       )}
     </div>

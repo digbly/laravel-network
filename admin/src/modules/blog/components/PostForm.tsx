@@ -110,7 +110,7 @@ export const PostForm = ({
     }).filter((translation) => translation.title !== '');
 
     if (payload.length === 0) {
-      setLocalError(t('admin.blog.posts.form.titleRequired', { locale: LOCALES[0].toUpperCase() }));
+      setLocalError(t('blog:posts.form.titleRequired', { locale: LOCALES[0].toUpperCase() }));
       return;
     }
 
@@ -129,21 +129,21 @@ export const PostForm = ({
 
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-          {t('admin.blog.posts.form.status')}
+          {t('blog:posts.form.status')}
         </label>
         <select
           value={status}
           onChange={(event) => setStatus(event.target.value as PostStatus)}
           className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white text-sm rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
         >
-          <option value="draft">{t('admin.blog.posts.filters.draft')}</option>
-          <option value="published">{t('admin.blog.posts.filters.published')}</option>
+          <option value="draft">{t('blog:posts.filters.draft')}</option>
+          <option value="published">{t('blog:posts.filters.published')}</option>
         </select>
       </div>
 
       <div>
         <span className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-          {t('admin.blog.posts.form.locale')}
+          {t('blog:posts.form.locale')}
         </span>
         <div className="flex gap-1 p-1 rounded-xl bg-slate-100/80 dark:bg-white/[0.04] border border-slate-200/70 dark:border-white/[0.06] w-fit">
           {LOCALES.map((locale) => (
@@ -164,22 +164,22 @@ export const PostForm = ({
       </div>
 
       <Input
-        label={t('admin.blog.posts.form.title')}
+        label={t('blog:posts.form.title')}
         value={active.title}
-        placeholder={t('admin.blog.posts.form.titlePlaceholder')}
+        placeholder={t('blog:posts.form.titlePlaceholder')}
         onChange={(event) => updateTranslation(activeLocale, 'title', event.target.value)}
       />
 
       <Input
-        label={t('admin.blog.posts.form.slug')}
+        label={t('blog:posts.form.slug')}
         value={active.slug}
-        placeholder={t('admin.blog.posts.form.slugPlaceholder')}
+        placeholder={t('blog:posts.form.slugPlaceholder')}
         onChange={(event) => updateTranslation(activeLocale, 'slug', event.target.value)}
       />
 
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-          {t('admin.blog.posts.form.description')}
+          {t('blog:posts.form.description')}
         </label>
         <textarea
           value={active.description}
@@ -191,13 +191,13 @@ export const PostForm = ({
 
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-          {t('admin.blog.posts.form.content')}
+          {t('blog:posts.form.content')}
         </label>
         <RichTextEditor
           key={activeLocale}
           value={active.content}
-          placeholder={t('admin.blog.posts.form.contentPlaceholder')}
-          mediaLabel={t('admin.media.insertImage')}
+          placeholder={t('blog:posts.form.contentPlaceholder')}
+          mediaLabel={t('admin:media.insertImage')}
           onRequestMedia={(insert) => {
             insertImageRef.current = insert;
             setIsMediaPickerOpen(true);
@@ -208,11 +208,11 @@ export const PostForm = ({
 
       <div>
         <span className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-          {t('admin.blog.posts.form.categories')}
+          {t('blog:posts.form.categories')}
         </span>
         {categories.length === 0 ? (
           <p className="text-xs text-slate-400 dark:text-slate-500">
-            {t('admin.blog.posts.form.noCategories')}
+            {t('blog:posts.form.noCategories')}
           </p>
         ) : (
           <div className="flex flex-wrap gap-2">
@@ -249,10 +249,10 @@ export const PostForm = ({
 
       <div className="flex justify-end gap-3 pt-2">
         <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
-          {t('admin.blog.posts.form.cancel')}
+          {t('blog:posts.form.cancel')}
         </Button>
         <Button type="submit" isLoading={isSubmitting}>
-          {post ? t('admin.blog.posts.form.save') : t('admin.blog.posts.form.create')}
+          {post ? t('blog:posts.form.save') : t('blog:posts.form.create')}
         </Button>
       </div>
     </form>

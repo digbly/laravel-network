@@ -34,7 +34,7 @@ const MediaTile: FC<{
         type="button"
         onClick={() => onOpen(item)}
         className="block w-full aspect-square focus:outline-none"
-        title={t('admin.media.item.open')}
+        title={t('admin:media.item.open')}
       >
         {item.is_image && (item.thumb_url || item.url) ? (
           <img
@@ -59,7 +59,7 @@ const MediaTile: FC<{
             <button
               type="button"
               onClick={() => onCopy(item)}
-              title={t('admin.media.item.copyUrl')}
+              title={t('admin:media.item.copyUrl')}
               className="p-1.5 rounded-lg bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-sm"
             >
               <Copy className="w-3.5 h-3.5" />
@@ -69,7 +69,7 @@ const MediaTile: FC<{
             <button
               type="button"
               onClick={() => onDelete(item)}
-              title={t('admin.media.item.delete')}
+              title={t('admin:media.item.delete')}
               className="p-1.5 rounded-lg bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 shadow-sm"
             >
               <Trash2 className="w-3.5 h-3.5" />

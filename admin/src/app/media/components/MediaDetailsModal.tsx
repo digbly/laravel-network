@@ -75,7 +75,7 @@ export const MediaDetailsModal: FC<MediaDetailsModalProps> = ({
       onSaved(result.data);
       onClose();
     } catch (saveError) {
-      setError(getErrorMessage(saveError, t('admin.media.errors.saveFailed')));
+      setError(getErrorMessage(saveError, t('admin:media.errors.saveFailed')));
     }
   };
 
@@ -87,7 +87,7 @@ export const MediaDetailsModal: FC<MediaDetailsModalProps> = ({
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      setError(t('admin.media.errors.copyFailed'));
+      setError(t('admin:media.errors.copyFailed'));
     }
   };
 
@@ -95,7 +95,7 @@ export const MediaDetailsModal: FC<MediaDetailsModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={t('admin.media.details.title')}
+      title={t('admin:media.details.title')}
       maxWidth="4xl"
     >
       {media && (
@@ -116,30 +116,30 @@ export const MediaDetailsModal: FC<MediaDetailsModalProps> = ({
                   className="flex flex-col items-center gap-2 text-sm text-indigo-600 dark:text-indigo-400"
                 >
                   <ExternalLink className="w-6 h-6" />
-                  {t('admin.media.details.openInNewTab')}
+                  {t('admin:media.details.openInNewTab')}
                 </a>
               ) : (
                 <span className="text-sm text-slate-400">
-                  {t('admin.media.details.previewUnavailable')}
+                  {t('admin:media.details.previewUnavailable')}
                 </span>
               )}
             </div>
 
             <dl className="text-xs space-y-1.5">
               <div className="flex justify-between gap-3">
-                <dt className="text-slate-500 dark:text-slate-400">{t('admin.media.details.meta.file')}</dt>
+                <dt className="text-slate-500 dark:text-slate-400">{t('admin:media.details.meta.file')}</dt>
                 <dd className="text-slate-700 dark:text-slate-200 font-medium truncate">
                   {media.file_name ?? '—'}
                 </dd>
               </div>
               <div className="flex justify-between gap-3">
-                <dt className="text-slate-500 dark:text-slate-400">{t('admin.media.details.meta.type')}</dt>
+                <dt className="text-slate-500 dark:text-slate-400">{t('admin:media.details.meta.type')}</dt>
                 <dd className="text-slate-700 dark:text-slate-200 font-medium">
                   {media.mime_type ?? '—'}
                 </dd>
               </div>
               <div className="flex justify-between gap-3">
-                <dt className="text-slate-500 dark:text-slate-400">{t('admin.media.details.meta.size')}</dt>
+                <dt className="text-slate-500 dark:text-slate-400">{t('admin:media.details.meta.size')}</dt>
                 <dd className="text-slate-700 dark:text-slate-200 font-medium">
                   {media.size_formatted ?? '—'}
                 </dd>
@@ -147,7 +147,7 @@ export const MediaDetailsModal: FC<MediaDetailsModalProps> = ({
               {media.is_image && media.width && media.height && (
                 <div className="flex justify-between gap-3">
                   <dt className="text-slate-500 dark:text-slate-400">
-                    {t('admin.media.details.meta.dimensions')}
+                    {t('admin:media.details.meta.dimensions')}
                   </dt>
                   <dd className="text-slate-700 dark:text-slate-200 font-medium">
                     {media.width} × {media.height}
@@ -155,7 +155,7 @@ export const MediaDetailsModal: FC<MediaDetailsModalProps> = ({
                 </div>
               )}
               <div className="flex justify-between gap-3">
-                <dt className="text-slate-500 dark:text-slate-400">{t('admin.media.details.meta.uploaded')}</dt>
+                <dt className="text-slate-500 dark:text-slate-400">{t('admin:media.details.meta.uploaded')}</dt>
                 <dd className="text-slate-700 dark:text-slate-200 font-medium">
                   {media.created_at ? new Date(media.created_at).toLocaleString() : '—'}
                 </dd>
@@ -164,7 +164,7 @@ export const MediaDetailsModal: FC<MediaDetailsModalProps> = ({
 
             <div>
               <span className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-                {t('admin.media.details.meta.url')}
+                {t('admin:media.details.meta.url')}
               </span>
               <div className="flex gap-2">
                 <input
@@ -180,7 +180,7 @@ export const MediaDetailsModal: FC<MediaDetailsModalProps> = ({
                   onClick={() => void handleCopy()}
                   leftIcon={copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                 >
-                  {copied ? t('admin.media.details.copied') : t('admin.media.details.copyUrl')}
+                  {copied ? t('admin:media.details.copied') : t('admin:media.details.copyUrl')}
                 </Button>
               </div>
             </div>
@@ -190,19 +190,19 @@ export const MediaDetailsModal: FC<MediaDetailsModalProps> = ({
             {error && <ErrorAlert message={error} />}
 
             <Input
-              label={t('admin.media.details.fields.title')}
+              label={t('admin:media.details.fields.title')}
               value={draft.title}
               onChange={(event) => update('title', event.target.value)}
             />
             <Input
-              label={t('admin.media.details.fields.alt')}
+              label={t('admin:media.details.fields.alt')}
               value={draft.alt}
               onChange={(event) => update('alt', event.target.value)}
             />
 
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-                {t('admin.media.details.fields.caption')}
+                {t('admin:media.details.fields.caption')}
               </label>
               <textarea
                 rows={2}
@@ -214,7 +214,7 @@ export const MediaDetailsModal: FC<MediaDetailsModalProps> = ({
 
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-                {t('admin.media.details.fields.description')}
+                {t('admin:media.details.fields.description')}
               </label>
               <textarea
                 rows={3}
@@ -231,14 +231,14 @@ export const MediaDetailsModal: FC<MediaDetailsModalProps> = ({
                 onClick={() => onDelete(media)}
                 disabled={isLoading}
               >
-                {t('admin.media.details.delete')}
+                {t('admin:media.details.delete')}
               </Button>
               <div className="flex gap-3">
                 <Button type="button" variant="outline" onClick={onClose} disabled={isLoading}>
-                  {t('admin.media.deleteDialog.cancel')}
+                  {t('admin:media.deleteDialog.cancel')}
                 </Button>
                 <Button type="button" onClick={() => void handleSave()} isLoading={isLoading}>
-                  {t('admin.media.details.save')}
+                  {t('admin:media.details.save')}
                 </Button>
               </div>
             </div>

@@ -94,7 +94,7 @@ export const CategoryForm = ({
     }).filter((translation) => translation.name !== '');
 
     if (payload.length === 0) {
-      setLocalError(t('admin.blog.categories.form.nameRequired', { locale: LOCALES[0].toUpperCase() }));
+      setLocalError(t('blog:categories.form.nameRequired', { locale: LOCALES[0].toUpperCase() }));
       return;
     }
 
@@ -113,14 +113,14 @@ export const CategoryForm = ({
 
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-          {t('admin.blog.categories.form.parent')}
+          {t('blog:categories.form.parent')}
         </label>
         <select
           value={parentId}
           onChange={(event) => setParentId(event.target.value)}
           className="w-full bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-white/[0.08] text-slate-900 dark:text-white text-sm rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
         >
-          <option value="">{t('admin.blog.categories.form.noParent')}</option>
+          <option value="">{t('blog:categories.form.noParent')}</option>
           {categories
             .filter((option) => option.id !== category?.id)
             .map((option) => (
@@ -138,12 +138,12 @@ export const CategoryForm = ({
           onChange={(event) => setIsHome(event.target.checked)}
           className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
         />
-        {t('admin.blog.categories.form.isHome')}
+        {t('blog:categories.form.isHome')}
       </label>
 
       <div>
         <span className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-          {t('admin.blog.categories.form.locale')}
+          {t('blog:categories.form.locale')}
         </span>
         <div className="flex gap-1 p-1 rounded-xl bg-slate-100/80 dark:bg-white/[0.04] border border-slate-200/70 dark:border-white/[0.06] w-fit">
           {LOCALES.map((locale) => (
@@ -164,22 +164,22 @@ export const CategoryForm = ({
       </div>
 
       <Input
-        label={t('admin.blog.categories.form.name')}
+        label={t('blog:categories.form.name')}
         value={active.name}
-        placeholder={t('admin.blog.categories.form.namePlaceholder')}
+        placeholder={t('blog:categories.form.namePlaceholder')}
         onChange={(event) => updateTranslation(activeLocale, 'name', event.target.value)}
       />
 
       <Input
-        label={t('admin.blog.categories.form.slug')}
+        label={t('blog:categories.form.slug')}
         value={active.slug}
-        placeholder={t('admin.blog.categories.form.slugPlaceholder')}
+        placeholder={t('blog:categories.form.slugPlaceholder')}
         onChange={(event) => updateTranslation(activeLocale, 'slug', event.target.value)}
       />
 
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-          {t('admin.blog.categories.form.description')}
+          {t('blog:categories.form.description')}
         </label>
         <textarea
           value={active.description}
@@ -191,10 +191,10 @@ export const CategoryForm = ({
 
       <div className="flex justify-end gap-3 pt-2">
         <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
-          {t('admin.blog.categories.form.cancel')}
+          {t('blog:categories.form.cancel')}
         </Button>
         <Button type="submit" isLoading={isSubmitting}>
-          {category ? t('admin.blog.categories.form.save') : t('admin.blog.categories.form.create')}
+          {category ? t('blog:categories.form.save') : t('blog:categories.form.create')}
         </Button>
       </div>
     </form>

@@ -33,15 +33,15 @@ export const ResetPasswordModal: FC<ResetPasswordModalProps> = ({
     const errors: Record<string, string> = {};
 
     if (!password) {
-      errors.password = t('admin.users.form.errors.passwordRequired');
+      errors.password = t('admin:users.form.errors.passwordRequired');
     } else if (password.length < MIN_PASSWORD_LENGTH) {
-      errors.password = t('admin.users.form.errors.passwordMin', { min: MIN_PASSWORD_LENGTH });
+      errors.password = t('admin:users.form.errors.passwordMin', { min: MIN_PASSWORD_LENGTH });
     }
 
     if (!confirmation) {
-      errors.password_confirmation = t('admin.users.form.errors.confirmRequired');
+      errors.password_confirmation = t('admin:users.form.errors.confirmRequired');
     } else if (password !== confirmation) {
-      errors.password_confirmation = t('admin.users.form.errors.passwordMismatch');
+      errors.password_confirmation = t('admin:users.form.errors.passwordMismatch');
     }
 
     setFieldErrors(errors);
@@ -55,17 +55,17 @@ export const ResetPasswordModal: FC<ResetPasswordModalProps> = ({
     <Modal
       isOpen
       onClose={onClose}
-      title={t('admin.users.resetPassword.title')}
-      description={t('admin.users.resetPassword.subtitle', { name: user.name })}
+      title={t('admin:users.resetPassword.title')}
+      description={t('admin:users.resetPassword.subtitle', { name: user.name })}
       maxWidth="md"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && <ErrorAlert message={error} />}
 
         <Input
-          label={t('admin.users.form.password')}
+          label={t('admin:users.form.password')}
           type="password"
-          placeholder={t('admin.users.form.passwordPlaceholder')}
+          placeholder={t('admin:users.form.passwordPlaceholder')}
           value={password}
           onChange={(event) => {
             setPassword(event.target.value);
@@ -76,9 +76,9 @@ export const ResetPasswordModal: FC<ResetPasswordModalProps> = ({
         />
 
         <Input
-          label={t('admin.users.form.confirmPassword')}
+          label={t('admin:users.form.confirmPassword')}
           type="password"
-          placeholder={t('admin.users.form.confirmPasswordPlaceholder')}
+          placeholder={t('admin:users.form.confirmPasswordPlaceholder')}
           value={confirmation}
           onChange={(event) => {
             setConfirmation(event.target.value);
@@ -89,10 +89,10 @@ export const ResetPasswordModal: FC<ResetPasswordModalProps> = ({
 
         <div className="flex justify-end gap-3 pt-2">
           <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
-            {t('admin.users.form.cancel')}
+            {t('admin:users.form.cancel')}
           </Button>
           <Button type="submit" isLoading={isSubmitting}>
-            {t('admin.users.resetPassword.submit')}
+            {t('admin:users.resetPassword.submit')}
           </Button>
         </div>
       </form>

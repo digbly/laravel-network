@@ -16,7 +16,7 @@ export const AdminTopbar: FC<AdminTopbarProps> = ({ onOpenSidebar }) => {
   const { pathname } = useLocation();
   const { data } = useGetNavigationQuery();
   const routePath = stripWebsitePrefix(pathname, websiteId);
-  const title = resolveNavigationTitle(data?.data ?? [], routePath) ?? t('admin.nav.dashboard');
+  const title = resolveNavigationTitle(data?.data ?? [], routePath) ?? t('admin:nav.dashboard');
 
   return <TopbarShell title={title} onOpenSidebar={onOpenSidebar} />;
 };

@@ -23,7 +23,7 @@ export const TopbarShell: FC<TopbarShellProps> = ({ title, onOpenSidebar }) => {
         type="button"
         onClick={onOpenSidebar}
         className="lg:hidden p-2 rounded-xl text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-colors cursor-pointer"
-        aria-label={t('admin.topbar.openMenu')}
+        aria-label={t('topbar.openMenu')}
       >
         <Menu className="w-5 h-5" />
       </button>

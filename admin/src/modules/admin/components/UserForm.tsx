@@ -71,26 +71,26 @@ export const UserForm: FC<UserFormProps> = ({
     const errors: Record<string, string> = {};
 
     if (!values.name.trim()) {
-      errors.name = t('admin.users.form.errors.nameRequired');
+      errors.name = t('admin:users.form.errors.nameRequired');
     }
 
     if (!values.email.trim()) {
-      errors.email = t('admin.users.form.errors.emailRequired');
+      errors.email = t('admin:users.form.errors.emailRequired');
     } else if (!EMAIL_REGEX.test(values.email.trim())) {
-      errors.email = t('admin.users.form.errors.emailInvalid');
+      errors.email = t('admin:users.form.errors.emailInvalid');
     }
 
     if (!isEdit) {
       if (!values.password) {
-        errors.password = t('admin.users.form.errors.passwordRequired');
+        errors.password = t('admin:users.form.errors.passwordRequired');
       } else if (values.password.length < MIN_PASSWORD_LENGTH) {
-        errors.password = t('admin.users.form.errors.passwordMin', { min: MIN_PASSWORD_LENGTH });
+        errors.password = t('admin:users.form.errors.passwordMin', { min: MIN_PASSWORD_LENGTH });
       }
 
       if (!values.password_confirmation) {
-        errors.password_confirmation = t('admin.users.form.errors.confirmRequired');
+        errors.password_confirmation = t('admin:users.form.errors.confirmRequired');
       } else if (values.password !== values.password_confirmation) {
-        errors.password_confirmation = t('admin.users.form.errors.passwordMismatch');
+        errors.password_confirmation = t('admin:users.form.errors.passwordMismatch');
       }
     }
 
@@ -110,8 +110,8 @@ export const UserForm: FC<UserFormProps> = ({
       {error && <ErrorAlert message={error} />}
 
       <Input
-        label={t('admin.users.form.name')}
-        placeholder={t('admin.users.form.namePlaceholder')}
+        label={t('admin:users.form.name')}
+        placeholder={t('admin:users.form.namePlaceholder')}
         value={values.name}
         onChange={(event) => setField('name', event.target.value)}
         error={fieldErrors.name}
@@ -119,9 +119,9 @@ export const UserForm: FC<UserFormProps> = ({
       />
 
       <Input
-        label={t('admin.users.form.email')}
+        label={t('admin:users.form.email')}
         type="email"
-        placeholder={t('admin.users.form.emailPlaceholder')}
+        placeholder={t('admin:users.form.emailPlaceholder')}
         value={values.email}
         onChange={(event) => setField('email', event.target.value)}
         error={fieldErrors.email}
@@ -129,17 +129,17 @@ export const UserForm: FC<UserFormProps> = ({
 
       <div>
         <span className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-          {t('admin.users.form.roles')}
+          {t('admin:users.form.roles')}
         </span>
 
         {isLoadingRoles ? (
           <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 py-2">
             <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            <span>{t('admin.users.form.loadingRoles')}</span>
+            <span>{t('admin:users.form.loadingRoles')}</span>
           </div>
         ) : roleOptions.length === 0 ? (
           <p className="text-xs text-slate-500 dark:text-slate-400 py-1">
-            {t('admin.users.form.noRoles')}
+            {t('admin:users.form.noRoles')}
           </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -166,7 +166,7 @@ export const UserForm: FC<UserFormProps> = ({
         )}
         {isSelf && (
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            {t('admin.users.form.selfRolesHint')}
+            {t('admin:users.form.selfRolesHint')}
           </p>
         )}
       </div>
@@ -186,10 +186,10 @@ export const UserForm: FC<UserFormProps> = ({
         <span>
           <span className="flex items-center gap-1.5 text-sm font-medium text-slate-900 dark:text-white">
             <ShieldCheck className="w-4 h-4 text-indigo-500" />
-            {t('admin.users.form.superAdmin')}
+            {t('admin:users.form.superAdmin')}
           </span>
           <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            {t('admin.users.form.superAdminHint')}
+            {t('admin:users.form.superAdminHint')}
           </span>
         </span>
       </label>
@@ -197,17 +197,17 @@ export const UserForm: FC<UserFormProps> = ({
       {!isEdit && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
-            label={t('admin.users.form.password')}
+            label={t('admin:users.form.password')}
             type="password"
-            placeholder={t('admin.users.form.passwordPlaceholder')}
+            placeholder={t('admin:users.form.passwordPlaceholder')}
             value={values.password}
             onChange={(event) => setField('password', event.target.value)}
             error={fieldErrors.password}
           />
           <Input
-            label={t('admin.users.form.confirmPassword')}
+            label={t('admin:users.form.confirmPassword')}
             type="password"
-            placeholder={t('admin.users.form.confirmPasswordPlaceholder')}
+            placeholder={t('admin:users.form.confirmPasswordPlaceholder')}
             value={values.password_confirmation}
             onChange={(event) => setField('password_confirmation', event.target.value)}
             error={fieldErrors.password_confirmation}
@@ -217,10 +217,10 @@ export const UserForm: FC<UserFormProps> = ({
 
       <div className="flex justify-end gap-3 pt-2">
         <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
-          {t('admin.users.form.cancel')}
+          {t('admin:users.form.cancel')}
         </Button>
         <Button type="submit" isLoading={isSubmitting}>
-          {isEdit ? t('admin.users.form.save') : t('admin.users.form.create')}
+          {isEdit ? t('admin:users.form.save') : t('admin:users.form.create')}
         </Button>
       </div>
     </form>

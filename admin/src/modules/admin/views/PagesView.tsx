@@ -95,7 +95,7 @@ export const PagesView = () => {
     const title = draft.title.trim();
 
     if (!title) {
-      setFormError(t('admin.pages.form.titleRequired'));
+      setFormError(t('admin:pages.form.titleRequired'));
       return;
     }
 
@@ -112,15 +112,15 @@ export const PagesView = () => {
     try {
       if (editing) {
         await updatePage({ id: editing.id, body: payload }).unwrap();
-        setNotice({ type: 'success', message: t('admin.pages.notices.updated') });
+        setNotice({ type: 'success', message: t('admin:pages.notices.updated') });
       } else {
         await createPage(payload).unwrap();
-        setNotice({ type: 'success', message: t('admin.pages.notices.created') });
+        setNotice({ type: 'success', message: t('admin:pages.notices.created') });
       }
 
       setIsFormOpen(false);
     } catch (error) {
-      setFormError(getErrorMessage(error, t('admin.pages.errors.saveFailed')));
+      setFormError(getErrorMessage(error, t('admin:pages.errors.saveFailed')));
     }
   };
 
@@ -129,11 +129,11 @@ export const PagesView = () => {
 
     try {
       await deletePage(pendingDelete.id).unwrap();
-      setNotice({ type: 'success', message: t('admin.pages.notices.deleted') });
+      setNotice({ type: 'success', message: t('admin:pages.notices.deleted') });
     } catch (error) {
       setNotice({
         type: 'error',
-        message: getErrorMessage(error, t('admin.pages.errors.deleteFailed')),
+        message: getErrorMessage(error, t('admin:pages.errors.deleteFailed')),
       });
     } finally {
       setPendingDelete(null);
@@ -145,15 +145,15 @@ export const PagesView = () => {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white">
-            {t('admin.pages.title')}
+            {t('admin:pages.title')}
           </h2>
           <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
-            {t('admin.pages.subtitle')}
+            {t('admin:pages.subtitle')}
           </p>
         </div>
 
         <Button onClick={openCreate} leftIcon={<Plus className="h-4 w-4" />}>
-          {t('admin.pages.addPage')}
+          {t('admin:pages.addPage')}
         </Button>
       </div>
 
@@ -183,7 +183,7 @@ export const PagesView = () => {
               ) : (
                 <FileText className="h-8 w-8" />
               )}
-              <span className="text-sm">{t('admin.pages.empty')}</span>
+              <span className="text-sm">{t('admin:pages.empty')}</span>
             </div>
           ) : (
             <ul className="divide-y divide-slate-100 dark:divide-white/[0.06]">
@@ -207,7 +207,7 @@ export const PagesView = () => {
                           : 'bg-slate-500/10 text-slate-500 dark:text-slate-400'
                       }`}
                     >
-                      {t(`admin.pages.status.${page.status}`)}
+                      {t(`admin:pages.status.${page.status}`)}
                     </span>
 
                     <button
@@ -235,7 +235,7 @@ export const PagesView = () => {
       <Modal
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}
-        title={editing ? t('admin.pages.form.editTitle') : t('admin.pages.form.createTitle')}
+        title={editing ? t('admin:pages.form.editTitle') : t('admin:pages.form.createTitle')}
         maxWidth="xl"
       >
         <div className="space-y-4">
@@ -247,7 +247,7 @@ export const PagesView = () => {
           )}
 
           <Input
-            label={t('admin.pages.form.title')}
+            label={t('admin:pages.form.title')}
             value={draft.title}
             onChange={(event) =>
               setDraft((prev) => ({
@@ -259,14 +259,14 @@ export const PagesView = () => {
           />
 
           <Input
-            label={t('admin.pages.form.slug')}
+            label={t('admin:pages.form.slug')}
             value={draft.slug}
             onChange={(event) => setDraft((prev) => ({ ...prev, slug: event.target.value }))}
           />
 
           <div>
             <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-              {t('admin.pages.form.content')}
+              {t('admin:pages.form.content')}
             </label>
             <textarea
               rows={6}
@@ -277,7 +277,7 @@ export const PagesView = () => {
           </div>
 
           <Input
-            label={t('admin.pages.form.description')}
+            label={t('admin:pages.form.description')}
             value={draft.description}
             onChange={(event) => setDraft((prev) => ({ ...prev, description: event.target.value }))}
           />
@@ -285,7 +285,7 @@ export const PagesView = () => {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-                {t('admin.pages.form.status')}
+                {t('admin:pages.form.status')}
               </label>
               <select
                 value={draft.status}
@@ -294,13 +294,13 @@ export const PagesView = () => {
                 }
                 className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-3.5 py-2.5 text-sm dark:border-white/[0.08] dark:bg-slate-900/60 dark:text-white"
               >
-                <option value="published">{t('admin.pages.status.published')}</option>
-                <option value="draft">{t('admin.pages.status.draft')}</option>
+                <option value="published">{t('admin:pages.status.published')}</option>
+                <option value="draft">{t('admin:pages.status.draft')}</option>
               </select>
             </div>
 
             <Input
-              label={t('admin.pages.form.template')}
+              label={t('admin:pages.form.template')}
               value={draft.template}
               placeholder="landing"
               onChange={(event) => setDraft((prev) => ({ ...prev, template: event.target.value }))}
@@ -309,13 +309,13 @@ export const PagesView = () => {
 
           <div className="flex justify-end gap-3 pt-2">
             <Button variant="outline" onClick={() => setIsFormOpen(false)}>
-              {t('admin.pages.form.cancel')}
+              {t('admin:pages.form.cancel')}
             </Button>
             <Button
               onClick={() => void handleSubmit()}
               isLoading={isCreating || isUpdating}
             >
-              {editing ? t('admin.pages.form.save') : t('admin.pages.form.create')}
+              {editing ? t('admin:pages.form.save') : t('admin:pages.form.create')}
             </Button>
           </div>
         </div>
@@ -323,10 +323,10 @@ export const PagesView = () => {
 
       <ConfirmDialog
         isOpen={pendingDelete !== null}
-        title={t('admin.pages.deleteDialog.title')}
-        description={t('admin.pages.deleteDialog.description', { name: pendingDelete?.title ?? '' })}
-        confirmLabel={t('admin.pages.deleteDialog.confirm')}
-        cancelLabel={t('admin.pages.deleteDialog.cancel')}
+        title={t('admin:pages.deleteDialog.title')}
+        description={t('admin:pages.deleteDialog.description', { name: pendingDelete?.title ?? '' })}
+        confirmLabel={t('admin:pages.deleteDialog.confirm')}
+        cancelLabel={t('admin:pages.deleteDialog.cancel')}
         variant="danger"
         isLoading={isDeleting}
         onConfirm={() => void handleDelete()}
