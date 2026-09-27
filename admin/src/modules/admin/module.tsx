@@ -41,14 +41,16 @@ export const adminModule: AdminModule = {
       handle: { permission: 'widgets.view' },
     },
     {
-      path: '/customize',
-      element: <CustomizeView />,
-      handle: { permission: 'themes.view' },
-    },
-    {
       path: '/pages',
       element: <PagesView />,
       handle: { permission: 'pages.view' },
+    },
+  ],
+  standaloneRoutes: [
+    {
+      path: '/customize',
+      element: <CustomizeView />,
+      handle: { permission: 'themes.view' },
     },
   ],
   i18n: { en: i18nEn, vi: i18nVi },

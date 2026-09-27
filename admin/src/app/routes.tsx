@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
+import { RequirePermission } from '../components/auth/RequirePermission';
 import { RequireSuperAdmin } from '../components/admin/RequireSuperAdmin';
 import { AdminLayout } from '../components/layout/AdminLayout';
 import { WebsiteRedirect } from '../components/admin/WebsiteRedirect';
@@ -15,7 +16,7 @@ import {
 } from '../modules/network/lazy';
 import { MediaLibraryView } from './media/lazy';
 import { getAdminBasename } from '../utils/website';
-import { getAdminRoutes, getPublicRoutes } from './registry';
+import { getAdminRoutes, getPublicRoutes, getStandaloneAdminRoutes } from './registry';
 
 /**
  * Module routes are declared as absolute paths (e.g. `/dashboard`). They live
@@ -24,6 +25,22 @@ import { getAdminRoutes, getPublicRoutes } from './registry';
 const toWebsiteChild = (route: RouteObject): RouteObject => ({
   ...route,
   path: (route.path ?? '').replace(/^\//, ''),
+});
+
+/**
+ * Standalone routes render under `/websites/:websiteId` outside the admin
+ * shell. They are siblings of the shell route so they can own the full screen.
+ */
+const toStandaloneRoute = (route: RouteObject): RouteObject => ({
+  path: `:websiteId/${(route.path ?? '').replace(/^\//, '')}`,
+  handle: route.handle,
+  element: (
+    <ProtectedRoute>
+      <RequirePermission>
+        <Suspense fallback={<PageLoader />}>{route.element}</Suspense>
+      </RequirePermission>
+    </ProtectedRoute>
+  ),
 });
 
 const routes: RouteObject[] = [
@@ -57,6 +74,7 @@ const routes: RouteObject[] = [
           },
         ],
       },
+      ...getStandaloneAdminRoutes().map(toStandaloneRoute),
     ],
   },
   {

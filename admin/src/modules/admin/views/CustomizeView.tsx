@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link, useParams } from 'react-router-dom';
 import {
   AlertCircle,
   CheckCircle2,
@@ -11,6 +12,7 @@ import {
   RotateCw,
   Smartphone,
   Tablet,
+  X,
 } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { CustomizeControlField } from '../components/customize/CustomizeControlField';
@@ -20,6 +22,7 @@ import {
   useUpdateCustomizeMutation,
 } from '../../../store/services/customizeApi';
 import { getErrorMessage } from '../../../utils/apiError';
+import { websitePath } from '../../../utils/website';
 import type {
   CustomizeIndexData,
   CustomizeItem,
@@ -43,14 +46,21 @@ const toArray = <T,>(value: Record<string, T> | T[] | undefined): T[] =>
 const sortByPriority = <T extends { priority?: number }>(items: T[]): T[] =>
   [...items].sort((a, b) => (a.priority ?? 0) - (b.priority ?? 0));
 
+const DEVICES: ReadonlyArray<[DeviceType, typeof Monitor]> = [
+  ['desktop', Monitor],
+  ['tablet', Tablet],
+  ['mobile', Smartphone],
+];
+
 interface CustomizeEditorProps {
   index: CustomizeIndexData;
-  widgetData: CustomizeWidgetData | undefined;
+  widgetData: CustomizeWidgetData;
   onNotice: (notice: Notice) => void;
 }
 
 const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) => {
   const { t, i18n } = useTranslation();
+  const { websiteId } = useParams<{ websiteId: string }>();
   const [updateCustomize, { isLoading: isSaving }] = useUpdateCustomizeMutation();
 
   const [values, setValues] = useState({
@@ -63,7 +73,7 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
   const [widgets, setWidgets] = useState<Record<string, SidebarWidgetItem[]>>(() => {
     const initial: Record<string, SidebarWidgetItem[]> = {};
 
-    Object.entries(widgetData?.sidebarWidgets ?? {}).forEach(([key, items]) => {
+    Object.entries(widgetData.sidebarWidgets ?? {}).forEach(([key, items]) => {
       initial[key] = items.map((item) => ({
         ...item,
         data: item.data ?? {},
@@ -163,29 +173,36 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
   };
 
   return (
-    <div className="flex flex-col gap-6 lg:flex-row">
-      <div className="w-full shrink-0 lg:w-[380px]">
-        <div className="flex items-center justify-between gap-3 rounded-t-2xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 px-4 py-3 dark:bg-slate-900/50">
-          <div className="min-w-0">
-            <span className="block text-[10px] font-bold uppercase tracking-wider text-indigo-500">
-              {t('admin.customize.customizing')}
-            </span>
-            <h2 className="truncate text-sm font-bold text-slate-800 dark:text-slate-100">
-              {index.title}
-            </h2>
+    <div className="flex h-screen overflow-hidden bg-slate-100 text-slate-800 dark:bg-[#090D16] dark:text-slate-100">
+      <aside className="flex h-full w-full flex-col border-r border-slate-200 bg-white dark:border-white/[0.08] dark:bg-[#0F1626] lg:w-[330px] lg:min-w-[300px]">
+        <header className="flex items-center justify-between gap-3 border-b border-slate-200 px-4 py-3 dark:border-white/[0.08]">
+          <div className="flex min-w-0 items-center gap-2">
+            <Link
+              to={websitePath('/dashboard', websiteId)}
+              title={t('admin.customize.exit')}
+              className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-white/[0.06] dark:hover:text-slate-200"
+            >
+              <X className="h-5 w-5" />
+            </Link>
+            <div className="min-w-0">
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-indigo-500">
+                {t('admin.customize.customizing')}
+              </span>
+              <h1 className="truncate text-sm font-bold">{index.title}</h1>
+            </div>
           </div>
 
           <Button size="sm" onClick={() => void handleSave()} isLoading={isSaving}>
             {t('admin.customize.publish')}
           </Button>
-        </div>
+        </header>
 
-        {(view === 'panel' || view === 'section') && (
-          <div className="flex items-center gap-2 border-x border-b border-slate-200 bg-slate-100/70 px-4 py-2 text-xs dark:border-white/[0.08] dark:bg-slate-800/40">
+        {view !== 'main' && (
+          <div className="flex items-center gap-2 border-b border-slate-200 bg-slate-100/70 px-4 py-2 text-xs dark:border-white/[0.08] dark:bg-slate-800/40">
             <button
               type="button"
               onClick={navigateBack}
-              className="inline-flex items-center gap-1 font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+              className="inline-flex items-center gap-1 font-semibold text-slate-500 transition-colors hover:text-slate-800 dark:hover:text-slate-200"
             >
               <ChevronLeft className="h-3.5 w-3.5" />
               {t('admin.customize.back')}
@@ -197,7 +214,7 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
           </div>
         )}
 
-        <div className="min-h-[320px] rounded-b-2xl border border-slate-200 bg-white p-4 dark:border-white/[0.08] dark:bg-[#0F1626]">
+        <div className="flex-1 overflow-y-auto p-3">
           {view === 'main' && (
             <div className="space-y-2">
               {panels.map((item) => (
@@ -213,7 +230,7 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
                       setView('section');
                     }
                   }}
-                  className="flex w-full items-center justify-between gap-3 rounded-xl border border-slate-200/70 p-3.5 text-left transition-colors hover:border-indigo-300 hover:bg-slate-50 dark:border-white/[0.08] dark:hover:bg-slate-800/40"
+                  className="flex w-full items-center justify-between gap-3 rounded-xl border border-slate-200/70 p-3 text-left transition-colors hover:border-indigo-300 hover:bg-slate-50 dark:border-white/[0.08] dark:hover:bg-slate-800/40"
                 >
                   <span className="flex items-center gap-3">
                     <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-500 dark:bg-slate-800">
@@ -236,45 +253,45 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
             </div>
           )}
 
-          {view === 'panel' && activePanel && isPanel(activePanel) && (
+          {view === 'panel' && activePanel && (
             <div className="space-y-2">
-              {sortByPriority(toArray<CustomizeSectionDefinition>(activePanel.childs)).map((section) => (
-                <button
-                  key={section.key}
-                  type="button"
-                  onClick={() => {
-                    setActiveSectionKey(section.key);
-                    setView('section');
-                  }}
-                  className="flex w-full items-center justify-between gap-3 rounded-xl border border-slate-200/70 p-3.5 text-left transition-colors hover:border-indigo-300 hover:bg-slate-50 dark:border-white/[0.08] dark:hover:bg-slate-800/40"
-                >
-                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                    {section.title}
-                  </span>
-                  <ChevronRight className="h-4 w-4 text-slate-400" />
-                </button>
-              ))}
+              {sortByPriority(toArray<CustomizeSectionDefinition>(activePanel.childs)).map(
+                (section) => (
+                  <button
+                    key={section.key}
+                    type="button"
+                    onClick={() => {
+                      setActiveSectionKey(section.key);
+                      setView('section');
+                    }}
+                    className="flex w-full items-center justify-between gap-3 rounded-xl border border-slate-200/70 p-3 text-left transition-colors hover:border-indigo-300 hover:bg-slate-50 dark:border-white/[0.08] dark:hover:bg-slate-800/40"
+                  >
+                    <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                      {section.title}
+                    </span>
+                    <ChevronRight className="h-4 w-4 text-slate-400" />
+                  </button>
+                ),
+              )}
             </div>
           )}
 
           {view === 'section' && activeSection && renderSection(activeSection)}
         </div>
-      </div>
 
-      <div className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200 dark:border-white/[0.08]">
+        <footer className="border-t border-slate-200 px-4 py-2 text-center text-[10px] text-slate-400 dark:border-white/[0.08]">
+          {t('admin.customize.footer')}
+        </footer>
+      </aside>
+
+      <section className="hidden h-full flex-1 flex-col lg:flex">
         <div className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-2.5 dark:border-white/[0.08] dark:bg-[#0F1626]">
           <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
             {t('admin.customize.livePreview')}
           </span>
 
           <div className="flex items-center gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
-            {(
-              [
-                ['desktop', Monitor],
-                ['tablet', Tablet],
-                ['mobile', Smartphone],
-              ] as const
-            ).map(([type, Icon]) => (
+            {DEVICES.map(([type, Icon]) => (
               <button
                 key={type}
                 type="button"
@@ -317,7 +334,7 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
             />
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
@@ -340,23 +357,30 @@ export const CustomizeView = () => {
     return () => window.clearTimeout(handle);
   }, [notice]);
 
-  return (
-    <div className="space-y-6 animate-in fade-in duration-200">
-      <div>
-        <h2 className="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white">
-          {t('admin.customize.title')}
-        </h2>
-        <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
-          {t('admin.customize.subtitle')}
-        </p>
+  if (!index || !widgetData) {
+    return (
+      <div className="flex h-screen items-center justify-center gap-2 bg-slate-100 text-slate-400 dark:bg-[#090D16] dark:text-slate-500">
+        <Loader2 className={`h-5 w-5 ${isFetching ? 'animate-spin' : ''}`} />
+        <span className="text-sm">{t('admin.customize.loading')}</span>
       </div>
+    );
+  }
+
+  return (
+    <>
+      <CustomizeEditor
+        key={`${fulfilledTimeStamp}-${widgetsTimeStamp}`}
+        index={index}
+        widgetData={widgetData}
+        onNotice={setNotice}
+      />
 
       {notice && (
         <div
-          className={`flex items-center gap-2.5 rounded-xl border p-3 text-xs ${
+          className={`fixed right-4 top-4 z-50 flex items-center gap-2.5 rounded-xl border p-3 text-xs shadow-lg ${
             notice.type === 'success'
-              ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-              : 'border-rose-500/20 bg-rose-500/10 text-rose-600 dark:text-rose-400'
+              ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 backdrop-blur dark:text-emerald-400'
+              : 'border-rose-500/20 bg-rose-500/10 text-rose-600 backdrop-blur dark:text-rose-400'
           }`}
         >
           {notice.type === 'success' ? (
@@ -367,21 +391,7 @@ export const CustomizeView = () => {
           <span>{notice.message}</span>
         </div>
       )}
-
-      {index && widgetData ? (
-        <CustomizeEditor
-          key={`${fulfilledTimeStamp}-${widgetsTimeStamp}`}
-          index={index}
-          widgetData={widgetData}
-          onNotice={setNotice}
-        />
-      ) : (
-        <div className="flex items-center justify-center gap-2 py-16 text-slate-400 dark:text-slate-500">
-          <Loader2 className={`h-5 w-5 ${isFetching ? 'animate-spin' : ''}`} />
-          <span className="text-sm">{t('admin.customize.loading')}</span>
-        </div>
-      )}
-    </div>
+    </>
   );
 };
 

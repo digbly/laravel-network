@@ -128,6 +128,8 @@
       "customizing": "Customizing",
       "publish": "Publish",
       "back": "Back",
+      "exit": "Exit customizer",
+      "footer": "Theme Customizer",
       "panel": "Panel",
       "section": "Section",
       "livePreview": "Live Preview",

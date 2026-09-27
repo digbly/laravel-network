@@ -32,5 +32,8 @@ export const registerModules = (registered: AdminModule[]): void => {
 export const getAdminRoutes = (): RouteObject[] =>
   modules.flatMap((module) => module.routes ?? []);
 
+export const getStandaloneAdminRoutes = (): RouteObject[] =>
+  modules.flatMap((module) => module.standaloneRoutes ?? []);
+
 export const getPublicRoutes = (): RouteObject[] =>
   modules.flatMap((module) => module.publicRoutes ?? []);
