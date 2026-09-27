@@ -214,8 +214,14 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto p-3">
-          {view === 'main' && (
+        <div className="relative flex-1 overflow-hidden">
+          {/* Main drawer */}
+          <div
+            inert={view !== 'main'}
+            className={`absolute inset-0 overflow-y-auto p-3 transition-all duration-300 ease-in-out ${
+              view === 'main' ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0 pointer-events-none'
+            }`}
+          >
             <div className="space-y-2">
               {panels.map((item) => (
                 <button
@@ -251,32 +257,52 @@ const CustomizeEditor = ({ index, widgetData, onNotice }: CustomizeEditorProps) 
                 </button>
               ))}
             </div>
-          )}
+          </div>
 
-          {view === 'panel' && activePanel && (
-            <div className="space-y-2">
-              {sortByPriority(toArray<CustomizeSectionDefinition>(activePanel.childs)).map(
-                (section) => (
-                  <button
-                    key={section.key}
-                    type="button"
-                    onClick={() => {
-                      setActiveSectionKey(section.key);
-                      setView('section');
-                    }}
-                    className="flex w-full items-center justify-between gap-3 rounded-xl border border-slate-200/70 p-3 text-left transition-colors hover:border-indigo-300 hover:bg-slate-50 dark:border-white/[0.08] dark:hover:bg-slate-800/40"
-                  >
-                    <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                      {section.title}
-                    </span>
-                    <ChevronRight className="h-4 w-4 text-slate-400" />
-                  </button>
-                ),
-              )}
-            </div>
-          )}
+          {/* Panel drawer */}
+          <div
+            inert={view !== 'panel'}
+            className={`absolute inset-0 overflow-y-auto p-3 transition-all duration-300 ease-in-out ${
+              view === 'panel'
+                ? 'translate-x-0 opacity-100'
+                : view === 'section' && activeSection?.panel === activePanelKey
+                  ? '-translate-x-12 opacity-0 pointer-events-none'
+                  : 'translate-x-full opacity-0 pointer-events-none'
+            }`}
+          >
+            {activePanel && (
+              <div className="space-y-2">
+                {sortByPriority(toArray<CustomizeSectionDefinition>(activePanel.childs)).map(
+                  (section) => (
+                    <button
+                      key={section.key}
+                      type="button"
+                      onClick={() => {
+                        setActiveSectionKey(section.key);
+                        setView('section');
+                      }}
+                      className="flex w-full items-center justify-between gap-3 rounded-xl border border-slate-200/70 p-3 text-left transition-colors hover:border-indigo-300 hover:bg-slate-50 dark:border-white/[0.08] dark:hover:bg-slate-800/40"
+                    >
+                      <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                        {section.title}
+                      </span>
+                      <ChevronRight className="h-4 w-4 text-slate-400" />
+                    </button>
+                  ),
+                )}
+              </div>
+            )}
+          </div>
 
-          {view === 'section' && activeSection && renderSection(activeSection)}
+          {/* Section drawer */}
+          <div
+            inert={view !== 'section'}
+            className={`absolute inset-0 overflow-y-auto p-3 transition-all duration-300 ease-in-out ${
+              view === 'section' ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0 pointer-events-none'
+            }`}
+          >
+            {activeSection && renderSection(activeSection)}
+          </div>
         </div>
 
         <footer className="border-t border-slate-200 px-4 py-2 text-center text-[10px] text-slate-400 dark:border-white/[0.08]">
