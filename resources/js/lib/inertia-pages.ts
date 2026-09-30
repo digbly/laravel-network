@@ -13,7 +13,7 @@ const modulePattern = /^\.\.\/\.\.\/\.\.\/modules\/([^/]+)\/resources\/views\/(.
  * - "Admin::dashboard/Index" -> modules/admin/resources/views/dashboard/Index.tsx
  * - "NoWebsite"              -> resources/js/pages/NoWebsite.tsx
  */
-export function resolvePage(name: string): () => Promise<any> {
+export function resolvePage(name: string): Promise<any> {
     if (name.includes('::')) {
         const [namespace, page] = name.split('::');
         const normalized = page.replace(/\./g, '/');
@@ -37,7 +37,7 @@ export function resolvePage(name: string): () => Promise<any> {
             );
         }
 
-        return match[1];
+        return match[1]();
     }
 
     const normalized = name.replace(/\./g, '/');
@@ -45,11 +45,11 @@ export function resolvePage(name: string): () => Promise<any> {
     const jsx = `../pages/${normalized}.jsx`;
 
     if (corePages[tsx]) {
-        return corePages[tsx];
+        return corePages[tsx]();
     }
 
     if (corePages[jsx]) {
-        return corePages[jsx];
+        return corePages[jsx]();
     }
 
     throw new Error(
