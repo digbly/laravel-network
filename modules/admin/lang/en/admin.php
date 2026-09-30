@@ -339,6 +339,12 @@ return [
             'restoreFailed' => 'Failed to restore the user.',
             'retry' => 'Retry',
             'saveFailed' => 'Failed to save the user.',
+            'superAdminGrant' => 'Only super admins can grant super admin access.',
+            'superAdminChange' => 'Only super admins can change super admin access.',
+            'selfDelete' => 'You cannot delete your own account.',
+            'selfLockout' => 'You cannot remove your own ability to manage users.',
+            'cannotManageSuperAdmin' => 'You cannot manage a super admin account.',
+            'alreadyVerified' => 'This user has already verified their email.',
         ],
         'filters' => [
             'active' => 'Active users',
@@ -386,6 +392,8 @@ return [
             'passwordReset' => 'Password reset successfully.',
             'restored' => 'User restored successfully.',
             'verificationSent' => 'Verification email sent.',
+            'created' => 'User created successfully.',
+            'updated' => 'User updated successfully.',
         ],
         'pagination' => [
             'next' => 'Next',

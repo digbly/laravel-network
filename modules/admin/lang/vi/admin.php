@@ -339,6 +339,12 @@ return [
             'restoreFailed' => 'Khôi phục người dùng thất bại.',
             'retry' => 'Thử lại',
             'saveFailed' => 'Lưu người dùng thất bại.',
+            'superAdminGrant' => 'Chỉ quản trị viên cấp cao mới có thể cấp quyền quản trị cấp cao.',
+            'superAdminChange' => 'Chỉ quản trị viên cấp cao mới có thể thay đổi quyền quản trị cấp cao.',
+            'selfDelete' => 'Bạn không thể xóa tài khoản của chính mình.',
+            'selfLockout' => 'Bạn không thể tự gỡ quyền quản lý người dùng của mình.',
+            'cannotManageSuperAdmin' => 'Bạn không thể quản lý tài khoản quản trị viên cấp cao.',
+            'alreadyVerified' => 'Người dùng này đã xác thực email.',
         ],
         'filters' => [
             'active' => 'Đang hoạt động',
@@ -386,6 +392,8 @@ return [
             'passwordReset' => 'Đặt lại mật khẩu thành công.',
             'restored' => 'Khôi phục người dùng thành công.',
             'verificationSent' => 'Đã gửi email xác thực.',
+            'created' => 'Tạo người dùng thành công.',
+            'updated' => 'Cập nhật người dùng thành công.',
         ],
         'pagination' => [
             'next' => 'Sau',
