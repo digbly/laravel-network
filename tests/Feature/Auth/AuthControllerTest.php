@@ -4,8 +4,10 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 use Modules\Auth\Models\User;
 use Tests\TestCase;
@@ -113,6 +115,51 @@ class AuthControllerTest extends TestCase
                     'message' => 'Password changed successfully!',
                 ],
             ]);
+    }
+
+    public function test_authenticated_user_can_update_profile(): void
+    {
+        $user = User::factory()->create(['name' => 'Old Name']);
+
+        Passport::actingAs($user, ['*'], 'api');
+
+        $response = $this->postJson('/api/v1/auth/user/profile', [
+            'name' => 'New Name',
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'id' => $user->id,
+                    'name' => 'New Name',
+                ],
+            ]);
+
+        $this->assertSame('New Name', $user->fresh()->name);
+    }
+
+    public function test_authenticated_user_can_upload_avatar(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create();
+
+        Passport::actingAs($user, ['*'], 'api');
+
+        $response = $this->post('/api/v1/auth/user/profile', [
+            'name' => $user->name,
+            'avatar' => UploadedFile::fake()->image('avatar.jpg', 200, 200),
+        ], ['Accept' => 'application/json']);
+
+        $response->assertStatus(200);
+
+        $this->assertNotNull($user->fresh()->avatarUrl());
+    }
+
+    public function test_guest_cannot_update_profile(): void
+    {
+        $this->postJson('/api/v1/auth/user/profile', ['name' => 'Hacker'])
+            ->assertStatus(401);
     }
 
     public function test_user_can_request_forgot_password(): void

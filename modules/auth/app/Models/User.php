@@ -15,14 +15,16 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\Contracts\OAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 use Modules\Auth\Database\Factories\UserFactory;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Traits\HasRoles;
 
 #[UseFactory(UserFactory::class)]
-class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
+class User extends Authenticatable implements HasMedia, MustVerifyEmail, OAuthenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, HasUuids, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, HasUuids, InteractsWithMedia, Notifiable, SoftDeletes;
 
     use HasRoles {
         getStoredPermission as protected spatieGetStoredPermission;
@@ -63,6 +65,16 @@ class User extends Authenticatable implements MustVerifyEmail, OAuthenticatable
             'password' => 'hashed',
             'is_super_admin' => 'boolean',
         ];
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('avatar')->singleFile();
+    }
+
+    public function avatarUrl(): ?string
+    {
+        return $this->getFirstMediaUrl('avatar') ?: null;
     }
 
     public function socialConnections(): HasMany

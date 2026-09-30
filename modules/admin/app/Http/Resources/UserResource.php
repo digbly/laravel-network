@@ -32,6 +32,12 @@ use OpenApi\Attributes as OA;
             example: 'john@example.com'
         ),
         new OA\Property(
+            property: 'avatar',
+            type: 'string',
+            nullable: true,
+            example: 'http://localhost:8000/storage/1/avatar.jpg'
+        ),
+        new OA\Property(
             property: 'roles',
             type: 'array',
             items: new OA\Items(type: 'string'),
@@ -89,6 +95,7 @@ class UserResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'email' => $this->resource->email,
+            'avatar' => $this->resource->avatarUrl(),
             'roles' => $this->resource->getRoleNames()->values()->all(),
             'is_super_admin' => $this->resource->isSuperAdmin(),
             'permissions' => $this->resource->permissionNames(),

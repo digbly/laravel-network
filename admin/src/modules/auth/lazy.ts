@@ -24,3 +24,6 @@ export const OAuthCallbackView = lazy(() =>
     default: module.OAuthCallbackView,
   }))
 );
+export const ProfileView = lazy(() =>
+  import('./views/ProfileView').then((module) => ({ default: module.ProfileView }))
+);

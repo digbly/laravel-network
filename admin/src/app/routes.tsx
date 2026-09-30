@@ -15,6 +15,7 @@ import {
   WebsitePickerView,
 } from '../modules/network/lazy';
 import { MediaLibraryView } from './media/lazy';
+import { ProfileView } from '../modules/auth/lazy';
 import { getAdminBasename } from '../utils/website';
 import { getAdminRoutes, getPublicRoutes, getStandaloneAdminRoutes } from './registry';
 
@@ -45,6 +46,16 @@ const toStandaloneRoute = (route: RouteObject): RouteObject => ({
 
 const routes: RouteObject[] = [
   ...getPublicRoutes(),
+  {
+    path: 'profile',
+    element: (
+      <ProtectedRoute>
+        <Suspense fallback={<PageLoader />}>
+          <ProfileView />
+        </Suspense>
+      </ProtectedRoute>
+    ),
+  },
   {
     path: 'websites',
     children: [

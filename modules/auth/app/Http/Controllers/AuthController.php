@@ -20,6 +20,7 @@ use Modules\Auth\Http\Requests\ForgotPasswordRequest;
 use Modules\Auth\Http\Requests\RegisterRequest;
 use Modules\Auth\Http\Requests\ResendVerificationEmailRequest;
 use Modules\Auth\Http\Requests\ResetPasswordRequest;
+use Modules\Auth\Http\Requests\UpdateProfileRequest;
 use Modules\Auth\Models\User;
 use OpenApi\Attributes as OA;
 
@@ -94,6 +95,50 @@ class AuthController extends Controller
     public function profile(Request $request): UserResource
     {
         return UserResource::make($request->user('api'));
+    }
+
+    #[OA\Post(
+        path: '/api/v1/auth/user/profile',
+        summary: 'Update Authenticated User Profile',
+        operationId: 'user.update-profile',
+        tags: ['Auth'],
+        security: [['bearerAuth' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: [
+                new OA\MediaType(
+                    mediaType: 'multipart/form-data',
+                    schema: new OA\Schema(type: UpdateProfileRequest::class)
+                ),
+            ]
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Profile updated',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: UserResource::class),
+                    ]
+                )
+            ),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 422, description: 'Validation Error'),
+        ]
+    )]
+    public function updateProfile(UpdateProfileRequest $request): UserResource
+    {
+        /** @var User $user */
+        $user = $request->user('api');
+
+        $user->fill($request->safe()->only('name'));
+        $user->save();
+
+        if ($request->hasFile('avatar')) {
+            $user->addMediaFromRequest('avatar')->toMediaCollection('avatar');
+        }
+
+        return UserResource::make($user->refresh());
     }
 
     #[OA\Post(

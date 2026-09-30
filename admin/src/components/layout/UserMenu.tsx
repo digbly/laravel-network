@@ -1,5 +1,5 @@
 import { type FC, useEffect, useRef, useState } from 'react';
-import { ChevronDown, Loader2, LogOut, RefreshCw, ShieldCheck } from 'lucide-react';
+import { ChevronDown, Loader2, LogOut, RefreshCw, ShieldCheck, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../store/hooks';
@@ -54,6 +54,11 @@ export const UserMenu: FC = () => {
   const handleSwitchWebsite = () => {
     setOpen(false);
     navigate('/websites');
+  };
+
+  const handleProfile = () => {
+    setOpen(false);
+    navigate('/profile');
   };
 
   return (
@@ -121,6 +126,16 @@ export const UserMenu: FC = () => {
           </div>
 
           <div className="h-px bg-slate-200/70 dark:bg-white/[0.07] my-1" />
+
+          <button
+            type="button"
+            onClick={handleProfile}
+            role="menuitem"
+            className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-colors cursor-pointer"
+          >
+            <User className="w-4 h-4" />
+            <span>{t('userMenu.profile')}</span>
+          </button>
 
           {getWebsiteId() && (
             <button

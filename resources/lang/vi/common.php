@@ -49,6 +49,7 @@ return [
         'fallbackName' => 'Tài khoản',
         'logout' => 'Đăng xuất',
         'noEmail' => 'Chưa có email',
+        'profile' => 'Hồ sơ',
         'switchWebsite' => 'Đổi website',
     ],
     'version' => 'v0.1.0 · Bảng điều khiển',

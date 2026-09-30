@@ -49,6 +49,7 @@ return [
         'fallbackName' => 'Account',
         'logout' => 'Sign out',
         'noEmail' => 'No email',
+        'profile' => 'Profile',
         'switchWebsite' => 'Switch website',
     ],
     'version' => 'v0.1.0 · Admin Console',
