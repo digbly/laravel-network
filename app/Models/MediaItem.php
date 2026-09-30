@@ -53,4 +53,30 @@ class MediaItem extends Model implements HasMedia
     {
         return MediaItemFactory::new();
     }
+
+    /**
+     * Persist the pixel dimensions of an image file for the media library.
+     */
+    public static function storeDimensions(Media $media): void
+    {
+        if (! str_starts_with((string) $media->mime_type, 'image/') || $media->mime_type === 'image/svg+xml') {
+            return;
+        }
+
+        $path = $media->getPath();
+
+        if (! is_file($path)) {
+            return;
+        }
+
+        $size = @getimagesize($path);
+
+        if ($size === false) {
+            return;
+        }
+
+        $media->setCustomProperty('width', $size[0]);
+        $media->setCustomProperty('height', $size[1]);
+        $media->save();
+    }
 }

@@ -5,9 +5,11 @@ use Illuminate\Support\Facades\Route;
 use Modules\Admin\Http\Controllers\AdminController;
 use Modules\Admin\Http\Controllers\Web\AdminHomeController;
 use Modules\Admin\Http\Controllers\Web\DashboardController;
+use Modules\Admin\Http\Controllers\Web\MediaController;
 use Modules\Admin\Http\Controllers\Web\SettingController;
 use Modules\Admin\Http\Controllers\Web\UserController;
 use Modules\Admin\Http\Middleware\EnsureWebsiteAccess;
+use Modules\Admin\Enums\MediaPermission;
 use Modules\Admin\Http\Middleware\RequireAdminPermission;
 use Modules\Auth\Enums\Permission;
 
@@ -48,5 +50,20 @@ Route::middleware(['auth:web'])
                         Route::post('{user}/resend-verification', [UserController::class, 'resendVerification'])
                             ->name('resend-verification');
                     });
+
+                Route::prefix('media')->name('admin.media.')->group(function () {
+                    Route::get('/', [MediaController::class, 'index'])
+                        ->middleware(RequireAdminPermission::class.':'.MediaPermission::MediaView->value)
+                        ->name('index');
+                    Route::post('/', [MediaController::class, 'store'])
+                        ->middleware(RequireAdminPermission::class.':'.MediaPermission::MediaCreate->value)
+                        ->name('store');
+                    Route::put('{media}', [MediaController::class, 'update'])
+                        ->middleware(RequireAdminPermission::class.':'.MediaPermission::MediaUpdate->value)
+                        ->name('update');
+                    Route::delete('{media}', [MediaController::class, 'destroy'])
+                        ->middleware(RequireAdminPermission::class.':'.MediaPermission::MediaDelete->value)
+                        ->name('destroy');
+                });
             });
     });
