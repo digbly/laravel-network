@@ -1,9 +1,11 @@
-import type { FormEvent } from 'react';
-import { Link, router, useForm, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
+import { useForm } from 'react-hook-form';
 import { ArrowLeft, CheckCircle2, Mail, Send } from 'lucide-react';
 import AuthLayout from '../layouts/AuthLayout';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import { submitForm } from '@/lib/inertia-form';
+import { EMAIL_PATTERN } from '@/lib/validation';
 import { useTranslation } from '@/hooks/useTranslation';
 import type { SharedProps } from '@/types';
 
@@ -11,17 +13,22 @@ interface ForgotPasswordProps {
     title: string;
 }
 
+interface ForgotPasswordForm {
+    email: string;
+}
+
 export default function ForgotPassword({ title }: ForgotPasswordProps) {
     const { t } = useTranslation();
     const { flash } = usePage<SharedProps>().props;
 
-    const { data, setData, post, processing, errors } = useForm({ email: '' });
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors, isSubmitting },
+    } = useForm<ForgotPasswordForm>({ defaultValues: { email: '' } });
 
-    const submit = (event: FormEvent) => {
-        event.preventDefault();
-
-        post('/forgot-password');
-    };
+    const onSubmit = handleSubmit((data) => submitForm('/forgot-password', data, { setError }));
 
     if (flash.success) {
         return (
@@ -56,21 +63,26 @@ export default function ForgotPassword({ title }: ForgotPasswordProps) {
                 )}
             </p>
 
-            <form onSubmit={submit} className="space-y-4" noValidate>
+            <form onSubmit={onSubmit} className="space-y-4" noValidate>
                 <Input
                     label={t('auth.forgotPassword.emailLabel', 'Email address')}
                     type="email"
                     autoComplete="email"
                     leftIcon={<Mail className="h-4 w-4" />}
-                    value={data.email}
-                    onChange={(event) => setData('email', event.target.value)}
-                    error={errors.email}
+                    error={errors.email?.message}
+                    {...register('email', {
+                        required: t('auth.forgotPassword.errors.emailRequired', 'Email address is required'),
+                        pattern: {
+                            value: EMAIL_PATTERN,
+                            message: t('auth.forgotPassword.errors.emailInvalid', 'Please enter a valid email address'),
+                        },
+                    })}
                 />
 
                 <Button
                     type="submit"
                     className="mt-2 w-full"
-                    isLoading={processing}
+                    isLoading={isSubmitting}
                     leftIcon={<Send className="h-4 w-4" />}
                 >
                     {t('auth.forgotPassword.submit', 'Send reset instructions')}

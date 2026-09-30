@@ -1,9 +1,12 @@
-import { useState, type FormEvent } from 'react';
-import { Link, useForm } from '@inertiajs/react';
+import { useState } from 'react';
+import { Link } from '@inertiajs/react';
+import { useForm } from 'react-hook-form';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import AuthLayout from '../layouts/AuthLayout';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import { submitForm } from '@/lib/inertia-form';
+import { EMAIL_PATTERN } from '@/lib/validation';
 import { useTranslation } from '@/hooks/useTranslation';
 
 interface Provider {
@@ -17,39 +20,48 @@ interface LoginProps {
     providers: Provider[];
 }
 
+interface LoginForm {
+    email: string;
+    password: string;
+    remember: boolean;
+}
+
 export default function Login({ title, redirect, providers = [] }: LoginProps) {
     const { t } = useTranslation();
     const [showPassword, setShowPassword] = useState(false);
 
-    const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
-        remember: true,
-        redirect: redirect ?? '',
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors, isSubmitting },
+    } = useForm<LoginForm>({
+        defaultValues: { email: '', password: '', remember: true },
     });
 
-    const submit = (event: FormEvent) => {
-        event.preventDefault();
-
-        post('/login', {
-            onFinish: () => reset('password'),
-        });
-    };
+    const onSubmit = handleSubmit((data) =>
+        submitForm('/login', { ...data, redirect: redirect ?? '' }, { setError })
+    );
 
     const socialRedirectUrl = (provider: string) =>
         `/auth/social/${provider}/redirect${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`;
 
     return (
         <AuthLayout title={title}>
-            <form onSubmit={submit} className="space-y-4" noValidate>
+            <form onSubmit={onSubmit} className="space-y-4" noValidate>
                 <Input
                     label={t('auth.login.emailLabel', 'Email address')}
                     type="email"
                     autoComplete="email"
                     leftIcon={<Mail className="h-4 w-4" />}
-                    value={data.email}
-                    onChange={(event) => setData('email', event.target.value)}
-                    error={errors.email}
+                    error={errors.email?.message}
+                    {...register('email', {
+                        required: t('auth.login.errors.emailRequired', 'Email address is required'),
+                        pattern: {
+                            value: EMAIL_PATTERN,
+                            message: t('auth.login.errors.emailInvalid', 'Please enter a valid email address'),
+                        },
+                    })}
                 />
 
                 <Input
@@ -57,9 +69,7 @@ export default function Login({ title, redirect, providers = [] }: LoginProps) {
                     type={showPassword ? 'text' : 'password'}
                     autoComplete="current-password"
                     leftIcon={<Lock className="h-4 w-4" />}
-                    value={data.password}
-                    onChange={(event) => setData('password', event.target.value)}
-                    error={errors.password}
+                    error={errors.password?.message}
                     rightIcon={
                         <button
                             type="button"
@@ -70,15 +80,17 @@ export default function Login({ title, redirect, providers = [] }: LoginProps) {
                             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                         </button>
                     }
+                    {...register('password', {
+                        required: t('auth.login.errors.passwordRequired', 'Password is required'),
+                    })}
                 />
 
                 <div className="flex items-center justify-between">
                     <label className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
                         <input
                             type="checkbox"
-                            checked={data.remember}
-                            onChange={(event) => setData('remember', event.target.checked)}
                             className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800"
+                            {...register('remember')}
                         />
                         {t('auth.login.rememberMe', 'Remember me')}
                     </label>
@@ -91,7 +103,7 @@ export default function Login({ title, redirect, providers = [] }: LoginProps) {
                     </Link>
                 </div>
 
-                <Button type="submit" className="mt-2 w-full" isLoading={processing}>
+                <Button type="submit" className="mt-2 w-full" isLoading={isSubmitting}>
                     {t('auth.login.submit', 'Sign in')}
                 </Button>
             </form>
