@@ -18,7 +18,7 @@ class LoginController extends Controller
 
     public function show(Request $request): Response
     {
-        return Inertia::render('Auth/Login', [
+        return Inertia::render('Auth::auth/Login', [
             'title' => 'Sign in',
             'providers' => collect(SocialProvider::configured())
                 ->map(fn (SocialProvider $provider): array => [

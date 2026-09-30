@@ -138,9 +138,12 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <span className="hidden text-sm text-slate-500 dark:text-slate-400 sm:inline">
+                    <Link
+                        href="/profile"
+                        className="hidden text-sm text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 sm:inline"
+                    >
                         {auth.user?.name}
-                    </span>
+                    </Link>
                     <button
                         type="button"
                         onClick={logout}

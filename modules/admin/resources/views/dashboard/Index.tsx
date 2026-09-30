@@ -1,4 +1,4 @@
-import AdminLayout from '@/Layouts/AdminLayout';
+import AdminLayout from '../layouts/AdminLayout';
 
 interface Stat {
     label: string;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-const corePages = import.meta.glob<any>('../Pages/**/*.{tsx,jsx}');
+const corePages = import.meta.glob<any>('../pages/**/*.{tsx,jsx}');
 
 const modulePages = import.meta.glob<any>('../../../modules/*/resources/views/**/*.{tsx,jsx}');
 
@@ -10,8 +10,8 @@ const modulePattern = /^\.\.\/\.\.\/\.\.\/modules\/([^/]+)\/resources\/views\/(.
  * Resolve an Inertia page component.
  *
  * Supported names:
- * - "Admin::dashboard/Index" -> modules/Admin/resources/views/dashboard/Index.tsx
- * - "Auth/Login"             -> resources/js/Pages/Auth/Login.tsx
+ * - "Admin::dashboard/Index" -> modules/admin/resources/views/dashboard/Index.tsx
+ * - "NoWebsite"              -> resources/js/pages/NoWebsite.tsx
  */
 export function resolvePage(name: string): () => Promise<any> {
     if (name.includes('::')) {
@@ -41,8 +41,8 @@ export function resolvePage(name: string): () => Promise<any> {
     }
 
     const normalized = name.replace(/\./g, '/');
-    const tsx = `../Pages/${normalized}.tsx`;
-    const jsx = `../Pages/${normalized}.jsx`;
+    const tsx = `../pages/${normalized}.tsx`;
+    const jsx = `../pages/${normalized}.jsx`;
 
     if (corePages[tsx]) {
         return corePages[tsx];
@@ -53,7 +53,7 @@ export function resolvePage(name: string): () => Promise<any> {
     }
 
     throw new Error(
-        `Inertia page not found for "${name}" (resources/js/Pages/${normalized}.tsx)`
+        `Inertia page not found for "${name}" (resources/js/pages/${normalized}.tsx)`
     );
 }
 
