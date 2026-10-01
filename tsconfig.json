@@ -16,13 +16,13 @@
         "types": ["vite/client"],
         "baseUrl": ".",
         "paths": {
-            "@/*": ["resources/js/*"],
+            "@/*": ["resources/views/*"],
             "@modules/*": ["modules/*"]
         }
     },
     "include": [
-        "resources/js/**/*.ts",
-        "resources/js/**/*.tsx",
+        "resources/views/**/*.ts",
+        "resources/views/**/*.tsx",
         "modules/**/resources/views/**/*.tsx",
         "modules/**/resources/views/**/*.ts"
     ]

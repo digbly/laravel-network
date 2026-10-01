@@ -7,15 +7,15 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/js/app.tsx'],
-            refresh: true,
+            input: ['resources/views/app.tsx'],
+            refresh: ['resources/views/**/*.blade.php'],
         }),
         react(),
         tailwindcss(),
     ],
     resolve: {
         alias: {
-            '@': path.resolve(process.cwd(), 'resources/js'),
+            '@': path.resolve(process.cwd(), 'resources/views'),
             '@modules': path.resolve(process.cwd(), 'modules'),
         },
     },

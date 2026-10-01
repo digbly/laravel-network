@@ -49,7 +49,7 @@ return [
 
     'page_paths' => [
 
-        resource_path('js/pages'),
+        resource_path('views/pages'),
 
     ],
 
@@ -88,7 +88,7 @@ return [
 
         'page_paths' => [
 
-            resource_path('js/pages'),
+            resource_path('views/pages'),
 
         ],
 
