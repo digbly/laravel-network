@@ -3,7 +3,6 @@
 namespace Themes\Default\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Controller;
 use Modules\Blog\Enums\CommentStatus;
 use Modules\Blog\Enums\PostStatus;
 use Modules\Blog\Models\Comment;

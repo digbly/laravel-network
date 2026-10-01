@@ -17,6 +17,8 @@ own registries.
   permissions across the network.
 - **Themes** — full theme packages (`theme.json`, views, assets, translations,
   config, routes) selected per website, modelled after `nwidart/laravel-modules`.
+  The bundled `default` theme renders the public site with its own self-contained
+  Inertia (React) front end, built via `php artisan theme:build`.
 - **Blog module** — posts, categories and comments with translatable content.
 - **Auth module** — session login/registration, email verification, password
   reset, profile management, social login (Google / Facebook / GitHub) via
@@ -76,7 +78,10 @@ php artisan permission:generate
 npm install
 npm run build
 
-# 6. Build the standalone admin SPA
+# 6. Build the default theme's Inertia front end
+php artisan theme:build default
+
+# 7. Build the standalone admin SPA
 cd admin && npm install && npm run build && cd ..
 ```
 
@@ -153,6 +158,8 @@ php artisan theme:make blog               # Scaffold and enable a theme
 php artisan theme:enable Blog             # Enable a theme
 php artisan theme:disable Blog            # Disable a theme
 php artisan theme:publish                 # Publish theme assets
+php artisan theme:build default           # Build a theme's Inertia front end (Vite)
+php artisan theme:build default --dev     # Run a theme's Vite dev server
 
 # Code style
 vendor/bin/pint                           # Format PHP (PSR-12)

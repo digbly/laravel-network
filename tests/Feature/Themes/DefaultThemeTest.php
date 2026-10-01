@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Themes;
 
+use App\Models\Pages\Page;
 use App\Themes\FileRepository;
 use App\Themes\ThemeManager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 use Modules\Blog\Enums\CommentStatus;
 use Modules\Blog\Enums\PostStatus;
 use Modules\Blog\Models\Category;
@@ -20,6 +22,8 @@ class DefaultThemeTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->withoutVite();
 
         $this->app->register(ThemeServiceProvider::class);
 
@@ -76,14 +80,18 @@ class DefaultThemeTest extends TestCase
         $pageOne = $this->get('/')->assertOk();
         $pageOne->assertSee('Article 01')
             ->assertDontSee('Hidden draft')
-            ->assertSee('aria-label="Pagination"', false);
-
-        // Nine published posts per page: 9 cards on page 1, the remaining 1 on page 2.
-        $this->assertSame(9, substr_count($pageOne->getContent(), 'hover:-translate-y-0.5'));
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Home', false)
+                ->has('posts.data', 9)
+                ->where('posts.total', 10)
+                ->where('posts.current_page', 1));
 
         $pageTwo = $this->get('/?page=2')->assertOk();
-        $pageTwo->assertSee('Article 10');
-        $this->assertSame(1, substr_count($pageTwo->getContent(), 'hover:-translate-y-0.5'));
+        $pageTwo->assertSee('Article 10')
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Home', false)
+                ->has('posts.data', 1)
+                ->where('posts.current_page', 2));
     }
 
     public function test_post_page_shows_content_and_only_approved_comments(): void
@@ -107,7 +115,12 @@ class DefaultThemeTest extends TestCase
             ->assertSee('Read me')
             ->assertSee('Body copy', false)
             ->assertSee('Approved comment')
-            ->assertDontSee('Pending comment');
+            ->assertDontSee('Pending comment')
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Post', false)
+                ->where('post.title', 'Read me')
+                ->has('comments', 1)
+                ->where('comments.0.content', 'Approved comment'));
     }
 
     public function test_category_page_lists_its_posts(): void
@@ -120,7 +133,11 @@ class DefaultThemeTest extends TestCase
         $this->get('/categories/news')
             ->assertOk()
             ->assertSee('News')
-            ->assertSee('In category');
+            ->assertSee('In category')
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Category', false)
+                ->where('category.name', 'News')
+                ->has('posts.data', 1));
     }
 
     public function test_category_page_ignores_drafts(): void
@@ -135,7 +152,10 @@ class DefaultThemeTest extends TestCase
 
         $this->get('/categories/news')
             ->assertOk()
-            ->assertDontSee('Draft in category');
+            ->assertDontSee('Draft in category')
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Category', false)
+                ->has('posts.data', 0));
     }
 
     public function test_search_filters_posts_by_title(): void
@@ -146,11 +166,16 @@ class DefaultThemeTest extends TestCase
         $this->get('/search?q=Tailwind')
             ->assertOk()
             ->assertSee('Tailwind tricks')
-            ->assertDontSee('No articles matched your search.');
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Search', false)
+                ->where('search', 'Tailwind')
+                ->has('posts.data', 1));
 
         $this->get('/search?q=zzz-no-match')
             ->assertOk()
-            ->assertSee('No articles matched your search.');
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Search', false)
+                ->has('posts.data', 0));
     }
 
     public function test_guest_can_submit_a_comment(): void
@@ -184,10 +209,75 @@ class DefaultThemeTest extends TestCase
         $this->assertDatabaseCount('comments', 0);
     }
 
+    public function test_active_theme_does_not_shadow_the_application_root_view(): void
+    {
+        // The theme prepends its views for error pages; the theme's Inertia root
+        // must use a namespaced, non-colliding name so view('app') (used by the
+        // admin Inertia root) still resolves to the application view.
+        $this->assertSame(
+            resource_path('views/app.blade.php'),
+            view()->getFinder()->find('app')
+        );
+
+        $this->assertSame(
+            theme_path('Default', 'resources/views/theme.blade.php'),
+            view()->getFinder()->find('default::theme')
+        );
+    }
+
     public function test_unknown_post_uses_themed_404(): void
     {
         $this->get('/posts/does-not-exist')
             ->assertNotFound()
-            ->assertSee('Back to home');
+            ->assertSee('Back to home')
+            ->assertSee('"component":"NotFound"', false);
+    }
+
+    public function test_home_page_renders_configured_blocks(): void
+    {
+        $page = Page::create([
+            'status' => 'published',
+            'template' => 'landing',
+        ]);
+
+        $page->translateOrNew('en')->title = 'Home';
+        $page->translateOrNew('en')->slug = 'home';
+        $page->save();
+
+        $hero = $page->blocks()->create([
+            'block' => 'hero',
+            'container' => 'content',
+            'display_order' => 1,
+            'data' => ['title' => 'Welcome aboard'],
+        ]);
+        $hero->translateOrNew('en')->label = 'Hero';
+        $hero->save();
+
+        $posts = $page->blocks()->create([
+            'block' => 'posts',
+            'container' => 'content',
+            'display_order' => 2,
+            'data' => ['title' => 'Latest', 'limit' => 3],
+        ]);
+        $posts->translateOrNew('en')->label = 'Latest';
+        $posts->save();
+
+        $this->makePost(['title' => 'Block article', 'slug' => 'block-article']);
+
+        theme_setting()->set('home_page', $page->id);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertInertia(fn (Assert $inertia) => $inertia
+                ->component('Home', false)
+                ->where('template.key', 'landing')
+                ->has('blocks.content', 2)
+                ->where('blocks.content.0.key', 'hero')
+                ->where('blocks.content.0.component', 'Blocks/Hero')
+                ->where('blocks.content.0.data.title', 'Welcome aboard')
+                ->where('blocks.content.1.key', 'posts')
+                ->where('blocks.content.1.component', 'Blocks/Posts')
+                ->has('blocks.content.1.data.posts', 1)
+                ->where('blocks.content.1.data.posts.0.title', 'Block article'));
     }
 }

@@ -2,17 +2,17 @@
 
 namespace Themes\Default\Http\Controllers;
 
-use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Routing\Controller;
+use Inertia\Response;
 use Modules\Blog\Models\Category;
 use Themes\Default\Http\Controllers\Concerns\ListsPosts;
+use Themes\Default\Support\PostPresenter;
 
 class CategoryController extends Controller
 {
     use ListsPosts;
 
-    public function show(string $slug): View
+    public function show(string $slug): Response
     {
         $category = Category::query()
             ->with('translations')
@@ -23,12 +23,13 @@ class CategoryController extends Controller
             ->published()
             ->with($this->postRelations())
             ->latest()
-            ->paginate((int) config('default.per_page', 9));
+            ->paginate((int) config('default.per_page', 9))
+            ->through(fn ($post) => PostPresenter::post($post));
 
         $translation = $category->resolvedTranslation();
 
-        return view('default::category', [
-            'category' => $category,
+        return $this->render('Category', [
+            'category' => PostPresenter::category($category),
             'posts' => $posts,
             'heading' => $translation?->name ?? $category->getKey(),
             'subheading' => $translation?->description,
