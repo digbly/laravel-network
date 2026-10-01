@@ -1,4 +1,4 @@
-import { forwardRef, type InputHTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, useId, type InputHTMLAttributes, type ReactNode } from 'react';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
@@ -10,7 +10,10 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
     ({ label, error, hint, leftIcon, rightIcon, className = '', id, ...props }, ref) => {
-        const inputId = id ?? (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+        const reactId = useId();
+        const inputId =
+            id ??
+            (label ? `${label.toLowerCase().replace(/\s+/g, '-')}-${reactId.replace(/:/g, '')}` : undefined);
 
         return (
             <div className="w-full">

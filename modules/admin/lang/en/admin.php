@@ -434,6 +434,10 @@ return [
         'errors' => [
             'saveFailed' => 'Failed to save the sidebar.',
         ],
+        'form' => [
+            'limit' => 'Number of items',
+            'title' => 'Title',
+        ],
         'loading' => 'Loading widgets...',
         'noWidgets' => 'No widgets are registered for the active theme.',
         'noWidgetsInSidebar' => 'No widgets in this sidebar yet.',

@@ -434,6 +434,10 @@ return [
         'errors' => [
             'saveFailed' => 'Không lưu được sidebar.',
         ],
+        'form' => [
+            'limit' => 'Số lượng mục',
+            'title' => 'Tiêu đề',
+        ],
         'loading' => 'Đang tải widget...',
         'noWidgets' => 'Chưa có widget nào được đăng ký cho giao diện đang dùng.',
         'noWidgetsInSidebar' => 'Sidebar này chưa có widget nào.',

@@ -2,18 +2,13 @@
 
 namespace Modules\Admin\Http\Controllers\Admin;
 
-use App\Facades\Sidebar;
-use App\Facades\Widget;
 use App\Http\Controllers\Controller;
-use App\Models\ThemeSidebar;
 use App\Models\Website;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Modules\Admin\Actions\Widget\UpdateSidebarWidgets;
 use Modules\Admin\Http\Requests\Admin\WidgetUpdateRequest;
-use Modules\Admin\Http\Resources\SidebarResource;
-use Modules\Admin\Http\Resources\SidebarWidgetResource;
-use Modules\Admin\Http\Resources\WidgetResource;
+use Modules\Admin\Support\WidgetCatalog;
 use OpenApi\Attributes as OA;
 
 class WidgetController extends Controller
@@ -35,46 +30,7 @@ class WidgetController extends Controller
     {
         app()->setLocale($request->getPreferredLanguage(['en', 'vi']));
 
-        $sidebars = Sidebar::all()
-            ->map(fn ($sidebar) => [
-                'key' => $sidebar->getKey(),
-                'label' => $sidebar->label,
-                'description' => $sidebar->description,
-            ])
-            ->values();
-
-        $widgets = Widget::all()
-            ->map(fn ($widget) => [
-                'key' => $widget->getKey(),
-                'label' => $widget->label,
-                'description' => $widget->description,
-                'only' => $widget->only,
-            ])
-            ->values();
-
-        $items = ThemeSidebar::query()
-            ->with('translations')
-            ->ordered()
-            ->get();
-
-        $sidebarWidgets = $sidebars->mapWithKeys(function (array $sidebar) use ($items) {
-            $group = $items
-                ->where('sidebar', $sidebar['key'])
-                ->values()
-                ->map(fn (ThemeSidebar $item) => SidebarWidgetResource::make($item)->resolve());
-
-            return [$sidebar['key'] => $group];
-        });
-
-        return response()->json([
-            'data' => [
-                'widgets' => WidgetResource::collection($widgets)->resolve(),
-                'sidebars' => SidebarResource::collection($sidebars)->resolve(),
-                'sidebar_widgets' => $sidebarWidgets,
-                'locale' => app()->getLocale(),
-                'theme' => theme_name(),
-            ],
-        ]);
+        return response()->json(['data' => app(WidgetCatalog::class)->payload()]);
     }
 
     #[OA\Put(
@@ -104,57 +60,12 @@ class WidgetController extends Controller
     )]
     public function update(Website $website, WidgetUpdateRequest $request, string $sidebar): JsonResponse
     {
-        if (Sidebar::get($sidebar) === null) {
-            abort(404);
-        }
-
-        $locale = $request->validated('locale') ?? app()->getLocale();
-        $theme = theme_name();
-        $contents = $request->input('content', []);
-
-        DB::transaction(function () use ($sidebar, $contents, $locale, $theme): void {
-            $order = 1;
-            $keptIds = [];
-
-            foreach ($contents as $content) {
-                $widgetKey = $content['widget'];
-                $widget = Widget::get($widgetKey);
-
-                if ($widget === null || ! $widget->supports($sidebar)) {
-                    continue;
-                }
-
-                $attributes = [
-                    'sidebar' => $sidebar,
-                    'widget' => $widgetKey,
-                    'data' => $content['data'] ?? [],
-                    'theme' => $theme,
-                    'display_order' => $order,
-                ];
-
-                $existing = isset($content['id'])
-                    ? ThemeSidebar::query()->find($content['id'])
-                    : null;
-
-                if ($existing !== null) {
-                    $existing->fill($attributes)->save();
-                    $item = $existing;
-                } else {
-                    $item = ThemeSidebar::query()->create($attributes);
-                }
-
-                $item->translateOrNew($locale)->label = $content['label'] ?? $widget->label;
-                $item->save();
-
-                $keptIds[] = $item->id;
-                $order++;
-            }
-
-            ThemeSidebar::query()
-                ->whereSidebar($sidebar)
-                ->whereNotIn('id', $keptIds)
-                ->delete();
-        });
+        app(UpdateSidebarWidgets::class)->handle(
+            $sidebar,
+            $request->input('content', []),
+            $request->validated('locale') ?? app()->getLocale(),
+            theme_name(),
+        );
 
         return response()->json([
             'message' => __('admin.widgets.notices.saved'),

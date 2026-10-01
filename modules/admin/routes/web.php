@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Admin\Enums\MediaPermission;
 use Modules\Admin\Enums\MenuPermission;
 use Modules\Admin\Enums\PagePermission;
+use Modules\Admin\Enums\WidgetPermission;
 use Modules\Admin\Http\Controllers\AdminController;
 use Modules\Admin\Http\Controllers\Web\AdminHomeController;
 use Modules\Admin\Http\Controllers\Web\DashboardController;
@@ -13,6 +14,7 @@ use Modules\Admin\Http\Controllers\Web\MenuController;
 use Modules\Admin\Http\Controllers\Web\PageController;
 use Modules\Admin\Http\Controllers\Web\SettingController;
 use Modules\Admin\Http\Controllers\Web\UserController;
+use Modules\Admin\Http\Controllers\Web\WidgetController;
 use Modules\Admin\Http\Middleware\EnsureWebsiteAccess;
 use Modules\Admin\Http\Middleware\RequireAdminPermission;
 use Modules\Auth\Enums\Permission;
@@ -104,6 +106,15 @@ Route::middleware(['auth:web'])
                     Route::delete('{menu}', [MenuController::class, 'destroy'])
                         ->middleware(RequireAdminPermission::class.':'.MenuPermission::Delete->value)
                         ->name('destroy');
+                });
+
+                Route::prefix('widgets')->name('admin.widgets.')->group(function () {
+                    Route::get('/', [WidgetController::class, 'index'])
+                        ->middleware(RequireAdminPermission::class.':'.WidgetPermission::View->value)
+                        ->name('index');
+                    Route::put('{sidebar}', [WidgetController::class, 'update'])
+                        ->middleware(RequireAdminPermission::class.':'.WidgetPermission::Update->value)
+                        ->name('update');
                 });
             });
     });
