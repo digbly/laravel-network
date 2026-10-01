@@ -6,8 +6,8 @@ import Button from '@/components/ui/Button';
 import { route } from '@/lib/route';
 import { useTranslation } from '@/hooks/useTranslation';
 import type { SharedProps } from '@/types';
-import { websiteStatusVariant, type Website } from './types';
-import WebsiteFormModal, { type WebsiteFormValues } from './components/WebsiteFormModal';
+import { websiteStatusVariant, type Website } from '../types';
+import OwnWebsiteFormModal, { type WebsiteFormValues } from './components/OwnWebsiteFormModal';
 
 interface WebsitePickerProps {
     title: string;
@@ -173,7 +173,7 @@ export default function WebsitePicker({ title, websites, networkDomain, canCreat
             </main>
 
             {formOpen && (
-                <WebsiteFormModal
+                <OwnWebsiteFormModal
                     networkDomain={networkDomain}
                     isSubmitting={processing}
                     error={error}

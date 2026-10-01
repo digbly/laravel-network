@@ -9,10 +9,10 @@ use Modules\Admin\Enums\MediaPermission;
 use Modules\Admin\Enums\MenuPermission;
 use Modules\Admin\Enums\PagePermission;
 use Modules\Admin\Enums\ThemePermission;
-use Modules\Admin\Enums\WebsitePermission;
 use Modules\Admin\Enums\WidgetPermission;
 use Modules\Auth\Enums\Permission as AuthPermission;
 use Modules\Blog\Enums\Permission as BlogPermission;
+use Modules\Network\Enums\WebsitePermission;
 
 class PermissionServiceProvider extends ServiceProvider
 {

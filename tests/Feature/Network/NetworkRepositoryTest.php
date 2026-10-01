@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Network;
 
-use App\Enums\WebsiteStatus;
-use App\Models\Website;
-use App\Support\NetworkRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
+use Modules\Network\Support\NetworkRepository;
 use ReflectionProperty;
 use Tests\TestCase;
 

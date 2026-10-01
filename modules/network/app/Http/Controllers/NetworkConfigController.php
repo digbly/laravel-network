@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\Network\Http\Controllers;
 
-use App\Http\Resources\NetworkConfigResource;
+use App\Http\Controllers\Controller;
+use Modules\Network\Http\Resources\NetworkConfigResource;
 use OpenApi\Attributes as OA;
 
 class NetworkConfigController extends Controller

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\Networkable;
+use Modules\Network\Traits\Networkable;
 use Spatie\TranslationLoader\LanguageLine as BaseLanguageLine;
 
 class LanguageLine extends BaseLanguageLine

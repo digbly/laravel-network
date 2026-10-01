@@ -2,15 +2,15 @@
 
 namespace Modules\Admin\Tests\Feature\Admin;
 
-use App\Enums\WebsiteStatus;
 use App\Models\MediaItem;
-use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 use Modules\Admin\Tests\TestCase;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 
 class MediaPageTest extends TestCase
 {

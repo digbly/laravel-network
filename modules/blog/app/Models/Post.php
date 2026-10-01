@@ -2,7 +2,6 @@
 
 namespace Modules\Blog\Models;
 
-use App\Traits\Networkable;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Auth\Models\User;
 use Modules\Blog\Database\Factories\PostFactory;
 use Modules\Blog\Enums\PostStatus;
+use Modules\Network\Traits\Networkable;
 
 class Post extends Model implements TranslatableContract
 {

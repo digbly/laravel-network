@@ -3,13 +3,13 @@
 namespace Modules\Admin\Tests\Feature\Setting;
 
 use App\Contracts\Setting as SettingContract;
-use App\Enums\WebsiteStatus;
 use App\Models\Setting as SettingModel;
-use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Modules\Admin\Tests\TestCase;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 
 class AdminSettingControllerTest extends TestCase
 {

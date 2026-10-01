@@ -3,8 +3,6 @@
 namespace Modules\Network\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Database;
-use App\Models\Website;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
@@ -16,6 +14,8 @@ use Modules\Network\Http\Requests\IndexWebsiteRequest;
 use Modules\Network\Http\Requests\WebsiteRequest;
 use Modules\Network\Http\Resources\UserResource;
 use Modules\Network\Http\Resources\WebsiteResource;
+use Modules\Network\Models\Database;
+use Modules\Network\Models\Website;
 
 /**
  * Inertia-facing network-wide website management.

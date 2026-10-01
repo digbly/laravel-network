@@ -5,12 +5,12 @@ namespace Modules\Admin\Http\Controllers\Admin;
 use App\Enums\PageStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Pages\Page;
-use App\Models\Website;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Modules\Admin\Http\Requests\Admin\IndexPageRequest;
 use Modules\Admin\Http\Requests\Admin\PageRequest;
 use Modules\Admin\Http\Resources\PageResource;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class PageController extends Controller

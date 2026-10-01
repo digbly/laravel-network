@@ -2,11 +2,11 @@
 
 namespace Modules\Network\Tests\Feature\Admin;
 
-use App\Enums\WebsiteStatus;
-use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 use Modules\Network\Tests\TestCase;
 
 class DashboardPageTest extends TestCase

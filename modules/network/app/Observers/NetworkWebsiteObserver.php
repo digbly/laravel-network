@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers;
+namespace Modules\Network\Observers;
 
 use Illuminate\Database\Eloquent\Model;
 

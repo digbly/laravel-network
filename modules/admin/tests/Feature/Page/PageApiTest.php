@@ -2,15 +2,15 @@
 
 namespace Modules\Admin\Tests\Feature\Page;
 
-use App\Enums\WebsiteStatus;
 use App\Models\Pages\Page;
 use App\Models\Role;
-use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Modules\Admin\Enums\PagePermission;
 use Modules\Admin\Tests\TestCase;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 
 class PageApiTest extends TestCase
 {

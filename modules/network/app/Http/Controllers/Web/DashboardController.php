@@ -2,13 +2,13 @@
 
 namespace Modules\Network\Http\Controllers\Web;
 
-use App\Enums\WebsiteStatus;
 use App\Http\Controllers\Controller;
-use App\Models\Website;
 use Inertia\Inertia;
 use Inertia\Response;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
 use Modules\Network\Http\Resources\DashboardResource;
+use Modules\Network\Models\Website;
 
 /**
  * Inertia-facing network overview.

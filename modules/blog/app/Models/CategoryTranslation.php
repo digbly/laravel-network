@@ -2,9 +2,9 @@
 
 namespace Modules\Blog\Models;
 
-use App\Traits\HasNetworkWebsite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Network\Traits\HasNetworkWebsite;
 
 class CategoryTranslation extends Model
 {

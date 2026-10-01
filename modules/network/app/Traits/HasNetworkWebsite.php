@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Traits;
+namespace Modules\Network\Traits;
 
-use App\Models\Website;
-use App\Observers\NetworkWebsiteObserver;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Network\Models\Website;
+use Modules\Network\Observers\NetworkWebsiteObserver;
 
 trait HasNetworkWebsite
 {

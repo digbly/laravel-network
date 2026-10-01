@@ -2,9 +2,9 @@
 
 namespace Modules\Network\Http\Resources;
 
-use App\Models\Website;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 /**

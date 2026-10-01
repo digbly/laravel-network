@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
-use Modules\Admin\Http\Middleware\EnsureWebsiteAccess;
 use Modules\Admin\Http\Middleware\RequireAdminPermission;
 use Modules\Blog\Enums\Permission;
 use Modules\Blog\Http\Controllers\Web\CategoryController;
 use Modules\Blog\Http\Controllers\Web\CommentController;
 use Modules\Blog\Http\Controllers\Web\PostController;
+use Modules\Network\Http\Middleware\EnsureWebsiteAccess;
+use Modules\Network\Http\Middleware\InitWebsite;
 
 /*
 |--------------------------------------------------------------------------

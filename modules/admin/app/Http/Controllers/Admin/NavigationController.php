@@ -4,11 +4,11 @@ namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Facades\Menu;
 use App\Http\Controllers\Controller;
-use App\Models\Website;
 use App\Support\MenuRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Modules\Admin\Http\Resources\NavigationItemResource;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class NavigationController extends Controller

@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Admin\Tests\Feature\Admin;
+namespace Modules\Network\Tests\Feature;
 
-use App\Enums\WebsiteStatus;
-use App\Models\Website;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
-use Modules\Admin\Tests\TestCase;
+use Modules\Network\Tests\TestCase;
 use Modules\Auth\Models\User;
 
 class WebsitePickerPageTest extends TestCase
@@ -44,7 +44,7 @@ class WebsitePickerPageTest extends TestCase
             ->get('/admin/websites')
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('Admin::websites/Index', false)
+                ->component('Network::websites/Picker', false)
                 ->has('websites', 1)
                 ->has('networkDomain')
                 ->where('canCreate', false)

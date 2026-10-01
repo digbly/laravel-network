@@ -4,12 +4,12 @@ namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Facades\Sidebar;
 use App\Http\Controllers\Controller;
-use App\Models\Website;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Admin\Actions\Widget\UpdateSidebarWidgets;
 use Modules\Admin\Http\Requests\Admin\WidgetUpdateRequest;
 use Modules\Admin\Support\WidgetCatalog;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class WidgetController extends Controller

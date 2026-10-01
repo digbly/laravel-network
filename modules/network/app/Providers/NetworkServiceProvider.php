@@ -2,8 +2,10 @@
 
 namespace Modules\Network\Providers;
 
-use Nwidart\Modules\Support\ModuleServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
+use Modules\Network\Contracts\Network as NetworkContract;
+use Modules\Network\Support\NetworkRepository;
+use Nwidart\Modules\Support\ModuleServiceProvider;
 
 class NetworkServiceProvider extends ModuleServiceProvider
 {
@@ -35,9 +37,31 @@ class NetworkServiceProvider extends ModuleServiceProvider
     ];
 
     /**
+     * Register the module services and the network context binding.
+     */
+    public function register(): void
+    {
+        parent::register();
+
+        $this->app->singleton(NetworkContract::class, function ($app) {
+            return new NetworkRepository($app, $app['request']);
+        });
+    }
+
+    /**
+     * Bootstrap module services and resolve the current website context.
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->app->make(NetworkContract::class)->init();
+    }
+
+    /**
      * Define module schedules.
-     * 
-     * @param $schedule
+     *
+     * @param  $schedule
      */
     // protected function configureSchedules(Schedule $schedule): void
     // {

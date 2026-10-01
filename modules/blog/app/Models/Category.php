@@ -2,7 +2,6 @@
 
 namespace Modules\Blog\Models;
 
-use App\Traits\Networkable;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -12,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Blog\Database\Factories\CategoryFactory;
+use Modules\Network\Traits\Networkable;
 
 class Category extends Model implements TranslatableContract
 {

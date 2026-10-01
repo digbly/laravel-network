@@ -4,9 +4,9 @@ namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
-use App\Models\Website;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Modules\Admin\Http\Resources\PermissionResource;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class PermissionController extends Controller

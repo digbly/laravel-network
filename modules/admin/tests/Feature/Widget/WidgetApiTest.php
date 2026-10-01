@@ -2,10 +2,8 @@
 
 namespace Modules\Admin\Tests\Feature\Widget;
 
-use App\Enums\WebsiteStatus;
 use App\Models\Role;
 use App\Models\ThemeSidebar;
-use App\Models\Website;
 use App\Themes\FileRepository;
 use App\Themes\ThemeManager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,6 +11,8 @@ use Laravel\Passport\Passport;
 use Modules\Admin\Enums\WidgetPermission;
 use Modules\Admin\Tests\TestCase;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 use Themes\Default\Providers\ThemeServiceProvider;
 
 class WidgetApiTest extends TestCase

@@ -2,15 +2,15 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Enums\WebsiteStatus;
 use App\Models\Role;
-use App\Models\Website;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 use Tests\TestCase;
 
 class AdminUserControllerTest extends TestCase

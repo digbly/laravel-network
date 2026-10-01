@@ -2,15 +2,15 @@
 
 namespace Modules\Admin\Tests\Feature\Media;
 
-use App\Enums\WebsiteStatus;
 use App\Models\MediaItem;
-use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 use Modules\Admin\Tests\TestCase;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 
 class AdminMediaControllerTest extends TestCase
 {

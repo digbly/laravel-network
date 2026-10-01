@@ -1,15 +1,12 @@
 <?php
 
-use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
 use Modules\Admin\Enums\MediaPermission;
 use Modules\Admin\Enums\MenuPermission;
 use Modules\Admin\Enums\PagePermission;
 use Modules\Admin\Enums\ThemePermission;
-use Modules\Admin\Enums\WebsitePermission;
 use Modules\Admin\Enums\WidgetPermission;
 use Modules\Admin\Http\Controllers\AdminController;
-use Modules\Admin\Http\Controllers\Web\AdminHomeController;
 use Modules\Admin\Http\Controllers\Web\CustomizeController;
 use Modules\Admin\Http\Controllers\Web\DashboardController;
 use Modules\Admin\Http\Controllers\Web\MediaController;
@@ -17,11 +14,11 @@ use Modules\Admin\Http\Controllers\Web\MenuController;
 use Modules\Admin\Http\Controllers\Web\PageController;
 use Modules\Admin\Http\Controllers\Web\SettingController;
 use Modules\Admin\Http\Controllers\Web\UserController;
-use Modules\Admin\Http\Controllers\Web\WebsiteController;
 use Modules\Admin\Http\Controllers\Web\WidgetController;
-use Modules\Admin\Http\Middleware\EnsureWebsiteAccess;
 use Modules\Admin\Http\Middleware\RequireAdminPermission;
 use Modules\Auth\Enums\Permission;
+use Modules\Network\Http\Middleware\EnsureWebsiteAccess;
+use Modules\Network\Http\Middleware\InitWebsite;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('admins', AdminController::class)->names('admin');
@@ -30,17 +27,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth:web'])
     ->prefix(config('app.admin_prefix', 'admin'))
     ->group(function () {
-        Route::get('/', AdminHomeController::class)->name('admin.home');
-
-        Route::prefix('websites')->name('admin.websites.')->group(function () {
-            Route::get('/', [WebsiteController::class, 'index'])->name('index');
-            Route::post('/', [WebsiteController::class, 'store'])
-                ->middleware(RequireAdminPermission::class.':'.WebsitePermission::Create->value)
-                ->name('store');
-        });
-
         Route::middleware([InitWebsite::class, EnsureWebsiteAccess::class])
             ->prefix('{websiteId}')
+            ->whereUuid('websiteId')
             ->group(function () {
                 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 

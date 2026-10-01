@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Support;
+namespace Modules\Network\Support;
 
-use App\Contracts\Network as NetworkContract;
 use App\Contracts\Setting as SettingContract;
-use App\Enums\WebsiteStatus;
-use App\Models\Website;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Http\Request;
+use Modules\Network\Contracts\Network as NetworkContract;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 
 class NetworkRepository implements NetworkContract
 {

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Traits\Networkable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Network\Traits\Networkable;
 
 class Language extends Model
 {

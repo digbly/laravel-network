@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Traits\HasThemeField;
-use App\Traits\Networkable;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Network\Traits\Networkable;
 
 class ThemeSetting extends Model
 {

@@ -3,7 +3,6 @@
 namespace Modules\Blog\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Website;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -11,6 +10,7 @@ use Modules\Blog\Http\Requests\Admin\IndexCommentRequest;
 use Modules\Blog\Http\Requests\Admin\UpdateCommentRequest;
 use Modules\Blog\Http\Resources\CommentResource;
 use Modules\Blog\Models\Comment;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class CommentController extends Controller

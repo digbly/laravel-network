@@ -16,6 +16,9 @@
         }
     },
     "autoload": {
+        "files": [
+            "app/helpers.php"
+        ],
         "psr-4": {
             "Modules\\Network\\": "app/",
             "Modules\\Network\\Database\\Factories\\": "database/factories/",

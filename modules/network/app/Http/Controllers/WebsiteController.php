@@ -3,8 +3,6 @@
 namespace Modules\Network\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Database;
-use App\Models\Website;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -12,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Modules\Network\Http\Requests\IndexWebsiteRequest;
 use Modules\Network\Http\Requests\WebsiteRequest;
 use Modules\Network\Http\Resources\WebsiteResource;
+use Modules\Network\Models\Database;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 /**

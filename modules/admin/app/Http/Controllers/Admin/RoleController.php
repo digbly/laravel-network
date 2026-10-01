@@ -4,13 +4,13 @@ namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
-use App\Models\Website;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Validation\ValidationException;
 use Modules\Admin\Http\Requests\Admin\StoreRoleRequest;
 use Modules\Admin\Http\Requests\Admin\UpdateRoleRequest;
 use Modules\Admin\Http\Resources\RoleResource;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class RoleController extends Controller

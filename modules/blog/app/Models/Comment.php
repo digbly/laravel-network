@@ -2,7 +2,6 @@
 
 namespace Modules\Blog\Models;
 
-use App\Traits\Networkable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Auth\Models\User;
 use Modules\Blog\Database\Factories\CommentFactory;
 use Modules\Blog\Enums\CommentStatus;
+use Modules\Network\Traits\Networkable;
 
 class Comment extends Model
 {

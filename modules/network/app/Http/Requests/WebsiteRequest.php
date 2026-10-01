@@ -2,11 +2,11 @@
 
 namespace Modules\Network\Http\Requests;
 
-use App\Enums\WebsiteStatus;
-use App\Models\Database;
-use App\Models\Website;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Database;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(

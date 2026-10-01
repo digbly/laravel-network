@@ -3,7 +3,6 @@
 namespace Modules\Blog\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Website;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -14,6 +13,7 @@ use Modules\Blog\Http\Requests\Admin\StorePostRequest;
 use Modules\Blog\Http\Requests\Admin\UpdatePostRequest;
 use Modules\Blog\Http\Resources\PostResource;
 use Modules\Blog\Models\Post;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class PostController extends Controller

@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Admin\Http\Controllers\Web;
+namespace Modules\Network\Http\Controllers\Web;
 
-use App\Enums\WebsiteStatus;
+use Modules\Network\Enums\WebsiteStatus;
 use App\Http\Controllers\Controller;
-use App\Models\Website;
+use Modules\Network\Models\Website;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

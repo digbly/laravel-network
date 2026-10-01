@@ -2,12 +2,12 @@
 
 namespace Modules\Admin\Tests\Feature\Language;
 
-use App\Enums\WebsiteStatus;
 use App\Models\Language;
-use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Admin\Tests\TestCase;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 
 class PublicLanguageApiTest extends TestCase
 {

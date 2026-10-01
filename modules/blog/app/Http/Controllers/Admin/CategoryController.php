@@ -3,7 +3,6 @@
 namespace Modules\Blog\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Website;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -14,6 +13,7 @@ use Modules\Blog\Http\Requests\Admin\StoreCategoryRequest;
 use Modules\Blog\Http\Requests\Admin\UpdateCategoryRequest;
 use Modules\Blog\Http\Resources\CategoryResource;
 use Modules\Blog\Models\Category;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class CategoryController extends Controller

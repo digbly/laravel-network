@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Network\Enums\WebsitePermission;
 use Modules\Network\Http\Controllers\DashboardController;
+use Modules\Network\Http\Controllers\MyWebsiteController;
+use Modules\Network\Http\Controllers\NetworkConfigController;
 use Modules\Network\Http\Controllers\RoleController;
 use Modules\Network\Http\Controllers\UserController;
 use Modules\Network\Http\Controllers\WebsiteController;
@@ -16,6 +19,32 @@ use Modules\Network\Http\Middleware\EnsureSuperAdmin;
 | and are restricted to super admins.
 |
 */
+
+Route::prefix('v1/network')->name('network.')->group(function () {
+    Route::get('config', NetworkConfigController::class)->name('config');
+});
+
+/*
+|--------------------------------------------------------------------------
+| "My websites" API
+|--------------------------------------------------------------------------
+|
+| Websites the authenticated user is a member of, used by the admin SPA and
+| picker. Scoped to the user rather than the whole network.
+|
+*/
+
+Route::middleware('auth:api')->prefix('v1/admin/websites')->group(function () {
+    Route::get('/', [MyWebsiteController::class, 'index']);
+    Route::post('/', [MyWebsiteController::class, 'store'])
+        ->middleware('permission:'.WebsitePermission::Create->value);
+    Route::get('{website}', [MyWebsiteController::class, 'show'])
+        ->middleware('permission:'.WebsitePermission::View->value);
+    Route::match(['put', 'patch'], '{website}', [MyWebsiteController::class, 'update'])
+        ->middleware('permission:'.WebsitePermission::Update->value);
+    Route::delete('{website}', [MyWebsiteController::class, 'destroy'])
+        ->middleware('permission:'.WebsitePermission::Delete->value);
+});
 
 Route::middleware(['auth:api', EnsureSuperAdmin::class])
     ->prefix('v1/network')

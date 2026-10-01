@@ -3,7 +3,6 @@
 namespace Modules\Admin\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Website;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,6 +14,7 @@ use Modules\Admin\Http\Controllers\Web\Concerns\AuthorizesAdmin;
 use Modules\Admin\Http\Requests\Admin\Customize\SettingRequest;
 use Modules\Admin\Support\CustomizeCatalog;
 use Modules\Admin\Support\MediaPreviewResolver;
+use Modules\Network\Models\Website;
 
 class CustomizeController extends Controller
 {

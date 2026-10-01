@@ -1,20 +1,38 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Admin\Http\Middleware\RequireAdminPermission;
+use Modules\Network\Enums\WebsitePermission;
+use Modules\Network\Http\Controllers\Web\AdminHomeController;
 use Modules\Network\Http\Controllers\Web\DashboardController;
 use Modules\Network\Http\Controllers\Web\UserController;
 use Modules\Network\Http\Controllers\Web\WebsiteController;
+use Modules\Network\Http\Controllers\Web\WebsitePickerController;
 use Modules\Network\Http\Middleware\EnsureSuperAdmin;
 
 /*
 |--------------------------------------------------------------------------
-| Network Admin Web Routes
+| Multisite Web Routes
 |--------------------------------------------------------------------------
 |
-| Super-admin network management rendered through Inertia. These routes are
-| intentionally not scoped to a single website.
+| The website picker and admin redirect that resolve the active website, plus
+| the super-admin network management screens. None of these are scoped to a
+| single website.
 |
 */
+
+Route::middleware(['auth:web'])
+    ->prefix(config('app.admin_prefix', 'admin'))
+    ->group(function () {
+        Route::get('/', AdminHomeController::class)->name('admin.home');
+
+        Route::prefix('websites')->name('admin.websites.')->group(function () {
+            Route::get('/', [WebsitePickerController::class, 'index'])->name('index');
+            Route::post('/', [WebsitePickerController::class, 'store'])
+                ->middleware(RequireAdminPermission::class.':'.WebsitePermission::Create->value)
+                ->name('store');
+        });
+    });
 
 Route::middleware(['auth:web', EnsureSuperAdmin::class])
     ->prefix('network')

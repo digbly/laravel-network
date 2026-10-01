@@ -8,11 +8,11 @@ use App\Facades\PageBlock;
 use App\Facades\PageTemplate;
 use App\Models\Pages\Page;
 use App\Models\Pages\PageBlock as PageBlockModel;
-use App\Models\Website;
 use App\Support\Customizes\Customize;
 use App\Support\Customizes\CustomizeControl;
 use App\Support\Customizes\CustomizeRegistry;
 use Illuminate\Support\Collection;
+use Modules\Network\Models\Website;
 
 /**
  * Read model for the customizer: the registered panels/sections/controls, the

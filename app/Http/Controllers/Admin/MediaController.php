@@ -8,11 +8,11 @@ use App\Http\Requests\Admin\StoreMediaRequest;
 use App\Http\Requests\Admin\UpdateMediaRequest;
 use App\Http\Resources\MediaResource;
 use App\Models\MediaItem;
-use App\Models\Website;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class MediaController extends Controller

@@ -3,12 +3,12 @@
 namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Website;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Admin\Actions\Customize\UpdateCustomize;
 use Modules\Admin\Http\Requests\Admin\Customize\SettingRequest;
 use Modules\Admin\Support\CustomizeCatalog;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class CustomizeController extends Controller

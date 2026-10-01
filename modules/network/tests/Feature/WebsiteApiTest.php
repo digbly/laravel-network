@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Admin\Tests\Feature\Website;
+namespace Modules\Network\Tests\Feature;
 
-use App\Enums\WebsiteStatus;
-use App\Models\Database;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Database;
 use App\Models\Role;
-use App\Models\Website;
+use Modules\Network\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
-use Modules\Admin\Enums\WebsitePermission;
-use Modules\Admin\Tests\TestCase;
+use Modules\Network\Enums\WebsitePermission;
+use Modules\Network\Tests\TestCase;
 use Modules\Auth\Models\User;
 
 class WebsiteApiTest extends TestCase

@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Traits\Networkable;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Network\Traits\Networkable;
 
 class ThemeSidebar extends Model implements TranslatableContract
 {

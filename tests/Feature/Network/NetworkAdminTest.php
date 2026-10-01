@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Network;
 
-use App\Enums\WebsiteStatus;
 use App\Models\Role;
-use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 use Tests\TestCase;
 
 class NetworkAdminTest extends TestCase

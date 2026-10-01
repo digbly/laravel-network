@@ -2,15 +2,15 @@
 
 namespace Modules\Admin\Tests\Feature\Admin;
 
-use App\Enums\WebsiteStatus;
 use App\Models\Pages\Page;
-use App\Models\Website;
 use App\Themes\FileRepository;
 use App\Themes\ThemeManager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Modules\Admin\Tests\TestCase;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 use Themes\Default\Providers\ThemeServiceProvider;
 
 class CustomizePageTest extends TestCase

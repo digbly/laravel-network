@@ -2,12 +2,12 @@
 
 namespace Modules\Admin\Tests\Feature\Permission;
 
-use App\Enums\WebsiteStatus;
-use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Modules\Admin\Tests\TestCase;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 
 class UngeneratedPermissionTest extends TestCase
 {

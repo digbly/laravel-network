@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace Modules\Network\Models;
 
-use App\Enums\WebsiteStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
 
 class Website extends Model
 {

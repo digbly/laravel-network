@@ -4,7 +4,7 @@ import ErrorAlert from '@/components/ui/ErrorAlert';
 import Input from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
 import { useTranslation } from '@/hooks/useTranslation';
-import { WEBSITE_STATUSES, type WebsiteStatus } from '../types';
+import { WEBSITE_STATUSES, type WebsiteStatus } from '../../types';
 
 const SUBDOMAIN_PATTERN = /^[a-zA-Z0-9_-]+$/;
 
@@ -23,7 +23,7 @@ interface WebsiteFormModalProps {
     onClose: () => void;
 }
 
-export default function WebsiteFormModal({
+export default function OwnWebsiteFormModal({
     networkDomain,
     isSubmitting,
     error,

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
 use Modules\Blog\Enums\Permission;
 use Modules\Blog\Http\Controllers\Admin\CategoryController;
@@ -9,6 +8,7 @@ use Modules\Blog\Http\Controllers\Admin\PostController;
 use Modules\Blog\Http\Controllers\Api\CategoryController as ApiCategoryController;
 use Modules\Blog\Http\Controllers\Api\CommentController as ApiCommentController;
 use Modules\Blog\Http\Controllers\Api\PostController as ApiPostController;
+use Modules\Network\Http\Middleware\InitWebsite;
 
 /*
 |--------------------------------------------------------------------------

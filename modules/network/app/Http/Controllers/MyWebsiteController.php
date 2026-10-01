@@ -1,20 +1,20 @@
 <?php
 
-namespace Modules\Admin\Http\Controllers\Admin;
+namespace Modules\Network\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Database;
-use App\Models\Website;
+use Modules\Network\Models\Database;
+use Modules\Network\Models\Website;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
-use Modules\Admin\Http\Requests\Admin\WebsiteRequest;
-use Modules\Admin\Http\Resources\WebsiteResource;
+use Modules\Network\Http\Requests\Admin\WebsiteRequest;
+use Modules\Network\Http\Resources\WebsiteResource;
 use OpenApi\Attributes as OA;
 
-class WebsiteController extends Controller
+class MyWebsiteController extends Controller
 {
     #[OA\Get(
         path: '/api/v1/admin/websites',

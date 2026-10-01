@@ -2,10 +2,8 @@
 
 namespace Modules\Admin\Tests\Feature\Customize;
 
-use App\Enums\WebsiteStatus;
 use App\Models\Pages\Page;
 use App\Models\Role;
-use App\Models\Website;
 use App\Themes\FileRepository;
 use App\Themes\ThemeManager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,6 +12,8 @@ use Modules\Admin\Enums\PagePermission;
 use Modules\Admin\Enums\ThemePermission;
 use Modules\Admin\Tests\TestCase;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 use Themes\Default\Providers\ThemeServiceProvider;
 
 class CustomizeApiTest extends TestCase

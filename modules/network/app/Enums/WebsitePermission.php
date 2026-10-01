@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Admin\Enums;
+namespace Modules\Network\Enums;
 
 enum WebsitePermission: string
 {

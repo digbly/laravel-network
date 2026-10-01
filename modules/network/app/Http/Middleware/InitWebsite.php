@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Modules\Network\Http\Middleware;
 
-use App\Facades\Network;
 use Closure;
 use Illuminate\Http\Request;
+use Modules\Network\Facades\Network;
 use Symfony\Component\HttpFoundation\Response;
 
 class InitWebsite

@@ -2,13 +2,13 @@
 
 namespace Modules\Admin\Tests\Feature\Admin;
 
-use App\Enums\WebsiteStatus;
 use App\Models\Role;
-use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Modules\Admin\Tests\TestCase;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 
 class RoleControllerTest extends TestCase
 {

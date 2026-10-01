@@ -4,7 +4,6 @@ namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Menus\Menu;
-use App\Models\Website;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -12,6 +11,7 @@ use Modules\Admin\Actions\Menu\UpdateMenu;
 use Modules\Admin\Http\Requests\Admin\MenuRequest;
 use Modules\Admin\Http\Resources\MenuResource;
 use Modules\Admin\Support\MenuCatalog;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class MenuController extends Controller

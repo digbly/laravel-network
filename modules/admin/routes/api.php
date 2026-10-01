@@ -1,12 +1,10 @@
 <?php
 
-use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
 use Modules\Admin\Enums\LanguagePermission;
 use Modules\Admin\Enums\MenuPermission;
 use Modules\Admin\Enums\PagePermission;
 use Modules\Admin\Enums\ThemePermission;
-use Modules\Admin\Enums\WebsitePermission;
 use Modules\Admin\Enums\WidgetPermission;
 use Modules\Admin\Http\Controllers\Admin\CustomizeController;
 use Modules\Admin\Http\Controllers\Admin\LanguageController;
@@ -17,25 +15,13 @@ use Modules\Admin\Http\Controllers\Admin\PermissionController;
 use Modules\Admin\Http\Controllers\Admin\RoleController;
 use Modules\Admin\Http\Controllers\Admin\SettingController;
 use Modules\Admin\Http\Controllers\Admin\UserController;
-use Modules\Admin\Http\Controllers\Admin\WebsiteController;
 use Modules\Admin\Http\Controllers\Admin\WidgetController;
 use Modules\Admin\Http\Controllers\AdminController;
 use Modules\Auth\Enums\Permission;
+use Modules\Network\Http\Middleware\InitWebsite;
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::apiResource('admins', AdminController::class)->names('admin');
-});
-
-Route::middleware('auth:api')->prefix('v1/admin/websites')->group(function () {
-    Route::get('/', [WebsiteController::class, 'index']);
-    Route::post('/', [WebsiteController::class, 'store'])
-        ->middleware('permission:'.WebsitePermission::Create->value);
-    Route::get('{website}', [WebsiteController::class, 'show'])
-        ->middleware('permission:'.WebsitePermission::View->value);
-    Route::match(['put', 'patch'], '{website}', [WebsiteController::class, 'update'])
-        ->middleware('permission:'.WebsitePermission::Update->value);
-    Route::delete('{website}', [WebsiteController::class, 'destroy'])
-        ->middleware('permission:'.WebsitePermission::Delete->value);
 });
 
 Route::middleware(['auth:api', InitWebsite::class])

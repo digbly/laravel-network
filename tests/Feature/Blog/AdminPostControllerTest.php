@@ -2,15 +2,15 @@
 
 namespace Tests\Feature\Blog;
 
-use App\Enums\WebsiteStatus;
 use App\Models\Role;
-use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Modules\Auth\Models\User;
 use Modules\Blog\Enums\PostStatus;
 use Modules\Blog\Models\Category;
 use Modules\Blog\Models\Post;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 use Tests\TestCase;
 
 class AdminPostControllerTest extends TestCase

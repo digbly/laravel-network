@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Admin\Http\Requests\Admin;
+namespace Modules\Network\Http\Requests\Admin;
 
-use App\Enums\WebsiteStatus;
+use Modules\Network\Enums\WebsiteStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use OpenApi\Attributes as OA;

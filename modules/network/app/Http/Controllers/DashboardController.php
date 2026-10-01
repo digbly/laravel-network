@@ -2,11 +2,11 @@
 
 namespace Modules\Network\Http\Controllers;
 
-use App\Enums\WebsiteStatus;
 use App\Http\Controllers\Controller;
-use App\Models\Website;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
 use Modules\Network\Http\Resources\DashboardResource;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 /**

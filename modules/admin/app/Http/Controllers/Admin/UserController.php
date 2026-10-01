@@ -3,7 +3,6 @@
 namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Website;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -17,6 +16,7 @@ use Modules\Admin\Http\Resources\MessageResource;
 use Modules\Admin\Http\Resources\UserResource;
 use Modules\Auth\Enums\Permission;
 use Modules\Auth\Models\User;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class UserController extends Controller

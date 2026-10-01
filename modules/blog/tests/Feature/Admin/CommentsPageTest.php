@@ -2,14 +2,14 @@
 
 namespace Modules\Blog\Tests\Feature\Admin;
 
-use App\Enums\WebsiteStatus;
-use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Modules\Auth\Models\User;
 use Modules\Blog\Enums\CommentStatus;
 use Modules\Blog\Models\Comment;
 use Modules\Blog\Tests\TestCase;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 
 class CommentsPageTest extends TestCase
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Contracts;
+namespace Modules\Network\Contracts;
 
-use App\Models\Website;
-use App\Support\NetworkRepository;
+use Modules\Network\Models\Website;
+use Modules\Network\Support\NetworkRepository;
 
 /**
  * @see NetworkRepository

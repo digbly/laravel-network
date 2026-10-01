@@ -3,12 +3,12 @@
 namespace App\Models\Pages;
 
 use App\Enums\PageStatus;
-use App\Traits\Networkable;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Network\Traits\Networkable;
 
 class Page extends Model implements TranslatableContract
 {

@@ -5,13 +5,13 @@ namespace Modules\Admin\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LanguageResource;
 use App\Models\Language;
-use App\Models\Website;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Modules\Admin\Http\Requests\Admin\LanguageRequest;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class LanguageController extends Controller

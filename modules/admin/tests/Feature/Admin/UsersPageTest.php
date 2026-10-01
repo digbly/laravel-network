@@ -2,15 +2,15 @@
 
 namespace Modules\Admin\Tests\Feature\Admin;
 
-use App\Enums\WebsiteStatus;
 use App\Models\Role;
-use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia as Assert;
 use Modules\Admin\Tests\TestCase;
 use Modules\Auth\Enums\Permission;
 use Modules\Auth\Models\User;
+use Modules\Network\Enums\WebsiteStatus;
+use Modules\Network\Models\Website;
 
 class UsersPageTest extends TestCase
 {

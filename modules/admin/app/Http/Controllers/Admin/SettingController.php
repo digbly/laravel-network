@@ -4,11 +4,11 @@ namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Contracts\Setting as SettingContract;
 use App\Http\Controllers\Controller;
-use App\Models\Website;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Modules\Admin\Http\Requests\Admin\SettingRequest;
 use Modules\Admin\Http\Resources\SettingResource;
+use Modules\Network\Models\Website;
 use OpenApi\Attributes as OA;
 
 class SettingController extends Controller
