@@ -4,6 +4,7 @@ namespace Modules\Admin\Tests\Feature\Admin;
 
 use App\Contracts\Setting as SettingContract;
 use App\Enums\WebsiteStatus;
+use App\Models\MediaItem;
 use App\Models\Website;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -24,12 +25,16 @@ class SettingsPageTest extends TestCase
 
     protected function makeWebsite(): Website
     {
-        return Website::create([
+        $website = Website::create([
             'title' => 'Site '.uniqid(),
             'subdomain' => 'site-'.uniqid(),
             'status' => WebsiteStatus::ACTIVE,
             'user_id' => User::factory()->create()->id,
         ]);
+
+        config(['app.website_id' => $website->id]);
+
+        return $website;
     }
 
     public function test_super_admin_can_view_settings_page(): void
@@ -73,5 +78,35 @@ class SettingsPageTest extends TestCase
         $this->actingAs($user, 'web')
             ->get('/admin/'.$website->id.'/settings')
             ->assertForbidden();
+    }
+
+    public function test_settings_page_resolves_branding_media(): void
+    {
+        $admin = User::factory()->create(['is_super_admin' => true]);
+        $website = $this->makeWebsite();
+
+        $media = MediaItem::factory()->create();
+        app(SettingContract::class)->set('logo', $media->id);
+
+        $this->actingAs($admin, 'web')
+            ->get('/admin/'.$website->id.'/settings')
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Admin::settings/Index', false)
+                ->where('media.logo.id', $media->id)
+            );
+    }
+
+    public function test_super_admin_can_update_branding(): void
+    {
+        $admin = User::factory()->create(['is_super_admin' => true]);
+        $website = $this->makeWebsite();
+        $media = MediaItem::factory()->create();
+
+        $this->actingAs($admin, 'web')
+            ->put('/admin/'.$website->id.'/settings', ['logo' => $media->id])
+            ->assertRedirect();
+
+        $this->assertSame($media->id, app(SettingContract::class)->get('logo'));
     }
 }

@@ -5,6 +5,8 @@ import { Globe, Save } from 'lucide-react';
 import AdminLayout from '@modules/admin/resources/views/layouts/AdminLayout';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import MediaField from '../components/MediaField';
+import type { MediaItemSummary } from '../components/MediaPickerModal';
 import { submitForm } from '@/lib/inertia-form';
 import { route } from '@/lib/route';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -16,8 +18,16 @@ interface SettingsProps {
         title?: Record<string, string>;
         description?: Record<string, string>;
         sitename?: string | null;
+        logo?: string | null;
+        favicon?: string | null;
+        banner?: string | null;
         user_registration?: boolean | null;
         user_verification?: boolean | null;
+    };
+    media: {
+        logo: MediaItemSummary | null;
+        favicon: MediaItemSummary | null;
+        banner: MediaItemSummary | null;
     };
     locales: string[];
 }
@@ -26,11 +36,14 @@ interface SettingsForm {
     title: Record<string, string>;
     description: Record<string, string>;
     sitename: string;
+    logo: string | null;
+    favicon: string | null;
+    banner: string | null;
     user_registration: boolean;
     user_verification: boolean;
 }
 
-export default function Settings({ title, settings, locales }: SettingsProps) {
+export default function Settings({ title, settings, media, locales }: SettingsProps) {
     const { t } = useTranslation();
     const { website_id: websiteId } = usePage<SharedProps>().props;
     const [activeLocale, setActiveLocale] = useState(locales[0] ?? 'en');
@@ -39,12 +52,17 @@ export default function Settings({ title, settings, locales }: SettingsProps) {
         register,
         handleSubmit,
         setError,
+        setValue,
+        watch,
         formState: { errors, isSubmitting },
     } = useForm<SettingsForm>({
         defaultValues: {
             title: Object.fromEntries(locales.map((locale) => [locale, settings.title?.[locale] ?? ''])),
             description: Object.fromEntries(locales.map((locale) => [locale, settings.description?.[locale] ?? ''])),
             sitename: settings.sitename ?? '',
+            logo: settings.logo ?? null,
+            favicon: settings.favicon ?? null,
+            banner: settings.banner ?? null,
             user_registration: Boolean(settings.user_registration),
             user_verification: Boolean(settings.user_verification),
         },
@@ -57,6 +75,12 @@ export default function Settings({ title, settings, locales }: SettingsProps) {
     const onSubmit = handleSubmit((data) =>
         submitForm(route('admin.settings.update', { websiteId }), data, { method: 'put', setError })
     );
+
+    const branding: { key: 'logo' | 'favicon' | 'banner'; label: string }[] = [
+        { key: 'logo', label: t('admin.settings.fields.logo', 'Logo') },
+        { key: 'favicon', label: t('admin.settings.fields.favicon', 'Favicon') },
+        { key: 'banner', label: t('admin.settings.fields.banner', 'Banner') },
+    ];
 
     return (
         <AdminLayout title={title}>
@@ -110,6 +134,24 @@ export default function Settings({ title, settings, locales }: SettingsProps) {
                             error={errors.sitename?.message}
                             {...register('sitename', { maxLength: 120 })}
                         />
+                    </div>
+                </section>
+
+                <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                    <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                        {t('admin.settings.branding.title', 'Branding')}
+                    </h2>
+
+                    <div className="grid gap-6 sm:grid-cols-3">
+                        {branding.map(({ key, label }) => (
+                            <MediaField
+                                key={key}
+                                label={label}
+                                value={watch(key)}
+                                preview={media[key]}
+                                onChange={(id) => setValue(key, id)}
+                            />
+                        ))}
                     </div>
                 </section>
 

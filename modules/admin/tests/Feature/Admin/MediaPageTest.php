@@ -103,4 +103,14 @@ class MediaPageTest extends TestCase
             ->get($this->base())
             ->assertForbidden();
     }
+
+    public function test_media_list_endpoint_returns_json_for_picker(): void
+    {
+        MediaItem::factory()->create();
+
+        $this->actingAs($this->admin(), 'web')
+            ->getJson($this->base().'/list')
+            ->assertOk()
+            ->assertJsonStructure(['data' => [['id', 'url', 'thumb_url', 'is_image']], 'meta']);
+    }
 }

@@ -55,6 +55,9 @@ Route::middleware(['auth:web'])
                     Route::get('/', [MediaController::class, 'index'])
                         ->middleware(RequireAdminPermission::class.':'.MediaPermission::MediaView->value)
                         ->name('index');
+                    Route::get('list', [MediaController::class, 'list'])
+                        ->middleware(RequireAdminPermission::class.':'.MediaPermission::MediaView->value)
+                        ->name('list');
                     Route::post('/', [MediaController::class, 'store'])
                         ->middleware(RequireAdminPermission::class.':'.MediaPermission::MediaCreate->value)
                         ->name('store');

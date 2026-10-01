@@ -11,6 +11,7 @@ use App\Models\MediaItem;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Inertia\Inertia;
 use Inertia\Response;
 use Modules\Admin\Enums\MediaPermission;
@@ -71,6 +72,40 @@ class MediaController extends Controller
                 'delete' => $this->allows($request, MediaPermission::MediaDelete),
             ],
         ]);
+    }
+
+    /**
+     * JSON feed for the media picker (session-authenticated).
+     */
+    public function list(string $websiteId, IndexMediaRequest $request): AnonymousResourceCollection
+    {
+        $filters = $request->validated();
+
+        $items = MediaItem::query()
+            ->with('media')
+            ->when(
+                $filters['search'] ?? null,
+                fn (Builder $query, string $search) => $query->where(function (Builder $query) use ($search): void {
+                    $query->where('title', 'like', "%{$search}%")
+                        ->orWhere('alt', 'like', "%{$search}%")
+                        ->orWhereHas('media', fn (Builder $query) => $query
+                            ->where('name', 'like', "%{$search}%")
+                            ->orWhere('file_name', 'like', "%{$search}%"));
+                })
+            )
+            ->when(
+                $filters['type'] ?? null,
+                fn (Builder $query, string $type) => $query->whereHas(
+                    'media',
+                    fn (Builder $query) => $type === 'image'
+                        ? $query->where('mime_type', 'like', 'image/%')
+                        : $query->where('mime_type', 'not like', 'image/%')
+                )
+            )
+            ->orderBy($filters['sort'] ?? 'created_at', $filters['direction'] ?? 'desc')
+            ->paginate((int) ($filters['per_page'] ?? 24));
+
+        return MediaResource::collection($items);
     }
 
     public function store(string $websiteId, StoreMediaRequest $request): RedirectResponse
