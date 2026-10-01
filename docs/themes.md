@@ -18,7 +18,8 @@ themes/
     app/Providers/ThemeServiceProvider.php
     config/config.php
     resources/
-      views/            # Blade views (override app views)
+      views/            # Blade views (Inertia root + error pages)
+      js/               # Optional self-contained Inertia (React) front end
       assets/           # css/js/img, published to public/themes/<theme>
       lang/             # namespaced translations
     routes/web.php
@@ -77,6 +78,8 @@ php artisan theme:enable Blog
 php artisan theme:disable Blog
 php artisan theme:publish              # copy every theme's resources/assets
 php artisan theme:publish Blog --force # clean + republish one theme
+php artisan theme:build default        # build a theme's Inertia front end (Vite)
+php artisan theme:build default --dev  # run the theme's Vite dev server
 ```
 
 `theme:make` generates `theme.json`, `composer.json`,
@@ -210,6 +213,34 @@ Theme assets are served from `public/themes/<alias>` (URL prefix configurable
 via `themes.paths.assets_url`). The source of truth is
 `themes/<theme>/resources/assets`; run `theme:publish <Name>` to copy it into
 `public/themes/<alias>` (use `--force` to clean the destination first).
+
+## Inertia front end
+
+A theme may ship its own self-contained Inertia (React) front end instead of
+Blade pages. The bundled `default` theme is the reference implementation:
+
+```
+themes/default/
+  vite.config.js                 # laravel + react + tailwind, buildDirectory build/default
+  package.json                   # vite / react / @inertiajs/react
+  tsconfig.json
+  resources/
+    views/app.blade.php          # Inertia root, guarded @vite('resources/js/app.tsx', 'build/default')
+    js/
+      app.tsx                    # createInertiaApp entry
+      lib/resolve-page.ts        # resolves pages/**/*.tsx
+      pages/                     # Home, Category, Post, Search, NotFound
+      layouts/ components/       # layout, sidebar, widgets, blocks, comments
+```
+
+- Controllers return `Inertia::render('Home', [...])` and call
+  `->rootView('default::app')` so the theme renders its own root template.
+- Build with `php artisan theme:build default` (or `--dev` for the Vite dev
+  server). Assets land in `public/build/default` from the theme's own Vite
+  config; the root template only injects them when the manifest exists.
+- Page blocks and widgets registered with a `component` (and an optional
+  `data` resolver) are resolved to a JSON payload by `SidebarRenderer::payload()`
+  and `PageBlockRenderer`, and rendered client-side.
 
 ## Configuration
 

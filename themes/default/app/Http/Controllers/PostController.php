@@ -2,17 +2,17 @@
 
 namespace Themes\Default\Http\Controllers;
 
-use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Routing\Controller;
+use Inertia\Response;
 use Modules\Blog\Models\Post;
 use Themes\Default\Http\Controllers\Concerns\ListsPosts;
+use Themes\Default\Support\PostPresenter;
 
 class PostController extends Controller
 {
     use ListsPosts;
 
-    public function show(string $slug): View
+    public function show(string $slug): Response
     {
         $post = $this->publishedPostsQuery()
             ->whereHas('translations', fn (Builder $query) => $query->where('slug', $slug))
@@ -32,9 +32,13 @@ class PostController extends Controller
             ->latest()
             ->get();
 
-        return view('default::post', [
-            'post' => $post,
-            'comments' => $comments,
+        return $this->render('Post', [
+            'post' => PostPresenter::post($post, true),
+            'comments' => $comments
+                ->map(fn ($comment) => PostPresenter::comment($comment))
+                ->values()
+                ->all(),
+            'commentStatus' => session('comment_status'),
         ]);
     }
 }

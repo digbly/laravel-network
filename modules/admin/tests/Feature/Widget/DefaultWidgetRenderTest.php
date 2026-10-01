@@ -6,6 +6,7 @@ use App\Models\ThemeSidebar;
 use App\Themes\FileRepository;
 use App\Themes\ThemeManager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 use Modules\Admin\Tests\TestCase;
 use Modules\Blog\Models\Post;
 use Themes\Default\Providers\ThemeServiceProvider;
@@ -17,6 +18,8 @@ class DefaultWidgetRenderTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->withoutVite();
 
         $this->app->register(ThemeServiceProvider::class);
         $this->app->make(ThemeManager::class)->activate(
@@ -62,7 +65,11 @@ class DefaultWidgetRenderTest extends TestCase
             ->assertOk()
             ->assertSee('Fresh news')
             ->assertSee('Newest article')
-            ->assertDontSee('Popular posts');
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Home', false)
+                ->has('sidebarWidgets', 1)
+                ->where('sidebarWidgets.0.label', 'Fresh news')
+                ->has('sidebarWidgets.0.data.posts', 2));
     }
 
     public function test_widgets_fall_back_to_defaults_when_none_configured(): void
@@ -74,6 +81,9 @@ class DefaultWidgetRenderTest extends TestCase
             ->assertSee('Categories')
             ->assertSee('Recent posts')
             ->assertSee('Popular posts')
-            ->assertSee('Default article');
+            ->assertSee('Default article')
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Home', false)
+                ->has('sidebarWidgets', 3));
     }
 }

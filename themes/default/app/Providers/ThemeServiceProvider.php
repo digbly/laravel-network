@@ -8,12 +8,18 @@ use App\Facades\PageTemplate;
 use App\Facades\Sidebar;
 use App\Facades\ThemeSetting;
 use App\Facades\Widget;
+use App\Models\Pages\PageBlock as PageBlockModel;
+use App\Models\ThemeSidebar;
 use App\Support\Customizes\Customize as CustomizeBuilder;
 use App\Support\Customizes\CustomizeControl;
 use App\Support\SidebarRenderer;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Modules\Blog\Models\Post;
 use Themes\Default\Support\NavigationData;
+use Themes\Default\Support\PostPresenter;
+use Themes\Default\Support\SidebarData;
 
 class ThemeServiceProvider extends ServiceProvider
 {
@@ -56,8 +62,9 @@ class ThemeServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the widgets shipped with the theme, along with the Blade view
-     * used to render each one on the frontend.
+     * Register the widgets shipped with the theme. Each widget exposes both a
+     * Blade view (legacy rendering) and a frontend component plus resolver that
+     * the Inertia frontend uses to render it client-side.
      */
     protected function registerWidgets(): void
     {
@@ -65,23 +72,43 @@ class ThemeServiceProvider extends ServiceProvider
             'label' => __('default::messages.widget_categories'),
             'description' => __('default::messages.widget_categories_description'),
             'view' => 'default::partials.widgets.categories',
+            'component' => 'Widgets/Categories',
             'only' => ['sidebar'],
+            'data' => fn (): array => [
+                'categories' => app(SidebarData::class)
+                    ->categories()
+                    ->map(fn ($category) => PostPresenter::category($category))
+                    ->values()
+                    ->all(),
+            ],
         ]);
 
         Widget::make('recent-posts', fn () => [
             'label' => __('default::messages.widget_recent_posts'),
             'description' => __('default::messages.widget_recent_posts_description'),
             'view' => 'default::partials.widgets.recent-posts',
+            'component' => 'Widgets/RecentPosts',
             'only' => ['sidebar'],
             'defaults' => ['limit' => 5],
+            'data' => fn (ThemeSidebar $sidebar, array $data): array => [
+                'posts' => $this->presentPosts(
+                    app(SidebarData::class)->recent((int) ($data['limit'] ?? 5))
+                ),
+            ],
         ]);
 
         Widget::make('popular-posts', fn () => [
             'label' => __('default::messages.widget_popular_posts'),
             'description' => __('default::messages.widget_popular_posts_description'),
             'view' => 'default::partials.widgets.popular-posts',
+            'component' => 'Widgets/PopularPosts',
             'only' => ['sidebar'],
             'defaults' => ['limit' => 5],
+            'data' => fn (ThemeSidebar $sidebar, array $data): array => [
+                'posts' => $this->presentPosts(
+                    app(SidebarData::class)->popular((int) ($data['limit'] ?? 5))
+                ),
+            ],
         ]);
     }
 
@@ -100,17 +127,51 @@ class ThemeServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the blocks available to the page templates of this theme.
+     * Register the blocks available to the page templates of this theme, with
+     * the frontend component and data resolver used to render each block.
      */
     protected function registerPageBlocks(): void
     {
         PageBlock::make('hero', fn () => [
             'label' => __('default::messages.page_block_hero'),
+            'component' => 'Blocks/Hero',
         ]);
 
         PageBlock::make('posts', fn () => [
             'label' => __('default::messages.page_block_posts'),
+            'component' => 'Blocks/Posts',
+            'data' => fn (PageBlockModel $block, array $data): array => [
+                'posts' => $this->presentPosts($this->postsForBlock($data)),
+            ],
         ]);
+    }
+
+    /**
+     * @param  Collection<int, Post>  $posts
+     * @return array<int, array<string, mixed>>
+     */
+    protected function presentPosts(Collection $posts): array
+    {
+        return $posts
+            ->map(fn (Post $post) => PostPresenter::post($post))
+            ->values()
+            ->all();
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return Collection<int, Post>
+     */
+    protected function postsForBlock(array $data): Collection
+    {
+        $limit = (int) ($data['limit'] ?? 6);
+
+        return Post::query()
+            ->published()
+            ->with(['translations', 'categories.translations', 'author'])
+            ->latest()
+            ->limit(max(1, $limit))
+            ->get();
     }
 
     /**
