@@ -8,7 +8,7 @@ import Input from '@/components/ui/Input';
 import { route } from '@/lib/route';
 import { useTranslation } from '@/hooks/useTranslation';
 import type { SharedProps } from '@/types';
-import Badge from '../components/Badge';
+import Badge from '@/components/ui/Badge';
 import ConfirmDialog from '../components/ConfirmDialog';
 import Pagination from '../components/Pagination';
 import type { AdminComment, BlogAbilities, CommentStatus, Paginated } from '../types';

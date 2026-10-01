@@ -76,12 +76,15 @@ return [
         ],
         'entry' => 'Quản trị mạng lưới',
         'errors' => [
+            'alreadyVerified' => 'Người dùng này đã xác thực email.',
             'deleteFailed' => 'Xóa thất bại. Vui lòng thử lại.',
             'resendFailed' => 'Gửi email xác thực thất bại.',
             'resetFailed' => 'Đặt lại mật khẩu thất bại.',
             'restoreFailed' => 'Khôi phục người dùng thất bại.',
             'retry' => 'Thử lại',
             'saveFailed' => 'Lưu thất bại. Vui lòng thử lại.',
+            'selfDelete' => 'Bạn không thể xóa tài khoản của chính mình.',
+            'selfSuperAdmin' => 'Bạn không thể tự gỡ quyền super admin của mình.',
             'usersLoadFailed' => 'Không tải được danh sách người dùng.',
             'websitesLoadFailed' => 'Không tải được danh sách website.',
         ],
@@ -93,8 +96,10 @@ return [
         ],
         'notices' => [
             'passwordReset' => 'Đặt lại mật khẩu thành công.',
+            'userCreated' => 'Tạo người dùng thành công.',
             'userDeleted' => 'Xóa người dùng thành công.',
             'userRestored' => 'Khôi phục người dùng thành công.',
+            'userUpdated' => 'Cập nhật người dùng thành công.',
             'verificationSent' => 'Đã gửi email xác thực.',
             'websiteCreated' => 'Tạo website thành công.',
             'websiteDeleted' => 'Xóa website thành công.',
@@ -166,6 +171,7 @@ return [
             'deletedOnly' => 'Chỉ đã xóa',
             'empty' => 'Không có người dùng nào khớp với bộ lọc.',
             'loading' => 'Đang tải người dùng...',
+            'search' => 'Tìm kiếm',
             'searchPlaceholder' => 'Tìm theo tên hoặc email',
             'status' => [
                 'deleted' => 'Đã xóa',
@@ -229,6 +235,7 @@ return [
             'allStatuses' => 'Tất cả trạng thái',
             'empty' => 'Không có website nào khớp với bộ lọc.',
             'loading' => 'Đang tải website...',
+            'search' => 'Tìm kiếm',
             'searchPlaceholder' => 'Tìm theo tiêu đề, tên miền hoặc tên miền phụ',
             'subtitle' => 'Quản lý toàn bộ website trong hệ thống.',
             'table' => [

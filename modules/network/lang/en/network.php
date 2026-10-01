@@ -76,12 +76,15 @@ return [
         ],
         'entry' => 'Network administration',
         'errors' => [
+            'alreadyVerified' => 'This user has already verified their email.',
             'deleteFailed' => 'Failed to delete. Please try again.',
             'resendFailed' => 'Failed to send the verification email.',
             'resetFailed' => 'Failed to reset the password.',
             'restoreFailed' => 'Failed to restore the user.',
             'retry' => 'Retry',
             'saveFailed' => 'Failed to save. Please try again.',
+            'selfDelete' => 'You cannot delete your own account.',
+            'selfSuperAdmin' => 'You cannot remove your own super admin access.',
             'usersLoadFailed' => 'Failed to load users.',
             'websitesLoadFailed' => 'Failed to load websites.',
         ],
@@ -93,8 +96,10 @@ return [
         ],
         'notices' => [
             'passwordReset' => 'Password reset successfully.',
+            'userCreated' => 'User created successfully.',
             'userDeleted' => 'User deleted successfully.',
             'userRestored' => 'User restored successfully.',
+            'userUpdated' => 'User updated successfully.',
             'verificationSent' => 'Verification email sent.',
             'websiteCreated' => 'Website created successfully.',
             'websiteDeleted' => 'Website deleted successfully.',
@@ -166,6 +171,7 @@ return [
             'deletedOnly' => 'Deleted only',
             'empty' => 'No users match your filters.',
             'loading' => 'Loading users...',
+            'search' => 'Search',
             'searchPlaceholder' => 'Search by name or email',
             'status' => [
                 'deleted' => 'Deleted',
@@ -229,6 +235,7 @@ return [
             'allStatuses' => 'All statuses',
             'empty' => 'No websites match your filters.',
             'loading' => 'Loading websites...',
+            'search' => 'Search',
             'searchPlaceholder' => 'Search by title, domain or subdomain',
             'subtitle' => 'Manage every website on the network.',
             'table' => [

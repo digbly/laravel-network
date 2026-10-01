@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { ChevronDown, Globe, LogOut, Menu as MenuIcon, X } from 'lucide-react';
 import NavIcon from '@/components/NavIcon';
+import { route } from '@/lib/route';
 import type { NavItem, SharedProps } from '@/types';
 
 interface AdminLayoutProps {
@@ -133,8 +134,10 @@ export default function AdminLayout({ title, children }: AdminLayoutProps) {
                     >
                         <MenuIcon className="h-5 w-5" />
                     </button>
-                    <Globe className="h-5 w-5 text-indigo-600" />
-                    <span className="text-sm font-semibold">Admin</span>
+                    <Link href={route('admin.websites.index')} className="flex items-center gap-3">
+                        <Globe className="h-5 w-5 text-indigo-600" />
+                        <span className="text-sm font-semibold">Admin</span>
+                    </Link>
                 </div>
 
                 <div className="flex items-center gap-4">

@@ -13,7 +13,9 @@ class EnsureSuperAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user('api')?->isSuperAdmin()) {
+        $user = $request->user('api') ?? $request->user('web');
+
+        if (! $user?->isSuperAdmin()) {
             abort(403, 'This action requires super admin access.');
         }
 
