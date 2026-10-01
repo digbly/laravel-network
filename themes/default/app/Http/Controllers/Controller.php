@@ -27,6 +27,6 @@ abstract class Controller extends BaseController
                 ->values()
                 ->all(),
             'sidebarWidgets' => fn () => app(SidebarRenderer::class)->payload('sidebar'),
-        ], $props))->rootView('default::app');
+        ], $props))->rootView('default::theme');
     }
 }

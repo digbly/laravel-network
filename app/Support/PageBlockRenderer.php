@@ -26,7 +26,7 @@ class PageBlockRenderer
             ->each(function (PageBlockModel $block) use (&$grouped): void {
                 $definition = $this->blocks->get($block->block);
 
-                if ($definition === null) {
+                if ($definition === null || $definition->component === null) {
                     return;
                 }
 

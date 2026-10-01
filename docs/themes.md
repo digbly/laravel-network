@@ -234,7 +234,9 @@ themes/default/
 ```
 
 - Controllers return `Inertia::render('Home', [...])` and call
-  `->rootView('default::app')` so the theme renders its own root template.
+  `->rootView('default::theme')` so the theme renders its own root template.
+  The theme root view uses a distinct name (`theme.blade.php`) so it never
+  shadows the application's `app` Inertia root view.
 - Build with `php artisan theme:build default` (or `--dev` for the Vite dev
   server). Assets land in `public/build/default` from the theme's own Vite
   config; the root template only injects them when the manifest exists.

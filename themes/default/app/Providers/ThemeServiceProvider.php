@@ -12,12 +12,9 @@ use App\Models\Pages\PageBlock as PageBlockModel;
 use App\Models\ThemeSidebar;
 use App\Support\Customizes\Customize as CustomizeBuilder;
 use App\Support\Customizes\CustomizeControl;
-use App\Support\SidebarRenderer;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Modules\Blog\Models\Post;
-use Themes\Default\Support\NavigationData;
 use Themes\Default\Support\PostPresenter;
 use Themes\Default\Support\SidebarData;
 
@@ -37,17 +34,6 @@ class ThemeServiceProvider extends ServiceProvider
         $this->registerPageBlocks();
         $this->registerThemeSettings();
         $this->registerCustomizePanels();
-
-        View::composer('default::partials.sidebar', function ($view): void {
-            $view->with(
-                'sidebarWidgets',
-                $this->app->make(SidebarRenderer::class)->render('sidebar')
-            );
-        });
-
-        View::composer('default::partials.header', function ($view): void {
-            $view->with('navCategories', $this->app->make(NavigationData::class)->categories());
-        });
     }
 
     /**
@@ -62,16 +48,15 @@ class ThemeServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the widgets shipped with the theme. Each widget exposes both a
-     * Blade view (legacy rendering) and a frontend component plus resolver that
-     * the Inertia frontend uses to render it client-side.
+     * Register the widgets shipped with the theme. Each widget exposes a
+     * frontend component plus a resolver that the Inertia frontend uses to
+     * render it client-side.
      */
     protected function registerWidgets(): void
     {
         Widget::make('categories', fn () => [
             'label' => __('default::messages.widget_categories'),
             'description' => __('default::messages.widget_categories_description'),
-            'view' => 'default::partials.widgets.categories',
             'component' => 'Widgets/Categories',
             'only' => ['sidebar'],
             'data' => fn (): array => [
@@ -86,7 +71,6 @@ class ThemeServiceProvider extends ServiceProvider
         Widget::make('recent-posts', fn () => [
             'label' => __('default::messages.widget_recent_posts'),
             'description' => __('default::messages.widget_recent_posts_description'),
-            'view' => 'default::partials.widgets.recent-posts',
             'component' => 'Widgets/RecentPosts',
             'only' => ['sidebar'],
             'defaults' => ['limit' => 5],
@@ -100,7 +84,6 @@ class ThemeServiceProvider extends ServiceProvider
         Widget::make('popular-posts', fn () => [
             'label' => __('default::messages.widget_popular_posts'),
             'description' => __('default::messages.widget_popular_posts_description'),
-            'view' => 'default::partials.widgets.popular-posts',
             'component' => 'Widgets/PopularPosts',
             'only' => ['sidebar'],
             'defaults' => ['limit' => 5],

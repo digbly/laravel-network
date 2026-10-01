@@ -20,4 +20,4 @@
     ];
 @endphp
 
-{!! view('default::app', ['page' => $page])->render() !!}
+{!! view('default::theme', ['page' => $page])->render() !!}

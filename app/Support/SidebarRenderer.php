@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Contracts\Widget as WidgetContract;
 use App\Models\ThemeSidebar;
+use App\Support\Entities\Widget;
 use Illuminate\Support\Collection;
 
 class SidebarRenderer
@@ -11,7 +12,7 @@ class SidebarRenderer
     public function __construct(protected WidgetContract $widgets) {}
 
     /**
-     * Render the widgets attached to a sidebar for the active theme.
+     * Render the widgets attached to a sidebar as HTML for Blade themes.
      *
      * When nothing has been configured yet, every widget registered for the
      * sidebar is rendered with its default settings so the theme keeps working
@@ -21,29 +22,13 @@ class SidebarRenderer
      */
     public function render(string $sidebar, ?string $theme = null): array
     {
-        $theme ??= theme_name();
-
-        $items = $this->configured($sidebar, $theme);
-
-        if ($items->isEmpty()) {
-            $items = $this->defaults($sidebar);
-        }
-
-        return $items
-            ->map(function (ThemeSidebar $item) {
-                $widget = $this->widgets->get($item->widget);
-
-                if ($widget === null) {
-                    return null;
-                }
-
-                return [
-                    'key' => $item->widget,
-                    'label' => $item->label ?: $widget->label,
-                    'html' => $widget->render($item)->render(),
-                ];
-            })
-            ->filter()
+        return $this->ordered($sidebar, $theme)
+            ->filter(fn (array $item) => $item['widget']->view !== null)
+            ->map(fn (array $item) => [
+                'key' => $item['widget']->getKey(),
+                'label' => $item['sidebar']->label ?: $item['widget']->label,
+                'html' => $item['widget']->render($item['sidebar'])->render(),
+            ])
             ->values()
             ->all();
     }
@@ -56,27 +41,35 @@ class SidebarRenderer
      */
     public function payload(string $sidebar, ?string $theme = null): array
     {
-        $theme ??= theme_name();
+        return $this->ordered($sidebar, $theme)
+            ->filter(fn (array $item) => $item['widget']->component !== null)
+            ->map(fn (array $item) => $item['widget']->resolve($item['sidebar']))
+            ->values()
+            ->all();
+    }
 
-        $items = $this->configured($sidebar, $theme);
+    /**
+     * The configured widgets for a sidebar (or the theme defaults when none are
+     * configured), paired with their registered widget definition.
+     *
+     * @return Collection<int, array{sidebar: ThemeSidebar, widget: Widget}>
+     */
+    protected function ordered(string $sidebar, ?string $theme): Collection
+    {
+        $items = $this->configured($sidebar, $theme ?? theme_name());
 
         if ($items->isEmpty()) {
             $items = $this->defaults($sidebar);
         }
 
         return $items
-            ->map(function (ThemeSidebar $item) {
+            ->map(function (ThemeSidebar $item): ?array {
                 $widget = $this->widgets->get($item->widget);
 
-                if ($widget === null || $widget->component === null) {
-                    return null;
-                }
-
-                return $widget->resolve($item);
+                return $widget === null ? null : ['sidebar' => $item, 'widget' => $widget];
             })
             ->filter()
-            ->values()
-            ->all();
+            ->values();
     }
 
     /**
@@ -103,9 +96,9 @@ class SidebarRenderer
     protected function defaults(string $sidebar): Collection
     {
         return $this->widgets->all()
-            ->filter(fn ($widget) => $widget->supports($sidebar)
+            ->filter(fn (Widget $widget) => $widget->supports($sidebar)
                 && ($widget->view !== null || $widget->component !== null))
-            ->map(function ($widget) use ($sidebar) {
+            ->map(function (Widget $widget) use ($sidebar) {
                 $item = new ThemeSidebar([
                     'widget' => $widget->getKey(),
                     'sidebar' => $sidebar,

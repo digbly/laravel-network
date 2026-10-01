@@ -209,6 +209,22 @@ class DefaultThemeTest extends TestCase
         $this->assertDatabaseCount('comments', 0);
     }
 
+    public function test_active_theme_does_not_shadow_the_application_root_view(): void
+    {
+        // The theme prepends its views for error pages; the theme's Inertia root
+        // must use a namespaced, non-colliding name so view('app') (used by the
+        // admin Inertia root) still resolves to the application view.
+        $this->assertSame(
+            resource_path('views/app.blade.php'),
+            view()->getFinder()->find('app')
+        );
+
+        $this->assertSame(
+            theme_path('Default', 'resources/views/theme.blade.php'),
+            view()->getFinder()->find('default::theme')
+        );
+    }
+
     public function test_unknown_post_uses_themed_404(): void
     {
         $this->get('/posts/does-not-exist')
