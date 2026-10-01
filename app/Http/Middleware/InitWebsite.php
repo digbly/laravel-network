@@ -14,7 +14,7 @@ class InitWebsite
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $website = $request->route('website');
+        $website = $request->route('website') ?? $request->route('websiteId');
 
         if ($website !== null) {
             Network::init($website);

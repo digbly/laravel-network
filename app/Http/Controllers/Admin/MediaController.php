@@ -14,7 +14,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
 use OpenApi\Attributes as OA;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaController extends Controller
 {
@@ -162,7 +161,7 @@ class MediaController extends Controller
 
                 $media = $item->addMedia($file)->toMediaCollection('default');
 
-                $this->storeDimensions($media);
+                MediaItem::storeDimensions($media);
 
                 return MediaResource::make($item->refresh()->load('media'));
             }
@@ -227,31 +226,5 @@ class MediaController extends Controller
         $media->delete();
 
         return response()->json(['message' => 'Media deleted successfully.']);
-    }
-
-    /**
-     * Persist the pixel dimensions of image files for the media library.
-     */
-    protected function storeDimensions(Media $media): void
-    {
-        if (! str_starts_with((string) $media->mime_type, 'image/') || $media->mime_type === 'image/svg+xml') {
-            return;
-        }
-
-        $path = $media->getPath();
-
-        if (! is_file($path)) {
-            return;
-        }
-
-        $size = @getimagesize($path);
-
-        if ($size === false) {
-            return;
-        }
-
-        $media->setCustomProperty('width', $size[0]);
-        $media->setCustomProperty('height', $size[1]);
-        $media->save();
     }
 }

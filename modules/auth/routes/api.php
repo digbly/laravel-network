@@ -10,9 +10,9 @@ Route::prefix('auth/user')->group(function () {
     Route::middleware('throttle:auth')->group(function () {
         Route::post('register', [AuthController::class, 'register']);
         Route::post('resend-verification-email', [AuthController::class, 'resendVerificationEmail']);
-        Route::post('email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
+        Route::post('email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('api.verification.verify');
         Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
-        Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.reset');
+        Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('api.password.reset');
     });
 
     Route::middleware('auth:api')->group(function () {

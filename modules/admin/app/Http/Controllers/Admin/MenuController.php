@@ -2,20 +2,16 @@
 
 namespace Modules\Admin\Http\Controllers\Admin;
 
-use App\Facades\MenuBox;
-use App\Facades\NavMenu;
-use App\Facades\Setting;
 use App\Http\Controllers\Controller;
 use App\Models\Menus\Menu;
 use App\Models\Website;
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
+use Modules\Admin\Actions\Menu\UpdateMenu;
 use Modules\Admin\Http\Requests\Admin\MenuRequest;
 use Modules\Admin\Http\Resources\MenuResource;
+use Modules\Admin\Support\MenuCatalog;
 use OpenApi\Attributes as OA;
 
 class MenuController extends Controller
@@ -100,14 +96,7 @@ class MenuController extends Controller
     {
         app()->setLocale($request->getPreferredLanguage(['en', 'vi']));
 
-        $boxes = MenuBox::all()
-            ->map(fn (array $box, string $key) => [
-                'key' => $key,
-                'label' => $box['options']()['label'] ?? ucfirst($key),
-            ])
-            ->values();
-
-        return response()->json(['data' => $boxes]);
+        return response()->json(['data' => app(MenuCatalog::class)->boxes()]);
     }
 
     #[OA\Get(
@@ -129,40 +118,9 @@ class MenuController extends Controller
     {
         app()->setLocale($request->getPreferredLanguage(['en', 'vi']));
 
-        $definition = MenuBox::get($box);
-        $class = $definition['class'] ?? null;
-
-        if (! $class || ! class_exists($class)) {
-            return response()->json(['results' => []]);
-        }
-
-        $field = $definition['options']()['field'] ?? 'name';
-        $search = $request->string('q')->toString();
-        $translatable = (new $class) instanceof TranslatableContract;
-
-        $query = $class::query()->latest();
-
-        if ($translatable) {
-            $query->with('translations');
-
-            if ($search !== '') {
-                $query->whereHas(
-                    'translations',
-                    fn ($builder) => $builder->where($field, 'like', "%{$search}%")
-                );
-            }
-        } elseif ($search !== '') {
-            $query->where($field, 'like', "%{$search}%");
-        }
-
-        $results = $query->limit(20)->get()->map(fn ($item) => [
-            'id' => $item->getKey(),
-            'text' => (string) $item->{$field},
-            'menuable_class' => get_class($item),
-            'menuable_class_name' => class_basename($item),
+        return response()->json([
+            'results' => app(MenuCatalog::class)->boxItems($box, $request->string('q')->toString()),
         ]);
-
-        return response()->json(['results' => $results]);
     }
 
     #[OA\Get(
@@ -182,17 +140,7 @@ class MenuController extends Controller
     {
         app()->setLocale($request->getPreferredLanguage(['en', 'vi']));
 
-        $locations = NavMenu::all()
-            ->map(fn (array $nav, string $key) => [
-                'key' => $key,
-                'label' => $nav['label'] ?? ucfirst($key),
-            ])
-            ->values();
-
-        return response()->json([
-            'data' => $locations,
-            'selected' => (array) Setting::get('nav_location', []),
-        ]);
+        return response()->json(app(MenuCatalog::class)->locations());
     }
 
     #[OA\Post(
@@ -271,25 +219,13 @@ class MenuController extends Controller
     )]
     public function update(Website $website, MenuRequest $request, Menu $menu): MenuResource
     {
-        $items = json_decode($request->validated('content'), true, 512, JSON_THROW_ON_ERROR);
-        $locale = $request->validated('locale') ?? app()->getLocale();
-
-        DB::transaction(function () use ($menu, $request, $items, $locale) {
-            $menu->update($request->only('name'));
-
-            $keptIds = $this->syncItems($menu, $items, 1, $locale);
-
-            $menu->items()
-                ->where(
-                    fn ($query) => $query->whereNotIn('id', $keptIds)
-                        ->orWhereColumn('id', 'parent_id')
-                )
-                ->delete();
-
-            if ($request->has('location')) {
-                $this->syncLocations($menu, (array) $request->input('location', []));
-            }
-        });
+        app(UpdateMenu::class)->handle(
+            $menu,
+            $request->validated('name'),
+            json_decode($request->validated('content'), true, 512, JSON_THROW_ON_ERROR),
+            $request->validated('locale') ?? app()->getLocale(),
+            $request->has('location') ? (array) $request->input('location', []) : null,
+        );
 
         return MenuResource::make(
             Menu::withDataItems()->findOrFail($menu->getKey())
@@ -316,82 +252,5 @@ class MenuController extends Controller
         $menu->delete();
 
         return response()->json(['message' => 'Menu deleted successfully.']);
-    }
-
-    /**
-     * @return array<int, string>
-     */
-    protected function syncItems(
-        Menu $menu,
-        array $items,
-        int $index,
-        string $locale,
-        ?string $parentId = null
-    ): array {
-        $keptIds = [];
-
-        foreach ($items as $item) {
-            $attributes = [
-                'parent_id' => $parentId,
-                'display_order' => $index,
-                'target' => $item['target'] ?? '_self',
-            ];
-
-            if (isset($item['key'])) {
-                $box = MenuBox::get($item['key']);
-
-                $attributes['menuable_type'] = $box['class'] ?? ($item['menuable_type'] ?? null);
-                $attributes['menuable_id'] = $item['menuable_id'] ?? null;
-                $attributes['box_key'] = $item['key'];
-            } else {
-                $attributes['is_home'] = $item['is_home'] ?? 0;
-                $attributes['link'] = $item['link'] ?? null;
-                $attributes['box_key'] = 'custom';
-            }
-
-            $newItem = $menu->items()->updateOrCreate(
-                ['id' => $item['id'] ?? null],
-                $attributes
-            );
-
-            $newItem->translateOrNew($locale)->label = $item['label'] ?? '';
-            $newItem->save();
-
-            $keptIds[] = $newItem->id;
-
-            if ($children = Arr::get($item, 'children')) {
-                $keptIds = array_merge(
-                    $keptIds,
-                    $this->syncItems($menu, $children, 1, $locale, $newItem->id)
-                );
-            }
-
-            $index++;
-        }
-
-        return $keptIds;
-    }
-
-    /**
-     * Assign the menu to the given theme locations, detaching it from the
-     * locations it no longer belongs to.
-     *
-     * @param  array<int, string>  $locations
-     */
-    protected function syncLocations(Menu $menu, array $locations): void
-    {
-        $config = (array) Setting::get('nav_location', []);
-
-        foreach ($config as $key => $menuId) {
-            if ((string) $menuId === (string) $menu->getKey()) {
-                unset($config[$key]);
-            }
-        }
-
-        foreach ($locations as $location) {
-            $config[$location] = $menu->getKey();
-        }
-
-        Setting::set('nav_location', $config);
     }
 }

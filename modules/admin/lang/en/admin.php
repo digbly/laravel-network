@@ -35,6 +35,7 @@ return [
         'site_identity' => 'Site Identity',
         'subtitle' => 'Tune the site identity, homepage blocks and widgets, then publish.',
         'title' => 'Customize',
+        'widgets_title' => 'Widgets',
         'widgets' => [
             'add' => 'Add widget',
             'empty' => 'No sidebars are registered for the active theme.',
@@ -339,6 +340,12 @@ return [
             'restoreFailed' => 'Failed to restore the user.',
             'retry' => 'Retry',
             'saveFailed' => 'Failed to save the user.',
+            'superAdminGrant' => 'Only super admins can grant super admin access.',
+            'superAdminChange' => 'Only super admins can change super admin access.',
+            'selfDelete' => 'You cannot delete your own account.',
+            'selfLockout' => 'You cannot remove your own ability to manage users.',
+            'cannotManageSuperAdmin' => 'You cannot manage a super admin account.',
+            'alreadyVerified' => 'This user has already verified their email.',
         ],
         'filters' => [
             'active' => 'Active users',
@@ -386,6 +393,8 @@ return [
             'passwordReset' => 'Password reset successfully.',
             'restored' => 'User restored successfully.',
             'verificationSent' => 'Verification email sent.',
+            'created' => 'User created successfully.',
+            'updated' => 'User updated successfully.',
         ],
         'pagination' => [
             'next' => 'Next',
@@ -425,6 +434,10 @@ return [
         'availableWidgets' => 'Available widgets',
         'errors' => [
             'saveFailed' => 'Failed to save the sidebar.',
+        ],
+        'form' => [
+            'limit' => 'Number of items',
+            'title' => 'Title',
         ],
         'loading' => 'Loading widgets...',
         'noWidgets' => 'No widgets are registered for the active theme.',

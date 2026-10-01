@@ -46,4 +46,20 @@ class Page extends Model implements TranslatableContract
     {
         return $this->hasMany(PageBlock::class, 'page_id', 'id');
     }
+
+    /**
+     * Persist the translated fields for a locale.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    public function fillTranslation(string $locale, array $data): void
+    {
+        $translation = $this->translateOrNew($locale);
+        $translation->title = $data['title'];
+        $translation->slug = $data['slug'];
+        $translation->content = $data['content'] ?? null;
+        $translation->description = $data['description'] ?? null;
+
+        $this->save();
+    }
 }

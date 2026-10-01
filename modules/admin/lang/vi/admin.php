@@ -35,6 +35,7 @@ return [
         'site_identity' => 'Nhận diện website',
         'subtitle' => 'Chỉnh nhận diện website, khối trang chủ và widget rồi xuất bản.',
         'title' => 'Tùy biến giao diện',
+        'widgets_title' => 'Widget',
         'widgets' => [
             'add' => 'Thêm widget',
             'empty' => 'Chưa có sidebar nào cho giao diện đang dùng.',
@@ -339,6 +340,12 @@ return [
             'restoreFailed' => 'Khôi phục người dùng thất bại.',
             'retry' => 'Thử lại',
             'saveFailed' => 'Lưu người dùng thất bại.',
+            'superAdminGrant' => 'Chỉ quản trị viên cấp cao mới có thể cấp quyền quản trị cấp cao.',
+            'superAdminChange' => 'Chỉ quản trị viên cấp cao mới có thể thay đổi quyền quản trị cấp cao.',
+            'selfDelete' => 'Bạn không thể xóa tài khoản của chính mình.',
+            'selfLockout' => 'Bạn không thể tự gỡ quyền quản lý người dùng của mình.',
+            'cannotManageSuperAdmin' => 'Bạn không thể quản lý tài khoản quản trị viên cấp cao.',
+            'alreadyVerified' => 'Người dùng này đã xác thực email.',
         ],
         'filters' => [
             'active' => 'Đang hoạt động',
@@ -386,6 +393,8 @@ return [
             'passwordReset' => 'Đặt lại mật khẩu thành công.',
             'restored' => 'Khôi phục người dùng thành công.',
             'verificationSent' => 'Đã gửi email xác thực.',
+            'created' => 'Tạo người dùng thành công.',
+            'updated' => 'Cập nhật người dùng thành công.',
         ],
         'pagination' => [
             'next' => 'Sau',
@@ -425,6 +434,10 @@ return [
         'availableWidgets' => 'Widget khả dụng',
         'errors' => [
             'saveFailed' => 'Không lưu được sidebar.',
+        ],
+        'form' => [
+            'limit' => 'Số lượng mục',
+            'title' => 'Tiêu đề',
         ],
         'loading' => 'Đang tải widget...',
         'noWidgets' => 'Chưa có widget nào được đăng ký cho giao diện đang dùng.',

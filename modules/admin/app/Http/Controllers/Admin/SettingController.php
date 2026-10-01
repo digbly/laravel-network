@@ -80,8 +80,19 @@ class SettingController extends Controller
     )]
     public function update(Website $website, SettingRequest $request): SettingResource
     {
+        $this->apply($request->validated());
+
+        return SettingResource::make($this->payload());
+    }
+
+    /**
+     * Persist validated setting values, handling translatable definitions.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    protected function apply(array $data): void
+    {
         $definitions = $this->settings->settings();
-        $data = $request->validated();
 
         DB::transaction(function () use ($data, $definitions): void {
             foreach ($data as $key => $value) {
@@ -106,8 +117,6 @@ class SettingController extends Controller
         // Restore the request locale so the repository singleton (which is
         // stateful) is not left on the last edited translation.
         $this->settings->locale(app()->getLocale());
-
-        return SettingResource::make($this->payload());
     }
 
     /**
