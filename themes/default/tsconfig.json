@@ -14,8 +14,8 @@
         "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "baseUrl": ".",
         "paths": {
-            "@/*": ["resources/js/*"]
+            "@/*": ["resources/views/*"]
         }
     },
-    "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx"]
+    "include": ["resources/views/**/*.ts", "resources/views/**/*.tsx"]
 }

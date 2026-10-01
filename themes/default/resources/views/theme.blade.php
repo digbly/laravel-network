@@ -9,7 +9,7 @@
 
         @if (file_exists(public_path('build/default/manifest.json')) || file_exists(public_path('hot')))
             @viteReactRefresh
-            @vite('resources/js/app.tsx', 'build/default')
+            @vite('resources/views/app.tsx', 'build/default')
         @endif
 
         @inertiaHead
