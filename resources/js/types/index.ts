@@ -34,4 +34,5 @@ export interface SharedProps {
     locale: string;
     translations: Record<string, Record<string, unknown>>;
     routes: Record<string, string>;
+    errors: Record<string, string>;
 }

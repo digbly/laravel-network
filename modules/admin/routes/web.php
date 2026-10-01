@@ -2,16 +2,18 @@
 
 use App\Http\Middleware\InitWebsite;
 use Illuminate\Support\Facades\Route;
+use Modules\Admin\Enums\MediaPermission;
+use Modules\Admin\Enums\MenuPermission;
+use Modules\Admin\Enums\PagePermission;
 use Modules\Admin\Http\Controllers\AdminController;
 use Modules\Admin\Http\Controllers\Web\AdminHomeController;
 use Modules\Admin\Http\Controllers\Web\DashboardController;
 use Modules\Admin\Http\Controllers\Web\MediaController;
+use Modules\Admin\Http\Controllers\Web\MenuController;
 use Modules\Admin\Http\Controllers\Web\PageController;
 use Modules\Admin\Http\Controllers\Web\SettingController;
 use Modules\Admin\Http\Controllers\Web\UserController;
 use Modules\Admin\Http\Middleware\EnsureWebsiteAccess;
-use Modules\Admin\Enums\MediaPermission;
-use Modules\Admin\Enums\PagePermission;
 use Modules\Admin\Http\Middleware\RequireAdminPermission;
 use Modules\Auth\Enums\Permission;
 
@@ -83,6 +85,24 @@ Route::middleware(['auth:web'])
                         ->name('update');
                     Route::delete('{page}', [PageController::class, 'destroy'])
                         ->middleware(RequireAdminPermission::class.':'.PagePermission::Delete->value)
+                        ->name('destroy');
+                });
+
+                Route::prefix('menus')->name('admin.menus.')->group(function () {
+                    Route::get('/', [MenuController::class, 'index'])
+                        ->middleware(RequireAdminPermission::class.':'.MenuPermission::View->value)
+                        ->name('index');
+                    Route::post('/', [MenuController::class, 'store'])
+                        ->middleware(RequireAdminPermission::class.':'.MenuPermission::Create->value)
+                        ->name('store');
+                    Route::get('boxes/{box}/items', [MenuController::class, 'boxItems'])
+                        ->middleware(RequireAdminPermission::class.':'.MenuPermission::View->value)
+                        ->name('box-items');
+                    Route::put('{menu}', [MenuController::class, 'update'])
+                        ->middleware(RequireAdminPermission::class.':'.MenuPermission::Update->value)
+                        ->name('update');
+                    Route::delete('{menu}', [MenuController::class, 'destroy'])
+                        ->middleware(RequireAdminPermission::class.':'.MenuPermission::Delete->value)
                         ->name('destroy');
                 });
             });

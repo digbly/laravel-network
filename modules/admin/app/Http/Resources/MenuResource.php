@@ -32,7 +32,10 @@ class MenuResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'items' => MenuItemResource::collection($this->whenLoaded('items')),
+            'items' => $this->whenLoaded(
+                'items',
+                fn () => MenuItemResource::collection($this->items)->resolve()
+            ),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

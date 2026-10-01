@@ -46,7 +46,10 @@ class MenuItemResource extends JsonResource
             'menuable_id' => $this->menuable_id,
             'menuable_class_name' => $this->menuable_class_name,
             'display_order' => $this->display_order,
-            'children' => MenuItemResource::collection($this->whenLoaded('children')),
+            'children' => $this->whenLoaded(
+                'children',
+                fn () => MenuItemResource::collection($this->children)->resolve()
+            ),
         ];
     }
 }
