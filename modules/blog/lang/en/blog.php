@@ -14,6 +14,9 @@ return [
             'title' => 'Delete category',
         ],
         'empty' => 'No categories yet.',
+        'filters' => [
+            'search' => 'Search',
+        ],
         'errors' => [
             'deleteFailed' => 'Failed to delete the category.',
             'loadFailed' => 'Failed to load categories.',
@@ -85,6 +88,7 @@ return [
             'pending' => 'Pending',
             'rejected' => 'Rejected',
             'spam' => 'Spam',
+            'search' => 'Search',
         ],
         'loading' => 'Loading comments...',
         'notices' => [
@@ -137,6 +141,7 @@ return [
             'allStatuses' => 'All statuses',
             'draft' => 'Draft',
             'published' => 'Published',
+            'search' => 'Search',
         ],
         'form' => [
             'back' => 'Back to posts',

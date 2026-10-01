@@ -15,6 +15,9 @@
             <directory>modules/admin/tests/Feature</directory>
             <directory>modules/admin/tests/Unit</directory>
         </testsuite>
+        <testsuite name="BlogModule">
+            <directory>modules/blog/tests/Feature</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>

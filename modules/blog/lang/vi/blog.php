@@ -14,6 +14,9 @@ return [
             'title' => 'Xóa danh mục',
         ],
         'empty' => 'Chưa có danh mục nào.',
+        'filters' => [
+            'search' => 'Tìm kiếm',
+        ],
         'errors' => [
             'deleteFailed' => 'Không xóa được danh mục.',
             'loadFailed' => 'Không tải được danh mục.',
@@ -85,6 +88,7 @@ return [
             'pending' => 'Chờ duyệt',
             'rejected' => 'Từ chối',
             'spam' => 'Spam',
+            'search' => 'Tìm kiếm',
         ],
         'loading' => 'Đang tải bình luận...',
         'notices' => [
@@ -137,6 +141,7 @@ return [
             'allStatuses' => 'Tất cả trạng thái',
             'draft' => 'Bản nháp',
             'published' => 'Đã xuất bản',
+            'search' => 'Tìm kiếm',
         ],
         'form' => [
             'back' => 'Quay lại bài viết',
