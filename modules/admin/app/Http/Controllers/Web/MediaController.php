@@ -10,14 +10,16 @@ use App\Http\Resources\MediaResource;
 use App\Models\MediaItem;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Inertia\Inertia;
 use Inertia\Response;
 use Modules\Admin\Enums\MediaPermission;
+use Modules\Admin\Http\Controllers\Web\Concerns\AuthorizesAdmin;
 
 class MediaController extends Controller
 {
+    use AuthorizesAdmin;
+
     public function index(string $websiteId, IndexMediaRequest $request): Response
     {
         $filters = $request->validated() + [
@@ -67,9 +69,9 @@ class MediaController extends Controller
                 'month' => $filters['month'],
             ],
             'abilities' => [
-                'create' => $this->allows($request, MediaPermission::MediaCreate),
-                'update' => $this->allows($request, MediaPermission::MediaUpdate),
-                'delete' => $this->allows($request, MediaPermission::MediaDelete),
+                'create' => $this->allows($request, MediaPermission::MediaCreate->value),
+                'update' => $this->allows($request, MediaPermission::MediaUpdate->value),
+                'delete' => $this->allows($request, MediaPermission::MediaDelete->value),
             ],
         ]);
     }
@@ -142,13 +144,5 @@ class MediaController extends Controller
         $media->delete();
 
         return back()->with('success', __('admin.media.notices.deleted'));
-    }
-
-    protected function allows(Request $request, MediaPermission $permission): bool
-    {
-        $user = $request->user();
-
-        return $user->isSuperAdmin()
-            || in_array($permission->value, $user->permissionNames(), true);
     }
 }

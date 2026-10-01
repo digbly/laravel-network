@@ -6,10 +6,12 @@ use Modules\Admin\Http\Controllers\AdminController;
 use Modules\Admin\Http\Controllers\Web\AdminHomeController;
 use Modules\Admin\Http\Controllers\Web\DashboardController;
 use Modules\Admin\Http\Controllers\Web\MediaController;
+use Modules\Admin\Http\Controllers\Web\PageController;
 use Modules\Admin\Http\Controllers\Web\SettingController;
 use Modules\Admin\Http\Controllers\Web\UserController;
 use Modules\Admin\Http\Middleware\EnsureWebsiteAccess;
 use Modules\Admin\Enums\MediaPermission;
+use Modules\Admin\Enums\PagePermission;
 use Modules\Admin\Http\Middleware\RequireAdminPermission;
 use Modules\Auth\Enums\Permission;
 
@@ -66,6 +68,21 @@ Route::middleware(['auth:web'])
                         ->name('update');
                     Route::delete('{media}', [MediaController::class, 'destroy'])
                         ->middleware(RequireAdminPermission::class.':'.MediaPermission::MediaDelete->value)
+                        ->name('destroy');
+                });
+
+                Route::prefix('pages')->name('admin.pages.')->group(function () {
+                    Route::get('/', [PageController::class, 'index'])
+                        ->middleware(RequireAdminPermission::class.':'.PagePermission::View->value)
+                        ->name('index');
+                    Route::post('/', [PageController::class, 'store'])
+                        ->middleware(RequireAdminPermission::class.':'.PagePermission::Create->value)
+                        ->name('store');
+                    Route::put('{page}', [PageController::class, 'update'])
+                        ->middleware(RequireAdminPermission::class.':'.PagePermission::Update->value)
+                        ->name('update');
+                    Route::delete('{page}', [PageController::class, 'destroy'])
+                        ->middleware(RequireAdminPermission::class.':'.PagePermission::Delete->value)
                         ->name('destroy');
                 });
             });

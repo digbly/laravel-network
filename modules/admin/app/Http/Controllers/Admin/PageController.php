@@ -92,7 +92,7 @@ class PageController extends Controller
             'template' => $data['template'] ?? null,
         ]);
 
-        $this->fillTranslation($page, $locale, $data);
+        $page->fillTranslation($locale, $data);
 
         return response()->json([
             'data' => PageResource::make($page->fresh('translations'))->resolve(),
@@ -158,7 +158,7 @@ class PageController extends Controller
 
         $page->save();
 
-        $this->fillTranslation($page, $locale, $data);
+        $page->fillTranslation($locale, $data);
 
         return response()->json([
             'data' => PageResource::make($page->fresh('translations'))->resolve(),
@@ -184,19 +184,5 @@ class PageController extends Controller
         $page->delete();
 
         return response()->json(['message' => __('admin.pages.notices.deleted')]);
-    }
-
-    /**
-     * @param  array<string, mixed>  $data
-     */
-    protected function fillTranslation(Page $page, string $locale, array $data): void
-    {
-        $translation = $page->translateOrNew($locale);
-        $translation->title = $data['title'];
-        $translation->slug = $data['slug'];
-        $translation->content = $data['content'] ?? null;
-        $translation->description = $data['description'] ?? null;
-
-        $page->save();
     }
 }

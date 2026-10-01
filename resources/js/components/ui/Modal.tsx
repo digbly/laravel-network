@@ -37,7 +37,7 @@ export default function Modal({ open, title, onClose, children }: ModalProps) {
                 role="dialog"
                 aria-modal="true"
                 aria-label={title}
-                className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-800 dark:bg-slate-900"
+                className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-800 dark:bg-slate-900"
             >
                 <div className="mb-4 flex items-center justify-between">
                     {title && <h2 className="text-lg font-semibold">{title}</h2>}
