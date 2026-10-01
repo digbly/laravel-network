@@ -6,8 +6,8 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/js/app.tsx'],
-            refresh: ['resources/views/**'],
+            input: ['resources/views/app.tsx'],
+            refresh: ['resources/views/**/*.blade.php'],
             publicDirectory: '../../public',
             buildDirectory: 'build/default',
         }),
@@ -16,7 +16,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '@': `${import.meta.dirname}/resources/js`,
+            '@': `${import.meta.dirname}/resources/views`,
         },
     },
     build: {

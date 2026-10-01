@@ -18,8 +18,7 @@ themes/
     app/Providers/ThemeServiceProvider.php
     config/config.php
     resources/
-      views/            # Blade views (Inertia root + error pages)
-      js/               # Optional self-contained Inertia (React) front end
+      views/            # Blade views + optional Inertia (React) pages/components
       assets/           # css/js/img, published to public/themes/<theme>
       lang/             # namespaced translations
     routes/web.php
@@ -225,13 +224,18 @@ themes/default/
   package.json                   # vite / react / @inertiajs/react
   tsconfig.json
   resources/
-    views/app.blade.php          # Inertia root, guarded @vite('resources/js/app.tsx', 'build/default')
-    js/
+    views/
+      theme.blade.php            # Inertia root, guarded @vite('resources/views/app.tsx', 'build/default')
       app.tsx                    # createInertiaApp entry
       lib/resolve-page.ts        # resolves pages/**/*.tsx
       pages/                     # Home, Category, Post, Search, NotFound
       layouts/ components/       # layout, sidebar, widgets, blocks, comments
+    assets/css/app.css           # Tailwind entry (imported by app.tsx)
 ```
+
+Like module views, the theme keeps its React pages and components alongside its
+Blade templates under `resources/views` (`pages/**/*.tsx`). Blade only compiles
+`.blade.php`, so the two coexist safely.
 
 - Controllers return `Inertia::render('Home', [...])` and call
   `->rootView('default::theme')` so the theme renders its own root template.
