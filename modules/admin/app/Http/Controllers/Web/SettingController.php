@@ -2,15 +2,13 @@
 
 namespace Modules\Admin\Http\Controllers\Web;
 
-use App\Http\Resources\MediaResource;
-use App\Models\MediaItem;
 use App\Support\AdminTranslations;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
 use Modules\Admin\Http\Controllers\Admin\SettingController as AdminSettingController;
 use Modules\Admin\Http\Requests\Admin\SettingRequest;
+use Modules\Admin\Support\MediaPreviewResolver;
 
 class SettingController extends AdminSettingController
 {
@@ -47,27 +45,16 @@ class SettingController extends AdminSettingController
      */
     protected function mediaPreviews(array $settings): array
     {
-        $ids = array_values(array_filter([
+        $previews = app(MediaPreviewResolver::class)->byId([
             $settings['logo'] ?? null,
             $settings['favicon'] ?? null,
             $settings['banner'] ?? null,
-        ]));
-
-        /** @var Collection<string, MediaItem> $items */
-        $items = $ids === []
-            ? collect()
-            : MediaItem::query()->with('media')->whereIn('id', $ids)->get()->keyBy('id');
-
-        $resolve = static function (?string $id) use ($items): ?array {
-            $item = $id ? $items->get($id) : null;
-
-            return $item ? MediaResource::make($item)->resolve() : null;
-        };
+        ]);
 
         return [
-            'logo' => $resolve($settings['logo'] ?? null),
-            'favicon' => $resolve($settings['favicon'] ?? null),
-            'banner' => $resolve($settings['banner'] ?? null),
+            'logo' => $previews[$settings['logo'] ?? ''] ?? null,
+            'favicon' => $previews[$settings['favicon'] ?? ''] ?? null,
+            'banner' => $previews[$settings['banner'] ?? ''] ?? null,
         ];
     }
 }

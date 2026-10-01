@@ -2,6 +2,7 @@
 
 namespace Modules\Admin\Http\Controllers\Web;
 
+use App\Facades\Sidebar;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,6 +31,8 @@ class WidgetController extends Controller
 
     public function update(string $websiteId, WidgetUpdateRequest $request, string $sidebar): RedirectResponse
     {
+        abort_if(Sidebar::get($sidebar) === null, 404);
+
         app(UpdateSidebarWidgets::class)->handle(
             $sidebar,
             $request->input('content', []),

@@ -5,9 +5,11 @@ use Illuminate\Support\Facades\Route;
 use Modules\Admin\Enums\MediaPermission;
 use Modules\Admin\Enums\MenuPermission;
 use Modules\Admin\Enums\PagePermission;
+use Modules\Admin\Enums\ThemePermission;
 use Modules\Admin\Enums\WidgetPermission;
 use Modules\Admin\Http\Controllers\AdminController;
 use Modules\Admin\Http\Controllers\Web\AdminHomeController;
+use Modules\Admin\Http\Controllers\Web\CustomizeController;
 use Modules\Admin\Http\Controllers\Web\DashboardController;
 use Modules\Admin\Http\Controllers\Web\MediaController;
 use Modules\Admin\Http\Controllers\Web\MenuController;
@@ -115,6 +117,18 @@ Route::middleware(['auth:web'])
                     Route::put('{sidebar}', [WidgetController::class, 'update'])
                         ->middleware(RequireAdminPermission::class.':'.WidgetPermission::Update->value)
                         ->name('update');
+                });
+
+                Route::prefix('customize')->name('admin.customize.')->group(function () {
+                    Route::get('/', [CustomizeController::class, 'index'])
+                        ->middleware(RequireAdminPermission::class.':'.ThemePermission::View->value)
+                        ->name('index');
+                    Route::post('/', [CustomizeController::class, 'update'])
+                        ->middleware(RequireAdminPermission::class.':'.ThemePermission::Update->value)
+                        ->name('update');
+                    Route::get('page-blocks/{page}', [CustomizeController::class, 'pageBlocks'])
+                        ->middleware(RequireAdminPermission::class.':'.ThemePermission::View->value)
+                        ->name('page-blocks');
                 });
             });
     });

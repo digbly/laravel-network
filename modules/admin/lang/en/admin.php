@@ -35,6 +35,7 @@ return [
         'site_identity' => 'Site Identity',
         'subtitle' => 'Tune the site identity, homepage blocks and widgets, then publish.',
         'title' => 'Customize',
+        'widgets_title' => 'Widgets',
         'widgets' => [
             'add' => 'Add widget',
             'empty' => 'No sidebars are registered for the active theme.',

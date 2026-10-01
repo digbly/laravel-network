@@ -35,6 +35,7 @@ return [
         'site_identity' => 'Nhận diện website',
         'subtitle' => 'Chỉnh nhận diện website, khối trang chủ và widget rồi xuất bản.',
         'title' => 'Tùy biến giao diện',
+        'widgets_title' => 'Widget',
         'widgets' => [
             'add' => 'Thêm widget',
             'empty' => 'Chưa có sidebar nào cho giao diện đang dùng.',

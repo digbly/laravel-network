@@ -146,12 +146,12 @@ class ThemeServiceProvider extends ServiceProvider
             ]));
 
             $customize->addSection('widgets', [
-                'title' => __('admin.customize.widgets'),
+                'title' => __('admin.customize.widgets_title'),
                 'priority' => 3,
             ]);
 
             $customize->addControl(new CustomizeControl('widgets', [
-                'label' => __('admin.customize.widgets'),
+                'label' => __('admin.customize.widgets_title'),
                 'section' => 'widgets',
                 'settings' => 'widgets',
                 'type' => 'widgets',

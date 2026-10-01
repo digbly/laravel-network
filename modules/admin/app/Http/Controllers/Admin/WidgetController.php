@@ -2,6 +2,7 @@
 
 namespace Modules\Admin\Http\Controllers\Admin;
 
+use App\Facades\Sidebar;
 use App\Http\Controllers\Controller;
 use App\Models\Website;
 use Illuminate\Http\JsonResponse;
@@ -60,6 +61,8 @@ class WidgetController extends Controller
     )]
     public function update(Website $website, WidgetUpdateRequest $request, string $sidebar): JsonResponse
     {
+        abort_if(Sidebar::get($sidebar) === null, 404);
+
         app(UpdateSidebarWidgets::class)->handle(
             $sidebar,
             $request->input('content', []),
